@@ -1,0 +1,21 @@
+<div class="row">
+    <div class="col-lg-12">
+        <div class="ibox float-e-margins">
+            <div class="ibox-title" *ngIf="title || subtitle">
+                <h5>{{title}}
+                    <small *ngIf="subtitle && !subtitlePullRight" class="m-l-sm">{{subtitle}}</small>                    
+                </h5>
+                <span *ngIf="subtitle && subtitlePullRight" class="text-muted small pull-right">{{subtitle}}</span>
+            </div>
+            <div class="ibox-content">                
+                <ng-content></ng-content>
+            </div>
+            <div class="ibox-footer" *ngIf="footer || footerRight">
+                <span class="pull-right">
+                    {{footerRight}}
+                </span>
+                {{footer}}
+            </div>
+        </div>
+    </div>
+</div>

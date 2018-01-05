@@ -1,0 +1,18 @@
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">otta</h1>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <p>
+            You have been invited to join the Otta. 
+        </p>        
+        <p>
+            Click the button below and we will create an account for you and link
+            it to the organisation.
+        </p>
+        <button *ngIf="showJoinButton" class="btn btn-primary btn-block" (click)="auth.signup()">Join</button>        
+        <p class="m-t"> <small>Otta &copy; 2017</small> </p>
+    </div>
+</div>

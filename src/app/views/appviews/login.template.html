@@ -1,0 +1,21 @@
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+    <div>
+        <div>
+            <h1 class="logo-name">otta</h1>
+        </div>
+    </div>
+    <div class="ibox-content">
+        <h3>Welcome to Otta</h3>
+        <p>
+            Use Otta to organise, plan, develop, publish, and analyse your content all in one place.
+        </p>        
+        <button class="btn btn-primary btn-block" (click)="auth.login()">Login</button>
+        <a href="#"><small>Forgot password?</small></a>
+
+        <br/>
+        <p class="text-muted text-center"><small>Do not have an account?</small></p>
+        <button class="btn btn-default btn-block" (click)="auth.signup()">Create an account</button>
+        
+        <p class="m-t"> <small>Otta &copy; 2017</small> - {{version}} </p>
+    </div>
+</div>

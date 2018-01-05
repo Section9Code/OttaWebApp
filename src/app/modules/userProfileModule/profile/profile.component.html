@@ -1,0 +1,165 @@
+<div class="row wrapper white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>My Profile</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/home']">Home</a>
+            </li>
+            <li>
+                <strong>My Profile</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<!-- Top level button row -->
+<!--    
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <button type="button" class="btn btn-primary" (click)="create()">Create</button>
+    </div>
+</div> -->
+
+<div class="wrapper-content animated fadeInRight">
+
+    <!-- Loading -->
+    <loadingSpinner [loading]="isLoading"></loadingSpinner>
+
+    <div class="row" *ngIf="!isLoading">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>User details</h5>
+                </div>
+                <div class="ibox-content">
+                    <form method="get" class="form-horizontal" (ngSubmit)="updateUser()" #userForm="ngForm">
+                        <div class="form-group" [class.has-error]="!username.valid">
+                            <label class="col-sm-2 control-label">Name</label>
+                            <div class="col-sm-10">
+                                <input type="text" class="form-control" id="username" name="username" required [(ngModel)]="dataItem.Name" #username="ngModel">
+                                <span class="help-block m-b-none">
+                                    Your name
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group" [class.has-error]="!email.valid">
+                            <label class="col-sm-2 control-label">Email address</label>
+                            <div class="col-sm-10">
+                                <input type="email" class="form-control" id="email" name="email" required [(ngModel)]="dataItem.Email" #email="ngModel">
+                                <span class="help-block m-b-none">
+                                    Your email address
+                                </span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary" type="submit" [disabled]="!userForm.form.valid" [ladda]="isUpdating">Update personal information</button>
+                            </div>
+                        </div>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="row" *ngIf="!isLoading">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Display settings</h5>
+                </div>
+                <div class="ibox-content">
+                    <p>
+                        In Otta you can have a number of different settings, they determin what you see on your side menu. You can add or remove
+                        these as you like. Nothing is lost if you turn a section off it is simply hidden.
+                    </p>
+
+                    <form method="get" class="form-horizontal" (ngSubmit)="updateSettings()" #settingsForm="ngForm">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-2 control-label">Show Creator Options</label>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" class="form-control" id="creatorOptions" name="creatorOptions" [(ngModel)]="dataItem.ShowCreatorOptions"
+                                        #creatorOptions="ngModel">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span class="help-block m-b-none">
+                                        If you want to be able to advertise your creative skills check this box to get access to the creative options. You will be
+                                        able to create profiles, see jobs, etc.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-2 control-label">Show Organisation Options</label>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" class="form-control" id="organisationOptions" name="organisationOptions" [(ngModel)]="dataItem.ShowOrganisationOptions"
+                                        #organisationOptions="ngModel">
+                                </div>
+                            </div>
+                            <div class="row">
+                                <label class="col-sm-2 control-label"></label>
+                                <div class="col-sm-10">
+                                    <span class="help-block m-b-none">
+                                        If you want to manage your own content, social media feeds, analytics turn on the organisation options.
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary" type="submit" [disabled]="!settingsForm.form.valid" [ladda]="isUpdatingUserSettings">Update display settings</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+    <div class="row" *ngIf="!isLoading">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Email settings</h5>
+                </div>
+                <div class="ibox-content">
+                    <p>
+                        We hate spam as much as you do, but we are working on a lot of new ideas and would love to keep you up-to-date about what
+                        we are doing next.
+                    </p>
+                    <form method="get" class="form-horizontal" (ngSubmit)="updateMarketing()" #marketingForm="ngForm">
+                        <div class="form-group">
+                            <div class="row">
+                                <label class="col-sm-2 control-label">Keep me updated</label>
+                                <div class="col-sm-1">
+                                    <input type="checkbox" class="form-control" id="allowMarketing" name="allowMarketing" [(ngModel)]="dataItem.MarketingOptIn" #allowMarketing="ngModel">
+                                </div>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <div class="col-sm-4 col-sm-offset-2">
+                                <button class="btn btn-primary" type="submit" [disabled]="!marketingForm.form.valid" [ladda]="isUpdatingMarketing">Update email settings</button>
+                            </div>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+</div>

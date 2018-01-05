@@ -1,0 +1,39 @@
+<div class="row wrapper white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Edit persona</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/home']">Home</a>
+            </li>
+            <li>
+                <a [routerLink]="['/personas']">Personas</a>
+            </li>
+            <li>
+                <strong>Edit persona</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper-content animated fadeInRight">
+
+    <loadingSpinner [loading]="isLoading"></loadingSpinner>
+
+    <!-- Persona Not Found -->
+    <div class="widget p-lg text-center" [hidden]="!recordNotFound">
+        <div class="m-b-md">
+            <i class="fa fa-users fa-4x"></i>
+            <h1 class="m-xs"></h1>
+            <h3 class="font-bold no-margins">
+                Persona not found
+                <br/>
+                <br/>
+                <a [routerLink]="['/personas']">Go back to persona list</a>
+            </h3>
+        </div>
+    </div>
+
+    <div [hidden]="!showForm">
+        <persona-form [(formData)]="persona" (onCancel)="cancel();" (onSubmit)="update();" [(showProgress)]="isUpdating" [showDelete]="true" (onDelete)="delete();"></persona-form>
+    </div>
+</div>

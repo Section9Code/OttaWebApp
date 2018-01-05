@@ -1,0 +1,321 @@
+<div class="row wrapper white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Organisation</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/home']">Home</a>
+            </li>
+            <li>
+                <strong>Organisation</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper-content animated fadeInRight">
+    <!-- Loading -->
+    <loadingSpinner [loading]="isLoading"></loadingSpinner>
+
+    <!-- User doesn't have access to edit the organisation -->
+    <div class="row" *ngIf="orgNotAvailable">
+        <div class="col-lg-12">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>You are not an admin</h5>
+                </div>
+                <div class="ibox-content">
+                    <h2>
+                        You can not edit this organisation, you are not an admin
+                        <br>
+                    </h2>
+                    <p>
+                        To be able to edit this organisations details you need to be in the admins group. If this is incorrect please contact your
+                        admin and ask to be added to the admin users group.
+                        <p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div [hidden]="hideOrgDetails">
+        <div class="row">
+            <div class="col-lg-12">
+                <div class="ibox float-e-margins">
+                    <div class="ibox-title">
+                        <h5>Subscription</h5>
+                    </div>
+                    <div class="ibox-content">
+                        <h2>
+                            You are currently on the
+                            <strong>{{organisation.CurrentPlan.PlanName}}</strong>
+                            <br>
+                        </h2>
+
+                        <!-- User has an active plan -->
+                        <span *ngIf="organisation.CurrentPlan.Status == 'active'">
+                            <!-- Plan actice -->
+                            <div *ngIf="!organisation.CurrentPlan.CancelAtPeriodEnd">
+                                <p>
+                                    Your plan is currently active, the next period will be billed on {{organisation.CurrentPlan.CurrentPeriodEnd | date}} (£{{organisation.CurrentPlan.MonthlyCharge/100}}
+                                    x {{organisation.CurrentPlan.MaxUsers}})
+                                </p>
+                                <div>
+                                    <button class="btn btn-danger" (click)="cancelSubscription()">Cancel subscription</button>
+                                </div>
+                            </div>
+
+                            <!-- Plan set to cancel -->
+                            <div *ngIf="organisation.CurrentPlan.CancelAtPeriodEnd">
+                                <p>
+                                    Your plan is set to
+                                    <strong>cancel at period end</strong>, it will no longer be available from
+                                    <strong>{{organisation.CurrentPlan.CurrentPeriodEnd | date}}</strong>
+                                </p>
+                                <div [hidden]="!organisation.CurrentPlan.CancelAtPeriodEnd">
+                                    <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + users + ' user(s)'" [buttonText]="'Reinstate subscription'"
+                                        [amount]="amountToCharge" (onPayment)="subscriptionPaid($event)">
+                                    </stripe-button>
+                                </div>
+                            </div>
+
+                            <h3>Manage user allowance</h3>
+                            <p>
+                                Your plan currently has
+                                <select [(ngModel)]="userAllowance">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                </select>
+                                users on it. You can add or remove users at any time, change the user count to the number of users you want and update.
+                            </p>
+
+                            <button class="btn btn-primary" [disabled]="organisation.CurrentPlan.MaxUsers == userAllowance" (click)="updateUsers()">Update user allowance</button>
+                        </span>
+
+                        <!-- Trial mode information -->
+                        <span *ngIf="organisation.CurrentPlan.Status == 'trialing'">
+                            <p>
+                                You plan is currently in
+                                <strong>trial mode</strong> and the trail will end on
+                                <strong>{{organisation.CurrentPlan.TrialEnd | date}}</strong>
+                            </p>
+                            <p>
+                                <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + users + ' user(s)'" [buttonText]="'Pay for subscription now'"
+                                    [amount]="amountToCharge" (onPayment)="subscriptionPaid($event)">
+                                </stripe-button>
+                            </p>
+                            <h3>Manage user allowance</h3>
+                            <p>
+                                Your plan currently has
+                                <select [(ngModel)]="userAllowance">
+                                    <option value="1">1</option>
+                                    <option value="2">2</option>
+                                    <option value="3">3</option>
+                                    <option value="4">4</option>
+                                    <option value="5">5</option>
+                                    <option value="6">6</option>
+                                    <option value="7">7</option>
+                                    <option value="8">8</option>
+                                    <option value="9">9</option>
+                                    <option value="10">10</option>
+                                    <option value="10">10</option>
+                                    <option value="11">11</option>
+                                    <option value="12">12</option>
+                                    <option value="13">13</option>
+                                    <option value="14">14</option>
+                                    <option value="15">15</option>
+                                    <option value="16">16</option>
+                                    <option value="17">17</option>
+                                    <option value="18">18</option>
+                                    <option value="19">19</option>
+                                    <option value="20">20</option>
+                                </select>
+                                users on it. You can add or remove users at any time, change the user count to the number of users you want and update.
+                            </p>
+
+                            <button class="btn btn-primary" [disabled]="organisation.CurrentPlan.MaxUsers == userAllowance" (click)="updateUsers()">Update user allowance</button>
+
+                        </span>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Users</h5>
+                        <span class="text-muted small pull-right">Max users: {{userAllowance}}</span>
+                    </div>
+
+                    <div class="ibox-content" [ngClass]="{'sk-loading': isLoadingUsers}">
+                        <div class="sk-spinner sk-spinner-cube-grid">
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                        </div>
+
+                        <p>
+                            Invite your whole team to join
+                        </p>
+                        <div class="input-group" [class.has-error]="!userEmail.valid">
+                            <input type="text" placeholder="Email address of the user you would like to add" class="input form-control" [(ngModel)]="inviteUserEmail"
+                                id="userEmail" name="userEmail" #userEmail="ngModel" required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn btn-primary" (click)="inviteUser()" [disabled]="!userEmail.valid">
+                                    <i class="fa fa-envelope"></i> Invite</button>
+                            </span>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Name</th>
+                                        <th>Email</th>
+                                        <th>Admin</th>
+                                        <th></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr *ngFor="let user of organisationUsers.AdminUsers">
+                                        <td>
+                                            {{user.Name}}
+                                        </td>
+                                        <td>{{user.Email}}</td>
+                                        <td>
+                                            <button type="button" class="btn btn-xs btn-success" (click)="removeAdmin(user)">Admin</button>
+                                        </td>
+                                        <td class="client-status">
+                                        </td>
+                                        <td>
+                                            <button type="button" (click)="removeUser(user)" class="btn btn-xs btn-outline btn-danger">Remove</button>
+                                        </td>
+                                    </tr>
+                                    <tr *ngFor="let user of organisationUsers.NormalUsers">
+                                        <td>
+                                            {{user.Name}}
+                                        </td>
+                                        <td>{{user.Email}}</td>
+                                        <td>
+                                            <a (click)="makeAdmin(user)">Make admin</a>
+                                        </td>
+                                        <td class="client-status">
+                                            <!-- <span *ngIf="user.IsActive" class="label label-primary">Active</span> -->
+                                        </td>
+                                        <td>
+                                            <button type="button" (click)="removeUser(user)" class="btn btn-xs btn-outline btn-danger">Remove</button>
+                                        </td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+
+        <div class="row">
+            <div class="col-lg-12">
+
+                <div class="ibox">
+                    <div class="ibox-title">
+                        <h5>Invoices</h5>
+                    </div>
+
+                    <div class="ibox-content" [ngClass]="{'sk-loading': isLoadingInvoices}">
+                        <div class="sk-spinner sk-spinner-cube-grid">
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                            <div class="sk-cube"></div>
+                        </div>
+
+                        <div class="table-responsive">
+                            <table class="table table-striped table-hover">
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Amount</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+
+                                    <tr *ngFor="let invoice of invoices">
+                                        <td>{{invoice.Created | date:'dd MMMM yyyy'}}</td>
+                                        <td>{{invoice.Amount/100}}</td>
+                                    </tr>
+
+                                </tbody>
+                            </table>
+                        </div>
+
+
+
+
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+
+
+
+
+
+
+
+
+
+    </div>
+</div>

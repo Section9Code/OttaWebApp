@@ -1,0 +1,46 @@
+<div class="row wrapper white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Create persona</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/home']">Home</a>
+            </li>
+            <li>
+                <a [routerLink]="['/personas']">Personas</a>
+            </li>
+            <li>
+                <strong>Create persona</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<div class="wrapper-content animated fadeInRight">
+
+    <div class="row">
+        <div class="col-lg-8">
+            <div class="ibox float-e-margins">
+                <div class="ibox-title">
+                    <h5>Create a new persona</h5>
+                </div>
+                <div class="ibox-content">
+
+                    <persona-form [(formData)]="formData" (onCancel)="cancel();" (onSubmit)="create();" [(showProgress)]="isCreating" [showDelete]="false"></persona-form>
+
+                </div>
+            </div>
+        </div>
+
+        <div class="col-lg-4">
+            <div class="jumbotron">
+                <h1>Personas</h1>
+                <p>Personas help you stay focused on who you are creating your content for.</p>
+                <p>You can create multiple personas for each of the type of people you want to create content for.</p>
+                <p>How are they?</p>
+                <p>What do they do?</p>
+                <p>How can you help them?</p>
+            </div>
+        </div>
+    </div>
+
+</div>

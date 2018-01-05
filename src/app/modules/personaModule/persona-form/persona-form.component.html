@@ -1,0 +1,134 @@
+<form method="get" class="form-horizontal" (ngSubmit)="submitPersonaForm()" #createPersonaForm="ngForm">
+    <!-- Name -->
+    <div class="form-group" [class.has-error]="!name.valid">
+        <label class="col-sm-2 control-label">Name</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="name" name="name" required [(ngModel)]="formData.Name" #name="ngModel">
+            <span class="help-block m-b-none">
+                Name of your persona
+            </span>
+        </div>
+    </div>
+
+    <!-- Business role -->
+    <div class="form-group" [class.has-error]="!role.valid">
+        <label class="col-sm-2 control-label">Role</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="role" name="role" [(ngModel)]="formData.BusinessRole" #role="ngModel" placeholder="E.g. School teacher"
+            />
+            <span class="help-block m-b-none">
+                What position does this person hold in a company
+            </span>
+        </div>
+    </div>
+
+    <!-- Age -->
+    <div class="form-group" [class.has-error]="!age.valid">
+        <label class="col-sm-2 control-label">Age</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="age" name="age" [(ngModel)]="formData.Age" #age="ngModel" placeholder="E.g. 20-34"
+            />
+            <span class="help-block m-b-none">
+                Age of your persona. Can be a single age or a range
+            </span>
+        </div>
+    </div>
+
+    <!-- Key Attributes -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Key Attributes</label>
+        <div class="col-sm-10">
+            <tag-input name="keyAttributes" modelAsStrings="true" [(ngModel)]="formData.KeyAttributes" theme="bootstrap-tagsinput"></tag-input>
+            <span class="help-block m-b-none">
+                Key pieces of information about your persona
+            </span>
+        </div>
+    </div>
+
+    <!-- Salary -->
+    <div class="form-group" [class.has-error]="!salary.valid">
+        <label class="col-sm-2 control-label">Salary</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="salary" name="salary" [(ngModel)]="formData.Salary" #salary="ngModel" placeholder="E.g. 20k-25k"
+            />
+            <span class="help-block m-b-none">
+                Salary range of the persona
+            </span>
+        </div>
+    </div>
+
+    <!-- Education -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Education</label>
+        <div class="col-sm-10">
+            <tag-input name="education" modelAsStrings="true" [(ngModel)]="formData.Education" theme="bootstrap-tagsinput"></tag-input>
+            <span class="help-block m-b-none">
+                The persona education
+            </span>
+        </div>
+    </div>
+
+    <!-- Goals -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Goals</label>
+        <div class="col-sm-10">
+            <tag-input name="goals" modelAsStrings="true" [(ngModel)]="formData.Goals" theme="bootstrap-tagsinput"></tag-input>
+            <span class="help-block m-b-none">
+                The personas goals and aspirations
+            </span>
+        </div>
+    </div>
+
+    <!-- How we help -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">How we help</label>
+        <div class="col-sm-10">
+            <tag-input name="test" modelAsStrings="true" [(ngModel)]="formData.HowWeHelp" theme="bootstrap-tagsinput"></tag-input>
+            <span class="help-block m-b-none">
+                How we can help
+            </span>
+        </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Notes</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" id="notes" name="notes" [(ngModel)]="formData.Notes" rows="5" #notes="ngModel"></textarea>
+            <span class="help-block m-b-none">
+                Notes about this persona
+            </span>
+        </div>
+    </div>
+
+    <!-- Notes -->
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Image</label>
+        <div class="col-sm-6">
+            <input type="file" name="imageUpload" (change)="imageUploadFileChanges($event)" placeholder="Upload file..." />
+            <button style="margin-top:5px; margin-bottom:5px" type="button" class="btn btn-info" name="imageUploadBtn" [disabled]="imagesToUpload.length == 0" [ladda]="isUploadingImage" (click)="imageUpload()">Upload image</button>
+        </div>
+        <div class="col-sm-4">
+            <img [src]="formData.ImageUrl" [hidden]="formData.ImageUrl == ''"/>
+        </div>
+        <div class="col-sm-12 col-sm-offset-2">
+            <span class="help-block m-b-none">
+                Give this persona a face, it will make it much easier to think about creating content for them
+            </span>
+        </div>
+
+    </div>
+
+    <!-- Controls -->
+    <div class="form-group">
+        <div class="col-sm-10 col-sm-offset-2">
+            <button class="btn btn-white" type="button" (click)="cancelPersonaForm();">Cancel</button>
+            <button class="btn btn-primary" type="submit" [disabled]="!createPersonaForm.form.valid" [ladda]="showProgress">Save</button>
+            <div class="pull-right" [hidden]="!showDelete">
+                <button class="btn btn-danger" type="button" (click)="deletePersonaForm();">Delete</button>
+            </div>
+        </div>
+    </div>
+
+
+</form>

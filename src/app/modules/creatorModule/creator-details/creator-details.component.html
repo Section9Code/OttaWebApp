@@ -1,0 +1,129 @@
+<otta-panel>
+    <h2>
+        Creator overview
+    </h2>
+    <p>
+        To be listed on our creators database there are some things we need from you. Here you can tell us all about you, who you
+        are, your websites, your special media accounts.
+    </p>
+    <p>
+        Then you can can create your profiles, we recommend you create a different profile for each type of job you want to have.
+        This allows you to work as different types of creative (a writer and an illustrator) without having to confuse the
+        customer. It also allows you to set different rates for different types of work.
+    </p>
+</otta-panel>
+
+<!-- Loading -->
+<loadingSpinner [loading]="isLoadingCreator"></loadingSpinner>
+
+<div class="ibox float-e-margins" *ngIf="!isLoadingCreator">
+    <div class="ibox-title">
+        <h5>Your information</h5>
+    </div>
+    <div class="ibox-content">
+        <form method="get" class="form-horizontal" (ngSubmit)="updateCreator()" #formName="ngForm">
+            <h3>Your details</h3>
+            <p>
+                Everyone on the creatives database is vetted before they are put on. We need to know about you and your skills before we
+                can get you loose on the world.
+            </p>
+
+            <div class="form-group" [class.has-error]="!websiteUrl.valid">
+                <label class="col-sm-2 control-label">Your website</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="websiteUrl" name="websiteUrl" [(ngModel)]="creator.WebsiteUrl" #websiteUrl="ngModel"
+                        placeholder="http://someurl.com/location">
+                    <span class="help-block m-b-none">
+                        The URL to your main website
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" [class.has-error]="!ExamplesOfWork1.valid">
+                <label class="col-sm-2 control-label">Example of your work</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="ExamplesOfWork1" name="ExamplesOfWork1" [(ngModel)]="creator.ExamplesOfWork1"
+                        #ExamplesOfWork1="ngModel" placeholder="http://someurl.com/location">
+                    <span class="help-block m-b-none">
+                        Help information
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" [class.has-error]="!ExamplesOfWork2.valid">
+                <label class="col-sm-2 control-label">Example of your work</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="ExamplesOfWork2" name="ExamplesOfWork2" [(ngModel)]="creator.ExamplesOfWork2"
+                        #ExamplesOfWork2="ngModel" placeholder="http://someurl.com/location">
+                    <span class="help-block m-b-none">
+                        Help information
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" [class.has-error]="!ExamplesOfWork3.valid">
+                <label class="col-sm-2 control-label">Example of your work</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="ExamplesOfWork3" name="ExamplesOfWork3" [(ngModel)]="creator.ExamplesOfWork3"
+                        #ExamplesOfWork3="ngModel" placeholder="http://someurl.com/location">
+                    <span class="help-block m-b-none">
+                        Help information
+                    </span>
+                </div>
+            </div>
+
+            <div class="hr-line-dashed"></div>
+            <h3>Social media accounts</h3>
+
+            <div class="form-group" [class.has-error]="!TwitterId.valid">
+                <label class="col-sm-2 control-label">Twitter Id</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="TwitterId" name="TwitterId" [(ngModel)]="creator.TwitterId" #TwitterId="ngModel"
+                        placeholder="@Otta">
+                    <span class="help-block m-b-none">
+                        Help information
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" [class.has-error]="!FacebookUrl.valid">
+                <label class="col-sm-2 control-label">Facebook Url</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="FacebookUrl" name="FacebookUrl" [(ngModel)]="creator.FacebookUrl" #FacebookUrl="ngModel"
+                        placeholder="http://facebook.com/MyName">
+                    <span class="help-block m-b-none">
+                        Help information
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" [class.has-error]="!InstagramId.valid">
+                <label class="col-sm-2 control-label">Instagram</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="InstagramId" name="InstagramId" [(ngModel)]="creator.InstagramId" #InstagramId="ngModel"
+                        placeholder="Example">
+                    <span class="help-block m-b-none">
+                        Help information
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group" [class.has-error]="!LinkedInId.valid">
+                <label class="col-sm-2 control-label">LinkedIn</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="LinkedInId" name="LinkedInId" [(ngModel)]="creator.LinkedInId" #LinkedInId="ngModel"
+                        placeholder="Your LinkedIn name">
+                    <span class="help-block m-b-none">
+                        Help information
+                    </span>
+                </div>
+            </div>
+
+            <div class="form-group">
+                <div class="col-sm-4 col-sm-offset-2">
+                    <button class="btn btn-primary" type="submit" [disabled]="!formName.form.valid" [ladda]="isUpdatingCreator">Submit</button>
+                </div>
+            </div>
+        </form>
+    </div>
+</div>
