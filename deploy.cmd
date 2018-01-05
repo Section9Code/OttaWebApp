@@ -86,10 +86,13 @@ goto :EOF
 :: ----------
 
 :Deployment
-echo Handling node.js deployment.
+echo --- Handling node.js deployment --------------------------------
 
 :: 1. KuduSync
 IF /I "%IN_PLACE_DEPLOYMENT%" NEQ "1" (
+  echo
+  echo
+  echo === SYNCHING =========
   call :ExecuteCmd "%KUDU_SYNC_CMD%" -v 50 -f "%DEPLOYMENT_SOURCE%" -t "%DEPLOYMENT_TARGET%" -n "%NEXT_MANIFEST_PATH%" -p "%PREVIOUS_MANIFEST_PATH%" -i ".git;.hg;.deployment;deploy.cmd"
   IF !ERRORLEVEL! NEQ 0 goto error
 )
@@ -99,6 +102,9 @@ call :SelectNodeVersion
 
 :: 3. Install npm packages
 IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
+  echo
+  echo
+  echo === INSTALLING PACKAGES =========
   pushd "%DEPLOYMENT_TARGET%"
   call :ExecuteCmd !NPM_CMD! install --production
   IF !ERRORLEVEL! NEQ 0 goto error
@@ -107,7 +113,9 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
 
 :: 4. Angular Prod Build
 IF EXIST "%DEPLOYMENT_TARGET%/.angular-cli.json" (
-  echo Building App in %DEPLOYMENT_TARGET%...
+  echo
+  echo
+  echo === BUILDING APP IN %DEPLOYMENT_TARGET% ============
   pushd "%DEPLOYMENT_TARGET%"
   call :ExecuteCmd !NPM_CMD! run buildServer
   :: If the above command fails comment above and uncomment below one

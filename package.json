@@ -43,6 +43,7 @@
     "ngx-bootstrap": "^1.9.3",
     "ngx-chips": "^1.5.3",
     "peity": "^3.2.1",
+    "production": "0.0.2",
     "rxjs": "^5.4.2",
     "toastr": "^2.1.2",
     "zone.js": "^0.8.18"
