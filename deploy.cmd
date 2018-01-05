@@ -106,7 +106,8 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   echo
   echo === INSTALLING PACKAGES =========
   pushd "%DEPLOYMENT_TARGET%"
-  call :ExecuteCmd !NPM_CMD! install --production
+  ::call :ExecuteCmd !NPM_CMD! install --production
+  call :ExecuteCmd !NPM_CMD! install
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
 )
