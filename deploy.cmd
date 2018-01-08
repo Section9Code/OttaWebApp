@@ -107,7 +107,9 @@ IF EXIST "%DEPLOYMENT_TARGET%\package.json" (
   echo === INSTALLING PACKAGES =========
   pushd "%DEPLOYMENT_TARGET%"
   ::call :ExecuteCmd !NPM_CMD! install --production
+  echo --- Install all
   call :ExecuteCmd !NPM_CMD! install
+  echo --- Install additions
   call :ExecuteCmd !NPM_CMD! install typescript@'>=2.1.0 <2.4.0'
   IF !ERRORLEVEL! NEQ 0 goto error
   popd
