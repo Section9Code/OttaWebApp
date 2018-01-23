@@ -88,6 +88,15 @@
           <span class="nav-label">Personas</span>
         </a>
       </li>
+
+
+      <li [ngClass]="{active: activeRoute('content')}" *ngIf="showOrganisationOptions">
+        <a [routerLink]="['/content']">
+          <i class="fa fa-calendar"></i>
+          <span class="nav-label">Content</span>
+        </a>
+      </li>
+
       
       <li [ngClass]="{active: activeRoute('calendars')}" *ngIf="showOrganisationOptions">
         <a href="#">

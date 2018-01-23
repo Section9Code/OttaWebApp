@@ -37,6 +37,7 @@ import { UserService } from 'services/user.service';
 import { UserDataService } from 'services/user-data.service';
 import { CreatorModule } from 'app/modules/creatorModule/creator.module';
 import { CreatorService } from 'services/creator.service';
+import { ContentModule } from 'app/modules/contentModule/content.module';
 
 @NgModule({
   declarations: [
@@ -57,6 +58,7 @@ import { CreatorService } from 'services/creator.service';
     PersonaModule,
     OrganisationModule,
     CreatorModule,
+    ContentModule,
     SharedModule,
 
     LaddaModule.forRoot({ style: "expand-right", spinnerSize: 20, spinnerColor: "white", spinnerLines: 12 }), // For showing progess on buttons
