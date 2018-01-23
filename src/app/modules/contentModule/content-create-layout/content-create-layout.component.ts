@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContentProjectModel, ContentProjectService } from 'services/content-project.service';
 import { MixpanelService, MixpanelEvent } from 'services/mixpanel.service';
 import { Router } from '@angular/router';
+import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 
 @Component({
     moduleId: module.id,
@@ -14,7 +15,7 @@ export class ContentCreateLayoutComponent implements OnInit {
     dataItem: ContentProjectModel = new ContentProjectModel();
     isCreating = false;
 
-    constructor(private tracking: MixpanelService, private router: Router, private contentProjectService: ContentProjectService) {}
+    constructor(private tracking: MixpanelService, private router: Router, private contentProjectService: ContentProjectService, private toast:ToastsManager) {}
 
     ngOnInit(): void {
         this.tracking.Track(MixpanelEvent.ContentCreateProject);
@@ -26,6 +27,7 @@ export class ContentCreateLayoutComponent implements OnInit {
         this.contentProjectService.createProject(this.dataItem).subscribe(
             response => {
                 console.log('Project created', response);
+                this.toast.success(`Your content project ${this.dataItem.Title} has been created`, 'Project created');
                 this.router.navigateByUrl('/content');
             },
             error => this.tracking.TrackError('Error creating content project for user', error),
