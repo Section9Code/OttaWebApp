@@ -19,7 +19,7 @@ export class OrganisationOverviewComponent implements OnInit {
     isLoadingUsers: boolean = false;
     isLoadingInvoices: boolean = false;
     hideOrgDetails: boolean = true;
-    orgNotAvailable: boolean = false;    
+    orgNotAvailable: boolean = false;
 
     // Organisation data
     organisation: Organisation;
@@ -235,7 +235,7 @@ export class OrganisationOverviewComponent implements OnInit {
 
     private sendInvite(): void {
         // Invite the user
-        console.log("Invite user", this.inviteUserEmail);
+        console.log('Invite user', this.inviteUserEmail);
         this.orgService.inviteUser(this.inviteUserEmail).subscribe(
             response => {
                 this.toast.success(`${this.inviteUserEmail} has been invited to join your organisation`, "Invite user");
@@ -251,7 +251,7 @@ export class OrganisationOverviewComponent implements OnInit {
 
     updateUsers() {
         console.log('Update users');
-        let orgUserCount: number = this.organisation.AdminUsers.length + this.organisation.Users.length;
+        const orgUserCount: number = this.organisation.AdminUsers.length + this.organisation.Users.length;
 
         // The user wants to have less users than they currently have
         if (this.userAllowance < orgUserCount) {
@@ -273,7 +273,7 @@ export class OrganisationOverviewComponent implements OnInit {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Yes, update my subscription!'
         }).then(() => {
-            console.log("Upgrade subscription");
+            console.log('Upgrade subscription');
             this.tracking.Track(MixpanelEvent.Update_subscription);
 
             // Update the subscription
@@ -282,29 +282,29 @@ export class OrganisationOverviewComponent implements OnInit {
             this.orgService.updateSubscriptionAllowance(this.userAllowance).subscribe(
                 response => {
                     this.updateOrganisationData(response);
-                    this.toast.success("User allowance updated");
+                    this.toast.success('User allowance updated');
                 },
                 error => {
                     console.log('Error occurred updating the users allowance', error);
-                    this.tracking.TrackError("Error occurred updating the users allowance", error);
-                    this.toast.error("Sorry, an error occurred while updating your allowance", "Error occurred");
+                    this.tracking.TrackError('Error occurred updating the users allowance', error);
+                    this.toast.error('Sorry, an error occurred while updating your allowance', 'Error occurred');
                 }
             );
         })
             .catch(() => {
-                console.log("Cancel");
+                console.log('Cancel');
                 return;
             });
     }
 
     // User wants to remove a user from the application
     removeUser(user: OrganisationUser) {
-        console.log("Remove user", user);
+        console.log('Remove user', user);
 
         // Is the user being removed the current user
         if (user.AuthId == this.authService.currentUserAuthId()) {
             // The user cannot remove them self
-            this.toast.error("You cannot remove yourself from the organisation, you must have another admin do it for you.", "Unable to remove yourself");
+            this.toast.error('You cannot remove yourself from the organisation, you must have another admin do it for you.', 'Unable to remove yourself');
             return;
         }
 
@@ -317,65 +317,65 @@ export class OrganisationOverviewComponent implements OnInit {
             cancelButtonColor: '#d33',
             confirmButtonText: 'Remove user'
         }).then(() => {
-            console.log("OK");
+            console.log('OK');
             this.orgService.removeUser(user.AuthId).subscribe(
                 response => {
-                    console.log("User removed", response);
+                    console.log('User removed', response);
                     this.updateOrganisationData(response);
                     this.UpdateOrganisationUsers();
-                    this.toast.success("User removed");
+                    this.toast.success('User removed');
                 },
                 error => {
-                    console.log("Error occurred", error);
-                    this.toast.error("Error occurred removing", "Unable to remove user");
+                    console.log('Error occurred', error);
+                    this.toast.error('Error occurred removing', 'Unable to remove user');
                     this.tracking.TrackError(`Error occurred removing user ${user.AuthId}`, error);
                 }
             );
         })
             .catch(() => {
-                console.log("Cancel");
+                console.log('Cancel');
                 return;
             });
     }
 
     makeAdmin(user: OrganisationUser) {
-        console.log("Make a user an admin", user);
+        console.log('Make a user an admin', user);
 
         this.orgService.makeAdmin(user.AuthId).subscribe(
             response => {
-                console.log("User updated", response);
+                console.log('User updated', response);
                 this.updateOrganisationData(response);
                 this.UpdateOrganisationUsers();
-                this.toast.success("User has been made into an admin", "User updated");
+                this.toast.success('User has been made into an admin', 'User updated');
             },
             error => {
-                console.log("Error occurred", error);
-                this.toast.error("Error occurred updating user", "Unable to update user");
+                console.log('Error occurred', error);
+                this.toast.error('Error occurred updating user', 'Unable to update user');
                 this.tracking.TrackError(`Error occurred making user ${user.AuthId} an admin`, error);
             }
         );
     }
 
     removeAdmin(user: OrganisationUser) {
-        console.log("Remove admin from user", user);
+        console.log('Remove admin from user', user);
 
         // Is the user being removed the current user
         if (user.AuthId == this.authService.currentUserAuthId()) {
             // The user cannot remove them self
-            this.toast.error("You cannot remove admin rights from yourself, you must have another admin do it for you.", "Unable to remove administrator");
+            this.toast.error('You cannot remove admin rights from yourself, you must have another admin do it for you.', 'Unable to remove administrator');
             return;
         }
 
         this.orgService.revokeAdmin(user.AuthId).subscribe(
             response => {
-                console.log("User updated", response);
+                console.log('User updated', response);
                 this.updateOrganisationData(response);
                 this.UpdateOrganisationUsers();
-                this.toast.success("User has had admin rights revoked", "User updated");
+                this.toast.success('User has had admin rights revoked', 'User updated');
             },
             error => {
-                console.log("Error occurred", error);
-                this.toast.error("Error occurred updating user", "Unable to update user");
+                console.log('Error occurred', error);
+                this.toast.error('Error occurred updating user', 'Unable to update user');
                 this.tracking.TrackError(`Error occurred revoking admin from user${user.AuthId}`, error);
             }
         );

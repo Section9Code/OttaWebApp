@@ -1,0 +1,53 @@
+<!-- Loading -->
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
+
+<div class="row">
+    <div class="col-sm-12" *ngIf="projects && projects.length == 0">
+        <h2>
+            You do not have any content projects,
+            <a [routerLink]="['./create']">add a new one</a>
+        </h2>
+    </div>
+
+    <div class="col-sm-12 col-md-4" *ngFor="let project of projects">
+        <div class="ibox">
+            <div class="ibox-title">
+                <!-- <span class="label label-info pull-right">NEW</span> -->
+                <h5>{{project.Title}}</h5>
+            </div>
+            <div class="ibox-content">                
+                <p>
+                    {{project.Description}}
+                </p>
+
+                <!-- <div>
+                            <span>Status of current project:</span>
+                            <div class="stat-percent">48%</div>
+                            <div class="progress progress-mini">
+                                <div style="width: 48%;" class="progress-bar"></div>
+                            </div>
+                        </div>
+                        <div class="row  m-t-sm">
+                            <div class="col-sm-4">
+                                <div class="font-bold">PROJECTS</div>
+                                12
+                            </div>
+                            <div class="col-sm-4">
+                                <div class="font-bold">RANKING</div>
+                                4th
+                            </div>
+                            <div class="col-sm-4 text-right">
+                                <div class="font-bold">BUDGET</div>
+                                $200,913
+                                <i class="fa fa-level-up text-navy"></i>
+                            </div>
+                        </div> -->
+
+                <p>
+                    <button class="btn btn-primary" [routerLink]="project.id">View</button>
+                </p>
+            </div>
+        </div>
+    </div>
+
+</div>

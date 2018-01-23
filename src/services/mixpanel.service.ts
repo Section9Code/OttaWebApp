@@ -94,6 +94,10 @@ export enum MixpanelEvent
   UserProfile_View,
   UserProfile_Update,
 
+  // Content
+  ContentHome,
+  ContentCreateProject,
+
   // Others
   Button_click,
   Error
