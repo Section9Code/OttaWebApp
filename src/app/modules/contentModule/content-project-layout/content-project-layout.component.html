@@ -1,2 +1,33 @@
-<!--component html goes here -->
-aaabbbccc
+<div class="row wrapper white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>{{ project.Title }}</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/home']">Home</a>
+            </li>
+            <li>
+                    <a [routerLink]="['/content']">Content Management</a>
+                </li>
+            <li>
+                <strong>{{ project.Title }}</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<!-- Top level button row -->
+<!--    
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <button type="button" class="btn btn-primary" (click)="create()">Create</button>
+    </div>
+</div> -->
+
+<div class="wrapper-content animated fadeInRight">    
+    <!-- Loading -->
+    <loadingSpinner [loading]="isLoading"></loadingSpinner>
+    
+    Content
+
+
+</div>

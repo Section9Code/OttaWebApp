@@ -97,6 +97,7 @@ export enum MixpanelEvent
   // Content
   ContentHome,
   ContentCreateProject,
+  Content_See_Project,
 
   // Others
   Button_click,

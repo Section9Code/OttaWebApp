@@ -14,6 +14,10 @@ export class ContentProjectService {
         return this.authHttp.get(this.url).map(response => response.json());
     }
 
+    getProject(id: string): Observable<ContentProjectModel> {
+        return this.authHttp.get(`${this.url}/${id}`).map(response => response.json());
+    };
+
     createProject(project: ContentProjectModel): Observable<ContentProjectModel> {
         return this.authHttp.post(this.url, project).map(response => response.json());
     }
