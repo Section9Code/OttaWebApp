@@ -1,28 +1,38 @@
-# Inspinia
+# Otta Web Application
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 1.0.0-rc.4.
+This is the core application for Otta, this is the single page application that talks to the core API.
 
-## Development server
+## Building for development
+This application is an Angular single page application using TypeScript.
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The app will automatically reload if you change any of the source files.
+### Prerequisites
+You must have Node, NPM, Angular CLI, Typescript, and Firebase tools installed to be able to use this application.
 
-## Code scaffolding
+### First time setup
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive/pipe/service/class/module`.
+Once you have pulled this application from source control you must install all the project dependancies.
 
-## Build
+```npm install```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory. Use the `-prod` flag for a production build.
+This will install everything you need
 
-## Running unit tests
+### Running the application locally
+To run the application on your own machine run
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+```ng serve```
 
-## Running end-to-end tests
+This will run the application on <http://localhost:4200>, there you will be able to debug it, and any changes you make to the code will be reflected automatically.
 
-Run `ng e2e` to execute the end-to-end tests via [Protractor](http://www.protractortest.org/).
-Before running the tests make sure you are serving the app via `ng serve`.
+## Deploying the application
+This frontend application is deployed to Google Firebase Hosting
 
-## Further help
+### Deploying to dev
+To deploy to the dev environment you must first package the application into the **dist** folder.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI README](https://github.com/angular/angular-cli/blob/master/README.md).
+```ng build --dev --e=devserver```
+
+this builds the application in **dev mode** (useful for debugging) with the **devserver** environment setup. The application can then be deployed to the hosting environment.
+
+```firebase deploy```
+
+This will send the entire application to the hosting environment and will then be available at <https://otta-web-app.firebaseapp.com>.
