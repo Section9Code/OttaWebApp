@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ContentProjectService, ContentProjectModel } from 'services/content-project.service';
 import { MixpanelService } from 'services/mixpanel.service';
+import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 
 @Component({
     moduleId: module.id,
@@ -13,7 +14,7 @@ export class ContentProjectListComponent implements OnInit {
     projects: ContentProjectModel[];
     newDateLimit: Date = new Date(2018, 0, 20);
 
-    constructor(private projectService: ContentProjectService, private tracking: MixpanelService) {
+    constructor(private projectService: ContentProjectService, private tracking: MixpanelService, private toast: ToastsManager) {
     }
 
     ngOnInit(): void {
@@ -26,6 +27,7 @@ export class ContentProjectListComponent implements OnInit {
             },
             error => {
                 this.tracking.TrackError('Unable to load users projects', error);
+                this.toast.error('Unable to load your projects', 'Unable to load');
             },
             () => {
                 this.isLoading = false;

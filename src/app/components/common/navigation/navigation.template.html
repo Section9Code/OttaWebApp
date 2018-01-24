@@ -46,29 +46,29 @@
       </li>
 
       <li [ngClass]="{active: activeRoute('dashboards')}">
-          <a href="#">
-            <i class="fa fa-briefcase"></i>
-            <span class="nav-label">Dashboard examples</span>
-            <span class="fa arrow"></span>
-          </a>
-          <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('dashboards')}">
-            <li [ngClass]="{active: activeRoute('dashboard1')}">
-              <a [routerLink]="['/dashboards/dashboard1']">Dashboard v.1</a>
-            </li>
-            <li [ngClass]="{active: activeRoute('dashboard2')}">
-              <a [routerLink]="['/dashboards/dashboard2']">Dashboard v.2</a>
-            </li>
-            <li [ngClass]="{active: activeRoute('dashboard3')}">
-              <a [routerLink]="['/dashboards/dashboard3']">Dashboard v.3</a>
-            </li>
-            <li [ngClass]="{active: activeRoute('dashboard4')}">
-              <a [routerLink]="['/dashboards/dashboard4']">Dashboard v.4</a>
-            </li>
-            <li [ngClass]="{active: activeRoute('dashboard5')}">
-              <a [routerLink]="['/dashboards/dashboard5']">Dashboard v.5</a>
-            </li>
-          </ul>
-        </li>
+        <a href="#">
+          <i class="fa fa-briefcase"></i>
+          <span class="nav-label">Dashboard examples</span>
+          <span class="fa arrow"></span>
+        </a>
+        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('dashboards')}">
+          <li [ngClass]="{active: activeRoute('dashboard1')}">
+            <a [routerLink]="['/dashboards/dashboard1']">Dashboard v.1</a>
+          </li>
+          <li [ngClass]="{active: activeRoute('dashboard2')}">
+            <a [routerLink]="['/dashboards/dashboard2']">Dashboard v.2</a>
+          </li>
+          <li [ngClass]="{active: activeRoute('dashboard3')}">
+            <a [routerLink]="['/dashboards/dashboard3']">Dashboard v.3</a>
+          </li>
+          <li [ngClass]="{active: activeRoute('dashboard4')}">
+            <a [routerLink]="['/dashboards/dashboard4']">Dashboard v.4</a>
+          </li>
+          <li [ngClass]="{active: activeRoute('dashboard5')}">
+            <a [routerLink]="['/dashboards/dashboard5']">Dashboard v.5</a>
+          </li>
+        </ul>
+      </li>
 
 
 
@@ -90,17 +90,33 @@
       </li>
 
 
-      <li [ngClass]="{active: activeRoute('content')}" *ngIf="showOrganisationOptions">
+      <!-- <li [ngClass]="{active: activeRoute('content')}" *ngIf="showOrganisationOptions">
         <a [routerLink]="['/content']">
           <i class="fa fa-calendar"></i>
           <span class="nav-label">Content</span>
         </a>
+      </li> -->
+
+      <li [ngClass]="{active: activeRoute('content')}" *ngIf="showOrganisationOptions">
+        <a [routerLink]="['/content']">
+          <i class="fa fa-calendar"></i>
+          <span class="nav-label">Content</span>
+          <span class="fa arrow"></span>
+        </a>
+        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('content')}">
+          <li [ngClass]="{active: activeRoute('content/')}">
+            <a [routerLink]="['/content']">Overview</a>
+          </li>
+          <li [ngClass]="{active: activeRoute('content/'+project.id)}" *ngFor="let project of usersContentProjects">
+            <a [routerLink]="['/content', project.id]">{{ project.Title }}</a>
+          </li>
+        </ul>
       </li>
 
-      
+
       <li [ngClass]="{active: activeRoute('calendars')}" *ngIf="showOrganisationOptions">
         <a href="#">
-          <i class="fa fa-calendar"></i>
+          <i class="fa fa-bath"></i>
           <span class="nav-label">Calendars</span>
           <span class="fa arrow"></span>
         </a>

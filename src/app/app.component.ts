@@ -9,7 +9,7 @@ import { ToastsManager } from 'ng2-toastr';
 })
 export class AppComponent {
 
-  constructor(public auth: AuthService, private toast: ToastsManager, private vcr: ViewContainerRef) {    
+  constructor(public auth: AuthService, private toast: ToastsManager, private vcr: ViewContainerRef) {
     this.auth.handleAuthentication();
     this.toast.setRootViewContainerRef(vcr);
   }

@@ -64,9 +64,8 @@ export class AuthService {
             // The flow control will tell the app where to send the user next
             localStorage.removeItem('joinData');
 
-            // Setup any application data
-            this.userData.showCreatorOptionsSubject.next(response.ShowCreatorOptions);
-            this.userData.showOrganisationOptionsSubject.next(response.ShowOrganisationOptions);
+            // Setup any application data for this user
+            this.userData.loadUsersData();
 
             // Send the user to the next page
             this.router.navigate([response.NextPage]);

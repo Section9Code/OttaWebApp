@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import 'jquery-slimscroll';
 import { AuthService, Auth0Profile } from "services/auth.service";
 import { UserDataService } from 'services/user-data.service';
+import { ContentProjectModel } from 'services/content-project.service';
 
 declare var jQuery: any;
 
@@ -17,6 +18,7 @@ export class NavigationComponent implements OnInit {
 
   showCreatorOptions = false;
   showOrganisationOptions = false;
+  usersContentProjects: ContentProjectModel[] = [];
 
   constructor(private router: Router, private auth: AuthService, private userDataService: UserDataService) { }
 
@@ -44,6 +46,13 @@ export class NavigationComponent implements OnInit {
       response => {
         console.log('Users organisation options changed', response);
         this.showOrganisationOptions = response;
+      }
+    );
+
+    this.userDataService.usersContentProjectsSubject.subscribe(
+      response => {
+        console.log('Nav: Users content projects changed', response);
+        this.usersContentProjects = response;
       }
     );
   }
