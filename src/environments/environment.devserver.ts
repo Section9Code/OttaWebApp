@@ -8,13 +8,13 @@ export const environment = {
   authConfig: {
     clientId: 'pKXL3IeC4maYk6h4Zwvl97LspRen7PA5',
     domain: 'otta.eu.auth0.com',
-    callbackURL: 'https://otta-web-app.firebaseapp.com/callback',
+    callbackURL: 'https://dev.otta.io/callback',
     audience: 'OttaTestApi',
-    redirectUri: 'https://otta-web-app.firebaseapp.com/callback',
+    redirectUri: 'https://dev.otta.io/callback',
     scopes: 'openid name email profile'
   },
   baseApiUrl: 'https://ottdevapi.azurewebsites.net',
   stripeKey: 'pk_test_YXS5UTT0DjNKuW17sdAM0YOS',
   pricePerUser: 999,
-  version: 'v0.1 Alpha (Dev)'
+  version: 'v0.1 Alpha (Dev Server)'
 };
