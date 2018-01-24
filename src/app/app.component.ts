@@ -1,6 +1,7 @@
 import { Component, ViewContainerRef } from '@angular/core';
 import { AuthService } from "services/auth.service";
 import { ToastsManager } from 'ng2-toastr';
+import { UserDataService } from 'services/user-data.service';
 
 @Component({
   selector: 'app-root',
@@ -9,7 +10,7 @@ import { ToastsManager } from 'ng2-toastr';
 })
 export class AppComponent {
 
-  constructor(public auth: AuthService, private toast: ToastsManager, private vcr: ViewContainerRef) {
+  constructor(public auth: AuthService, private toast: ToastsManager, private vcr: ViewContainerRef, private userDataService: UserDataService) {
     this.auth.handleAuthentication();
     this.toast.setRootViewContainerRef(vcr);
   }
