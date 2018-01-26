@@ -1,0 +1,15 @@
+<div class="row">
+    <div class="col-sm-12 col-md-8">
+        <otta-panel title="Settings">
+            <h2>Settings</h2>
+        </otta-panel>
+    </div>
+    <div class="col-sm-12 col-md-4">
+        <otta-panel title="Remove project" *ngIf="isAdmin">
+            <p>
+                When you no longer need the project it can be closed. Closing a project removes all data and history.
+            </p>
+            <button class="btn btn-danger" (click)="closeProject()">Remove project</button>
+        </otta-panel>
+    </div>
+</div>

@@ -15,6 +15,8 @@ import { UserDataService } from 'services/user-data.service';
     styleUrls: ['content-project-layout.component.scss']
 })
 export class ContentProjectLayoutComponent implements OnInit {
+    currentView = 'calendar';
+
     isAdmin = false;
     isLoading = false;
     projectId: string;
@@ -52,38 +54,37 @@ export class ContentProjectLayoutComponent implements OnInit {
         );
     }
 
-    closeProject() {
-        this.tracking.Track(MixpanelEvent.Content_Remove_Project, this.projectId);
-        // Ask the user if they are sure they want to remove the suggestion
-        this.alertSvc.swal({
-            title: 'Are you sure?',
-            text: "Once removed you will not be able to recover the project",
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, remove it!'
-        }).then(() => {
-            // Confirmed
-            console.log('Confirmed');
-            this.projectService.removeProject(this.projectId).subscribe(
-                response => {
-                    this.toast.success('The project has been removed');
-                    this.userDataService.removeProject(this.projectId)
-                    this.router.navigateByUrl('/content');
-                },
-                error => {
-                    this.toast.error('An error occurred while trying to remove project', 'Unable to remove project');
-                    this.tracking.TrackError(`Unable to remove project ${this.projectId}`, error);
-                }
-            );
-
-        },
-            error => { },
-            () => { }
-        );
-
-
-
+    goToCalendar() {
+        this.currentView = 'calendar';
+        this.router.navigateByUrl(`/content/${this.projectId}`);
     }
+
+    goToDrafts() {
+        this.currentView = 'drafts';
+        this.router.navigateByUrl(`/content/${this.projectId}/drafts`);
+    }
+
+    goToPitches() {
+        this.currentView = 'pitches';
+        this.router.navigateByUrl(`/content/${this.projectId}/pitches`);
+    }
+
+    goToEvents() {
+        this.currentView = 'events';
+        this.router.navigateByUrl(`/content/${this.projectId}/events`);
+    }
+
+    goToSettings() {
+        this.currentView = 'settings';
+        this.router.navigateByUrl(`/content/${this.projectId}/settings`);
+    }
+}
+
+export enum ContentProjectView
+{
+    Calendar,
+    Drafts,
+    Pitches,
+    Events,
+    Settings
 }

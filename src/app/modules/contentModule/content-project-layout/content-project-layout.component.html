@@ -18,31 +18,16 @@
 <!-- Top level button row -->  
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-md-12">
-        <button type="button" class="btn btn-default">Calendar</button>
-        <button type="button" class="btn btn-default">Drafts</button>
-        <button type="button" class="btn btn-default">Pitches</button>
-        <button type="button" class="btn btn-default">Events</button>
-        <button type="button" class="btn btn-primary" *ngIf="isAdmin">Settings</button>
+        <button type="button" class="btn" [ngClass]="{'btn-default': currentView != 'calendar', 'btn-primary': currentView == 'calendar' }" (click)="goToCalendar()">Calendar</button>
+        <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'drafts', 'btn-default': currentView != 'drafts' }" (click)="goToDrafts()">Drafts</button>
+        <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'pitches', 'btn-default': currentView != 'pitches' }" (click)="goToPitches()">Pitches</button>
+        <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'events', 'btn-default': currentView != 'events' }" (click)="goToEvents()">Events</button>
+        <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'settings', 'btn-default': currentView != 'settings' }" (click)="goToSettings()" *ngIf="isAdmin">Settings</button>
     </div>
 </div>
 
 <div class="wrapper-content animated fadeInRight">    
     <!-- Loading -->
     <loadingSpinner [loading]="isLoading"></loadingSpinner>
-    
-    <div class="row">
-        <div class="col-sm-12 col-md-8">            
-        </div>
-        <div class="col-sm-12 col-md-4">
-            <otta-panel title="Admin function" *ngIf="isAdmin">
-                <p>
-                        When you no longer need the project it can be closed. Closing a project 
-                        removes all data and history.
-                </p>
-                <button class="btn btn-danger" (click)="closeProject()">Remove project</button>
-            </otta-panel>
-        </div>
-    </div>
-
-
+    <router-outlet></router-outlet>
 </div>

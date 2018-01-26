@@ -17,7 +17,7 @@ import { AppviewsModule } from "./views/appviews/appviews.module";
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
 import { AuthService, authHttpServiceFactory } from "services/auth.service";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
-import { AuthenticatedGuard } from "services/security/auth-guard.service";
+import { AuthenticatedGuard, OrganisationAdminGuard } from "services/security/auth-guard.service";
 import { WidgetsModule } from "app/components/widgets/widgets.module";
 import { SuggestionsService } from "services/suggestions.service";
 import { FlowService } from "services/security/flow.service";
@@ -75,6 +75,7 @@ import { ContentModule } from 'app/modules/contentModule/content.module';
     UserDataService,
     CreatorService,
     AuthenticatedGuard,
+    OrganisationAdminGuard,
     MixpanelService,
     SweetAlertService, 
     // Create the AuthHttp service for using Auth0 JWT tokens to make calls to the back end
