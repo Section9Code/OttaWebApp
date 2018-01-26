@@ -24,6 +24,7 @@ import { ContentProjectDraftsLayoutComponent } from 'app/modules/contentModule/c
 import { ContentProjectPitchesLayoutComponent } from 'app/modules/contentModule/content-project-pitches-layout/content-project-pitches-layout.component';
 import { ContentProjectEventsLayoutComponent } from 'app/modules/contentModule/content-project-events-layout/content-project-events-layout.component';
 import { ContentProjectSettingsLayoutComponent } from 'app/modules/contentModule/content-project-settings-layout/content-project-settings-layout.component';
+import { ContentProjectShareService } from 'app/modules/contentModule/services/ContentProjectShareService';
 
 
 // Routes for this module to be added to the application
@@ -78,7 +79,8 @@ const routes: Routes = [
     ],
     providers: [
         MixpanelService,
-        ContentProjectService
+        ContentProjectService,
+        ContentProjectShareService
     ],
 })
 export class ContentModule {
