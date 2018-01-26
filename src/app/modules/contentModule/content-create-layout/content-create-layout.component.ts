@@ -20,7 +20,7 @@ export class ContentCreateLayoutComponent implements OnInit {
         private toast: ToastsManager, private userDataService: UserDataService) {}
 
     ngOnInit(): void {
-        this.tracking.Track(MixpanelEvent.ContentCreateProject);
+        this.tracking.Track(MixpanelEvent.Content_Create_Project);
     }
 
     create() {

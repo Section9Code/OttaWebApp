@@ -20,10 +20,15 @@ export class ContentProjectService {
 
     createProject(project: ContentProjectModel): Observable<ContentProjectModel> {
         return this.authHttp.post(this.url, project).map(response => response.json());
-    }
+    };
+
+    removeProject(projectId: string): Observable<boolean> {
+        return this.authHttp.delete(`${this.url}/${projectId}`, null).map(response => response.json());
+    };
 }
 
 export class ContentProjectModel {
+    id: string;
     Title: string;
     Description: string;
     Created: Date;

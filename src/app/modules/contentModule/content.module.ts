@@ -19,6 +19,7 @@ import { ContentProjectListComponent } from 'app/modules/contentModule/component
 import { ContentProjectService } from 'services/content-project.service';
 import { ContentCreateLayoutComponent } from 'app/modules/contentModule/content-create-layout/content-create-layout.component';
 import { ContentProjectLayoutComponent } from 'app/modules/contentModule/content-project-layout/content-project-layout.component';
+import { ContentProjectCalendarLayoutComponent } from 'app/modules/contentModule/content-project-calendar-layout/content-project-calendar-layout.component';
 
 
 // Routes for this module to be added to the application
@@ -55,6 +56,7 @@ const routes: Routes = [
         ContentHomeLayoutComponent,
         ContentCreateLayoutComponent,
         ContentProjectLayoutComponent,
+        ContentProjectCalendarLayoutComponent,
         // Components
         ContentProjectListComponent
     ],

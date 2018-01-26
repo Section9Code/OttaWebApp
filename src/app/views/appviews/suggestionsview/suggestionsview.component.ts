@@ -115,15 +115,7 @@ export class SuggestionsViewComponent implements OnInit {
       );
     }).catch(() => { });
 
-
-
-
-
-
-
-
-
-
+    
   }
 
 }

@@ -60,6 +60,10 @@ export class OrganisationService {
     return this.authHttp.post(`${this.url}/users/${authId}/revokeAdmin`, null).map(response => response.json());
   }
 
+  // Is the current user an organisation admin
+  isOrganisationAdmin(): Observable<boolean> {
+    return this.authHttp.get(`${this.url}/isOrganisationAdmin`).map(response => response.json());
+  }
 }
 
 export class PaymentInfo {

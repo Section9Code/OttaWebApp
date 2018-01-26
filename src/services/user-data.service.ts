@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Observable';
 import { UserService } from 'services/user.service';
 import { ContentProjectService, ContentProjectModel } from 'services/content-project.service';
 import { AuthService } from 'services/auth.service';
+import { OrganisationService, Organisation } from 'services/organisation.service';
 
 // This service is used to share information for the user around the whole application
 @Injectable()
@@ -17,15 +18,21 @@ export class UserDataService {
   // The list of the users content projects
   usersContentProjectsSubject = new BehaviorSubject<ContentProjectModel[]>([]);
 
+  // The users parent organisation
+  usersOrganisationSubject = new BehaviorSubject<Organisation>(new Organisation());
+
+  userIsOrgAdmin: boolean = false;
+
 
   // Construct the service
-  constructor(private userService: UserService, private contentProjectService: ContentProjectService) {
+  constructor(private userService: UserService, private contentProjectService: ContentProjectService, 
+    private organisationService: OrganisationService) {
     console.log('UserDataService: Initialize');
     this.loadUsersData();
   }
 
   // Load all the data the user needs to run the application. Called once the user has logged into the application
-  loadUsersData() {
+  loadUsersData() {    
     // Load the users profile
     this.userService.getSettings().subscribe(
       response => {
@@ -42,13 +49,33 @@ export class UserDataService {
       error => console.log('UserDataService: User not logged in, using project defaults'),
       () => console.log('UserDataService: Users projects loaded')
     );
+
+    // Load the users organisation
+    this.organisationService.get().subscribe(
+      response => this.usersOrganisationSubject.next(response),
+      error => console.log('UserDataService: Could not load the users organisation'),
+      () => console.log('UserDataService: Users organisation loaded')
+    );
+
+    this.organisationService.isOrganisationAdmin().subscribe(
+      response => this.userIsOrgAdmin = response,
+      error => console.log('UserDataService: Could not load the users organisation admin status'),
+      () => console.log('UserDataService: Users organisation admin status loaded', this.userIsOrgAdmin)
+    );
   }
 
   // Add a project to the users project list
   addProject(project: ContentProjectModel) {
-    let projectList = this.usersContentProjectsSubject.getValue();
+    const projectList = this.usersContentProjectsSubject.getValue();
     projectList.push(project);
     this.usersContentProjectsSubject.next(projectList);
+  }
+
+  removeProject(projectId: string)
+  {
+    const projects = this.usersContentProjectsSubject.getValue();
+    const remainingProjects = projects.filter(function(el) { return el.id !== projectId; });
+    this.usersContentProjectsSubject.next(remainingProjects);
   }
 
 }

@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ContentProjectService, ContentProjectModel } from 'services/content-project.service';
 import { MixpanelService } from 'services/mixpanel.service';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
+import { UserDataService } from 'services/user-data.service';
 
 @Component({
     moduleId: module.id,
