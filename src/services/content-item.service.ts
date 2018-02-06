@@ -15,7 +15,7 @@ export class ContentItemService {
     return this.authHttp.get(`${this.url}/${projectId}/drafts`).map(response => response.json());
   }
 
-  createDraft(projectId: string, content: ContentItemModel): Observable<string> {
+  createDraft(projectId: string, content: ContentItemModel): Observable<ContentItemModel> {
     return this.authHttp.post(`${this.url}/${projectId}/drafts`, content).map(response => response.json());
   }
 
@@ -23,6 +23,7 @@ export class ContentItemService {
 }
 
 export class ContentItemModel {
+  id: string;
   Title: string;
   ProjectId: string;
   Description: string;

@@ -25,7 +25,10 @@ export class ContentProjectDraftsCreateLayoutComponent {
         this.contentItemService.createDraft(this.sharedData.currentProject.getValue().id, data).subscribe(
             response => {
                 this.toast.success('Draft created');
-                this.tracking.Track(MixpanelEvent.Content_Draft_Created, { 'id': response})
+                this.tracking.Track(MixpanelEvent.Content_Draft_Created, { 'id': response});
+                // Update the list of drafts
+                this.sharedData.addDraft(response);
+                // Navigate back to the list of drafts
                 this.navigateBackToDrafts();
             },
             error => {

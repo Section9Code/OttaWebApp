@@ -23,19 +23,18 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
     ngOnInit(): void {
         this.tracking.Track(MixpanelEvent.Content_Draft_View);
 
-        // Load the drafts
-        this.isLoading = true;
-        this.contentItemService.getDrafts(this.sharedData.currentProject.getValue().id).subscribe(
-            response => {
-                console.log('Loaded drafts', response);
-                this.drafts = response;
-            },
-            error => {
-                this.toast.error('Error occurred trying to load drafts');
-                this.tracking.TrackError('Error loading drafts', error);
-            },
-            () => this.isLoading = false
+        // Subscribe to draft loading
+        this.sharedData.isLoadingDrafts.subscribe(
+            response => this.isLoading = response
         );
+
+        // Subscribe to drafts
+        this.sharedData.drafts.subscribe(
+            response => this.drafts = response
+        );
+
+        // Load the drafts
+        this.sharedData.lazyLoadDrafts();
     }
 
     AddDraft(){
