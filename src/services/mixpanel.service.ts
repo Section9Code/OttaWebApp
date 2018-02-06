@@ -100,6 +100,9 @@ export enum MixpanelEvent
   Content_See_Project,
   Content_Remove_Project,
 
+  // Content Drafts
+  Content_Draft_View,
+
   // Others
   Button_click,
   Error
