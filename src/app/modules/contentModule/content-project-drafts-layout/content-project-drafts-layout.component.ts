@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
 
 @Component({
     moduleId: module.id,
@@ -6,6 +7,15 @@ import { Component } from '@angular/core';
     templateUrl: 'content-project-drafts-layout.component.html',
     styleUrls: ['content-project-drafts-layout.component.scss']
 })
-export class ContentProjectDraftsLayoutComponent {
+export class ContentProjectDraftsLayoutComponent implements OnInit {
 
+    constructor() {
+    }
+
+    ngOnInit(): void {
+    }
+
+    AddDraft(){
+        console.log('Add a draft');
+    }
 }

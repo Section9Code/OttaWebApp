@@ -3,11 +3,15 @@
         <div class="ibox float-e-margins">
             <div class="ibox-title" *ngIf="title || subtitle">
                 <h5>{{title}}
-                    <small *ngIf="subtitle && !subtitlePullRight" class="m-l-sm">{{subtitle}}</small>                    
+                    <small *ngIf="subtitle && !subtitlePullRight" class="m-l-sm">{{subtitle}}</small>
                 </h5>
                 <span *ngIf="subtitle && subtitlePullRight" class="text-muted small pull-right">{{subtitle}}</span>
+                <div *ngIf="showButton && buttonText" class="ibox-tools">
+                    <a class="btn btn-primary btn-xs" (click)="panelButtonClicked()">{{buttonText}}</a>
+                </div>
             </div>
-            <div class="ibox-content">                
+
+            <div class="ibox-content">
                 <ng-content></ng-content>
             </div>
             <div class="ibox-footer" *ngIf="footer || footerRight">
