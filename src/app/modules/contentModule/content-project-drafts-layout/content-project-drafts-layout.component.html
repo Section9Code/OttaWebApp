@@ -3,11 +3,9 @@
 <div class="row" *ngIf="!isLoading">
 
     <div class="col-xs-12 col-lg-10">
-        <otta-panel title="Drafts" subtitle="" subtitlePullRight=false footer="" footerRight="" showButton="true" buttonText="Create draft"
-            (buttonClicked)="AddDraft()">
+        <otta-panel [title]="'Drafts'" [showButton]="true" [buttonText]="'Create draft'" (buttonClicked)="AddDraft()">
 
-
-
+            
             <div class="m-b-lg">
 
                     <div class="input-group">
