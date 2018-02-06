@@ -25,6 +25,8 @@ import { ContentProjectPitchesLayoutComponent } from 'app/modules/contentModule/
 import { ContentProjectEventsLayoutComponent } from 'app/modules/contentModule/content-project-events-layout/content-project-events-layout.component';
 import { ContentProjectSettingsLayoutComponent } from 'app/modules/contentModule/content-project-settings-layout/content-project-settings-layout.component';
 import { ContentProjectShareService } from 'app/modules/contentModule/services/ContentProjectShareService';
+import { ContentProjectDraftsCreateLayoutComponent } from 'app/modules/contentModule/content-project-drafts-create-layout/content-project-drafts-create-layout.component';
+import { ContentItemService } from 'services/content-item.service';
 
 
 // Routes for this module to be added to the application
@@ -38,6 +40,7 @@ const routes: Routes = [
             children: [
                 {path: '', component: ContentProjectCalendarLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'drafts', component: ContentProjectDraftsLayoutComponent, canActivate: [AuthenticatedGuard] },
+                {path: 'drafts/create', component: ContentProjectDraftsCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'pitches', component: ContentProjectPitchesLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'events', component: ContentProjectEventsLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'settings', component: ContentProjectSettingsLayoutComponent, canActivate: [AuthenticatedGuard, OrganisationAdminGuard]},
@@ -73,6 +76,7 @@ const routes: Routes = [
         ContentProjectPitchesLayoutComponent,
         ContentProjectEventsLayoutComponent,
         ContentProjectSettingsLayoutComponent,
+        ContentProjectDraftsCreateLayoutComponent,
 
         // Components
         ContentProjectListComponent
@@ -80,6 +84,7 @@ const routes: Routes = [
     providers: [
         MixpanelService,
         ContentProjectService,
+        ContentItemService,
         ContentProjectShareService
     ],
 })

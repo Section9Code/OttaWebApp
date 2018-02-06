@@ -1,5 +1,8 @@
 import { Component, Input } from '@angular/core';
 
+// Example
+// <loadingSpinner loading=""></loadingSpinner>
+
 @Component({
     moduleId: module.id,
     selector: 'loadingSpinner',

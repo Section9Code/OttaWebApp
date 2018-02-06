@@ -1,7 +1,10 @@
-<div class="row">
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
 
-    <div class="col-xs-12 col-sm-9">
-        <otta-panel title="Drafts" subtitle="" subtitlePullRight=false footer="" footerRight="" showButton="true" buttonText="Add draft" (buttonClicked)="AddDraft()">
+<div class="row" *ngIf="!isLoading">
+
+    <div class="col-xs-12 col-lg-10">
+        <otta-panel title="Drafts" subtitle="" subtitlePullRight=false footer="" footerRight="" showButton="true" buttonText="Create draft"
+            (buttonClicked)="AddDraft()">
             <p>
                 This is where the drafts go
             </p>
@@ -9,17 +12,15 @@
     </div>
 
 
-    <div class="col-xs-12 col-sm-3">
-        <otta-panel>
-            <h2>Keep all your ideas in one place</h2>
-            <p>
-                If you have content you want to create but just don't know what to do with it yet. Put it here as a draft. You can keep working
-                on your idea, add notes to it, discuss it.
-            </p>
-            <p>
-                When it is ready you can bring it into your content calendar.
-            </p>
-        </otta-panel>
+    <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
+        <h2>Keep all your ideas in one place</h2>
+        <p>
+            If you have content you want to create but just don't know what to do with it yet. Put it here as a draft. You can keep working
+            on your idea, add notes to it, discuss it.
+        </p>
+        <p>
+            When it is ready you can bring it into your content calendar.
+        </p>
     </div>
 
 
