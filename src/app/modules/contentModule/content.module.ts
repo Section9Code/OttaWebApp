@@ -27,6 +27,7 @@ import { ContentProjectSettingsLayoutComponent } from 'app/modules/contentModule
 import { ContentProjectShareService } from 'app/modules/contentModule/services/ContentProjectShareService';
 import { ContentProjectDraftsCreateLayoutComponent } from 'app/modules/contentModule/content-project-drafts-create-layout/content-project-drafts-create-layout.component';
 import { ContentItemService } from 'services/content-item.service';
+import { ContentItemDetailsComponent } from 'app/modules/contentModule/components/content-item-details/content-item-details.component';
 
 
 // Routes for this module to be added to the application
@@ -79,7 +80,8 @@ const routes: Routes = [
         ContentProjectDraftsCreateLayoutComponent,
 
         // Components
-        ContentProjectListComponent
+        ContentProjectListComponent,
+        ContentItemDetailsComponent
     ],
     providers: [
         MixpanelService,

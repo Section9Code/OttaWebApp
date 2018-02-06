@@ -1,0 +1,29 @@
+<!--component html goes here -->
+<form method="get" class="form-horizontal" #contentItemForm="ngForm">
+    <div class="form-group" [class.has-error]="!title.valid">
+        <label class="col-sm-2 control-label">Title</label>
+        <div class="col-sm-10">
+            <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="data.Title" #title="ngModel">
+            <span class="help-block m-b-none">
+                Help information for this item
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group" [class.has-error]="!description.valid">
+        <label class="col-sm-2 control-label">Description</label>
+        <div class="col-sm-10">
+            <textarea class="form-control" id="description" name="description" [(ngModel)]="data.Description" required #description="ngModel"></textarea>
+            <span class="help-block m-b-none">
+                Help information
+            </span>
+        </div>
+    </div>
+
+    <div class="form-group">
+        <div class="col-sm-4 col-sm-offset-2">            
+            <button class="btn btn-primary" type="submit" (click)="submitForm()" [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">Submit</button>
+            <button *ngIf="showCancel" class="btn btn-white" (click)="cancelForm()">{{cancelButtonText}}</button>
+        </div>
+    </div>
+</form>

@@ -1,4 +1,9 @@
 <!--component html goes here -->
-<otta-panel title="Create draft" subtitle="" subtitlePullRight=false footer="" footerRight="">
-
+<otta-panel [title]="'Create draft'">
+    <content-item-details 
+    [data]="contentItemData" 
+    [showCancel]="true" 
+    [isUpdating]="isUpdating" 
+    (submitClicked)="createDraft($event)" 
+    (cancelClicked)="cancelDraft()"></content-item-details>
 </otta-panel>

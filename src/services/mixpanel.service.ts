@@ -102,6 +102,7 @@ export enum MixpanelEvent
 
   // Content Drafts
   Content_Draft_View,
+  Content_Draft_Created,
 
   // Others
   Button_click,

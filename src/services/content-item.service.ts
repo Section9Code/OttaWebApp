@@ -15,6 +15,11 @@ export class ContentItemService {
     return this.authHttp.get(`${this.url}/${projectId}/drafts`).map(response => response.json());
   }
 
+  createDraft(projectId: string, content: ContentItemModel): Observable<string> {
+    return this.authHttp.post(`${this.url}/${projectId}/drafts`, content).map(response => response.json());
+  }
+
+
 }
 
 export class ContentItemModel {
