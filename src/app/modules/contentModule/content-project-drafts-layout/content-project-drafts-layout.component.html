@@ -5,9 +5,73 @@
     <div class="col-xs-12 col-lg-10">
         <otta-panel title="Drafts" subtitle="" subtitlePullRight=false footer="" footerRight="" showButton="true" buttonText="Create draft"
             (buttonClicked)="AddDraft()">
-            <p>
-                This is where the drafts go
-            </p>
+
+
+
+            <div class="m-b-lg">
+
+                    <div class="input-group">
+                        <input type="text" placeholder="Search issue by name..." class=" form-control">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-white"> Search</button>
+                        </span>
+                    </div>
+                    <div class="m-t-md">
+
+                        <div class="pull-right">
+                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-comments"></i> </button>
+                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>
+                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-list"></i> </button>
+                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-pencil"></i> </button>
+                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-print"></i> </button>
+                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-cogs"></i> </button>
+                        </div>
+
+                        <strong>Found {{drafts.length}} drafts.</strong>
+                    </div>
+                </div>
+
+
+            <div class="table-responsive">
+                <table class="table table-hover issue-tracker">
+                    <tbody>
+                        <tr *ngFor="let draft of drafts">
+                            <td>
+                                <span class="label label-primary">Type</span>
+                            </td>
+                            <td class="issue-info">
+                                <a href="#">
+                                    {{ draft.Title }}
+                                </a>
+
+                                <small>
+                                    {{ draft.Description }}
+                                </small>
+                            </td>
+                            <td>
+                                {{ draft.Creator.CreatorName }}
+                            </td>
+                            <td>
+                                {{ draft.Created | date:'mediumDate' }}                                
+                            </td>                            
+                            <td class="text-right">
+                                <button *ngFor="let tag of draft.tags" class="btn btn-white btn-xs">{{ tag }}</button>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+
+
+
+
+
+
+
+
+
+
         </otta-panel>
     </div>
 
