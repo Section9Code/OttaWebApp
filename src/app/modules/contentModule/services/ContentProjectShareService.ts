@@ -11,6 +11,7 @@ import { UserDataService } from 'services/user-data.service';
 import { ContentItemModel, ContentItemService } from 'services/content-item.service';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { MixpanelService } from 'services/mixpanel.service';
+import { ContentItemTypeModel, ContentItemTypeService } from 'services/content-item-type.service';
 
 // This service is shared by the content project pages to make sure important data is only processed once
 @Injectable()
@@ -26,11 +27,15 @@ export class ContentProjectShareService {
   isLoadingDrafts = new BehaviorSubject<boolean>(false);
   drafts = new BehaviorSubject<ContentItemModel[]>([]);
 
+  // Content types
+  isLoadingContentTypes = new BehaviorSubject<boolean>(false);
+  contentTypes = new BehaviorSubject<ContentItemTypeModel[]>([]);
+
 
   // Construct the service
   constructor(private contentProjectService: ContentProjectService, private organisationService: OrganisationService,
     private userDataService: UserDataService, private contentItemService: ContentItemService, private toast: ToastsManager,
-    private tracking: MixpanelService) {
+    private tracking: MixpanelService, private contentTypeService: ContentItemTypeService) {
     console.log('ContentProjectShareService: Initialize');
   }
 
@@ -42,6 +47,7 @@ export class ContentProjectShareService {
     // Reset data
     this.currentProject.next(new ContentProjectModel());
     this.drafts.next([]);
+    this.contentTypes.next([]);
 
     // Is the user an organisation admin
     this.userIsAdmin.next(this.userDataService.userIsOrgAdmin);
@@ -51,6 +57,13 @@ export class ContentProjectShareService {
       response => this.currentProject.next(response),
       error => console.log('ContentProjectShareService: Error loading project', projectId),
       () => console.log('ContentProjectShareService: Done loading project', projectId)
+    );
+
+    // Load content types
+    this.contentTypeService.getTypes(projectId).subscribe(
+      response => this.contentTypes.next(response),
+      error => console.log('ContentProjectShareService: Error loading content types', projectId),
+      () => console.log('ContentProjectShareService: Done loading content types', projectId)
     );
   }
 
@@ -115,5 +128,32 @@ export class ContentProjectShareService {
     }
   }
 
+
+  // Add a new content type to the list
+  addContentType(type: ContentItemTypeModel) {
+    var list = this.contentTypes.getValue();
+    list.push(type);
+    this.contentTypes.next(list);
+  }
+
+  // Remove an existing content type from the list
+  removeContentType(type: ContentItemTypeModel) {
+    var list = this.contentTypes.getValue();
+    var index: number = list.findIndex(x => x.id === type.id);
+    if (index > -1) {
+      list.splice(index, 1);
+      this.contentTypes.next(list);
+    }
+  }
+
+  // Update an existing content type on the list
+  updateContentType(type: ContentItemTypeModel) {
+    var list = this.contentTypes.getValue();
+    var index: number = list.findIndex(x => x.id === type.id);
+    if (index > -1) {
+      list[index] = type;
+      this.contentTypes.next(list);
+    }
+  }
 
 }

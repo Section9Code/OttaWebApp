@@ -24,20 +24,10 @@ export class ContentItemTypeListComponent implements OnInit {
     }
 
     ngOnInit(): void {
-        this.loadTypes();
+        // Get all the known types from the shared service
+        this.sharedData.contentTypes.subscribe(response => this.types = response);
     }
 
-    loadTypes() {
-        // Load all the types
-        this.typeService.getTypes(this.sharedData.currentProject.getValue().id).subscribe(
-            response => this.types = response,
-            error => {
-                this.toast.error('Unable to load types');
-                this.tracking.TrackError('Unable to load content item types', error);
-            },
-            () => this.isLoading = false
-        );
-    }
 
     createType() {
         // Create the type
@@ -53,7 +43,7 @@ export class ContentItemTypeListComponent implements OnInit {
             response => {
                 this.toast.success('Type added to project');
                 this.createItem = new ContentItemTypeModel();
-                this.loadTypes();
+                this.sharedData.addContentType(response);
             },
             error => {
                 this.toast.error('Error occurred adding type to project');
@@ -80,7 +70,7 @@ export class ContentItemTypeListComponent implements OnInit {
             this.typeService.deleteType(type).subscribe(
                 response => {
                     this.toast.success('Type has been removed');
-                    this.loadTypes();
+                    this.sharedData.removeContentType(type);
                 },
                 error => {
                     this.toast.error('Unable to remove type');

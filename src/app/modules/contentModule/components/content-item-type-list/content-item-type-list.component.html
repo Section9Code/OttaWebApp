@@ -1,4 +1,8 @@
-<div class="table-responsive">
+<div class="p-md" *ngIf="types.length === 0">
+    <strong>No types found</strong>
+</div>
+
+<div class="table-responsive" *ngIf="types.length > 0">
     <table class="table table-hover issue-tracker">
         <tbody>
             <tr *ngFor="let type of types">
