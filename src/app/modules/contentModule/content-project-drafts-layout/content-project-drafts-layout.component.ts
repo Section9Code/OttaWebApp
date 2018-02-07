@@ -43,4 +43,11 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
         console.log('Navigating to:', url);
         this.router.navigateByUrl(url);
     }
+
+    navigateToDraft(draft: ContentItemModel) {
+        let currentProjectId = this.sharedData.currentProject.getValue().id;
+        let url = `/content/${currentProjectId}/drafts/${draft.id}`;
+        console.log('Navigating to:', url);
+        this.router.navigateByUrl(url);
+    }
 }

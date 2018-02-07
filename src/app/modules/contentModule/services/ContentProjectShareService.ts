@@ -29,13 +29,19 @@ export class ContentProjectShareService {
 
   // Construct the service
   constructor(private contentProjectService: ContentProjectService, private organisationService: OrganisationService,
-    private userDataService: UserDataService, private contentItemService: ContentItemService, private toast: ToastsManager, private tracking: MixpanelService) {
+    private userDataService: UserDataService, private contentItemService: ContentItemService, private toast: ToastsManager,
+    private tracking: MixpanelService) {
     console.log('ContentProjectShareService: Initialize');
   }
+
 
   // Load all the data the user needs to run the application. Called once the user has logged into the application
   loadProject(projectId: string) {
     console.log('ContentProjectShareService: Load project', projectId);
+
+    // Reset data
+    this.currentProject.next(new ContentProjectModel());
+    this.drafts.next([]);
 
     // Is the user an organisation admin
     this.userIsAdmin.next(this.userDataService.userIsOrgAdmin);
@@ -47,6 +53,7 @@ export class ContentProjectShareService {
       () => console.log('ContentProjectShareService: Done loading project', projectId)
     );
   }
+
 
   // Lazy load the drafts for the current project
   lazyLoadDrafts() {
@@ -69,6 +76,7 @@ export class ContentProjectShareService {
       );
     }
   }
+
 
   // Add a new draft to the list
   addDraft(newDraft: ContentItemModel) {

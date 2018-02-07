@@ -33,12 +33,12 @@
             <div class="table-responsive">
                 <table class="table table-hover issue-tracker">
                     <tbody>
-                        <tr *ngFor="let draft of drafts">
+                        <tr *ngFor="let draft of drafts" (click)="navigateToDraft(draft)">
                             <td>
                                 <span class="label label-primary">Type</span>
                             </td>
                             <td class="issue-info">
-                                <a href="#">
+                                <a>
                                     {{ draft.Title }}
                                 </a>
 

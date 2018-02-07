@@ -28,6 +28,7 @@ import { ContentProjectShareService } from 'app/modules/contentModule/services/C
 import { ContentProjectDraftsCreateLayoutComponent } from 'app/modules/contentModule/content-project-drafts-create-layout/content-project-drafts-create-layout.component';
 import { ContentItemService } from 'services/content-item.service';
 import { ContentItemDetailsComponent } from 'app/modules/contentModule/components/content-item-details/content-item-details.component';
+import { ContentProjectDraftsUpdateLayoutComponent } from 'app/modules/contentModule/content-project-drafts-update-layout/content-project-drafts-update-layout.component';
 
 
 // Routes for this module to be added to the application
@@ -42,6 +43,7 @@ const routes: Routes = [
                 {path: '', component: ContentProjectCalendarLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'drafts', component: ContentProjectDraftsLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'drafts/create', component: ContentProjectDraftsCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
+                {path: 'drafts/:id2', component: ContentProjectDraftsUpdateLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'pitches', component: ContentProjectPitchesLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'events', component: ContentProjectEventsLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'settings', component: ContentProjectSettingsLayoutComponent, canActivate: [AuthenticatedGuard, OrganisationAdminGuard]},
@@ -78,6 +80,7 @@ const routes: Routes = [
         ContentProjectEventsLayoutComponent,
         ContentProjectSettingsLayoutComponent,
         ContentProjectDraftsCreateLayoutComponent,
+        ContentProjectDraftsUpdateLayoutComponent,
 
         // Components
         ContentProjectListComponent,
