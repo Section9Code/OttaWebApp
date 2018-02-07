@@ -31,6 +31,7 @@ import { ContentItemDetailsComponent } from 'app/modules/contentModule/component
 import { ContentProjectDraftsUpdateLayoutComponent } from 'app/modules/contentModule/content-project-drafts-update-layout/content-project-drafts-update-layout.component';
 import { ContentItemTypeListComponent } from 'app/modules/contentModule/components/content-item-type-list/content-item-type-list.component';
 import { ContentItemTypeService } from 'services/content-item-type.service';
+import { ContentItemTypeLabelComponent } from 'app/modules/contentModule/components/content-item-type-label/content-item-type-label.component';
 
 
 // Routes for this module to be added to the application
@@ -87,7 +88,8 @@ const routes: Routes = [
         // Components
         ContentProjectListComponent,
         ContentItemDetailsComponent,
-        ContentItemTypeListComponent
+        ContentItemTypeListComponent,
+        ContentItemTypeLabelComponent
     ],
     providers: [
         MixpanelService,

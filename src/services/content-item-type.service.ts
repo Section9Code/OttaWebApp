@@ -26,7 +26,7 @@ export class ContentItemTypeService {
     return this.authHttp.put(`${this.url}/${content.ProjectId}`, content).map(response => response.json());
   }
 
-  deleteType(content: ContentItemTypeModel): Observable<null> {
+  deleteType(content: ContentItemTypeModel): Observable<boolean> {
     return this.authHttp.delete(`${this.url}/${content.ProjectId}/${content.id}`).map(response => response.json());
   }
 }
