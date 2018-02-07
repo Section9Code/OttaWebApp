@@ -15,10 +15,17 @@ export class ContentItemService {
     return this.authHttp.get(`${this.url}/${projectId}/drafts`).map(response => response.json());
   }
 
+  getDraft(projectId, id: string): Observable<ContentItemModel> {
+    return this.authHttp.get(`${this.url}/${projectId}/drafts/${id}`).map(response => response.json());
+  }
+
   createDraft(projectId: string, content: ContentItemModel): Observable<ContentItemModel> {
     return this.authHttp.post(`${this.url}/${projectId}/drafts`, content).map(response => response.json());
   }
 
+  updateDraft(content: ContentItemModel): Observable<ContentItemModel>{
+    return this.authHttp.put(`${this.url}/${content.ProjectId}/drafts/${content.id}`, content).map(response => response.json());
+  }
 
 }
 

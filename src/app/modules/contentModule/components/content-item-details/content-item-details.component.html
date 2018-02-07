@@ -22,7 +22,7 @@
 
     <div class="form-group">
         <div class="col-sm-4 col-sm-offset-2">            
-            <button class="btn btn-primary" type="submit" (click)="submitForm()" [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">Submit</button>
+            <button class="btn btn-primary" type="submit" (click)="submitForm()" [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">{{createButtonText}}</button>
             <button *ngIf="showCancel" class="btn btn-white" (click)="cancelForm()">{{cancelButtonText}}</button>
         </div>
     </div>

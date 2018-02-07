@@ -1,5 +1,7 @@
-<otta-panel [title]="'Update draft'">
-    <p>
-        Form goes here
-    </p>
-</otta-panel>
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
+<div class="row" *ngIf="!isLoading">
+    <otta-panel [title]="'Update draft'">
+        <content-item-details [data]="draft" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="updateDraft($event)"
+            [createButtonText]="'Update'"></content-item-details>
+    </otta-panel>
+</div>

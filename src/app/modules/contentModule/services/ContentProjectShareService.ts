@@ -86,5 +86,34 @@ export class ContentProjectShareService {
     this.drafts.next(draftList);
   }
 
+  // Update an existing draft in the list
+  updateDraft(updatedDraft: ContentItemModel) {
+    // Get the current drafts
+    var draftList: ContentItemModel[] = this.drafts.getValue();
+
+    // Find the matching draft
+    var existingDraftIndex: number = draftList.findIndex(x => x.id === updatedDraft.id);
+
+    // Update the draft
+    if (existingDraftIndex > -1) {
+      draftList[existingDraftIndex] = updatedDraft;
+      this.drafts.next(draftList);
+    }
+  }
+
+  deleteDraft(draftId: string) {
+    // Get the current drafts
+    var draftList: ContentItemModel[] = this.drafts.getValue();
+
+    // Find the matching draft
+    var existingDraftIndex: number = draftList.findIndex(x => x.id === draftId);
+
+    // Remove the draft
+    if (existingDraftIndex > -1) {
+      draftList.splice(existingDraftIndex, 1);
+      this.drafts.next(draftList);
+    }
+  }
+
 
 }
