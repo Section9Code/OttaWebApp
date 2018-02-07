@@ -17,7 +17,7 @@
 
 <!-- Top level button row -->  
 <div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-md-12">
+    <div class="col-md-12 btn-group">
         <button type="button" class="btn" [ngClass]="{'btn-default': currentView != 'calendar', 'btn-primary': currentView == 'calendar' }" (click)="goToCalendar()">Calendar</button>
         <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'drafts', 'btn-default': currentView != 'drafts' }" (click)="goToDrafts()">Drafts</button>
         <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'pitches', 'btn-default': currentView != 'pitches' }" (click)="goToPitches()">Pitches</button>
