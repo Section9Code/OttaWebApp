@@ -47,7 +47,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit{
         this.isUpdating = true;
         this.contentItemService.updateDraft(data).subscribe(
             response => {
-                this.sharedData.updateDraft(data);
+                this.sharedData.updateDraft(response);
                 this.toast.success('Draft updated');
                 this.navigateBackToDrafts();
             },

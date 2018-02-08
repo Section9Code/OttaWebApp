@@ -1,5 +1,7 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ContentItemModel } from 'services/content-item.service';
+import { ContentProjectShareService } from 'app/modules/contentModule/services/ContentProjectShareService';
+import { ContentItemTypeModel } from 'services/content-item-type.service';
 
 // Example
 // <content-item-details [data]="contentItemData" showCancel=true [isUpdating]="isUpdatingVariable" (submitClicked)="submitMethod(data)" (cancelClicked)="cancelMethod()"></content-item-details>
@@ -10,7 +12,7 @@ import { ContentItemModel } from 'services/content-item.service';
     templateUrl: 'content-item-details.component.html',
     styleUrls: ['content-item-details.component.scss']
 })
-export class ContentItemDetailsComponent {
+export class ContentItemDetailsComponent implements OnInit {    
     // Variables
     @Input() data: ContentItemModel = new ContentItemModel();
     @Input() showCancel = true;
@@ -18,11 +20,18 @@ export class ContentItemDetailsComponent {
     @Input() createButtonText = 'Create';
     @Input() cancelButtonText = 'Cancel';
 
+    contentTypes: ContentItemTypeModel[];
+
     // Events
     @Output() submitClicked = new EventEmitter<ContentItemModel>();
     @Output() cancelClicked = new EventEmitter<any>();
 
-    constructor() {
+    constructor(private sharedService: ContentProjectShareService) {
+    }
+
+    ngOnInit(): void {
+        // Get the available content types
+        this.sharedService.contentTypes.subscribe(response => this.contentTypes = response);
     }
 
     submitForm() {

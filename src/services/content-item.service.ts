@@ -3,6 +3,7 @@ import { environment } from 'environments/environment';
 import { AuthHttp } from 'angular2-jwt';
 import { CreatorInfo } from 'services/suggestions.service';
 import { Observable } from 'rxjs/Observable';
+import { ContentItemTypeModel } from 'services/content-item-type.service';
 
 @Injectable()
 export class ContentItemService {
@@ -35,6 +36,11 @@ export class ContentItemModel {
   ProjectId: string;
   Description: string;
   IsDraft: string;
+  
+  ContentTypeId: string;
+  ContentTypeTitle: string;
+  ContentTypeColourHex: string;
+
   Created: Date;
   CreatorAuthId: string;
   Creator: CreatorInfo;

@@ -34,6 +34,7 @@ export class ContentItemTypeService {
 export class ContentItemTypeModel {
   id: string;
   Title: string;
+  Type: string;
   ColourHex: string;
   ProjectId: string;
 }
