@@ -22,13 +22,23 @@
 
     <div class="form-group" [class.has-error]="!contentType.valid">
         <label class="col-sm-2 control-label">Type</label>
-        <div class="col-sm-10">            
+        <div class="col-sm-10">
             <select name="contentType" id="contentType" [(ngModel)]="data.ContentTypeId" #contentType="ngModel" required>
                 <option *ngFor="let type of contentTypes" value="{{type.id}}">{{type.Title}}</option>
             </select>
 
             <span class="help-block m-b-none">
                 What type of content is this
+            </span>
+        </div>
+    </div>
+    <div class="form-group">
+        <label class="col-sm-2 control-label">Title</label>
+        <div class="col-sm-10">
+            <!-- <input type="text" class="form-control" id="Tags" name="Tags" [(ngModel)]="data.Tags" #Tags="ngModel" placeholder="Example"> -->
+            <tag-input name="tags" modelAsStrings="true" [(ngModel)]="data.Tags" theme="bootstrap-tagsinput"></tag-input>
+            <span class="help-block m-b-none">
+                Tags can help you group your ideas together or make them easier to find later
             </span>
         </div>
     </div>
