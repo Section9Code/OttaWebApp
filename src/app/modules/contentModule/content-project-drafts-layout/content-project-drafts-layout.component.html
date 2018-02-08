@@ -9,13 +9,13 @@
             <div class="m-b-lg">
 
                     <div class="input-group">
-                        <input type="text" placeholder="Search issue by name..." class=" form-control">
+                        <input type="text" placeholder="Search issue by name..." [(ngModel)]="searchCriteria" class=" form-control">
                         <span class="input-group-btn">
-                            <button type="button" class="btn btn-white"> Search</button>
+                            <button type="button" class="btn btn-white" (click)="searchDrafts()"> Search</button>
                         </span>
                     </div>
                     <div class="m-t-md">
-
+<!-- 
                         <div class="pull-right">
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-comments"></i> </button>
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>
@@ -23,9 +23,9 @@
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-pencil"></i> </button>
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-print"></i> </button>
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-cogs"></i> </button>
-                        </div>
+                        </div> -->
 
-                        <strong>Found {{drafts.length}} drafts.</strong>
+                        <strong>Found {{drafts.length}} drafts.</strong> <a *ngIf="isFilteringSearch" (click)="clearSearch()">- Clear search filter</a>
                     </div>
                 </div>
 
@@ -33,11 +33,11 @@
             <div class="table-responsive">
                 <table class="table table-hover issue-tracker">
                     <tbody>
-                        <tr *ngFor="let draft of drafts" (click)="navigateToDraft(draft)">
-                            <td>
+                        <tr *ngFor="let draft of drafts">
+                            <td (click)="navigateToDraft(draft)">
                                 <content-item-type-label [title]="draft.ContentTypeTitle" [colourHex]="draft.ContentTypeColourHex"></content-item-type-label>
                             </td>
-                            <td class="issue-info">
+                            <td class="issue-info" (click)="navigateToDraft(draft)">
                                 <a>
                                     {{ draft.Title }}
                                 </a>
@@ -46,14 +46,14 @@
                                     {{ draft.Description }}
                                 </small>
                             </td>
-                            <td>
+                            <td (click)="navigateToDraft(draft)">
                                 {{ draft.Creator.CreatorName }}
                             </td>
-                            <td>
+                            <td (click)="navigateToDraft(draft)">
                                 {{ draft.Created | date:'mediumDate' }}                                
                             </td>                            
                             <td class="text-right">
-                                <button *ngFor="let tag of draft.Tags" class="btn btn-white btn-xs">{{ tag }}</button>
+                                <button *ngFor="let tag of draft.Tags" class="btn btn-white btn-xs" (click)="searchDrafts(tag)">{{ tag }}</button>
                             </td>
                         </tr>
                     </tbody>
