@@ -12,13 +12,15 @@ import { ContentItemTypeModel } from 'services/content-item-type.service';
     templateUrl: 'content-item-details.component.html',
     styleUrls: ['content-item-details.component.scss']
 })
-export class ContentItemDetailsComponent implements OnInit {    
+export class ContentItemDetailsComponent implements OnInit {
     // Variables
     @Input() data: ContentItemModel = new ContentItemModel();
     @Input() showCancel = true;
     @Input() isUpdating = false;
     @Input() createButtonText = 'Create';
     @Input() cancelButtonText = 'Cancel';
+
+    // List of all the available content types
     contentTypes: ContentItemTypeModel[];
 
     // Options for the freola html editor
