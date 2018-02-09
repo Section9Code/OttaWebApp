@@ -5,17 +5,18 @@
     <div class="col-xs-12 col-lg-10">
         <otta-panel [title]="'Drafts'" [showButton]="true" [buttonText]="'Create draft'" (buttonClicked)="AddDraft()">
 
-            
+
             <div class="m-b-lg">
 
-                    <div class="input-group">
-                        <input type="text" placeholder="Search issue by name..." [(ngModel)]="searchCriteria" class=" form-control">
-                        <span class="input-group-btn">
-                            <button type="button" class="btn btn-white" (click)="searchDrafts()"> Search</button>
-                        </span>
-                    </div>
-                    <div class="m-t-md">
-<!-- 
+                <div class="input-group">
+                    <input type="text" placeholder="Search issue by name..." [(ngModel)]="searchCriteria" class=" form-control">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-primary" (click)="searchDrafts()"> Search</button>
+                        <button *ngIf="isFilteringSearch" type="button" class="btn btn-white" (click)="clearSearch()"> Clear</button>
+                    </span>
+                </div>
+                <div class="m-t-md">
+                    <!-- 
                         <div class="pull-right">
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-comments"></i> </button>
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>
@@ -25,9 +26,10 @@
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-cogs"></i> </button>
                         </div> -->
 
-                        <strong>Found {{drafts.length}} drafts.</strong> <a *ngIf="isFilteringSearch" (click)="clearSearch()">- Clear search filter</a>
-                    </div>
+                    <strong>Found {{drafts.length}} drafts.</strong>
+                    <a *ngIf="isFilteringSearch" (click)="clearSearch()">- Clear search filter</a>
                 </div>
+            </div>
 
 
             <div class="table-responsive">
@@ -50,8 +52,8 @@
                                 {{ draft.Creator.CreatorName }}
                             </td>
                             <td (click)="navigateToDraft(draft)">
-                                {{ draft.Created | date:'mediumDate' }}                                
-                            </td>                            
+                                {{ draft.Created | date:'mediumDate' }}
+                            </td>
                             <td class="text-right">
                                 <button *ngFor="let tag of draft.Tags" class="btn btn-white btn-xs" (click)="searchDrafts(tag)">{{ tag }}</button>
                             </td>
@@ -82,6 +84,21 @@
         </p>
         <p>
             When it is ready you can bring it into your content calendar.
+        </p>
+        <h4>Types</h4>
+        <p>
+            Give your draft ideas a specific type so you can easily see the ones you want for your blog, and the ones you want for your podcast.
+        </p>
+        <p>
+            Or create your own custom types and use those instead.
+        </p>
+        <h4>Tags</h4>
+        <p>
+            Add tags to your drafts so you can group similar ideas, ideas related to the same theme, etc. Use them however best works
+            for you.
+        </p>
+        <p>
+            Click on a tag to see only the drafts with the same tag.
         </p>
     </div>
 
