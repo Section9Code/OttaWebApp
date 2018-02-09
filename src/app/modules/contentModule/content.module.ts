@@ -32,6 +32,7 @@ import { ContentProjectDraftsUpdateLayoutComponent } from 'app/modules/contentMo
 import { ContentItemTypeListComponent } from 'app/modules/contentModule/components/content-item-type-list/content-item-type-list.component';
 import { ContentItemTypeService } from 'services/content-item-type.service';
 import { ContentItemTypeLabelComponent } from 'app/modules/contentModule/components/content-item-type-label/content-item-type-label.component';
+import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 
 
 // Routes for this module to be added to the application
@@ -67,7 +68,9 @@ const routes: Routes = [
         LaddaModule,
         TagInputModule,
         ToastModule,
-        SharedModule
+        SharedModule,
+        FroalaEditorModule,
+        FroalaViewModule
     ],
     exports: [
         RouterModule

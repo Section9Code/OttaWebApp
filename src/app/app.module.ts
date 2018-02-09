@@ -27,6 +27,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { LaddaModule } from 'angular2-ladda';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { TagInputModule } from 'ngx-chips';
+import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { WelcomeService } from 'services/welcome.service';
 
 import { UserProfileModule } from 'app/modules/userProfileModule/userProfile.module';
@@ -64,6 +65,8 @@ import { ContentModule } from 'app/modules/contentModule/content.module';
     LaddaModule.forRoot({ style: "expand-right", spinnerSize: 20, spinnerColor: "white", spinnerLines: 12 }), // For showing progess on buttons
     ToastModule.forRoot(),  // For showing toast messages to user
     TagInputModule,
+    FroalaEditorModule.forRoot(), 
+    FroalaViewModule.forRoot(),
     RouterModule.forRoot(ROUTES)
   ],
   providers: [
