@@ -19,8 +19,13 @@ export class ContentItemDetailsComponent implements OnInit {
     @Input() isUpdating = false;
     @Input() createButtonText = 'Create';
     @Input() cancelButtonText = 'Cancel';
-
     contentTypes: ContentItemTypeModel[];
+
+    // Options for the freola html editor
+    editorOptions: Object = {
+        placeholderText: 'Edit Your Content Here!',
+        charCounterCount: false
+    };
 
     // Events
     @Output() submitClicked = new EventEmitter<ContentItemModel>();

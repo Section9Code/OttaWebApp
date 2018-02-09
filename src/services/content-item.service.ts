@@ -41,6 +41,8 @@ export class ContentItemModel {
   ContentTypeTitle: string;
   ContentTypeColourHex: string;
 
+  Content: string;
+
   Created: Date;
   CreatorAuthId: string;
   Creator: CreatorInfo;
