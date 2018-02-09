@@ -34,15 +34,24 @@
     </div>
 
     <div class="form-group">
-        <label class="col-sm-2 control-label">Title</label>
-        <div class="col-sm-10">
-            <!-- <input type="text" class="form-control" id="Tags" name="Tags" [(ngModel)]="data.Tags" #Tags="ngModel" placeholder="Example"> -->
+        <label class="col-sm-2 control-label">Tags</label>
+        <div class="col-sm-10">            
             <tag-input name="tags" modelAsStrings="true" [(ngModel)]="data.Tags" theme="bootstrap-tagsinput"></tag-input>
             <span class="help-block m-b-none">
                 Tags can help you group your ideas together or make them easier to find later
             </span>
         </div>
     </div>
+
+    <div class="form-group">
+            <label class="col-sm-2 control-label">Deadline</label>
+            <div class="col-sm-10">
+                <my-date-picker name="mydate" [options]="datePickerOptions" [(ngModel)]="displayDeadLineDate"></my-date-picker>
+                <span class="help-block m-b-none">
+                    A deadline isn't required, but can be useful if you want to get this out by a certain date
+                </span>
+            </div>
+        </div>
 
     <div class="form-group">
         <div class="col-sm-4 col-sm-offset-2">

@@ -33,6 +33,7 @@ import { ContentItemTypeListComponent } from 'app/modules/contentModule/componen
 import { ContentItemTypeService } from 'services/content-item-type.service';
 import { ContentItemTypeLabelComponent } from 'app/modules/contentModule/components/content-item-type-label/content-item-type-label.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
+import { MyDatePickerModule } from 'mydatepicker';
 
 
 // Routes for this module to be added to the application
@@ -70,7 +71,8 @@ const routes: Routes = [
         ToastModule,
         SharedModule,
         FroalaEditorModule,
-        FroalaViewModule
+        FroalaViewModule,
+        MyDatePickerModule
     ],
     exports: [
         RouterModule
