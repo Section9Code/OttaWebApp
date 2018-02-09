@@ -42,8 +42,10 @@ export class ContentItemDetailsComponent implements OnInit {
     @Output() submitClicked = new EventEmitter<ContentItemModel>();
     @Output() cancelClicked = new EventEmitter<any>();
 
+
     constructor(private sharedService: ContentProjectShareService) {
     }
+
 
     ngOnInit(): void {
         // Get the available content types
@@ -56,6 +58,7 @@ export class ContentItemDetailsComponent implements OnInit {
         this.displayDeadLineDate = newDate;
     }
 
+
     submitForm() {
         console.log('Component: Submit form');
 
@@ -67,6 +70,7 @@ export class ContentItemDetailsComponent implements OnInit {
 
         this.submitClicked.emit(this.data);
     }
+
 
     cancelForm() {
         console.log('Component: Cancel form');
