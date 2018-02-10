@@ -6,6 +6,8 @@
         </otta-panel>
     </div>
     <div class="col-xs-12 col-sm-4">
-        <otta-panel [title]="'Discussion'"></otta-panel>
+        <otta-panel [title]="'Discussion'">
+            <otta-comment [ParentOrganisationId]="draft.Partition" [ParentObjectId]="draft.id"></otta-comment>
+        </otta-panel>
     </div>
 </div>

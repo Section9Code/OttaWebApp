@@ -34,6 +34,9 @@ import { ContentItemTypeService } from 'services/content-item-type.service';
 import { ContentItemTypeLabelComponent } from 'app/modules/contentModule/components/content-item-type-label/content-item-type-label.component';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { MyDatePickerModule } from 'mydatepicker';
+import { OttaCommentComponent } from 'app/modules/sharedModule/otta-comment/otta-comment.component';
+import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
+import { CommentService } from 'services/comment.service';
 
 
 // Routes for this module to be added to the application
@@ -101,7 +104,8 @@ const routes: Routes = [
         ContentProjectService,
         ContentItemService,
         ContentItemTypeService,
-        ContentProjectShareService
+        ContentProjectShareService,
+        CommentService
     ],
 })
 export class ContentModule {

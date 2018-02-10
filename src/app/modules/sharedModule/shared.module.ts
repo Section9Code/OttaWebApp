@@ -6,25 +6,31 @@ import { PanelLoadingSpinnerComponent } from 'app/modules/sharedModule/panel-loa
 import { OttaPanelComponent } from 'app/modules/sharedModule/otta-panel/otta-panel.component';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
+import { OttaCommentComponent } from 'app/modules/sharedModule/otta-comment/otta-comment.component';
+import { FormsModule } from '@angular/forms';
+import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
 
 // User Profile Feature Module 
 @NgModule({
     imports: [
         CommonModule,
         BrowserModule,
-        LaddaModule
+        LaddaModule,
+        FormsModule
     ],
     exports: [
         LoadingSpinnerComponent,
         StripeButtonComponent,
         PanelLoadingSpinnerComponent,
-        OttaPanelComponent
+        OttaPanelComponent,
+        OttaCommentComponent
     ],
     declarations: [
         LoadingSpinnerComponent,
         StripeButtonComponent,
         PanelLoadingSpinnerComponent,
-        OttaPanelComponent
+        OttaPanelComponent,
+        OttaCommentComponent
     ],
     providers: [
     ],

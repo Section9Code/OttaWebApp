@@ -1,0 +1,10 @@
+<!-- <form> -->
+<div class="form-group">
+  <label class="control-label">Add Comment</label>
+  <br/>
+  <textarea type="text" class="form-control" [(ngModel)]="message" placeholder="Put you comment here"></textarea>
+</div>
+<div class="form-group">
+  <button class="btn btn-primary" type="submit" (click)="addComment()" [ladda]="isCreatingComment">Add comment</button>
+</div>
+<!-- </form> -->

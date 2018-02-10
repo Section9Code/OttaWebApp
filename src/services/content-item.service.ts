@@ -32,6 +32,7 @@ export class ContentItemService {
 
 export class ContentItemModel {
   id: string;
+  Partition: string;
   Title: string;
   ProjectId: string;
   Description: string;
