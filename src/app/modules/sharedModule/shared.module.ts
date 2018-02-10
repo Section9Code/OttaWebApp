@@ -9,6 +9,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { OttaCommentComponent } from 'app/modules/sharedModule/otta-comment/otta-comment.component';
 import { FormsModule } from '@angular/forms';
 import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
+import { PipesModule } from 'app/components/common/pipes/pipes.module';
 
 // User Profile Feature Module 
 @NgModule({
@@ -16,7 +17,8 @@ import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
         CommonModule,
         BrowserModule,
         LaddaModule,
-        FormsModule
+        FormsModule,
+        PipesModule       
     ],
     exports: [
         LoadingSpinnerComponent,

@@ -52,10 +52,13 @@ export class ContentItemDetailsComponent implements OnInit {
         this.sharedService.contentTypes.subscribe(response => this.contentTypes = response);
 
         // Reformat the date into something the data picker understands
-        const currentDate = this.data.DeadLine.toString();
-        // tslint:disable-next-line:max-line-length
-        const newDate = { date: { year: +currentDate.substring(0, 4), month: +currentDate.substring(5, 7), day: +currentDate.substring(8, 10) } };
-        this.displayDeadLineDate = newDate;
+        if (this.data.DeadLine) {
+            const currentDate = this.data.DeadLine.toString();
+
+            // tslint:disable-next-line:max-line-length
+            const newDate = { date: { year: +currentDate.substring(0, 4), month: +currentDate.substring(5, 7), day: +currentDate.substring(8, 10) } };
+            this.displayDeadLineDate = newDate;
+        }
     }
 
 

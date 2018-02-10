@@ -21,8 +21,8 @@
         <img alt="image" class="img-circle" src="{{comment.Creator.CreatorProfileImage}}">
       </a>
       <div class="media-body ">
-        <small class="pull-right">{{comment.Created}}</small>
-        <strong>{{comment.Creator.CreatorName}}</strong> {{comment.Message}}
+        <small class="pull-right">{{comment.Created | timeAgo }}</small>
+        <strong>{{comment.Creator.CreatorName}}</strong><br/>{{comment.Message}}
         <br>
         <small class="text-muted">{{comment.Created | date:'medium'}}</small>
       </div>
