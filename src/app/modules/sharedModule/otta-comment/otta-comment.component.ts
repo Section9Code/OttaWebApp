@@ -3,7 +3,7 @@ import { FormsModule } from '@angular/forms';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { EventEmitter } from 'events';
 import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
-import { CommentGroup, CommentService } from 'services/comment.service';
+import { CommentGroupModel, CommentModel, CommentService } from 'services/comment.service';
 import { MixpanelService } from 'services/mixpanel.service';
 
 // Example
@@ -22,7 +22,7 @@ export class OttaCommentComponent implements OnInit {
   isCreatingComment = false;
 
   // Comments to show to the user
-  commentGroup: CommentGroup;
+  commentGroup = new CommentGroupModel();
 
   message: string;
 
@@ -39,15 +39,35 @@ export class OttaCommentComponent implements OnInit {
     this.commentService.getComments(this.ParentOrganisationId, this.ParentObjectId).subscribe(
       response => this.commentGroup = response,
       error => {
-        console.log('Unable to load comments', error);
-        this.tracking.TrackError('Unable to load comments', error);
+        if (error.status === 404) {
+          // Not found
+        }
+        else {
+          console.log('Unable to load comments', error);
+          this.tracking.TrackError('Unable to load comments', error);
+        }
       },
       () => this.isLoading = false
     );
   }
 
   addComment() {
-    console.log('Add comment', this.message);
+    console.log('Add comment:', this.message);
+    let newComment = new CommentModel();
+    newComment.Message = this.message;
+
+    this.isCreatingComment = true;
+    this.commentService.addComment(this.ParentOrganisationId, this.ParentObjectId, newComment).subscribe(
+      response => {
+        this.commentGroup = response;
+        this.toast.success('Comment added');
+        this.message = '';
+      },
+      error => {
+        this.toast.error('Unable to create comment');
+      },
+      () => this.isCreatingComment = false
+    );
   }
 
   deleteComment(commentId, string) {

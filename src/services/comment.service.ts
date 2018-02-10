@@ -11,26 +11,26 @@ export class CommentService {
     constructor(private authHttp: AuthHttp) {
     }
 
-    getComments(organisationId: string, projectId: string): Observable<CommentGroup> {
+    getComments(organisationId: string, projectId: string): Observable<CommentGroupModel> {
         return this.authHttp.get(`${this.url}/${organisationId}/${projectId}`).map(response => response.json());
     }
 
-    addComments(organisationId: string, projectId: string, comment: Comment): Observable<CommentGroup> {
+    addComment(organisationId: string, projectId: string, comment: CommentModel): Observable<CommentGroupModel> {
         return this.authHttp.post(`${this.url}/${organisationId}/${projectId}`, comment).map(response => response.json());
     }
 
-    deleteComments(organisationId: string, projectId: string, commentId: string): Observable<CommentGroup> {
+    deleteComment(organisationId: string, projectId: string, commentId: string): Observable<CommentGroupModel> {
         return this.authHttp.get(`${this.url}/${organisationId}/${projectId}/${commentId}`).map(response => response.json());
     }
 }
 
-export class CommentGroup {
+export class CommentGroupModel {
     ParentId: string;
     Comments: Comment[];
     IsLocked: boolean;
 }
 
-export class Comment {
+export class CommentModel {
     Id: string;
     Message: string;
     CreatorAuthId: string;
