@@ -37,6 +37,7 @@ import { MyDatePickerModule } from 'mydatepicker';
 import { OttaCommentComponent } from 'app/modules/sharedModule/otta-comment/otta-comment.component';
 import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
 import { CommentService } from 'services/comment.service';
+import { ContentCalendarComponent } from './components/content-calendar/content-calendar.component';
 
 
 // Routes for this module to be added to the application
@@ -97,7 +98,8 @@ const routes: Routes = [
         ContentProjectListComponent,
         ContentItemDetailsComponent,
         ContentItemTypeListComponent,
-        ContentItemTypeLabelComponent
+        ContentItemTypeLabelComponent,
+        ContentCalendarComponent
     ],
     providers: [
         MixpanelService,

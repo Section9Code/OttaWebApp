@@ -24,7 +24,7 @@ export class OttaCommentComponent implements OnInit {
   // Comments to show to the user
   commentGroup = new CommentGroupModel();
 
-  message: string;
+  message: string = '';
 
   constructor(private toast: ToastsManager, private commentService: CommentService, private tracking: MixpanelService) { }
 
