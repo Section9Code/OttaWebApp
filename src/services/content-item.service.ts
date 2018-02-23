@@ -42,6 +42,10 @@ export class ContentItemService {
     return this.authHttp.get(fullUrl).map(response => response.json());
   }
 
+  getItem(projectId, id: string): Observable<ContentItemModel> {
+    return this.authHttp.get(`${this.url}/${projectId}/${id}`).map(response => response.json());
+  }
+
 }
 
 export class ContentItemModel {

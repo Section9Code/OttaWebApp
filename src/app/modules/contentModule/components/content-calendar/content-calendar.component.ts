@@ -8,6 +8,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { Observer } from 'rxjs/Observer';
 import { ISubscription, Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
+import { Router } from '@angular/router';
 
 declare var jQuery: any;
 
@@ -55,7 +56,8 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     eventDrop: (event, delta, revertFunc, jsEvent, ui, view) => this.eventDrop(event, delta, revertFunc, jsEvent, ui, view)
   };
 
-  constructor(private shared: ContentProjectShareService, private contentItemService: ContentItemService, private toast: ToastsManager) {
+  constructor(private shared: ContentProjectShareService, private contentItemService: ContentItemService, private toast: ToastsManager,
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -121,6 +123,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
         newEvent.start = moment(item.DeadLine);
         newEvent.color = item.ContentTypeColourHex;
         newEvent.borderColor = 'gray';
+        newEvent.isDraft = true;
         // Push the event to the list
         this.currentEvents.push(newEvent);
       }
@@ -156,6 +159,18 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
   eventClicked(event, element) {
     console.log('Clicked', event);
+
+    // Get the clicked item
+    var eventData = this.currentEvents.find(e => e.id === event.id);
+    if(eventData.isDraft)
+    {
+      this.navigateToDraft(eventData.id);
+    }
+  }
+
+  navigateToDraft(draftId: string) {
+    let url = `/content/${this.currentProject.id}/drafts/${draftId}`;
+    this.router.navigateByUrl(url);
   }
 
   eventDragStart(event, jsEvent, ui, view) {
@@ -173,22 +188,21 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
     // Get the item
     this.contentItemService.getDraft(this.currentProject.id, event.id).toPromise()
-    .then(item => {
-      let newDeadline: moment.Moment = event.start;
-      item.DeadLine = new Date(newDeadline.year(), newDeadline.month(), newDeadline.date());
-      this.contentItemService.updateDraft(item).toPromise()
-      .then(updateResponse => {
-        this.toast.success('Item updated');
-        this.shared.updateDraft(item);
+      .then(item => {
+        let newDeadline: moment.Moment = event.start;
+        item.DeadLine = new Date(newDeadline.year(), newDeadline.month(), newDeadline.date());
+        this.contentItemService.updateDraft(item).toPromise()
+          .then(updateResponse => {
+            this.toast.success('Item updated');
+            this.shared.updateDraft(item);
+          })
+          .catch(error => {
+            this.toast.error('Unable to update item');
+          });
       })
       .catch(error => {
-        this.toast.error('Unable to update item');
+        this.toast.error('Unable to find item');
       });
-    })
-    .catch(error => {
-      this.toast.error('Unable to find item');
-    });
-
   }
 
 }
@@ -213,4 +227,6 @@ export class CalendarEvent {
   backgroundColor: string;
   borderColor: string;
   textColor: string;
+
+  isDraft: boolean;
 }
