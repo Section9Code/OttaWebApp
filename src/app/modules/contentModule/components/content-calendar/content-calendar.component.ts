@@ -1,5 +1,13 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentProjectShareService } from '../../services/ContentProjectShareService';
+//import { Moment } from 'moment';
+import * as moment from 'moment';
+import { ContentItemService, ContentItemModel } from 'services/content-item.service';
+import { ContentProjectModel } from 'services/content-project.service';
+import { ToastsManager } from 'ng2-toastr';
+import { Observer } from 'rxjs/Observer';
+import { ISubscription, Subscription } from 'rxjs/Subscription';
+import { Subscriber } from 'rxjs/Subscriber';
 
 declare var jQuery: any;
 
@@ -8,69 +16,25 @@ declare var jQuery: any;
   templateUrl: './content-calendar.component.html',
   styleUrls: ['./content-calendar.component.css']
 })
-export class ContentCalendarComponent implements OnInit {
+export class ContentCalendarComponent implements OnInit, OnDestroy {
   // Using FullCalendar component - https://fullcalendar.io/
-  currentDate = '2018-02-22';
 
-  currentEvents = [
-    {
-      title: 'All Day Event',
-      start: '2018-02-01'
-    },
-    {
-      title: 'Long Event',
-      start: '2018-02-07',
-      end: '2018-02-10'
-    },
-    {
-      id: 999,
-      title: 'Repeating Event',
-      start: '2018-02-09T16:00:00'
-    },
-    {
-      id: 999,
-      title: 'Repeating Event',
-      start: '2018-02-16T16:00:00'
-    },
-    {
-      title: 'Conference',
-      start: '2018-02-11',
-      end: '2018-02-13'
-    },
-    {
-      title: 'Meeting',
-      start: '2018-02-12T10:30:00',
-      end: '2018-02-12T12:30:00'
-    },
-    {
-      title: 'Lunch',
-      start: '2018-02-12T12:00:00'
-    },
-    {
-      title: 'Meeting',
-      start: '2018-02-12T14:30:00'
-    },
-    {
-      title: 'Happy Hour',
-      start: '2018-02-12T17:30:00'
-    },
-    {
-      title: 'Dinner',
-      start: '2018-02-12T20:00:00'
-    },
-    {
-      title: 'Birthday Party',
-      start: '2018-02-13T07:00:00'
-    },
-    {
-      title: 'Click for Google',
-      url: 'http://google.com/',
-      start: '2018-02-28',
-      icon : 'fa-camera-retro',
-      id: 'aabbcc-dd'
-    }
-  ];
+  // Current project
+  currentProject: ContentProjectModel;
 
+  isLoading = false;
+
+  // Subscriptions
+  currentProjectSub: Subscription;
+  dataLoadSub: Subscription;
+
+  // Current date being shown
+  currentDate = new Date();
+
+  // Hold the list of events
+  currentEvents: CalendarEvent[] = [];
+
+  // Setup the calendar
   calendarOptions: Object = {
     header: {
       left: 'title',
@@ -91,13 +55,78 @@ export class ContentCalendarComponent implements OnInit {
     eventDrop: (event, delta, revertFunc, jsEvent, ui, view) => this.eventDrop(event, delta, revertFunc, jsEvent, ui, view)
   };
 
-  constructor(private shared: ContentProjectShareService) {
+  constructor(private shared: ContentProjectShareService, private contentItemService: ContentItemService, private toast: ToastsManager) {
   }
 
   ngOnInit(): void {
     jQuery('#calendar').fullCalendar(this.calendarOptions);
+
+    this.currentProjectSub = this.shared.currentProject.subscribe(
+      response => {
+        this.currentProject = response;
+        this.reloadData();
+      }
+    );
   }
 
+  ngOnDestroy(): void {
+    if (this.currentProjectSub) {
+      this.currentProjectSub.unsubscribe();
+    }
+
+    if (this.dataLoadSub) {
+      this.dataLoadSub.unsubscribe();
+    }
+  }
+
+  // Something has caused the data to need a reload
+  reloadData() {
+    // Make sure the project data has loaded
+    if (!this.currentProject || !this.currentProject.id) {
+      return;
+    };
+
+    let year = this.currentDate.getFullYear();
+    let month = this.currentDate.getMonth();
+    console.log('Calendar Reload', `${year} - ${month}`);
+
+    // Load the draft items for the period
+    this.isLoading = true;
+    this.dataLoadSub = this.contentItemService.getAllInPeriod(this.currentProject.id, year, month+1).subscribe(
+      response => this.processContentItems(response),
+      error => {
+        console.log('Error loading content');
+        this.isLoading = false;
+        this.toast.error('Unable to load content calendar', 'Error occurred');
+      },
+      () => this.isLoading = false
+    );
+  }
+
+  processContentItems(items: ContentItemModel[]) {
+    // Clear the events
+    this.currentEvents = [];
+
+    console.log('Calendar: Processing content items', items);
+    items.forEach(item => {
+      if (item.DeadLine) {
+        // Create the event
+        let newEvent = new CalendarEvent();
+        newEvent.id = item.id;
+        newEvent.title = `Draft - ${item.Title}`;
+        newEvent.start = moment(item.DeadLine);
+        newEvent.color = item.ContentTypeColourHex;
+        newEvent.borderColor = 'gray';
+        // Push the event to the list
+        this.currentEvents.push(newEvent);
+      }
+    });
+
+    // Reload the events into the calendar
+    jQuery('#calendar').fullCalendar('refetchEvents')
+  }
+
+  // Calendar events ----------------------------------------
   loadEvents(start, end, timezone, cb) {
     console.log('Loading events', [start, end]);
     cb(this.currentEvents);
@@ -107,7 +136,7 @@ export class ContentCalendarComponent implements OnInit {
     console.log('Clicked', event);
   }
 
-  eventDragStart(event, jsEvent, ui, view){
+  eventDragStart(event, jsEvent, ui, view) {
     console.log('event drag started', event);
   }
 
@@ -119,4 +148,26 @@ export class ContentCalendarComponent implements OnInit {
     console.log('Event drop', event);
   }
 
+}
+
+export class CalendarEvent {
+  id: string;
+  title: string;
+  allDay: boolean;
+  start: any;
+  end: any;
+  url: string;
+  className: string;
+  editable: boolean;
+  startEditable: boolean;
+  durationEditable: boolean;
+  resourceEditable: boolean;
+  rendering: string;
+  overlap: boolean;
+  constraint: string;
+  source: string;
+  color: string;
+  backgroundColor: string;
+  borderColor: string;
+  textColor: string;
 }

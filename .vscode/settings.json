@@ -16,5 +16,6 @@
         "swal",
         "sweetalert",
         "toastr"
-    ]
+    ],
+    "workbench.editor.enablePreview": false
 }

@@ -24,8 +24,17 @@ export class ContentItemService {
     return this.authHttp.post(`${this.url}/${projectId}/drafts`, content).map(response => response.json());
   }
 
-  updateDraft(content: ContentItemModel): Observable<ContentItemModel>{
+  updateDraft(content: ContentItemModel): Observable<ContentItemModel> {
     return this.authHttp.put(`${this.url}/${content.ProjectId}/drafts/${content.id}`, content).map(response => response.json());
+  }
+
+  getAll(projectId: string): Observable<ContentItemModel[]> {
+    return this.authHttp.get(`${this.url}/${projectId}/all`).map(response => response.json());
+  }
+
+  getAllInPeriod(projectId: string, year: number, month: number): Observable<ContentItemModel[]> {
+    let fullUrl = `${this.url}/${projectId}/allPeriod?year=${year}&month=${month}`;
+    return this.authHttp.get(fullUrl).map(response => response.json());
   }
 
 }
@@ -37,7 +46,7 @@ export class ContentItemModel {
   ProjectId: string;
   Description: string;
   IsDraft: string;
-  
+
   ContentTypeId: string;
   ContentTypeTitle: string;
   ContentTypeColourHex: string;
