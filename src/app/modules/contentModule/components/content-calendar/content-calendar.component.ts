@@ -92,8 +92,11 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
     // Load the draft items for the period
     this.isLoading = true;
-    this.dataLoadSub = this.contentItemService.getAllInPeriod(this.currentProject.id, year, month+1).subscribe(
-      response => this.processContentItems(response),
+    this.dataLoadSub = this.contentItemService.getAllInMonth(this.currentProject.id, year, month + 1).subscribe(
+      response => {
+        this.processContentItems(response);
+        jQuery('#calendar').fullCalendar('refetchEvents');
+      },
       error => {
         console.log('Error loading content');
         this.isLoading = false;
@@ -103,6 +106,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     );
   }
 
+  // Process the returned content items into events to display on the calendar
   processContentItems(items: ContentItemModel[]) {
     // Clear the events
     this.currentEvents = [];
@@ -121,15 +125,33 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
         this.currentEvents.push(newEvent);
       }
     });
-
-    // Reload the events into the calendar
-    jQuery('#calendar').fullCalendar('refetchEvents')
   }
 
   // Calendar events ----------------------------------------
   loadEvents(start, end, timezone, cb) {
     console.log('Loading events', [start, end]);
-    cb(this.currentEvents);
+    console.log(`Changing view: start: ${start.year()}-${start.month()}-${start.date()} -- ${end.year()}-${end.month()}-${end.date()}`);
+
+    // Make sure the project has loaded
+    if (!this.currentProject || !this.currentProject.id) {
+      cb([]);
+      return;
+    };
+
+    // Load the dates requested
+    this.dataLoadSub = this.contentItemService.getAllInPeriod(this.currentProject.id, `${start.year()}-${start.month() + 1}-${start.date()}`, `${end.year()}-${end.month() + 1}-${end.date()}`).subscribe(
+      response => {
+        this.processContentItems(response)
+        cb(this.currentEvents);
+      },
+      error => {
+        console.log('Error loading content');
+        this.isLoading = false;
+        this.toast.error('Unable to load content calendar', 'Error occurred');
+        cb(this.currentEvents);
+      },
+      () => this.isLoading = false
+    );
   }
 
   eventClicked(event, element) {
@@ -146,6 +168,27 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
   eventDrop(event, delta, revertFunc, jsEvent, ui, view) {
     console.log('Event drop', event);
+    console.log('Move item', event.id);
+    console.log('Delta', event.start);
+
+    // Get the item
+    this.contentItemService.getDraft(this.currentProject.id, event.id).toPromise()
+    .then(item => {
+      let newDeadline: moment.Moment = event.start;
+      item.DeadLine = new Date(newDeadline.year(), newDeadline.month(), newDeadline.date());
+      this.contentItemService.updateDraft(item).toPromise()
+      .then(updateResponse => {
+        this.toast.success('Item updated');
+        this.shared.updateDraft(item);
+      })
+      .catch(error => {
+        this.toast.error('Unable to update item');
+      });
+    })
+    .catch(error => {
+      this.toast.error('Unable to find item');
+    });
+
   }
 
 }

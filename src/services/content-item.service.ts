@@ -32,8 +32,13 @@ export class ContentItemService {
     return this.authHttp.get(`${this.url}/${projectId}/all`).map(response => response.json());
   }
 
-  getAllInPeriod(projectId: string, year: number, month: number): Observable<ContentItemModel[]> {
-    let fullUrl = `${this.url}/${projectId}/allPeriod?year=${year}&month=${month}`;
+  getAllInMonth(projectId: string, year: number, month: number): Observable<ContentItemModel[]> {
+    let fullUrl = `${this.url}/${projectId}/allMonth?year=${year}&month=${month}`;
+    return this.authHttp.get(fullUrl).map(response => response.json());
+  }
+
+  getAllInPeriod(projectId: string, start: string, end: string): Observable<ContentItemModel[]> {
+    let fullUrl = `${this.url}/${projectId}/allPeriod?start=${start}&end=${end}`;
     return this.authHttp.get(fullUrl).map(response => response.json());
   }
 
