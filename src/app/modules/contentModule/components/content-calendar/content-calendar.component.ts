@@ -142,9 +142,10 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     };
 
     // Load the dates requested
-    this.dataLoadSub = this.contentItemService.getAllInPeriod(this.currentProject.id, `${start.year()}-${start.month() + 1}-${start.date()}`, `${end.year()}-${end.month() + 1}-${end.date()}`).subscribe(
+    this.dataLoadSub = this.contentItemService.getAllInPeriod(this.currentProject.id, 
+      `${start.year()}-${start.month() + 1}-${start.date()}`, `${end.year()}-${end.month() + 1}-${end.date()}`).subscribe(
       response => {
-        this.processContentItems(response)
+        this.processContentItems(response);
         cb(this.currentEvents);
       },
       error => {
@@ -161,16 +162,12 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     console.log('Clicked', event);
 
     // Get the clicked item
-    var eventData = this.currentEvents.find(e => e.id === event.id);
-    if(eventData.isDraft)
+    const eventData = this.currentEvents.find(e => e.id === event.id);
+    if (eventData.isDraft)
     {
-      this.navigateToDraft(eventData.id);
+      // Navigate to the draft page
+      this.router.navigateByUrl(`/content/${this.currentProject.id}/drafts/${eventData.id}`);
     }
-  }
-
-  navigateToDraft(draftId: string) {
-    let url = `/content/${this.currentProject.id}/drafts/${draftId}`;
-    this.router.navigateByUrl(url);
   }
 
   eventDragStart(event, jsEvent, ui, view) {
