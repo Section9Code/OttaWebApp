@@ -34,6 +34,15 @@
 
             <div class="table-responsive">
                 <table class="table table-hover issue-tracker">
+                    <thead>
+                        <tr>
+                            <td>Type</td>
+                            <td>Item</td>
+                            <td>Creator</td>
+                            <td>Due</td>
+                            <td>Tags</td>
+                        </tr>
+                    </thead>
                     <tbody>
                         <tr *ngFor="let draft of drafts">
                             <td (click)="navigateToDraft(draft)">
@@ -52,7 +61,7 @@
                                 {{ draft.Creator.CreatorName }}
                             </td>
                             <td (click)="navigateToDraft(draft)">
-                                {{ draft.Created | date:'mediumDate' }}
+                                {{ draft.DeadLine | date:'mediumDate' }}
                             </td>
                             <td class="text-right">
                                 <button *ngFor="let tag of draft.Tags" class="btn btn-white btn-xs" (click)="searchDrafts(tag)">{{ tag }}</button>

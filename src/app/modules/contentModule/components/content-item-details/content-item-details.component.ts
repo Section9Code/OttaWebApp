@@ -65,10 +65,16 @@ export class ContentItemDetailsComponent implements OnInit {
     submitForm() {
         console.log('Component: Submit form');
 
-        // Reformat date selected by the user
+        // The deadline date of the item needs to be reformatted
         if (this.displayDeadLineDate) {
+            // Update the format
             const selectedDate: any = this.displayDeadLineDate;
             this.data.DeadLine = new Date(selectedDate.date.year, selectedDate.date.month - 1, selectedDate.date.day, 0, 0, 0, 0);
+        }
+        else
+        {
+            // No deadline date
+            this.data.DeadLine = null;
         }
 
         this.submitClicked.emit(this.data);
