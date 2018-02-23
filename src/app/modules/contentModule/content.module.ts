@@ -38,6 +38,7 @@ import { OttaCommentComponent } from 'app/modules/sharedModule/otta-comment/otta
 import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
 import { CommentService } from 'services/comment.service';
 import { ContentCalendarComponent } from './components/content-calendar/content-calendar.component';
+import { ContentItemContentService } from 'services/content-item-content.service';
 
 
 // Routes for this module to be added to the application
@@ -107,7 +108,8 @@ const routes: Routes = [
         ContentItemService,
         ContentItemTypeService,
         ContentProjectShareService,
-        CommentService
+        CommentService,
+        ContentItemContentService
     ],
 })
 export class ContentModule {

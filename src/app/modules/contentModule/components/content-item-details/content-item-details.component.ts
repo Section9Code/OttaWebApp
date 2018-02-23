@@ -3,9 +3,10 @@ import { ContentItemModel } from 'services/content-item.service';
 import { ContentProjectShareService } from 'app/modules/contentModule/services/ContentProjectShareService';
 import { ContentItemTypeModel } from 'services/content-item-type.service';
 import { IMyDpOptions, IMyDate } from 'mydatepicker';
+import { ContentItemContentModel } from 'services/content-item-content.service';
 
 // Example
-// <content-item-details [data]="contentItemData" showCancel=true [isUpdating]="isUpdatingVariable" (submitClicked)="submitMethod(data)" (cancelClicked)="cancelMethod()"></content-item-details>
+// <content-item-details [data]="contentItemData" [content]="contentItemContentData" showCancel=true [isUpdating]="isUpdatingVariable" (submitClicked)="submitMethod(data)" (cancelClicked)="cancelMethod()"></content-item-details>
 
 @Component({
     moduleId: module.id,
@@ -16,6 +17,7 @@ import { IMyDpOptions, IMyDate } from 'mydatepicker';
 export class ContentItemDetailsComponent implements OnInit {
     // Variables
     @Input() data: ContentItemModel = new ContentItemModel();
+    @Input() content: ContentItemContentModel = new ContentItemContentModel();
     @Input() showCancel = true;
     @Input() isUpdating = false;
     @Input() createButtonText = 'Create';
@@ -39,7 +41,7 @@ export class ContentItemDetailsComponent implements OnInit {
     };
 
     // Events
-    @Output() submitClicked = new EventEmitter<ContentItemModel>();
+    @Output() submitClicked = new EventEmitter<ContentDataMessage>();
     @Output() cancelClicked = new EventEmitter<any>();
 
 
@@ -77,7 +79,8 @@ export class ContentItemDetailsComponent implements OnInit {
             this.data.DeadLine = null;
         }
 
-        this.submitClicked.emit(this.data);
+        const dataGram: ContentDataMessage = {contentItem: this.data, content: this.content.Content};
+        this.submitClicked.emit(dataGram);
     }
 
 
@@ -85,4 +88,9 @@ export class ContentItemDetailsComponent implements OnInit {
         console.log('Component: Cancel form');
         this.cancelClicked.emit();
     }
+}
+
+export class ContentDataMessage {
+    contentItem: ContentItemModel;
+    content: string;
 }
