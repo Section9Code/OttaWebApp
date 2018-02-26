@@ -73,5 +73,8 @@ export class NavigationComponent implements OnInit {
     return this.router.url.indexOf(routename) > -1;
   }
 
+  logout(){
+    this.auth.logout();
+  }
 
 }
