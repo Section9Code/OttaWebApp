@@ -28,6 +28,10 @@ export class ContentItemService {
     return this.authHttp.put(`${this.url}/${content.ProjectId}/drafts/${content.id}`, content).map(response => response.json());
   }
 
+  deleteDraft(content: ContentItemModel): Observable<boolean> {
+    return this.authHttp.delete(`${this.url}/${content.ProjectId}/drafts/${content.id}`).map(response => response.json());
+  }
+
   getAll(projectId: string): Observable<ContentItemModel[]> {
     return this.authHttp.get(`${this.url}/${projectId}/all`).map(response => response.json());
   }
