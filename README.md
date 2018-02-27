@@ -27,6 +27,11 @@ This will run the application on <http://localhost:4200>, there you will be able
 This frontend application is deployed to Google Firebase Hosting
 
 ### Deploying to dev
+There is an NPM script to deploy the application for you
+
+```npm run deploy_dev```
+
+#### Deploying to dev by hand
 To deploy to the dev environment you must first package the application into the **dist** folder.
 
 ```ng build --dev --e=devserver```
