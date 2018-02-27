@@ -36,8 +36,8 @@ To deploy to the dev environment you must first package the application into the
 
 ```ng build --dev --e=devserver```
 
-this builds the application in **dev mode** (useful for debugging) with the **devserver** environment setup. The application can then be deployed to the hosting environment.
+this builds the application in **dev mode** (useful for debugging) with the **devserver environment setup**. The application can then be deployed to the hosting environment.
 
 ```firebase deploy```
 
-This will send the entire application to the hosting environment and will then be available at <https://otta-web-app.firebaseapp.com>.
+This will send the entire application to the hosting environment and will then be available at <https://dev.otta.io>.
