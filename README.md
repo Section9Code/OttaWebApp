@@ -29,7 +29,7 @@ This frontend application is deployed to Google Firebase Hosting
 ### Deploying to dev
 There is an NPM script to deploy the application for you
 
-```npm run deploy_dev```
+```npm run deployDev```
 
 #### Deploying to dev by hand
 To deploy to the dev environment you must first package the application into the **dist** folder.
