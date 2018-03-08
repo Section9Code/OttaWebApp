@@ -4,6 +4,23 @@
         <otta-panel [title]="'Events'">
             <h3>Coming Soon</h3>
         </otta-panel>
+
+        <otta-panel [title]="'Public Events'" [loading]="isLoadingPublicGroups">
+            <p>
+                Add these lists of events to your own calendar
+            </p>
+            <div *ngFor="let group of allPublicEventGroups" class="row">
+                <div class="col-xs-10">
+                    <p>
+                        {{ group.Name }}
+                        <br/> {{ group.Description }}
+                    </p>
+                </div>
+                <div class="col-xs-2">
+                    <input type="checkbox" ng-checked="true" (click)="togglePublicGroup(group)">
+                </div>
+            </div>
+        </otta-panel>
     </div>
 
 
@@ -17,8 +34,8 @@
         </p>
         <h4>Pre-defined events</h4>
         <p>
-            We also maintain our own list of important dates for various countries and the Internet. So you can add one of those
-            lists to your own events and create even more timely content.
+            We also maintain our own list of important dates for various countries and the Internet. So you can add one of those lists
+            to your own events and create even more timely content.
         </p>
     </div>
 

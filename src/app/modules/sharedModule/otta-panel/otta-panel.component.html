@@ -11,7 +11,15 @@
                 </div>
             </div>
 
-            <div class="ibox-content">
+            <div class="ibox-content" [ngClass]="loading?'sk-loading':''">
+                <!-- Loading animation -->
+                <div class="sk-spinner sk-spinner-wave">
+                    <div class="sk-rect1"></div>
+                    <div class="sk-rect2"></div>
+                    <div class="sk-rect3"></div>
+                    <div class="sk-rect4"></div>
+                    <div class="sk-rect5"></div>
+                </div>
                 <ng-content></ng-content>
             </div>
             <div class="ibox-footer" *ngIf="footer || footerRight">

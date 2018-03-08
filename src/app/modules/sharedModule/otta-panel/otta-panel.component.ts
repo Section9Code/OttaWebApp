@@ -4,7 +4,7 @@ import {  } from 'events';
 
 // Example
 //
-// <otta-panel [title]="aaa" subtitle="" subtitlePullRight=false footer="" footerRight="" showButton="false" buttonText="" (buttonClicked)=""></otta-panel>
+// <otta-panel [title]="aaa" subtitle="" [subtitlePullRight]=false [footer]="" [footerRight]="" [showButton]="false" [buttonText]="" (buttonClicked)="" [loading]="false"></otta-panel>
 //
 
 @Component({
@@ -20,6 +20,7 @@ export class OttaPanelComponent {
     @Input() footerRight: string;
     @Input() showButton = false;
     @Input() buttonText = '';
+    @Input() loading = false;
     @Output() buttonClicked = new EventEmitter();
 
     panelButtonClicked(){

@@ -39,6 +39,7 @@ import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
 import { CommentService } from 'services/comment.service';
 import { ContentCalendarComponent } from './components/content-calendar/content-calendar.component';
 import { ContentItemContentService } from 'services/content-item-content.service';
+import { EventService } from 'services/event.service';
 
 
 // Routes for this module to be added to the application
@@ -109,7 +110,8 @@ const routes: Routes = [
         ContentItemTypeService,
         ContentProjectShareService,
         CommentService,
-        ContentItemContentService
+        ContentItemContentService,
+        EventService
     ],
 })
 export class ContentModule {
