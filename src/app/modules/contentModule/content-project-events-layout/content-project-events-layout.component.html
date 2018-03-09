@@ -2,7 +2,7 @@
 
     <div class="col-xs-12 col-lg-10">
         <otta-panel [title]="'Events'" [loading]="isLoading">
-            
+            <content-project-events [project]="currentProject"></content-project-events>
         </otta-panel>
 
         <otta-panel [title]="'Public Events'" [loading]="isLoadingPublicGroups">

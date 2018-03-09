@@ -40,6 +40,7 @@ import { CommentService } from 'services/comment.service';
 import { ContentCalendarComponent } from './components/content-calendar/content-calendar.component';
 import { ContentItemContentService } from 'services/content-item-content.service';
 import { EventService } from 'services/event.service';
+import { ContentEventsComponent } from './components/content-events/content-events.component';
 
 
 // Routes for this module to be added to the application
@@ -101,7 +102,8 @@ const routes: Routes = [
         ContentItemDetailsComponent,
         ContentItemTypeListComponent,
         ContentItemTypeLabelComponent,
-        ContentCalendarComponent
+        ContentCalendarComponent,
+        ContentEventsComponent
     ],
     providers: [
         MixpanelService,
