@@ -29,7 +29,7 @@ export class EventService {
 
 
     // Private event functions ------------------------
-    getAllProjectEventGroups(projectId: string): Observable<EventGroupModel[]>{
+    getAllProjectEventGroups(projectId: string): Observable<EventGroupDatesModel[]> {
         return this.authHttp.get(`${this.url}/${projectId}/groups/private`).map(response => response.json());
     }
 
@@ -38,7 +38,14 @@ export class EventService {
     }
 }
 
-export class EventDateModel { }
+export class EventDateModel {
+    id: string;
+    Title: string;
+    Description: string;
+    StartDate: Date;
+    EndDate: Date;
+    ParentEventGroupId: string;
+}
 
 export class EventGroupModel {
     id: string;
@@ -46,4 +53,9 @@ export class EventGroupModel {
     Description: string;
     ColourHex: string;
     ProjectId: string;
+}
+
+export class EventGroupDatesModel {
+    Group: EventGroupModel;
+    Dates: EventDateModel[];
 }

@@ -1,6 +1,6 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ContentProjectModel } from 'services/content-project.service';
-import { EventService, EventGroupModel } from 'services/event.service';
+import { EventService, EventGroupModel, EventGroupDatesModel } from 'services/event.service';
 import { ToastsManager } from 'ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 import { MixpanelService } from 'services/mixpanel.service';
@@ -19,7 +19,7 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
   @Input() project: ContentProjectModel = null;
 
   // Variables
-  eventGroups: EventGroupModel[] = [];
+  eventGroups: EventGroupDatesModel[] = [];
   eventGroupsSub: Subscription;
   addGroupName = '';
 
@@ -58,7 +58,11 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
     // Create the event group
     this.eventService.addEventGroup(this.project.id, group).toPromise()
       .then(response => {
-        this.eventGroups.push(response);
+        // Create a new event group
+        const eventGroupDates = new EventGroupDatesModel();
+        eventGroupDates.Group = response;
+        eventGroupDates.Dates = [];
+        this.eventGroups.push(eventGroupDates);
         this.toast.success('Added new event group to your project', 'Added event group');
       })
       .catch(error => {
