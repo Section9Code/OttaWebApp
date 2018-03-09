@@ -1,8 +1,8 @@
 <div class="row">
 
     <div class="col-xs-12 col-lg-10">
-        <otta-panel [title]="'Events'">
-            <h3>Coming Soon</h3>
+        <otta-panel [title]="'Events'" [loading]="isLoading">
+            
         </otta-panel>
 
         <otta-panel [title]="'Public Events'" [loading]="isLoadingPublicGroups">
@@ -17,7 +17,7 @@
                     </p>
                 </div>
                 <div class="col-xs-2">
-                    <input type="checkbox" ng-checked="true" (click)="togglePublicGroup(group)">
+                    <input type="checkbox" [checked]="isGroupInProjectList(group.id)" (click)="togglePublicGroup(group)">
                 </div>
             </div>
         </otta-panel>
@@ -27,7 +27,7 @@
     <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
         <h2>Events</h2>
         <p>
-            Keep track of important events throughout the year so you can build yourt content around them.
+            Keep track of important events throughout the year so you can build your content around them.
         </p>
         <p>
             You can create your own important events here and they will appear on your content calendar.

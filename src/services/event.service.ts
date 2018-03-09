@@ -30,6 +30,7 @@ export class EventService {
 export class EventDateModel { }
 
 export class EventGroupModel {
+    id: string;
     Name: string;
     Description: string;
     ColourHex: string;

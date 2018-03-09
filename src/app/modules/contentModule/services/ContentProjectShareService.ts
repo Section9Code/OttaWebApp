@@ -156,4 +156,8 @@ export class ContentProjectShareService {
     }
   }
 
+  updateProject(project: ContentProjectModel) {
+    this.currentProject.next(project);
+  }
+
 }

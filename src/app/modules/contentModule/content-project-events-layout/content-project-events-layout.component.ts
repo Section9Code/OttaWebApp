@@ -30,17 +30,19 @@ export class ContentProjectEventsLayoutComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         // Load the current project
+        this.isLoading = true;
         this.currentProjectSub = this.sharedDataService.currentProject.subscribe(
             response => {
                 console.log('Events: Loaded project', response);
                 this.currentProject = response;
+                this.isLoading = false;
             }
         );
 
         // Load all the public event groups
         this.isLoadingPublicGroups = true;
         this.eventService.getAllPublicEventGroups().toPromise()
-            .then(response => {                
+            .then(response => {
                 console.log('Events: Loaded public groups', response);
                 this.allPublicEventGroups = response;
                 this.isLoadingPublicGroups = false;
@@ -49,16 +51,64 @@ export class ContentProjectEventsLayoutComponent implements OnInit, OnDestroy {
                 this.toast.error('Unable to load public event groups');
                 this.tracking.TrackError('Unable to load public event groups', error);
             }
-        );
-    }
-
-    togglePublicGroup(group: EventGroupModel)
-    {
-        this.toast.success("Things");
+            );
     }
 
     ngOnDestroy(): void {
         // Unsubscribe from services
         if (this.currentProjectSub) this.currentProjectSub.unsubscribe();
     }
+
+    togglePublicGroup(group: EventGroupModel) {
+        // Is this group already in the list of project event groups
+        if (this.isGroupInProjectList(group.id)) {
+            // Already on the list, remove it
+            this.removeEventGroup(group);
+        } else {
+            this.addEventGroup(group);
+        }
+    }
+
+    addEventGroup(group: EventGroupModel) {
+        // Add the event group to the users project
+        this.eventService.addPublicEventGroupToProject(this.currentProject.id, group.id).toPromise()
+            .then(() => {
+                // Update the project and push it too the shared services
+                this.currentProject.PublicEventGroups.push(group.id);
+                this.sharedDataService.updateProject(this.currentProject);
+                // Inform the user
+                this.toast.success(`${group.Name} has been added to your events`, 'Added');
+            })
+            .catch(error => console.log('Error occurred updating users group', error));
+    }
+
+    removeEventGroup(group: EventGroupModel) {
+        // Remove the event group to the users project
+        this.eventService.removePublicEventGroupFromProject(this.currentProject.id, group.id).toPromise()
+            .then(() => {
+                // Remove the group from the list of project event groups
+                var index: number = this.currentProject.PublicEventGroups.findIndex(x => x === group.id);
+                if (index > -1) {
+                    this.currentProject.PublicEventGroups.splice(index, 1);
+                }
+                this.sharedDataService.updateProject(this.currentProject);
+                // Inform the user
+                this.toast.success(`${group.Name} has been removed to your events`, 'Removed');
+            })
+            .catch(error => console.log('Error occurred updating users group', error));
+    }
+
+
+    isGroupInProjectList(id: string): boolean {
+        // Make sure the project data exists
+        if (!this.currentProject || !this.currentProject.PublicEventGroups) {
+            return false;
+        }
+
+        // Find the group in the list of groups
+        const index = this.currentProject.PublicEventGroups.findIndex(i => i === id);
+        return index !== -1;
+    }
+
+    
 }

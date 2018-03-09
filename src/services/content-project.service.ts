@@ -33,4 +33,5 @@ export class ContentProjectModel {
     Description: string;
     Created: Date;
     CreatedBy: string;
+    PublicEventGroups: string[]
 }
