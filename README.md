@@ -27,12 +27,17 @@ This will run the application on <http://localhost:4200>, there you will be able
 This frontend application is deployed to Google Firebase Hosting
 
 ### Deploying to dev
+There is an NPM script to deploy the application for you
+
+```npm run deployDev```
+
+#### Deploying to dev by hand
 To deploy to the dev environment you must first package the application into the **dist** folder.
 
 ```ng build --dev --e=devserver```
 
-this builds the application in **dev mode** (useful for debugging) with the **devserver** environment setup. The application can then be deployed to the hosting environment.
+this builds the application in **dev mode** (useful for debugging) with the **devserver environment setup**. The application can then be deployed to the hosting environment.
 
 ```firebase deploy```
 
-This will send the entire application to the hosting environment and will then be available at <https://otta-web-app.firebaseapp.com>.
+This will send the entire application to the hosting environment and will then be available at <https://dev.otta.io>.
