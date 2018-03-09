@@ -3,7 +3,10 @@
 </p>
 
 <div *ngFor="let group of eventGroups">
-  <h3>{{ group.Group.Name }} </h3>
+  <h3>
+    {{ group.Group.Name }} -
+    <a (click)="deleteGroup(group.Group.id)">Remove</a>
+  </h3>
   <ul>
     <li *ngFor="let date of group.Dates">{{ date.StartDate }} - {{ date.Name }}</li>
   </ul>
@@ -12,7 +15,7 @@
 
 <p>
   <br />
-    <a data-toggle="modal" data-target="#addGroupModal">Add group</a>
+  <a data-toggle="modal" data-target="#addGroupModal">Add group</a>
 </p>
 
 
@@ -44,36 +47,36 @@
       </div>
       <div class="modal-footer">
         <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="addGroup('addGroupModal', groupAddGroupName.value, groupAddDescription.value); groupAddGroupName.value = ''; groupAddDescription.value = '';">Save changes</button>
+        <button type="button" class="btn btn-primary" (click)="addGroup('addGroupModal', groupAddGroupName.value, groupAddDescription.value); groupAddGroupName.value = ''; groupAddDescription.value = '';">Create event group</button>
       </div>
     </div>
   </div>
 </div>
 
 <div class="modal inmodal" id="addDateModal" tabindex="-1" role="dialog" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content animated fadeIn">
-        <div class="modal-header">
-          <button type="button" class="close" data-dismiss="modal">
-            <span aria-hidden="true">&times;</span>
-            <span class="sr-only">Close</span>
-          </button>
-          <i class="fa fa-calendar modal-icon"></i>
-          <h4 class="modal-title">Add date</h4>
+  <div class="modal-dialog">
+    <div class="modal-content animated fadeIn">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <i class="fa fa-calendar modal-icon"></i>
+        <h4 class="modal-title">Add date</h4>
+      </div>
+      <div class="modal-body">
+        <p>
+          Add a date to your group
+        </p>
+        <div class="form-group">
+          <label>Date</label>
+          <input type="text" #addDateName placeholder="Group name" class="form-control">
         </div>
-        <div class="modal-body">
-          <p>
-            Add a date to your group
-          </p>
-          <div class="form-group">
-            <label>Date</label>
-            <input type="text" #addDateName placeholder="Group name" class="form-control">
-          </div>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-          <button type="button" class="btn btn-primary">Save changes</button>
-        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
       </div>
     </div>
   </div>
+</div>

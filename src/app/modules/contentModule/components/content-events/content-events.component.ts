@@ -4,6 +4,7 @@ import { EventService, EventGroupModel, EventGroupDatesModel } from 'services/ev
 import { ToastsManager } from 'ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 import { MixpanelService } from 'services/mixpanel.service';
+import { SweetAlertService } from 'ng2-sweetalert2';
 
 declare var $: any;
 
@@ -23,17 +24,21 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
   eventGroupsSub: Subscription;
   addGroupName = '';
 
-  constructor(private eventService: EventService, private toast: ToastsManager, private tracking: MixpanelService) {
+  constructor(
+    private eventService: EventService,
+    private toast: ToastsManager,
+    private tracking: MixpanelService,
+    private alertSvc: SweetAlertService) {
   }
 
   ngOnInit(): void {
     // Load the projects event groups
     this.eventGroupsSub = this.eventService.getAllProjectEventGroups(this.project.id).subscribe(
-      response => { 
+      response => {
         console.log('Loaded event groups', response);
         this.eventGroups = response;
       },
-      error => { 
+      error => {
         console.log('Error loading event groups');
         this.toast.error('Error loading event groups');
         this.tracking.TrackError('Error loading event groups for project', error);
@@ -45,7 +50,7 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
     if (this.eventGroupsSub) this.eventGroupsSub.unsubscribe();
   }
 
-  // Methods
+  // Methods ---------------------------------
   addGroup(modalId: string, groupName: string, groupDescription: string) {
     console.log('Add group', modalId);
 
@@ -72,5 +77,38 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
 
     // Hide the modal dialog
     $(`#${modalId}`).modal('hide');
+  }
+
+  deleteGroup(groupId: string) {
+    console.log('Delete group', groupId);
+    this.alertSvc.swal({
+      title: 'Remove group',
+      text: 'Are you sure you want to remove this group?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(() => {
+      // Confirmed
+      this.eventService.removeEventGroup(this.project.id, groupId).toPromise()
+        .then(response => {
+          // Remove the group from the list
+          const index = this.eventGroups.findIndex(e => e.Group.id === groupId);
+          this.eventGroups.splice(index, 1);
+          this.toast.success('The event group has been removed');
+        })
+        .catch(error => {
+          this.toast.error('Unable to remove event group');
+        });
+    },
+      error => {
+        // Error
+        console.log('Error');
+      },
+      () => {
+        // Complete
+      }
+    );
   }
 }
