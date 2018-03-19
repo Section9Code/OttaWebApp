@@ -2,15 +2,21 @@
   Arrange your events into groups to make them easier to manage
 </p>
 
+<p>
+  <a data-toggle="modal" data-target="#addGroupModal">Add group</a>
+</p>
+
 <div *ngFor="let group of eventGroups">
   <h3>
     {{ group.Group.Name }} -
     <a (click)="deleteGroup(group.Group.id)">Remove</a>
   </h3>
-  <ul>
-    <li *ngFor="let date of group.Dates">{{ date.StartDate }} - {{ date.Name }}</li>
-  </ul>
-  <a data-toggle="modal" data-target="#addDateModal">- Add date</a>
+  <div style="padding-left: 20px; margin-bottom: 20px;">
+    <ul>
+      <li *ngFor="let date of group.Dates">{{ date.StartDate }} - {{ date.Name }}</li>
+    </ul>
+    <a data-toggle="modal" data-target="#addDateModal">- Add date</a>
+  </div>
 </div>
 
 <p>

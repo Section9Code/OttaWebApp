@@ -19,6 +19,11 @@ export class EventService {
         return this.authHttp.get(`${this.url}/groups/public`).map(response => response.json());
     }
 
+    getAllPublicEventGroupsGrouped(): Observable<EventGroupModelGrouped[]> {
+        return this.authHttp.get(`${this.url}/groups/public-grouped`).map(response => response.json());
+    }
+
+
     addPublicEventGroupToProject(projectId: string, eventGroupId: string): Observable<boolean> {
         return this.authHttp.post(`${this.url}/${projectId}/groups/public/${eventGroupId}`, null).map(response => response.json());
     }
@@ -57,6 +62,11 @@ export class EventGroupModel {
     Description: string;
     ColourHex: string;
     ProjectId: string;
+}
+
+export class EventGroupModelGrouped {
+    GroupingName: string;
+    Groups: EventGroupModel;
 }
 
 export class EventGroupDatesModel {

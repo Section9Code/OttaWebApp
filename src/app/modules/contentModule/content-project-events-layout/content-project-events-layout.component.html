@@ -9,15 +9,23 @@
             <p>
                 Add these lists of events to your own calendar
             </p>
-            <div *ngFor="let group of allPublicEventGroups" class="row">
-                <div class="col-xs-10">
-                    <p>
-                        {{ group.Name }}
-                        <br/> {{ group.Description }}
-                    </p>
+            <div *ngFor="let grouping of allPublicEventGroups">
+                <div class="row">
+                    <div class="col-xs-12">
+                        <h3>{{ grouping.GroupingName }}</h3>
+                    </div>
                 </div>
-                <div class="col-xs-2">
-                    <input type="checkbox" [checked]="isGroupInProjectList(group.id)" (click)="togglePublicGroup(group)">
+
+                <div class="row" *ngFor="let group of grouping.Groups">
+                    <div [ngClass]="grouping.GroupingName?'col-xs-9 col-xs-offset-1':'col-xs-10'">
+                        <p>
+                            <strong>{{ group.Name }}</strong>
+                            <br/> {{ group.Description }}
+                        </p>
+                    </div>
+                    <div class="col-xs-2">
+                        <input type="checkbox" [checked]="isGroupInProjectList(group.id)" (click)="togglePublicGroup(group)">
+                    </div>
                 </div>
             </div>
         </otta-panel>
@@ -34,8 +42,10 @@
         </p>
         <h4>Pre-defined events</h4>
         <p>
-            We also maintain our own list of important dates for various countries and the Internet. So you can add one of those lists
-            to your own events and create even more timely content.
+            We also maintain our own list of important dates for various countries and the Internet.
+        </p>
+        <p>
+            You can add one of those lists to your own events and create even more timely content.
         </p>
     </div>
 

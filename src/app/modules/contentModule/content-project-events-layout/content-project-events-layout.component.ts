@@ -2,7 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ContentProjectShareService } from '../services/ContentProjectShareService';
 import { ContentProjectModel } from 'services/content-project.service';
 import { Subscription } from 'rxjs/Subscription';
-import { EventService, EventGroupModel } from 'services/event.service';
+import { EventService, EventGroupModel, EventGroupModelGrouped } from 'services/event.service';
 import { ToastsManager } from 'ng2-toastr';
 import { MixpanelService } from 'services/mixpanel.service';
 
@@ -17,7 +17,7 @@ export class ContentProjectEventsLayoutComponent implements OnInit, OnDestroy {
     isLoadingPublicGroups = false;
 
     currentProject: ContentProjectModel;
-    allPublicEventGroups: EventGroupModel[];
+    allPublicEventGroups: EventGroupModelGrouped[];
 
     currentProjectSub: Subscription;
 
@@ -41,7 +41,7 @@ export class ContentProjectEventsLayoutComponent implements OnInit, OnDestroy {
 
         // Load all the public event groups
         this.isLoadingPublicGroups = true;
-        this.eventService.getAllPublicEventGroups().toPromise()
+        this.eventService.getAllPublicEventGroupsGrouped().toPromise()
             .then(response => {
                 console.log('Events: Loaded public groups', response);
                 this.allPublicEventGroups = response;
@@ -93,7 +93,7 @@ export class ContentProjectEventsLayoutComponent implements OnInit, OnDestroy {
                 }
                 this.sharedDataService.updateProject(this.currentProject);
                 // Inform the user
-                this.toast.success(`${group.Name} has been removed to your events`, 'Removed');
+                this.toast.success(`${group.Name} has been removed from your events`, 'Removed');
             })
             .catch(error => console.log('Error occurred updating users group', error));
     }
