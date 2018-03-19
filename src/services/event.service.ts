@@ -45,6 +45,14 @@ export class EventService {
     removeEventGroup(projectId: string, groupId: string): Observable<EventGroupModel> {
         return this.authHttp.delete(`${this.url}/${projectId}/groups/private/${groupId}`).map(response => response.json());
     }
+
+    addPrivateDate(projectId: string, date: EventDateModel): Observable<EventDateModel> {
+        return this.authHttp.post(`${this.url}/${projectId}/dates/private`, date).map(response => response.json());
+    }
+
+    removePrivateDate(projectId: string, groupId: string, id: string): Observable<boolean> {
+        return this.authHttp.delete(`${this.url}/${projectId}/dates/private/${groupId}/${id}`).map(response => response.json());
+    }
 }
 
 export class EventDateModel {

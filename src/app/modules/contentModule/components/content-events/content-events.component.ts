@@ -1,10 +1,11 @@
 import { Component, Input, OnDestroy, OnInit } from '@angular/core';
 import { ContentProjectModel } from 'services/content-project.service';
-import { EventService, EventGroupModel, EventGroupDatesModel } from 'services/event.service';
+import { EventService, EventGroupModel, EventGroupDatesModel, EventDateModel } from 'services/event.service';
 import { ToastsManager } from 'ng2-toastr';
 import { Subscription } from 'rxjs/Subscription';
 import { MixpanelService } from 'services/mixpanel.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
+import { IMyDpOptions } from 'mydatepicker';
 
 declare var $: any;
 
@@ -23,6 +24,13 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
   eventGroups: EventGroupDatesModel[] = [];
   eventGroupsSub: Subscription;
   addGroupName = '';
+  addDateFormData: EventDateModel = new EventDateModel();
+
+  // Options for the date picker
+  datePickerOptions: IMyDpOptions = {
+    // other options...
+    dateFormat: 'dd mmm yyyy',
+  };
 
   constructor(
     private eventService: EventService,
@@ -110,5 +118,37 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
         // Complete
       }
     );
+  }
+
+  showAddDateModal(groupId: string) {
+    this.addDateFormData.Title = '';
+    this.addDateFormData.Description = '';
+    this.addDateFormData.ParentEventGroupId = groupId;
+    this.addDateFormData.StartDate = null;
+
+    $(`#addDateModal`).modal('show');
+  }
+
+  addDate() {
+    console.log('Add Date', this.addDateFormData);
+
+    // Fix the format of the start date
+    const selectedDate: any = this.addDateFormData.StartDate;
+    this.addDateFormData.StartDate = new Date(selectedDate.date.year, selectedDate.date.month - 1, selectedDate.date.day, 0, 0, 0, 0);
+
+    this.eventService.addPrivateDate(this.project.id, this.addDateFormData).toPromise()
+      .then(() => {
+        console.log('Date added');
+        const groupIndex = this.eventGroups.findIndex(f => f.Group.id === this.addDateFormData.ParentEventGroupId);
+        this.eventGroups[groupIndex].Dates.push(this.addDateFormData);
+        this.toast.success('Date has been added', 'Date added');
+      })
+      .catch(error => {
+        this.toast.error('Unable to add date to group', 'Error');
+        this.tracking.TrackError('Error occurred adding date to group', error);
+      });
+
+    // Hide the modal dialog
+    $(`#addDateModal`).modal('hide');
   }
 }

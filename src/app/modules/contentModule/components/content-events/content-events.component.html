@@ -13,9 +13,9 @@
   </h3>
   <div style="padding-left: 20px; margin-bottom: 20px;">
     <ul>
-      <li *ngFor="let date of group.Dates">{{ date.StartDate }} - {{ date.Name }}</li>
+      <li *ngFor="let date of group.Dates">{{ date.StartDate | date:'mediumDate' }} - {{ date.Title }}</li>
     </ul>
-    <a data-toggle="modal" data-target="#addDateModal">- Add date</a>
+    <a (click)="showAddDateModal(group.Group.id)">- Add date</a>
   </div>
 </div>
 
@@ -74,14 +74,46 @@
         <p>
           Add a date to your group
         </p>
-        <div class="form-group">
-          <label>Date</label>
-          <input type="text" #addDateName placeholder="Group name" class="form-control">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary">Save changes</button>
+
+        <form method="get" class="form-horizontal" (ngSubmit)="addDate()" #addDateModalForm="ngForm">
+          <div class="form-group" [class.has-error]="!title.valid">
+            <label class="col-sm-2 control-label">Title</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="addDateFormData.Title" #title="ngModel">
+              <span class="help-block m-b-none">
+                The name for this date
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group" [class.has-error]="!description.valid">
+            <label class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" id="description" name="description" [(ngModel)]="addDateFormData.Description" required #description="ngModel"></textarea>
+              <span class="help-block m-b-none">
+                A little more information about this date
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group" [class.has-error]="!startDate.valid">
+              <label class="col-sm-2 control-label">Date</label>
+              <div class="col-sm-10">
+                  <my-date-picker name="startDate" [options]="datePickerOptions" [(ngModel)]="addDateFormData.StartDate" required #startDate="ngModel"></my-date-picker>
+                  <span class="help-block m-b-none">
+                      The start date of the event
+                  </span>
+              </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+              <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary" type="submit" [disabled]="!addDateModalForm.form.valid" [ladda]="isCreating">Submit</button>
+            </div>
+          </div>
+        </form>
+
       </div>
     </div>
   </div>
