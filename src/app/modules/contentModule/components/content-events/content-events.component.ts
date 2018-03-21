@@ -104,13 +104,18 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
       });
   }
 
+  showAddGroup() {
+    this.addGroupFormData = new EventGroupModel();
+    $('#addGroupModal').modal('show');
+  }
+
   showUpdateGroup(groupId) {
     const index = this.eventGroups.findIndex(g => g.Group.id === groupId);
     this.addGroupFormData = this.eventGroups[index].Group;
     $('#addGroupModal').modal('show');
   }
 
-  updateGroup(){
+  updateGroup() {
     console.log('Update group', this.addGroupFormData);
     $('#addGroupModal').modal('hide');
   }

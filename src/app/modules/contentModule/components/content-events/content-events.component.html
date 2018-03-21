@@ -3,21 +3,22 @@
 </p>
 
 <p>
-  <a data-toggle="modal" data-target="#addGroupModal">Add group</a>
+  <a (click)="showAddGroup()">Add group</a>
 </p>
 
 <div *ngFor="let group of eventGroups">
   <h3>
-    <span (click)="showUpdateGroup(group.Group.id)">{{ group.Group.Name }}</span> - <a (click)="deleteGroup(group.Group.id)" class="badge btn-default">Delete</a>
+    <span (click)="showUpdateGroup(group.Group.id)">{{ group.Group.Name }}</span> -
+    <a (click)="deleteGroup(group.Group.id)" class="badge btn-default">Delete</a>
   </h3>
   <div style="padding-left: 20px; margin-bottom: 20px;">
     <ul>
       <li *ngFor="let date of group.Dates">
         {{ date.StartDate | date:'mediumDate' }} - {{ date.Title }} -
-        <a class="badge badge-default" (click)="removeDate(group.Group.id, date.id)">Delete</a>        
+        <a class="badge badge-default" (click)="removeDate(group.Group.id, date.id)">Delete</a>
       </li>
       <li>
-        <a (click)="showAddDateModal(group.Group.id)">Add date to {{ group.Group.Name}}</a>
+        <a (click)="showAddDateModal(group.Group.id)">Add date to {{ group.Group.Name }}</a>
       </li>
     </ul>
   </div>
@@ -25,7 +26,7 @@
 
 <p>
   <br />
-  <a data-toggle="modal" data-target="#addGroupModal">Add group</a>
+  <a (click)="showAddGroup()">Add group</a>
 </p>
 
 
@@ -39,7 +40,7 @@
           <span class="sr-only">Close</span>
         </button>
         <i class="fa fa-object-group modal-icon"></i>
-        <h4 class="modal-title">Add group</h4>
+        <h4 class="modal-title">{{ addGroupFormData.id ? 'Update' : 'Add' }} group</h4>
       </div>
       <div class="modal-body">
         <p>
@@ -61,7 +62,8 @@
           <div class="form-group" [class.has-error]="!groupDescription.valid">
             <label class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
-              <textarea class="form-control" id="groupDescription" name="groupDescription" [(ngModel)]="addGroupFormData.Description" required #groupDescription="ngModel"></textarea>
+              <textarea class="form-control" id="groupDescription" name="groupDescription" [(ngModel)]="addGroupFormData.Description" required
+                #groupDescription="ngModel"></textarea>
               <span class="help-block m-b-none">
                 A description of the group
               </span>
@@ -69,14 +71,14 @@
           </div>
 
           <div class="form-group">
-            <div class="col-sm-4 col-sm-offset-2">
+            <div class="col-sm-10 col-sm-offset-2">
               <button class="btn btn-white" data-dismiss="modal">Cancel</button>
-              <button class="btn btn-primary" type="submit" [disabled]="!addGroupForm.form.valid" [ladda]="isCreating">Submit</button>
+              <button class="btn btn-primary" type="submit" [disabled]="!addGroupForm.form.valid" [ladda]="isCreating">{{ addGroupFormData.id ? 'Update' : 'Add' }}</button>
             </div>
           </div>
         </form>
 
-      </div>      
+      </div>
     </div>
   </div>
 </div>
