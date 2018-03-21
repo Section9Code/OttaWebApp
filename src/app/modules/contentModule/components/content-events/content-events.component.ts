@@ -64,6 +64,13 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
   addGroup(modalId: string) {
     console.log('Add group', modalId);
 
+    // Make sure the colour is set
+    if(this.addGroupFormData.ColourHex === '')
+    {
+      this.addGroupFormData.ColourHex = '#cccccc';
+    }
+
+    // Is this an add or an update
     if (this.addGroupFormData.id) {
       this.updateGroup();
       return;
@@ -117,6 +124,7 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
 
   updateGroup() {
     console.log('Update group', this.addGroupFormData);
+
     $('#addGroupModal').modal('hide');
   }
 

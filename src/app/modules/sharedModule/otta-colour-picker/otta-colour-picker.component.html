@@ -1,0 +1,17 @@
+<div>
+    <select name="colourHex" id="colourHex" [(ngModel)]="_value" (change)="changed()" #colorHex="ngModel" required>
+        <option value="#FF0000">Red</option>
+        <option value="#00FF00">Green</option>
+        <option value="#0000FF">Blue</option>
+        <option value="#F4D03F">Yellow</option>
+        <option value="#FFC300">Deep Yellow</option>
+        <option value="#DC7633">Orange</option>
+        <option value="#58D68D">Light green</option>
+        <option value="#8E44AD">Purple</option>
+        <option value="#3498DB">Sky blue</option>
+        <option value="#5D6D7E">Deep grey</option>
+        <option value="#CCCCCC">Light grey</option>
+    </select>
+
+    <span class="label label-primary" [ngStyle]="{ 'background-color': _value }">Example</span>
+</div>

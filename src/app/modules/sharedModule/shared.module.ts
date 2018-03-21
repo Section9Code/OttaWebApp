@@ -10,6 +10,7 @@ import { OttaCommentComponent } from 'app/modules/sharedModule/otta-comment/otta
 import { FormsModule } from '@angular/forms';
 import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
 import { PipesModule } from 'app/components/common/pipes/pipes.module';
+import { OttaColourPickerComponent } from './otta-colour-picker/otta-colour-picker.component';
 
 // User Profile Feature Module 
 @NgModule({
@@ -18,21 +19,23 @@ import { PipesModule } from 'app/components/common/pipes/pipes.module';
         BrowserModule,
         LaddaModule,
         FormsModule,
-        PipesModule       
+        PipesModule
     ],
     exports: [
         LoadingSpinnerComponent,
         StripeButtonComponent,
         PanelLoadingSpinnerComponent,
         OttaPanelComponent,
-        OttaCommentComponent
+        OttaCommentComponent,
+        OttaColourPickerComponent
     ],
     declarations: [
         LoadingSpinnerComponent,
         StripeButtonComponent,
         PanelLoadingSpinnerComponent,
         OttaPanelComponent,
-        OttaCommentComponent
+        OttaCommentComponent,
+        OttaColourPickerComponent
     ],
     providers: [
     ],
