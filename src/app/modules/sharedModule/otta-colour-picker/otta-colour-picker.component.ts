@@ -81,4 +81,9 @@ export class OttaColourPickerComponent implements ControlValueAccessor, Validato
   validate(c: AbstractControl): { [key: string]: any; } {
     return null;
   }
+
+  valid(): boolean {
+    if(!this._value || this._value === '') return false;
+    else return true;
+  }
 }

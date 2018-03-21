@@ -44,7 +44,7 @@
         <div class="form-group" [class.has-error]="!colorHex.valid">
             <label class="col-sm-2 control-label">Colour</label>
             <div class="col-sm-10">
-                <select name="colourHex" id="colourHex" [(ngModel)]="createItem.ColourHex" #colorHex="ngModel" required>
+                <!-- <select name="colourHex" id="colourHex" [(ngModel)]="createItem.ColourHex" #colorHex="ngModel" required>
                     <option value="#FF0000">Red</option>
                     <option value="#00FF00">Green</option>
                     <option value="#0000FF">Blue</option>
@@ -55,9 +55,11 @@
                     <option value="#8E44AD">Purple</option>
                     <option value="#3498DB">Sky blue</option>
                     <option value="#5D6D7E">Deep grey</option>
-                </select>
+                </select> -->
 
-                <content-item-type-label [title]="'Example Title'" [colourHex]="createItem.ColourHex"></content-item-type-label>
+                <otta-colour-picker name="colorHex" [(ngModel)]="createItem.ColourHex" #colorHex="ngModel"></otta-colour-picker>
+
+                <!-- <content-item-type-label [title]="'Example Title'" [colourHex]="createItem.ColourHex"></content-item-type-label> -->
 
                 <span class="help-block m-b-none">
                     The colour of the type will help you easily identify it
