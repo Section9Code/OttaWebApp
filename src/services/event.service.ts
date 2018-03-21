@@ -42,6 +42,10 @@ export class EventService {
         return this.authHttp.post(`${this.url}/${projectId}/groups/private`, group).map(response => response.json());
     }
 
+    updateEventGroup(projectId: string, group: EventGroupModel): Observable<EventGroupModel> {
+        return this.authHttp.put(`${this.url}/${projectId}/groups/private/${group.id}`, group).map(response => response.json());
+    }
+
     removeEventGroup(projectId: string, groupId: string): Observable<EventGroupModel> {
         return this.authHttp.delete(`${this.url}/${projectId}/groups/private/${groupId}`).map(response => response.json());
     }

@@ -8,7 +8,7 @@
 
 <div *ngFor="let group of eventGroups">
   <h3>
-    <span (click)="showUpdateGroup(group.Group.id)">{{ group.Group.Name }}</span> -
+    <span (click)="showUpdateGroup(group.Group.id)" style="color: black; padding: 5px;" [ngStyle]="{ 'background-color': group.Group.ColourHex }" >{{ group.Group.Name }}</span> -
     <a (click)="deleteGroup(group.Group.id)" class="badge btn-default">Delete</a>
   </h3>
   <div style="padding-left: 20px; margin-bottom: 20px;">

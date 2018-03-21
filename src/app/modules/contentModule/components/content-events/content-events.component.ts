@@ -65,8 +65,7 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
     console.log('Add group', modalId);
 
     // Make sure the colour is set
-    if(this.addGroupFormData.ColourHex === '')
-    {
+    if (this.addGroupFormData.ColourHex === '') {
       this.addGroupFormData.ColourHex = '#cccccc';
     }
 
@@ -125,7 +124,19 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
   updateGroup() {
     console.log('Update group', this.addGroupFormData);
 
-    $('#addGroupModal').modal('hide');
+    this.eventService.updateEventGroup(this.project.id, this.addGroupFormData).toPromise()
+      .then(response => {
+        // Update the event group
+        const index = this.eventGroups.findIndex(g => g.Group.id === this.addGroupFormData.id);
+        this.eventGroups[index].Group = response;
+
+        // Tell the user
+        this.toast.success('Event group updated','Updated');
+        $('#addGroupModal').modal('hide');
+      })
+      .catch(() => {
+        this.toast.error('Unable to update group');
+      });
   }
 
   deleteGroup(groupId: string) {
