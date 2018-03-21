@@ -24,6 +24,8 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
   eventGroups: EventGroupDatesModel[] = [];
   eventGroupsSub: Subscription;
   addGroupName = '';
+
+  addGroupFormData: EventGroupModel = new EventGroupModel();
   addDateFormData: EventDateModel = new EventDateModel();
 
   // Options for the date picker
@@ -59,32 +61,58 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
   }
 
   // Methods ---------------------------------
-  addGroup(modalId: string, groupName: string, groupDescription: string) {
+  addGroup(modalId: string) {
     console.log('Add group', modalId);
 
-    // Create a new event group
-    const group = new EventGroupModel();
-    group.Name = groupName;
-    group.Description = groupDescription;
-    group.ProjectId = this.project.id;
+    if (this.addGroupFormData.id) {
+      this.updateGroup();
+      return;
+    }
+
+    // Validate
+    if (!this.addGroupFormData.Name || !this.addGroupFormData.Description) {
+      console.log('Not valid');
+      return;
+    }
+
+    // Update the group data
+    this.addGroupFormData.ProjectId = this.project.id;
 
     // Create the event group
-    this.eventService.addEventGroup(this.project.id, group).toPromise()
+    this.eventService.addEventGroup(this.project.id, this.addGroupFormData).toPromise()
       .then(response => {
-        // Create a new event group
+        console.log('Group added', response);
+
+        // Show the new event group to the user
         const eventGroupDates = new EventGroupDatesModel();
         eventGroupDates.Group = response;
         eventGroupDates.Dates = [];
         this.eventGroups.push(eventGroupDates);
+
+        // Clean the form
+        this.addGroupFormData = new EventGroupModel();
+
+        // Tell the user
         this.toast.success('Added new event group to your project', 'Added event group');
+
+        // Hide the modal dialog
+        $(`#${modalId}`).modal('hide');
       })
       .catch(error => {
         console.log('Error occurred adding group', error);
         this.toast.error('Unable to add your event group to the project');
       });
+  }
 
-    // Hide the modal dialog
-    $(`#${modalId}`).modal('hide');
+  showUpdateGroup(groupId) {
+    const index = this.eventGroups.findIndex(g => g.Group.id === groupId);
+    this.addGroupFormData = this.eventGroups[index].Group;
+    $('#addGroupModal').modal('show');
+  }
+
+  updateGroup(){
+    console.log('Update group', this.addGroupFormData);
+    $('#addGroupModal').modal('hide');
   }
 
   deleteGroup(groupId: string) {

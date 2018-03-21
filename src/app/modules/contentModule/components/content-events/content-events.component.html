@@ -8,16 +8,18 @@
 
 <div *ngFor="let group of eventGroups">
   <h3>
-    {{ group.Group.Name }} -
-    <a (click)="deleteGroup(group.Group.id)">Remove</a>
+    <span (click)="showUpdateGroup(group.Group.id)">{{ group.Group.Name }}</span> - <a (click)="deleteGroup(group.Group.id)" class="badge btn-default">Delete</a>
   </h3>
   <div style="padding-left: 20px; margin-bottom: 20px;">
     <ul>
       <li *ngFor="let date of group.Dates">
-        {{ date.StartDate | date:'mediumDate' }} - {{ date.Title }} - <a (click)="removeDate(group.Group.id, date.id)">Delete</a>
+        {{ date.StartDate | date:'mediumDate' }} - {{ date.Title }} -
+        <a class="badge badge-default" (click)="removeDate(group.Group.id, date.id)">Delete</a>        
       </li>
-      <li><a (click)="showAddDateModal(group.Group.id)">Add date</a></li>
-    </ul>    
+      <li>
+        <a (click)="showAddDateModal(group.Group.id)">Add date to {{ group.Group.Name}}</a>
+      </li>
+    </ul>
   </div>
 </div>
 
@@ -44,19 +46,37 @@
           You can group your events to make them easier to manage. You can also remove whole groups of events by simply deleting the
           group.
         </p>
-        <div class="form-group">
-          <label>Group name</label>
-          <input type="text" #groupAddGroupName placeholder="Group name" class="form-control">
-        </div>
-        <div class="form-group">
-          <label>Description</label>
-          <input type="text" #groupAddDescription placeholder="Description" class="form-control">
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
-        <button type="button" class="btn btn-primary" (click)="addGroup('addGroupModal', groupAddGroupName.value, groupAddDescription.value); groupAddGroupName.value = ''; groupAddDescription.value = '';">Create event group</button>
-      </div>
+
+        <form method="get" class="form-horizontal" (ngSubmit)="addGroup('addGroupModal')" #addGroupForm="ngForm">
+          <div class="form-group" [class.has-error]="!groupName.valid">
+            <label class="col-sm-2 control-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="groupName" name="groupName" required [(ngModel)]="addGroupFormData.Name" #groupName="ngModel">
+              <span class="help-block m-b-none">
+                The name of the group
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group" [class.has-error]="!groupDescription.valid">
+            <label class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">
+              <textarea class="form-control" id="groupDescription" name="groupDescription" [(ngModel)]="addGroupFormData.Description" required #groupDescription="ngModel"></textarea>
+              <span class="help-block m-b-none">
+                A description of the group
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-4 col-sm-offset-2">
+              <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary" type="submit" [disabled]="!addGroupForm.form.valid" [ladda]="isCreating">Submit</button>
+            </div>
+          </div>
+        </form>
+
+      </div>      
     </div>
   </div>
 </div>
@@ -99,13 +119,13 @@
           </div>
 
           <div class="form-group" [class.has-error]="!startDate.valid">
-              <label class="col-sm-2 control-label">Date</label>
-              <div class="col-sm-10">
-                  <my-date-picker name="startDate" [options]="datePickerOptions" [(ngModel)]="addDateFormData.StartDate" required #startDate="ngModel"></my-date-picker>
-                  <span class="help-block m-b-none">
-                      The start date of the event
-                  </span>
-              </div>
+            <label class="col-sm-2 control-label">Date</label>
+            <div class="col-sm-10">
+              <my-date-picker name="startDate" [options]="datePickerOptions" [(ngModel)]="addDateFormData.StartDate" required #startDate="ngModel"></my-date-picker>
+              <span class="help-block m-b-none">
+                The start date of the event
+              </span>
+            </div>
           </div>
 
           <div class="form-group">
