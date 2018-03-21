@@ -1,4 +1,4 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, Input, OnDestroy, OnInit, group } from '@angular/core';
 import { ContentProjectModel } from 'services/content-project.service';
 import { EventService, EventGroupModel, EventGroupDatesModel, EventDateModel } from 'services/event.service';
 import { ToastsManager } from 'ng2-toastr';
@@ -132,23 +132,77 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
   addDate() {
     console.log('Add Date', this.addDateFormData);
 
+    // Validate
+    if (!this.addDateFormData.Title || !this.addDateFormData.Description || !this.addDateFormData.StartDate) {
+      // Not all the form data has been supplied
+      return;
+    }
+
     // Fix the format of the start date
     const selectedDate: any = this.addDateFormData.StartDate;
     this.addDateFormData.StartDate = new Date(selectedDate.date.year, selectedDate.date.month - 1, selectedDate.date.day, 0, 0, 0, 0);
 
     this.eventService.addPrivateDate(this.project.id, this.addDateFormData).toPromise()
-      .then(() => {
+      .then(response => {
         console.log('Date added');
+
+        // Update the list of dates
         const groupIndex = this.eventGroups.findIndex(f => f.Group.id === this.addDateFormData.ParentEventGroupId);
-        this.eventGroups[groupIndex].Dates.push(this.addDateFormData);
+        this.eventGroups[groupIndex].Dates.push(response);
+
+        // Clear the form
+        this.addDateFormData = new EventDateModel();
+
+        // Tell the user
         this.toast.success('Date has been added', 'Date added');
+        $(`#addDateModal`).modal('hide');
       })
       .catch(error => {
         this.toast.error('Unable to add date to group', 'Error');
         this.tracking.TrackError('Error occurred adding date to group', error);
       });
-
-    // Hide the modal dialog
-    $(`#addDateModal`).modal('hide');
   }
+
+  removeDate(groupId: string, dateId: string) {
+    console.log(`Remove date ${groupId}>${dateId}`);
+
+    this.alertSvc.swal({
+      title: 'Are you sure?',
+      text: "Are you sure you want to delete this date?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(() => {
+      // Confirmed
+      console.log('Confirmed');
+      this.eventService.removePrivateDate(this.project.id, groupId, dateId).toPromise()
+        .then(response => {
+          // Remove the date from the list
+          const groupIndex = this.eventGroups.findIndex(f => f.Group.id === groupId);
+          const dateIndex = this.eventGroups[groupIndex].Dates.findIndex(d => d.id === dateId);
+          this.eventGroups[groupIndex].Dates.splice(dateIndex, 1);
+
+          // Tell the user
+          this.toast.success('The date has been removed', 'Date removed');
+        })
+        .catch(error => {
+          this.toast.error('Unable to delete date from group', 'Error');
+          this.tracking.TrackError('Error occurred deleting date from group', error);
+        });
+    },
+      () => {
+        // Error
+        console.log('Alert dismissed');
+      },
+      () => {
+        // Complete
+      }
+    );
+
+
+
+  }
+
 }

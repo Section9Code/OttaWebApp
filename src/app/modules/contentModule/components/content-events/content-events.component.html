@@ -13,9 +13,11 @@
   </h3>
   <div style="padding-left: 20px; margin-bottom: 20px;">
     <ul>
-      <li *ngFor="let date of group.Dates">{{ date.StartDate | date:'mediumDate' }} - {{ date.Title }}</li>
-    </ul>
-    <a (click)="showAddDateModal(group.Group.id)">- Add date</a>
+      <li *ngFor="let date of group.Dates">
+        {{ date.StartDate | date:'mediumDate' }} - {{ date.Title }} - <a (click)="removeDate(group.Group.id, date.id)">Delete</a>
+      </li>
+      <li><a (click)="showAddDateModal(group.Group.id)">Add date</a></li>
+    </ul>    
   </div>
 </div>
 
