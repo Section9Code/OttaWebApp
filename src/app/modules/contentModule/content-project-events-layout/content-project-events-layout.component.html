@@ -1,11 +1,11 @@
 <div class="row">
 
     <div class="col-xs-12 col-lg-10">
-        <otta-panel [title]="'Events'" [loading]="isLoading">
+        <otta-panel id="project_events" [title]="'Events'" [loading]="isLoading">
             <content-project-events [project]="currentProject"></content-project-events>
         </otta-panel>
 
-        <otta-panel [title]="'Public Events'" [loading]="isLoadingPublicGroups">
+        <otta-panel id="public_events" [title]="'Public Events'" [loading]="isLoadingPublicGroups">
             <p>
                 Add these lists of events to your own calendar
             </p>
