@@ -4,6 +4,7 @@ import { AuthHttp } from 'angular2-jwt';
 import { CreatorInfo } from 'services/suggestions.service';
 import { Observable } from 'rxjs/Observable';
 import { ContentItemTypeModel } from 'services/content-item-type.service';
+import { EventDateModel, EventGroupModel } from './event.service';
 
 @Injectable()
 export class ContentItemService {
@@ -36,12 +37,12 @@ export class ContentItemService {
     return this.authHttp.get(`${this.url}/${projectId}/all`).map(response => response.json());
   }
 
-  getAllInMonth(projectId: string, year: number, month: number): Observable<ContentItemModel[]> {
+  getAllInMonth(projectId: string, year: number, month: number): Observable<CalendarDataModel> {
     let fullUrl = `${this.url}/${projectId}/allMonth?year=${year}&month=${month}`;
     return this.authHttp.get(fullUrl).map(response => response.json());
   }
 
-  getAllInPeriod(projectId: string, start: string, end: string): Observable<ContentItemModel[]> {
+  getAllInPeriod(projectId: string, start: string, end: string): Observable<CalendarDataModel> {
     let fullUrl = `${this.url}/${projectId}/allPeriod?start=${start}&end=${end}`;
     return this.authHttp.get(fullUrl).map(response => response.json());
   }
@@ -77,4 +78,12 @@ export class ContentItemTask {
   DueDate: Date;
   AssignedTo: string;
   AssignedTpDetails: CreatorInfo;
+}
+
+export class CalendarDataModel {
+  ContentItems: ContentItemModel[];
+  ProjectEvents: EventDateModel[];
+  PublicEvents: EventDateModel[];
+  PublicEventGroups: EventGroupModel[];
+  ProjectEventGroups: EventGroupModel[];
 }

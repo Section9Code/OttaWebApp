@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentProjectShareService } from '../../services/ContentProjectShareService';
 //import { Moment } from 'moment';
 import * as moment from 'moment';
-import { ContentItemService, ContentItemModel } from 'services/content-item.service';
+import { ContentItemService, ContentItemModel, CalendarDataModel } from 'services/content-item.service';
 import { ContentProjectModel } from 'services/content-project.service';
 import { ToastsManager } from 'ng2-toastr';
 import { Observer } from 'rxjs/Observer';
@@ -81,7 +81,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     }
   }
 
-  // Something has caused the data to need a reload
+  // Something has caused the data to need a reload. Called the first time the user loads the page
   reloadData() {
     // Make sure the project data has loaded
     if (!this.currentProject || !this.currentProject.id) {
@@ -109,13 +109,16 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
   }
 
   // Process the returned content items into events to display on the calendar
-  processContentItems(items: ContentItemModel[]) {
+  processContentItems(items: CalendarDataModel) {
     // Clear the events
     this.currentEvents = [];
 
     console.log('Calendar: Processing content items', items);
-    items.forEach(item => {
+
+    // Process the content items
+    items.ContentItems.forEach(item => {
       if (item.DeadLine) {
+
         // Create the event
         let newEvent = new CalendarEvent();
         newEvent.id = item.id;
@@ -124,13 +127,54 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
         newEvent.color = item.ContentTypeColourHex;
         newEvent.borderColor = 'gray';
         newEvent.isDraft = true;
+
         // Push the event to the list
         this.currentEvents.push(newEvent);
       }
     });
+
+    // Process the project events
+    items.ProjectEvents.forEach(item => {
+      let projectEvent = new CalendarEvent();
+      projectEvent.id = item.id;
+      projectEvent.title = item.Title;
+      projectEvent.start = moment(item.StartDate);
+      projectEvent.allDay = true;
+      projectEvent.color = 'white';
+      projectEvent.textColor = 'Black';
+
+      var projectEventGroup = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId);
+      if (projectEventGroup && projectEventGroup.ColourHex) {
+        projectEvent.borderColor = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId).ColourHex;
+      }
+
+      // Add the event to the list
+      this.currentEvents.push(projectEvent);
+    });
+
+    // Process the project events
+    items.PublicEvents.forEach(item => {
+      let projectEvent = new CalendarEvent();
+      projectEvent.id = item.id;
+      projectEvent.title = item.Title;
+      projectEvent.start = moment(item.StartDate);
+      projectEvent.allDay = true;
+      projectEvent.color = 'white';
+      projectEvent.textColor = 'Black';
+
+      const publicEventGroup = items.PublicEventGroups.find(g => g.id === item.ParentEventGroupId);
+      if (publicEventGroup) {
+        projectEvent.borderColor = publicEventGroup.ColourHex;
+      }
+
+      // Add the event to the list
+      this.currentEvents.push(projectEvent);
+    });
+
   }
 
   // Calendar events ----------------------------------------
+  // Called to reload events when the user changes the month or picks a date
   loadEvents(start, end, timezone, cb) {
     console.log('Loading events', [start, end]);
     console.log(`Changing view: start: ${start.year()}-${start.month()}-${start.date()} -- ${end.year()}-${end.month()}-${end.date()}`);
@@ -142,20 +186,20 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     };
 
     // Load the dates requested
-    this.dataLoadSub = this.contentItemService.getAllInPeriod(this.currentProject.id, 
+    this.dataLoadSub = this.contentItemService.getAllInPeriod(this.currentProject.id,
       `${start.year()}-${start.month() + 1}-${start.date()}`, `${end.year()}-${end.month() + 1}-${end.date()}`).subscribe(
-      response => {
-        this.processContentItems(response);
-        cb(this.currentEvents);
-      },
-      error => {
-        console.log('Error loading content');
-        this.isLoading = false;
-        this.toast.error('Unable to load content calendar', 'Error occurred');
-        cb(this.currentEvents);
-      },
-      () => this.isLoading = false
-    );
+        response => {
+          this.processContentItems(response);
+          cb(this.currentEvents);
+        },
+        error => {
+          console.log('Error loading content');
+          this.isLoading = false;
+          this.toast.error('Unable to load content calendar', 'Error occurred');
+          cb(this.currentEvents);
+        },
+        () => this.isLoading = false
+      );
   }
 
   eventClicked(event, element) {
@@ -163,8 +207,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
     // Get the clicked item
     const eventData = this.currentEvents.find(e => e.id === event.id);
-    if (eventData.isDraft)
-    {
+    if (eventData.isDraft) {
       // Navigate to the draft page
       this.router.navigateByUrl(`/content/${this.currentProject.id}/drafts/${eventData.id}`);
     }
