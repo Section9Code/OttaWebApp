@@ -15,11 +15,11 @@
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-lg-10">
 
-        <a [routerLink]="['create']" type="button" class="btn btn-primary">Create persona</a>
+        <a id="create_persona" [routerLink]="['create']" type="button" class="btn btn-primary">Create persona</a>
     </div>
 </div>
 
-<div class="wrapper-content animated fadeInRight">
+<div id="persona_list" class="wrapper-content animated fadeInRight">
 
     <loadingSpinner [loading]="isLoading"></loadingSpinner>
 
