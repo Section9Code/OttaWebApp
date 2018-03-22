@@ -40,6 +40,7 @@ import { UserDataService } from 'services/user-data.service';
 import { CreatorModule } from 'app/modules/creatorModule/creator.module';
 import { CreatorService } from 'services/creator.service';
 import { ContentModule } from 'app/modules/contentModule/content.module';
+import { TourService } from 'services/tour.service';
 
 @NgModule({
   declarations: [
@@ -83,6 +84,8 @@ import { ContentModule } from 'app/modules/contentModule/content.module';
     OrganisationAdminGuard,
     MixpanelService,
     SweetAlertService, 
+    TourService,
+
     // Create the AuthHttp service for using Auth0 JWT tokens to make calls to the back end
     {
       provide: AuthHttp,

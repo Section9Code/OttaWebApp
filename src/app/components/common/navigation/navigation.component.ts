@@ -4,6 +4,7 @@ import 'jquery-slimscroll';
 import { AuthService, Auth0Profile } from "services/auth.service";
 import { UserDataService } from 'services/user-data.service';
 import { ContentProjectModel } from 'services/content-project.service';
+import { TourService } from 'services/tour.service';
 
 declare var jQuery: any;
 
@@ -73,7 +74,7 @@ export class NavigationComponent implements OnInit {
     return this.router.url.indexOf(routename) > -1;
   }
 
-  logout(){
+  logout() {
     this.auth.logout();
   }
 
