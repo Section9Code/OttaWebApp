@@ -1,6 +1,6 @@
 <nav class="navbar-default navbar-static-side" role="navigation">
   <div class="sidebar-collapse">
-    <ul class="nav metismenu" id="side-menu">
+    <ul id="sidebar" class="nav metismenu" id="side-menu">
       <li class="nav-header">
         <div class="profile-element text-center" dropdown>
           <span class="block m-t-xs SideBarHeading">
@@ -14,7 +14,7 @@
             </span>
             <!--<span class="text-muted text-xs block">Art Director <b class="caret"></b> </span>-->
           </a>
-          <ul class="animated fadeInRight dropdown-menu" *dropdownMenu>
+          <ul id="personal_settings" class="animated fadeInRight dropdown-menu" *dropdownMenu>
             <li>
               <a [routerLink]="['/profile']">Profile</a>
             </li>
