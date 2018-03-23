@@ -3,6 +3,39 @@
     {{version}}
   </div>
   <div>
-    <strong>Copyright</strong> Otta &copy; 2017
+    <strong>Copyright</strong> Otta &copy; 2017 -
+    <a (click)="showMakeSuggestion()">Make a suggestion</a>
+  </div>
+</div>
+
+
+<div class="modal inmodal" id="makeSuggestionModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated fadeIn">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <i class="fa fa-comment modal-icon"></i>
+        <h4 class="modal-title">Make a suggestion</h4>
+        <small class="font-bold">We want to know what you think!</small>
+      </div>
+      <div class="modal-body">
+        <p>
+          <strong>Tell us what you think because we really want to know</strong>. We don't want to build anything average, we want
+          to build something special. So if we are missing something we want to know. Could it be made better? Is something
+          not working as you expected? Or you just love it. Tell us.</p>
+        <div class="form-group">
+          <label>Your thoughts</label>
+          <br/>
+          <input type="text" class="form-control" placeholder="Tell us what you think" #suggestion>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="makeSuggestion(suggestion.value); suggestion.value='';">Tell us!</button>
+      </div>
+    </div>
   </div>
 </div>
