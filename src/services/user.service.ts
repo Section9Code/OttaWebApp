@@ -20,6 +20,10 @@ export class UserService {
   updateSettings(data: UserSettings): Observable<boolean> {
     return this.authHttp.post(this.url, data).map(response => response.json());
   }
+
+  addSuggestion(suggestion: string): Observable<boolean> {
+    return this.authHttp.post(`${this.url}/AddSuggestion`, suggestion).map(response => response.json());
+  }
 }
 
 
