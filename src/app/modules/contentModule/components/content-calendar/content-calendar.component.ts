@@ -122,11 +122,13 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
         // Create the event
         let newEvent = new CalendarEvent();
         newEvent.id = item.id;
-        newEvent.title = `Draft - ${item.Title}`;
+        newEvent.title = `${item.Title}`;
         newEvent.start = moment(item.DeadLine);
         newEvent.color = item.ContentTypeColourHex;
         newEvent.borderColor = 'gray';
-        newEvent.isDraft = true;
+
+        newEvent.isContent = true;
+        newEvent.isEvent = false;
 
         // Push the event to the list
         this.currentEvents.push(newEvent);
@@ -144,6 +146,11 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
       projectEvent.allDay = true;
       projectEvent.color = 'white';
       projectEvent.textColor = 'Black';
+
+      projectEvent.isContent = false;
+      projectEvent.isEvent = true;
+      projectEvent.startEditable = false;
+      projectEvent.durationEditable = false;
 
       if (projectEventGroup && projectEventGroup.ColourHex) {
         projectEvent.borderColor = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId).ColourHex;
@@ -164,6 +171,11 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
       projectEvent.allDay = true;
       projectEvent.color = 'white';
       projectEvent.textColor = 'Black';
+
+      projectEvent.isContent = false;
+      projectEvent.isEvent = true;
+      projectEvent.startEditable = false;
+      projectEvent.durationEditable = false;
 
       if (publicEventGroup) {
         projectEvent.borderColor = publicEventGroup.ColourHex;
@@ -210,34 +222,44 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
     // Get the clicked item
     const eventData = this.currentEvents.find(e => e.id === event.id);
-    if (eventData.isDraft) {
+    if (eventData.isContent) {
       // Navigate to the draft page
-      this.router.navigateByUrl(`/content/${this.currentProject.id}/drafts/${eventData.id}`);
+      this.router.navigateByUrl(`/content/${this.currentProject.id}/items/${eventData.id}`);
     }
   }
 
-  eventDragStart(event, jsEvent, ui, view) {
+  eventDragStart(event: CalendarEvent, jsEvent, ui, view) {
     console.log('event drag started', event);
   }
 
-  eventDragStop(event, jsEvent, ui, view) {
+  eventDragStop(event: CalendarEvent, jsEvent, ui, view) {
     console.log('Event drag stop', event);
   }
 
-  eventDrop(event, delta, revertFunc, jsEvent, ui, view) {
+  eventDrop(event: CalendarEvent, delta, revertFunc, jsEvent, ui, view) {
     console.log('Event drop', event);
     console.log('Move item', event.id);
     console.log('Delta', event.start);
 
-    // Get the item
-    this.contentItemService.getDraft(this.currentProject.id, event.id).toPromise()
+    if (!event.isContent) {
+      // This is an event can can't be moved from the calendar
+      console.log('Not content');
+      return;
+    }
+
+    // Get the item from the system
+    this.contentItemService.getSingle(this.currentProject.id, event.id).toPromise()
       .then(item => {
+
+        // Update the items deadline
         let newDeadline: moment.Moment = event.start;
         item.DeadLine = new Date(newDeadline.year(), newDeadline.month(), newDeadline.date());
-        this.contentItemService.updateDraft(item).toPromise()
+
+        // Update
+        this.contentItemService.updateItem(item).toPromise()
           .then(updateResponse => {
             this.toast.success('Item updated');
-            this.shared.updateDraft(item);
+            this.shared.updateContent(item);
           })
           .catch(error => {
             this.toast.error('Unable to update item');
@@ -273,5 +295,6 @@ export class CalendarEvent {
   eventStartEditable: boolean;
   eventDurationEditable: boolean;
 
-  isDraft: boolean;
+  isContent: boolean;
+  isEvent: boolean;
 }

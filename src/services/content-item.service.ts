@@ -13,28 +13,24 @@ export class ContentItemService {
   constructor(private authHttp: AuthHttp) {
   }
 
-  getDrafts(projectId: string): Observable<ContentItemModel[]> {
-    return this.authHttp.get(`${this.url}/${projectId}/drafts`).map(response => response.json());
+  getAll(projectId: string): Observable<ContentItemModel[]> {
+    return this.authHttp.get(`${this.url}/${projectId}/all`).map(response => response.json());
   }
 
-  getDraft(projectId, id: string): Observable<ContentItemModel> {
-    return this.authHttp.get(`${this.url}/${projectId}/drafts/${id}`).map(response => response.json());
+  getSingle(projectId, id: string): Observable<ContentItemModel> {
+    return this.authHttp.get(`${this.url}/${projectId}/${id}`).map(response => response.json());
   }
 
-  createDraft(projectId: string, content: ContentItemModel): Observable<ContentItemModel> {
-    return this.authHttp.post(`${this.url}/${projectId}/drafts`, content).map(response => response.json());
+  createItem(projectId: string, content: ContentItemModel): Observable<ContentItemModel> {
+    return this.authHttp.post(`${this.url}/${projectId}`, content).map(response => response.json());
   }
 
-  updateDraft(content: ContentItemModel): Observable<ContentItemModel> {
+  updateItem(content: ContentItemModel): Observable<ContentItemModel> {
     return this.authHttp.put(`${this.url}/${content.ProjectId}/drafts/${content.id}`, content).map(response => response.json());
   }
 
-  deleteDraft(content: ContentItemModel): Observable<boolean> {
+  delete(content: ContentItemModel): Observable<boolean> {
     return this.authHttp.delete(`${this.url}/${content.ProjectId}/drafts/${content.id}`).map(response => response.json());
-  }
-
-  getAll(projectId: string): Observable<ContentItemModel[]> {
-    return this.authHttp.get(`${this.url}/${projectId}/all`).map(response => response.json());
   }
 
   getAllInMonth(projectId: string, year: number, month: number): Observable<CalendarDataModel> {

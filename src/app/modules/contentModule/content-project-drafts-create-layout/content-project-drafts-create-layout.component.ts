@@ -25,12 +25,12 @@ export class ContentProjectDraftsCreateLayoutComponent {
         private tracking: MixpanelService, private toast: ToastsManager) {
     }
 
-    createDraft(data: ContentDataMessage) {
-        console.log('Create draft');
+    create(data: ContentDataMessage) {
+        console.log('Create item');
         this.isUpdating = true;
 
         // Create the content item
-        this.contentItemService.createDraft(this.sharedData.currentProject.getValue().id, data.contentItem).toPromise()
+        this.contentItemService.createItem(this.sharedData.currentProject.getValue().id, data.contentItem).toPromise()
             .then(
                 // Content item saved
                 newContentItem => {
@@ -44,19 +44,19 @@ export class ContentProjectDraftsCreateLayoutComponent {
                     this.contentItemContentService.addContent(newContent).toPromise()
                         .then(
                             response => {
-                                this.toast.success('Draft created');
+                                this.toast.success('Item created');
                                 this.tracking.Track(MixpanelEvent.Content_Draft_Created, { 'id': newContentItem });
-                                // Update the list of drafts
-                                this.sharedData.addDraft(newContentItem);
-                                // Navigate back to the list of drafts
-                                this.navigateBackToDrafts();
+                                // Update the list of items
+                                this.sharedData.addContent(newContentItem);
+                                // Navigate back to the list of items
+                                this.navigateBackToItem();
                             }
                         )
                         .catch(
-                            // Error occured while trying try store the content of the draft
+                            // Error occurred while trying try store the content of the item
                             contentError => {
-                                this.toast.error('Unable to create draft content');
-                                this.tracking.TrackError('Error occurred trying to store the content of the draft', contentError);
+                                this.toast.error('Unable to create item content');
+                                this.tracking.TrackError('Error occurred trying to store the content of the item', contentError);
                             }
                         );
                 }
@@ -64,20 +64,20 @@ export class ContentProjectDraftsCreateLayoutComponent {
             .catch(
                 // Error occurred while trying to save content item
                 error => {
-                    this.toast.error('Unable to create draft');
-                    this.tracking.TrackError('Error occurred trying to create draft', error);
+                    this.toast.error('Unable to create item');
+                    this.tracking.TrackError('Error occurred trying to create item', error);
                 }
             );
     }
 
-    cancelDraft() {
-        console.log('Cancel draft');
-        this.navigateBackToDrafts();
+    cancel() {
+        console.log('Cancel item');
+        this.navigateBackToItem();
     }
 
-    navigateBackToDrafts() {
-        // Navigate back to drafts
-        const url = `/content/${this.sharedData.currentProject.getValue().id}/drafts`;
+    navigateBackToItem() {
+        // Navigate back to items
+        const url = `/content/${this.sharedData.currentProject.getValue().id}/items`;
         this.router.navigateByUrl(url);
     }
 }

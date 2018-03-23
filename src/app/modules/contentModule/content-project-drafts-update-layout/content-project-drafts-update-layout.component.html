@@ -1,8 +1,8 @@
 <loadingSpinner [loading]="isLoading"></loadingSpinner>
 <div class="row" *ngIf="!isLoading">
     <div class="col-xs-12 col-sm-8">
-        <otta-panel [title]="'Update draft'">
-            <content-item-details [data]="draft" [content]="draftContent" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="updateDraft($event)" [createButtonText]="'Update'"></content-item-details>
+        <otta-panel [title]="'Update'">
+            <content-item-details [data]="item" [content]="itemContent" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="updateItem($event)" [createButtonText]="'Update'"></content-item-details>
         </otta-panel>
     </div>
     <div class="col-xs-12 col-sm-4">
@@ -15,7 +15,7 @@
         </otta-panel>
 
         <otta-panel [title]="'Discussion'">
-            <otta-comment [ParentOrganisationId]="draft.Partition" [ParentObjectId]="draft.id"></otta-comment>
+            <otta-comment [ParentOrganisationId]="item.Partition" [ParentObjectId]="item.id"></otta-comment>
         </otta-panel>
     </div>
 </div>

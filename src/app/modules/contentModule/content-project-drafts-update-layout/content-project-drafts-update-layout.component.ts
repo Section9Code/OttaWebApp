@@ -18,9 +18,9 @@ import { SweetAlertService } from 'ng2-sweetalert2';
 })
 export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDestroy {
     projectId: string;
-    draftId: string;
-    draft: ContentItemModel = new ContentItemModel();
-    draftContent: ContentItemContentModel = new ContentItemContentModel();
+    itemId: string;
+    item: ContentItemModel = new ContentItemModel();
+    itemContent: ContentItemContentModel = new ContentItemContentModel();
     isLoading = false;
     isUpdating = false;
     userIsAdmin = false;
@@ -45,27 +45,27 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     ) { }
 
     ngOnInit(): void {
-        // Load the draft the user has selected
+        // Load the item the user has selected
         this.isLoading = true;
         this.routeSub = this.route.params.subscribe(response => {
             this.projectId = response['id'];
-            this.draftId = response['id2'];
+            this.itemId = response['id2'];
 
             // Load the content item
-            this.contentItemSub = this.contentItemService.getDraft(this.projectId, this.draftId).subscribe(
+            this.contentItemSub = this.contentItemService.getItem(this.projectId, this.itemId).subscribe(
                 data => {
-                    console.log('Loaded draft', data);
-                    this.draft = data;
+                    console.log('Loaded item', data);
+                    this.item = data;
 
                     // Get the latest content of this content item
-                    this.contentItemContentSub = this.contentItemContentService.getLatestContent(this.draft.id).subscribe(
-                        contentResponse => this.draftContent = contentResponse
+                    this.contentItemContentSub = this.contentItemContentService.getLatestContent(this.item.id).subscribe(
+                        contentResponse => this.itemContent = contentResponse
                     );
 
                 },
                 error => {
-                    this.toast.error('Unable to load draft');
-                    this.tracking.TrackError('Unable to load draft', error);
+                    this.toast.error('Unable to load item');
+                    this.tracking.TrackError('Unable to load item', error);
                 },
                 () => this.isLoading = false
             );
@@ -87,23 +87,25 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         if (this.isAdminSub) { this.isAdminSub.unsubscribe() };
     }
 
-    updateDraft(data: ContentDataMessage) {
+    updateItem(data: ContentDataMessage) {
         console.log('Update draft', data);
         this.isUpdating = true;
 
         // Update the draft
-        this.contentItemService.updateDraft(data.contentItem).toPromise()
+        this.contentItemService.updateItem(data.contentItem).toPromise()
             .then(response => {
                 // Draft item updated
                 const contentItem = new ContentItemContentModel();
                 contentItem.Content = data.content;
                 contentItem.ParentContentItemId = response.id;
+
+                // Update the item content
                 this.contentItemContentService.addContent(contentItem).toPromise()
                     .then(contentResponse => {
                         // Content updated
-                        this.sharedData.updateDraft(response);
-                        this.toast.success('Draft updated');
-                        this.navigateBackToDrafts();
+                        this.sharedData.updateContent(response);
+                        this.toast.success('Item updated');
+                        this.navigateBackToItems();
                     })
                     .catch(error => {
                         // Error storing content
@@ -113,8 +115,8 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
             })
             .catch(error => {
                 // Unable to update draft item
-                this.toast.error('Unable to update draft')
-                this.tracking.TrackError('Unable to update draft', error);
+                this.toast.error('Unable to update item')
+                this.tracking.TrackError('Unable to update item', error);
             });
 
     }
@@ -135,17 +137,17 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
             console.log('Confirmed');
 
             // Delete the item
-            this.contentItemService.deleteDraft(this.draft).toPromise()
+            this.contentItemService.delete(this.item).toPromise()
                 .then(deleteResponse => {
                     console.log('Item successfully deleted', deleteResponse);
                     this.toast.success('The item has been deleted', 'Item deleted');
-                    this.sharedData.deleteDraft(this.draft.id);
-                    this.navigateBackToDrafts();
+                    this.sharedData.deleteContent(this.item.id);
+                    this.navigateBackToItems();
                 })
                 .catch(deleteError => {
                     console.log('Error occurred while deleting', deleteError);
                     this.toast.error('Unable to delete content item', 'Can not delete');
-                    this.tracking.TrackError(`Unable to delete content item ${this.draft.id}`, deleteError);
+                    this.tracking.TrackError(`Unable to delete content item ${this.item.id}`, deleteError);
                 });
 
         },
@@ -158,9 +160,9 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         );
     }
 
-    navigateBackToDrafts() {
+    navigateBackToItems() {
         // Navigate back to drafts
-        const url = `/content/${this.sharedData.currentProject.getValue().id}/drafts`;
+        const url = `/content/${this.sharedData.currentProject.getValue().id}/items`;
         this.router.navigateByUrl(url);
     }
 }

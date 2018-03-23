@@ -1,9 +1,9 @@
 <!--component html goes here -->
-<otta-panel [title]="'Create draft'">
+<otta-panel [title]="'Create content item'">
     <content-item-details 
     [data]="contentItemData" 
     [showCancel]="true" 
     [isUpdating]="isUpdating" 
-    (submitClicked)="createDraft($event)" 
-    (cancelClicked)="cancelDraft()"></content-item-details>
+    (submitClicked)="create($event)" 
+    (cancelClicked)="cancel()"></content-item-details>
 </otta-panel>
