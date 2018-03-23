@@ -98,13 +98,13 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
       response => {
         this.processContentItems(response);
         jQuery('#calendar').fullCalendar('refetchEvents');
+        this.isLoading = false;
       },
       error => {
         console.log('Error loading content');
-        this.isLoading = false;
         this.toast.error('Unable to load content calendar', 'Error occurred');
-      },
-      () => this.isLoading = false
+        this.isLoading = false;
+      }
     );
   }
 
@@ -140,6 +140,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
       projectEvent.id = item.id;
       projectEvent.title = `${item.Title} - ${projectEventGroup.Name}`;
       projectEvent.start = moment(item.StartDate);
+      projectEvent.end = moment(item.EndDate);
       projectEvent.allDay = true;
       projectEvent.color = 'white';
       projectEvent.textColor = 'Black';
@@ -159,6 +160,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
       projectEvent.id = item.id;
       projectEvent.title = `${item.Title} - ${publicEventGroup.Name}`;
       projectEvent.start = moment(item.StartDate);
+      projectEvent.end = moment(item.EndDate);
       projectEvent.allDay = true;
       projectEvent.color = 'white';
       projectEvent.textColor = 'Black';
@@ -186,10 +188,12 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     };
 
     // Load the dates requested
+    this.isLoading = true;
     this.dataLoadSub = this.contentItemService.getAllInPeriod(this.currentProject.id,
       `${start.year()}-${start.month() + 1}-${start.date()}`, `${end.year()}-${end.month() + 1}-${end.date()}`).subscribe(
         response => {
           this.processContentItems(response);
+          this.isLoading = false;
           cb(this.currentEvents);
         },
         error => {
@@ -197,8 +201,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
           this.isLoading = false;
           this.toast.error('Unable to load content calendar', 'Error occurred');
           cb(this.currentEvents);
-        },
-        () => this.isLoading = false
+        }
       );
   }
 
