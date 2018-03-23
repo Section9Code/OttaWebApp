@@ -55,7 +55,8 @@ export class ContentItemModel {
   Title: string;
   ProjectId: string;
   Description: string;
-  IsDraft: string;
+
+  State: string;
 
   ContentTypeId: string;
   ContentTypeTitle: string;

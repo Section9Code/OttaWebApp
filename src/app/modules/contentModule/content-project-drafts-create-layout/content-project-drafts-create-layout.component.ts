@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { ContentItemModel, ContentItemService } from 'services/content-item.service';
 import { ContentProjectShareService } from 'app/modules/contentModule/services/ContentProjectShareService';
 import { Router } from '@angular/router';
@@ -13,7 +13,7 @@ import { ContentDataMessage } from '../components/content-item-details/content-i
     templateUrl: 'content-project-drafts-create-layout.component.html',
     styleUrls: ['content-project-drafts-create-layout.component.scss']
 })
-export class ContentProjectDraftsCreateLayoutComponent {
+export class ContentProjectDraftsCreateLayoutComponent implements OnInit {
     contentItemData = new ContentItemModel();
     isUpdating = false;
 
@@ -23,6 +23,12 @@ export class ContentProjectDraftsCreateLayoutComponent {
         private contentItemService: ContentItemService,
         private contentItemContentService: ContentItemContentService,
         private tracking: MixpanelService, private toast: ToastsManager) {
+    }
+
+    ngOnInit(): void {
+        // Content defauls
+        this.contentItemData.ProjectId = this.sharedData.currentProject.getValue().id;
+        this.contentItemData.State = 'idea';
     }
 
     create(data: ContentDataMessage) {
