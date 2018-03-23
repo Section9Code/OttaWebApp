@@ -24,8 +24,8 @@ export class ContentProjectShareService {
   userIsAdmin = new BehaviorSubject<boolean>(false);
 
   // Drafts
-  isLoadingDrafts = new BehaviorSubject<boolean>(false);
-  drafts = new BehaviorSubject<ContentItemModel[]>([]);
+  isLoadingContentItems = new BehaviorSubject<boolean>(false);
+  contentItems = new BehaviorSubject<ContentItemModel[]>([]);
 
   // Content types
   isLoadingContentTypes = new BehaviorSubject<boolean>(false);
@@ -46,7 +46,7 @@ export class ContentProjectShareService {
 
     // Reset data
     this.currentProject.next(new ContentProjectModel());
-    this.drafts.next([]);
+    this.contentItems.next([]);
     this.contentTypes.next([]);
 
     // Is the user an organisation admin
@@ -69,40 +69,40 @@ export class ContentProjectShareService {
 
 
   // Lazy load the drafts for the current project
-  lazyLoadDrafts() {
+  lazyLoadContentItems() {
     // Have the drafts already been loaded
     console.log('ContentProjectShareService: Lazy load drafts');
-    if (this.drafts.getValue().length === 0) {
+    if (this.contentItems.getValue().length === 0) {
       // Load the drafts
       console.log('ContentProjectShareService: Loading drafts');
-      this.isLoadingDrafts.next(true);
-      this.contentItemService.getDrafts(this.currentProject.getValue().id).subscribe(
+      this.isLoadingContentItems.next(true);
+      this.contentItemService.getAll(this.currentProject.getValue().id).subscribe(
         response => {
           console.log('ContentProjectShareService: Drafts loaded', response);
-          this.drafts.next(response);
+          this.contentItems.next(response);
         },
         error => {
           this.toast.error('Error occurred trying to load drafts');
           this.tracking.TrackError('Error loading drafts', error);
         },
-        () => this.isLoadingDrafts.next(false)
+        () => this.isLoadingContentItems.next(false)
       );
     }
   }
 
 
   // Add a new draft to the list
-  addDraft(newDraft: ContentItemModel) {
+  addContent(newDraft: ContentItemModel) {
     // Get the current list of drafts
-    var draftList: ContentItemModel[] = this.drafts.getValue();
+    var draftList: ContentItemModel[] = this.contentItems.getValue();
     draftList.push(newDraft);
-    this.drafts.next(draftList);
+    this.contentItems.next(draftList);
   }
 
   // Update an existing draft in the list
-  updateDraft(updatedDraft: ContentItemModel) {
+  updateContent(updatedDraft: ContentItemModel) {
     // Get the current drafts
-    var draftList: ContentItemModel[] = this.drafts.getValue();
+    var draftList: ContentItemModel[] = this.contentItems.getValue();
 
     // Find the matching draft
     var existingDraftIndex: number = draftList.findIndex(x => x.id === updatedDraft.id);
@@ -110,13 +110,13 @@ export class ContentProjectShareService {
     // Update the draft
     if (existingDraftIndex > -1) {
       draftList[existingDraftIndex] = updatedDraft;
-      this.drafts.next(draftList);
+      this.contentItems.next(draftList);
     }
   }
 
-  deleteDraft(draftId: string) {
+  deleteContent(draftId: string) {
     // Get the current drafts
-    var draftList: ContentItemModel[] = this.drafts.getValue();
+    var draftList: ContentItemModel[] = this.contentItems.getValue();
 
     // Find the matching draft
     var existingDraftIndex: number = draftList.findIndex(x => x.id === draftId);
@@ -124,7 +124,7 @@ export class ContentProjectShareService {
     // Remove the draft
     if (existingDraftIndex > -1) {
       draftList.splice(existingDraftIndex, 1);
-      this.drafts.next(draftList);
+      this.contentItems.next(draftList);
     }
   }
 

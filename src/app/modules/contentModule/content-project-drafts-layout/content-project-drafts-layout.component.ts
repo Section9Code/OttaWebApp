@@ -15,8 +15,8 @@ import { Subscription } from 'rxjs/Subscription';
     styleUrls: ['content-project-drafts-layout.component.scss']
 })
 export class ContentProjectDraftsLayoutComponent implements OnInit {
-    drafts: ContentItemModel[] = [];
-    draftsSub: Subscription;
+    contentItems: ContentItemModel[] = [];
+    contentItemsSub: Subscription;
     isLoading = false;
     searchCriteria = '';
     isFilteringSearch = false;
@@ -29,26 +29,26 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
         this.tracking.Track(MixpanelEvent.Content_Draft_View);
 
         // Subscribe to draft loading
-        this.sharedData.isLoadingDrafts.subscribe(
+        this.sharedData.isLoadingContentItems.subscribe(
             response => this.isLoading = response
         );
 
-        this.subscribeToAllDrafts();
+        this.subscribeToAllContentItems();
 
         // Load the drafts
-        this.sharedData.lazyLoadDrafts();
+        this.sharedData.lazyLoadContentItems();
     }
 
-    AddDraft() {
+    AddItem() {
         let currentProjectId = this.sharedData.currentProject.getValue().id;
-        let url = `/content/${currentProjectId}/drafts/create`;
+        let url = `/content/${currentProjectId}/items/create`;
         console.log('Navigating to:', url);
         this.router.navigateByUrl(url);
     }
 
-    navigateToDraft(draft: ContentItemModel) {
+    navigateToItem(item: ContentItemModel) {
         let currentProjectId = this.sharedData.currentProject.getValue().id;
-        let url = `/content/${currentProjectId}/drafts/${draft.id}`;
+        let url = `/content/${currentProjectId}/items/${item.id}`;
         console.log('Navigating to:', url);
         this.router.navigateByUrl(url);
     }
@@ -56,23 +56,23 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
     clearSearch() {
         this.searchCriteria = '';
         this.isFilteringSearch = false;
-        this.subscribeToAllDrafts();
+        this.subscribeToAllContentItems();
     }
 
-    subscribeToAllDrafts() {
+    subscribeToAllContentItems() {
         // Unsubscribe from any existing subscriptions
-        if (this.draftsSub) {
-            this.draftsSub.unsubscribe();
+        if (this.contentItemsSub) {
+            this.contentItemsSub.unsubscribe();
         }
 
-        // Subscribe to all drafts
-        this.draftsSub = this.sharedData.drafts.subscribe(
-            response => this.drafts = response
+        // Subscribe to all content items
+        this.contentItemsSub = this.sharedData.contentItems.subscribe(
+            response => this.contentItems = response
         );
     }
 
-    searchDrafts(criteria: string = '') {
-        console.log('Search drafts', this.searchCriteria);
+    search(criteria: string = '') {
+        console.log('Search', this.searchCriteria);
 
         // Check to see if the call has passed in a search criteria
         if (criteria !== '') {
@@ -81,32 +81,32 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
 
         // Stop listening to the old subscription
         this.isFilteringSearch = true;
-        this.draftsSub.unsubscribe();
+        this.contentItemsSub.unsubscribe();
 
         // Resubscribe, but filter the results
-        this.draftsSub = this.sharedData.drafts.map(
-            drafts => drafts.filter(draft => this.filterDraft(draft))).subscribe(
-            response => this.drafts = response
+        this.contentItemsSub = this.sharedData.contentItems.map(
+            items => items.filter(item => this.filterContentItems(item))).subscribe(
+            response => this.contentItems = response
             );
     }
 
-    // Used when the user is searching to find matching drafts
-    filterDraft(draft: ContentItemModel): boolean {
-        if (draft.Title === this.searchCriteria) {
+    // Used when the user is searching to find matching content items
+    filterContentItems(item: ContentItemModel): boolean {
+        if (item.Title === this.searchCriteria) {
             return true;
         }
 
-        if (draft.Description === this.searchCriteria) {
+        if (item.Description === this.searchCriteria) {
             return true;
         }
 
-        if (draft.Tags) {
-            if (draft.Tags.findIndex(tag => tag === this.searchCriteria) > -1) {
+        if (item.Tags) {
+            if (item.Tags.findIndex(tag => tag === this.searchCriteria) > -1) {
                 return true;
             }
         }
 
-        // Draft does not match search criteria
+        // Content item does not match search criteria
         return false;
     }
 }

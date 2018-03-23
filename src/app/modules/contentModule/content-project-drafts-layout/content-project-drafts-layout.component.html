@@ -3,7 +3,7 @@
 <div class="row" *ngIf="!isLoading">
 
     <div class="col-xs-12 col-lg-10">
-        <otta-panel [title]="'Drafts'" [showButton]="true" [buttonText]="'Create draft'" (buttonClicked)="AddDraft()">
+        <otta-panel [title]="'Content'" [showButton]="true" [buttonText]="'Create'" (buttonClicked)="AddItem()">
 
 
             <div class="m-b-lg">
@@ -11,7 +11,7 @@
                 <div class="input-group">
                     <input type="text" placeholder="Search issue by name..." [(ngModel)]="searchCriteria" class=" form-control">
                     <span class="input-group-btn">
-                        <button type="button" class="btn btn-primary" (click)="searchDrafts()"> Search</button>
+                        <button type="button" class="btn btn-primary" (click)="search()"> Search</button>
                         <button *ngIf="isFilteringSearch" type="button" class="btn btn-white" (click)="clearSearch()"> Clear</button>
                     </span>
                 </div>
@@ -26,7 +26,7 @@
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-cogs"></i> </button>
                         </div> -->
 
-                    <strong>Found {{drafts.length}} drafts.</strong>
+                    <strong>Found {{contentItems.length}} items</strong>
                     <a *ngIf="isFilteringSearch" (click)="clearSearch()">- Clear search filter</a>
                 </div>
             </div>
@@ -44,27 +44,27 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let draft of drafts">
-                            <td (click)="navigateToDraft(draft)">
-                                <content-item-type-label [title]="draft.ContentTypeTitle" [colourHex]="draft.ContentTypeColourHex"></content-item-type-label>
+                        <tr *ngFor="let item of contentItems">
+                            <td (click)="navigateToItem(item)">
+                                <content-item-type-label [title]="item.ContentTypeTitle" [colourHex]="item.ContentTypeColourHex"></content-item-type-label>
                             </td>
-                            <td class="issue-info" (click)="navigateToDraft(draft)">
+                            <td class="issue-info" (click)="navigateToItem(item)">
                                 <a>
-                                    {{ draft.Title }}
+                                    {{ item.Title }}
                                 </a>
 
                                 <small>
-                                    {{ draft.Description }}
+                                    {{ item.Description }}
                                 </small>
                             </td>
-                            <td (click)="navigateToDraft(draft)">
-                                {{ draft.Creator.CreatorName }}
+                            <td (click)="navigateToItem(item)">
+                                {{ item.Creator.CreatorName }}
                             </td>
-                            <td (click)="navigateToDraft(draft)">
-                                {{ draft.DeadLine | date:'mediumDate' }}
+                            <td (click)="navigateToItem(item)">
+                                {{ item.DeadLine | date:'mediumDate' }}
                             </td>
                             <td class="text-right">
-                                <button *ngFor="let tag of draft.Tags" class="btn btn-white btn-xs" (click)="searchDrafts(tag)">{{ tag }}</button>
+                                <button *ngFor="let tag of item.Tags" class="btn btn-white btn-xs" (click)="search(tag)">{{ tag }}</button>
                             </td>
                         </tr>
                     </tbody>

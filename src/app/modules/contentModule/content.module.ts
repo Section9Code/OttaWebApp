@@ -53,9 +53,9 @@ const routes: Routes = [
             { path: ':id', component: ContentProjectLayoutComponent, canActivate: [AuthenticatedGuard], 
             children: [
                 {path: '', component: ContentProjectCalendarLayoutComponent, canActivate: [AuthenticatedGuard] },
-                {path: 'drafts', component: ContentProjectDraftsLayoutComponent, canActivate: [AuthenticatedGuard] },
-                {path: 'drafts/create', component: ContentProjectDraftsCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
-                {path: 'drafts/:id2', component: ContentProjectDraftsUpdateLayoutComponent, canActivate: [AuthenticatedGuard] },
+                {path: 'items', component: ContentProjectDraftsLayoutComponent, canActivate: [AuthenticatedGuard] },
+                {path: 'items/create', component: ContentProjectDraftsCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
+                {path: 'items/:id2', component: ContentProjectDraftsUpdateLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'pitches', component: ContentProjectPitchesLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'events', component: ContentProjectEventsLayoutComponent, canActivate: [AuthenticatedGuard] },
                 {path: 'settings', component: ContentProjectSettingsLayoutComponent, canActivate: [AuthenticatedGuard, OrganisationAdminGuard]},

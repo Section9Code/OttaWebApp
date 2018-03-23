@@ -58,9 +58,9 @@ export class ContentProjectLayoutComponent implements OnInit {
         this.router.navigateByUrl(`/content/${this.projectId}`);
     }
 
-    goToDrafts() {
-        this.currentView = 'drafts';
-        this.router.navigateByUrl(`/content/${this.projectId}/drafts`);
+    goToItems() {
+        this.currentView = 'items';
+        this.router.navigateByUrl(`/content/${this.projectId}/items`);
     }
 
     goToPitches() {
