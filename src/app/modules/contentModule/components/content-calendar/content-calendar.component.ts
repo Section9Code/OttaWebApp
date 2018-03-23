@@ -135,15 +135,15 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
     // Process the project events
     items.ProjectEvents.forEach(item => {
+      var projectEventGroup = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId);
       let projectEvent = new CalendarEvent();
       projectEvent.id = item.id;
-      projectEvent.title = item.Title;
+      projectEvent.title = `${item.Title} - ${projectEventGroup.Name}`;
       projectEvent.start = moment(item.StartDate);
       projectEvent.allDay = true;
       projectEvent.color = 'white';
       projectEvent.textColor = 'Black';
 
-      var projectEventGroup = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId);
       if (projectEventGroup && projectEventGroup.ColourHex) {
         projectEvent.borderColor = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId).ColourHex;
       }
@@ -152,17 +152,17 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
       this.currentEvents.push(projectEvent);
     });
 
-    // Process the project events
+    // Process the public events
     items.PublicEvents.forEach(item => {
+      const publicEventGroup = items.PublicEventGroups.find(g => g.id === item.ParentEventGroupId);
       let projectEvent = new CalendarEvent();
       projectEvent.id = item.id;
-      projectEvent.title = item.Title;
+      projectEvent.title = `${item.Title} - ${publicEventGroup.Name}`;
       projectEvent.start = moment(item.StartDate);
       projectEvent.allDay = true;
       projectEvent.color = 'white';
       projectEvent.textColor = 'Black';
 
-      const publicEventGroup = items.PublicEventGroups.find(g => g.id === item.ParentEventGroupId);
       if (publicEventGroup) {
         projectEvent.borderColor = publicEventGroup.ColourHex;
       }
@@ -267,6 +267,8 @@ export class CalendarEvent {
   backgroundColor: string;
   borderColor: string;
   textColor: string;
+  eventStartEditable: boolean;
+  eventDurationEditable: boolean;
 
   isDraft: boolean;
 }
