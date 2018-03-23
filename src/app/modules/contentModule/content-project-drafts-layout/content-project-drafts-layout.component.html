@@ -16,6 +16,12 @@
                     </span>
                 </div>
                 <div class="m-t-md">
+                    <div class="pull-right">
+                        <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="searchShowAll" (change)="updateSearch()" id="checkBoxShowAll"> All </label>
+                        <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="searchShowIdeas" (change)="updateSearch()" id="checkBoxShowIdeas"> Idea </label>
+                        <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="searchShowInProgress" (change)="updateSearch()" id="checkBoxShowInProgress"> In progress </label>
+                        <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="searchShowContent" (change)="updateSearch()" id="checkBoxShowContent"> Content </label>
+                    </div>
                     <!-- 
                         <div class="pull-right">
                             <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-comments"></i> </button>
@@ -40,6 +46,7 @@
                             <td>Item</td>
                             <td>Creator</td>
                             <td>Due</td>
+                            <td>State</td>
                             <td>Tags</td>
                         </tr>
                     </thead>
@@ -62,6 +69,9 @@
                             </td>
                             <td (click)="navigateToItem(item)">
                                 {{ item.DeadLine | date:'mediumDate' }}
+                            </td>
+                            <td>
+                                {{ item.State }}
                             </td>
                             <td class="text-right">
                                 <button *ngFor="let tag of item.Tags" class="btn btn-white btn-xs" (click)="search(tag)">{{ tag }}</button>
@@ -96,7 +106,8 @@
         </p>
         <h4>Types</h4>
         <p>
-            Give your draft ideas a specific type so you can easily see the ones you want for your blog, and the ones you want for your podcast.
+            Give your draft ideas a specific type so you can easily see the ones you want for your blog, and the ones you want for your
+            podcast.
         </p>
         <p>
             Or create your own custom types and use those instead.

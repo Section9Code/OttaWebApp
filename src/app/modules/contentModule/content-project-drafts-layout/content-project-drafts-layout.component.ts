@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { OnInit } from '@angular/core/src/metadata/lifecycle_hooks';
+import { OnInit, OnDestroy } from '@angular/core/src/metadata/lifecycle_hooks';
 import { MixpanelService, MixpanelEvent } from 'services/mixpanel.service';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { Router } from '@angular/router';
@@ -14,11 +14,17 @@ import { Subscription } from 'rxjs/Subscription';
     templateUrl: 'content-project-drafts-layout.component.html',
     styleUrls: ['content-project-drafts-layout.component.scss']
 })
-export class ContentProjectDraftsLayoutComponent implements OnInit {
+export class ContentProjectDraftsLayoutComponent implements OnInit, OnDestroy {
     contentItems: ContentItemModel[] = [];
     contentItemsSub: Subscription;
     isLoading = false;
     searchCriteria = '';
+
+    searchShowAll = true;
+    searchShowIdeas = false;
+    searchShowInProgress = false;
+    searchShowContent = false;
+
     isFilteringSearch = false;
 
     constructor(private tracking: MixpanelService, private toast: ToastsManager, private router: Router,
@@ -39,6 +45,10 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
         this.sharedData.lazyLoadContentItems();
     }
 
+    ngOnDestroy(): void {
+        if (this.contentItemsSub) this.contentItemsSub.unsubscribe();
+    }
+
     AddItem() {
         let currentProjectId = this.sharedData.currentProject.getValue().id;
         let url = `/content/${currentProjectId}/items/create`;
@@ -54,8 +64,15 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
     }
 
     clearSearch() {
+        // Reset filtering
         this.searchCriteria = '';
         this.isFilteringSearch = false;
+        this.searchShowAll = true;
+        this.searchShowIdeas = false;
+        this.searchShowInProgress = false;
+        this.searchShowContent = false;
+
+        // Reload data
         this.subscribeToAllContentItems();
     }
 
@@ -66,9 +83,13 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
         }
 
         // Subscribe to all content items
-        this.contentItemsSub = this.sharedData.contentItems.subscribe(
-            response => this.contentItems = response
-        );
+        this.contentItemsSub = this.sharedData.contentItems
+            .map(items2 => items2.filter(item2 => this.filterContentItemsByChecks(item2)))
+            .subscribe(response => this.contentItems = response);
+    }
+
+    updateSearch() {
+        this.search('');
     }
 
     search(criteria: string = '') {
@@ -84,14 +105,18 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
         this.contentItemsSub.unsubscribe();
 
         // Resubscribe, but filter the results
-        this.contentItemsSub = this.sharedData.contentItems.map(
-            items => items.filter(item => this.filterContentItems(item))).subscribe(
-            response => this.contentItems = response
-            );
+        this.contentItemsSub = this.sharedData.contentItems
+            .map(items => items.filter(item => this.filterContentItems(item)))
+            .map(items2 => items2.filter(item2 => this.filterContentItemsByChecks(item2)))
+            .subscribe(response => this.contentItems = response);
     }
 
     // Used when the user is searching to find matching content items
     filterContentItems(item: ContentItemModel): boolean {
+        if (this.searchCriteria === '') {
+            return true;
+        }
+
         if (item.Title === this.searchCriteria) {
             return true;
         }
@@ -107,6 +132,26 @@ export class ContentProjectDraftsLayoutComponent implements OnInit {
         }
 
         // Content item does not match search criteria
+        return false;
+    }
+
+    filterContentItemsByChecks(item: ContentItemModel): boolean {
+        if (this.searchShowAll) {
+            return true;
+        }
+
+        if (this.searchShowIdeas && item.State === 'idea') {
+            return true;
+        }
+
+        if (this.searchShowInProgress && item.State === 'in-progress') {
+            return true;
+        }
+
+        if (this.searchShowContent && item.State === 'content') {
+            return true;
+        }
+
         return false;
     }
 }
