@@ -82,7 +82,7 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
     }
 
     // Validate
-    if (!this.addGroupFormData.Name || !this.addGroupFormData.Description) {
+    if (!this.addGroupFormData.Name) {
       console.log('Not valid');
       return;
     }

@@ -11,12 +11,12 @@
             <div *ngFor="let grouping of allPublicEventGroups">
                 <div class="row">
                     <div class="col-xs-12">
-                        <h3>{{ grouping.GroupingName }}</h3>
+                        <h3>{{ grouping.Category }}</h3>
                     </div>
                 </div>
 
                 <div class="row" *ngFor="let group of grouping.Groups">
-                    <div [ngClass]="grouping.GroupingName?'col-xs-9 col-xs-offset-1':'col-xs-10'">
+                    <div [ngClass]="grouping.Category?'col-xs-9 col-xs-offset-1':'col-xs-10'">
                         <p>
                             <strong>{{ group.Name }}</strong>
                             <br/> {{ group.Description }}

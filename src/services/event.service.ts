@@ -77,7 +77,7 @@ export class EventGroupModel {
 }
 
 export class EventGroupModelGrouped {
-    GroupingName: string;
+    Category: string;
     Groups: EventGroupModel;
 }
 
