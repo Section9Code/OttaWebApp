@@ -1,34 +1,35 @@
-<p>
-  Arrange your events into groups to make them easier to manage
-</p>
+<otta-panel id="project_events" [title]="'Events'" [loading]="isLoadingProjectGroups">
+  <p>
+    Arrange your events into groups to make them easier to manage
+  </p>
 
-<p>
-  <a (click)="showAddGroup()">Add group</a>
-</p>
+  <p>
+    <a (click)="showAddGroup()">Add group</a>
+  </p>
 
-<div *ngFor="let group of eventGroups">
-  <h3>
-    <span (click)="showUpdateGroup(group.Group.id)" style="color: black; padding: 5px;" [ngStyle]="{ 'background-color': group.Group.ColourHex }" >{{ group.Group.Name }}</span> -
-    <a (click)="deleteGroup(group.Group.id)" class="badge btn-default">Delete</a>
-  </h3>
-  <div style="padding-left: 20px; margin-bottom: 20px;">
-    <ul>
-      <li *ngFor="let date of group.Dates">
-        {{ date.StartDate | date:'mediumDate' }} - {{ date.Title }} -
-        <a class="badge badge-default" (click)="removeDate(group.Group.id, date.id)">Delete</a>
-      </li>
-      <li>
-        <a (click)="showAddDateModal(group.Group.id)">Add date to {{ group.Group.Name }}</a>
-      </li>
-    </ul>
+  <div *ngFor="let group of eventGroups">
+    <h3>
+      <span (click)="showUpdateGroup(group.Group.id)" style="color: black; padding: 5px;" [ngStyle]="{ 'background-color': group.Group.ColourHex }">{{ group.Group.Name }}</span> -
+      <a (click)="deleteGroup(group.Group.id)" class="badge btn-default">Delete</a>
+    </h3>
+    <div style="padding-left: 20px; margin-bottom: 20px;">
+      <ul>
+        <li *ngFor="let date of group.Dates">
+          {{ date.StartDate | date:'mediumDate' }} - {{ date.Title }} -
+          <a class="badge badge-default" (click)="removeDate(group.Group.id, date.id)">Delete</a>
+        </li>
+        <li>
+          <a (click)="showAddDateModal(group.Group.id)">Add date to {{ group.Group.Name }}</a>
+        </li>
+      </ul>
+    </div>
   </div>
-</div>
 
-<p>
-  <br />
-  <a (click)="showAddGroup()">Add group</a>
-</p>
-
+  <p>
+    <br />
+    <a (click)="showAddGroup()">Add group</a>
+  </p>
+</otta-panel>
 
 
 <div class="modal inmodal" id="addGroupModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -62,7 +63,8 @@
           <div class="form-group" [class.has-error]="!groupDescription.valid">
             <label class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
-              <textarea class="form-control" id="groupDescription" name="groupDescription" [(ngModel)]="addGroupFormData.Description" required #groupDescription="ngModel"></textarea>
+              <textarea class="form-control" id="groupDescription" name="groupDescription" [(ngModel)]="addGroupFormData.Description" required
+                #groupDescription="ngModel"></textarea>
               <span class="help-block m-b-none">
                 A description of the group
               </span>

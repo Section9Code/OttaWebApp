@@ -21,6 +21,7 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
   @Input() project: ContentProjectModel = null;
 
   // Variables
+  isLoadingProjectGroups = false;
   eventGroups: EventGroupDatesModel[] = [];
   eventGroupsSub: Subscription;
   addGroupName = '';
@@ -43,12 +44,15 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     // Load the projects event groups
+    this.isLoadingProjectGroups = true;
     this.eventGroupsSub = this.eventService.getAllProjectEventGroups(this.project.id).subscribe(
       response => {
+        this.isLoadingProjectGroups = false;
         console.log('Loaded event groups', response);
         this.eventGroups = response;
       },
       error => {
+        this.isLoadingProjectGroups = false;
         console.log('Error loading event groups');
         this.toast.error('Error loading event groups');
         this.tracking.TrackError('Error loading event groups for project', error);

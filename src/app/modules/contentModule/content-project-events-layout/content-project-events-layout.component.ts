@@ -14,7 +14,6 @@ import { TourService } from 'services/tour.service';
     styleUrls: ['content-project-events-layout.component.scss']
 })
 export class ContentProjectEventsLayoutComponent implements OnInit, OnDestroy {
-    isLoading = false;
     isLoadingPublicGroups = false;
 
     currentProject: ContentProjectModel;
@@ -32,12 +31,10 @@ export class ContentProjectEventsLayoutComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         // Load the current project
-        this.isLoading = true;
         this.currentProjectSub = this.sharedDataService.currentProject.subscribe(
             response => {
                 console.log('Events: Loaded project', response);
                 this.currentProject = response;
-                this.isLoading = false;
             }
         );
 
