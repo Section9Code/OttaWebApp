@@ -62,6 +62,7 @@ export enum MixpanelEvent
   WelcomeToTheTeam,
   Home,
   Join,
+  Added_Suggestion,
 
   // Suggestions
   View_all_suggestions,

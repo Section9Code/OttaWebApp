@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { environment } from 'environments/environment';
 import { ToastsManager } from 'ng2-toastr';
 import { UserService } from 'services/user.service';
+import { MixpanelService, MixpanelEvent } from 'services/mixpanel.service';
 
 declare var $: any;
 
@@ -13,7 +14,7 @@ export class FooterComponent {
   version: string = environment.version;
   suggestionText: string;
 
-  constructor(private toast: ToastsManager, private userService: UserService) { }
+  constructor(private toast: ToastsManager, private userService: UserService, private tracking: MixpanelService) { }
 
   showMakeSuggestion() {
     $(`#makeSuggestionModal`).modal('show');
@@ -26,9 +27,11 @@ export class FooterComponent {
     this.userService.addSuggestion(message).toPromise()
       .then(response => {
         this.toast.success('Thank you for your suggestion');
+        this.tracking.Track(MixpanelEvent.Added_Suggestion);
       })
-      .catch(() => {
+      .catch(error => {
         this.toast.error('Sorry, can\'t take your suggestion right now');
+        this.tracking.TrackError('Error occurred when the user tried to add a suggestion', error);
       });
 
     // Close the modal
