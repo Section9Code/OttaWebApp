@@ -22,6 +22,8 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
 
   // Variables
   isLoadingProjectGroups = false;
+  isCreatingDate = false;
+
   eventGroups: EventGroupDatesModel[] = [];
   eventGroupsSub: Subscription;
   addGroupName = '';
@@ -189,7 +191,7 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
     console.log('Add Date', this.addDateFormData);
 
     // Validate
-    if (!this.addDateFormData.Title || !this.addDateFormData.Description || !this.addDateFormData.StartDate) {
+    if (!this.addDateFormData.Title || !this.addDateFormData.StartDate) {
       // Not all the form data has been supplied
       return;
     }
@@ -198,6 +200,8 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
     const selectedDate: any = this.addDateFormData.StartDate;
     this.addDateFormData.StartDate = new Date(selectedDate.date.year, selectedDate.date.month - 1, selectedDate.date.day, 0, 0, 0, 0);
 
+    // Add the date to the system
+    this.isCreatingDate = true;
     this.eventService.addPrivateDate(this.project.id, this.addDateFormData).toPromise()
       .then(response => {
         console.log('Date added');
@@ -210,11 +214,13 @@ export class ContentEventsComponent implements OnInit, OnDestroy {
         this.addDateFormData = new EventDateModel();
 
         // Tell the user
-        this.toast.success('Date has been added', 'Date added');
+        this.isCreatingDate = false;
+        this.toast.success('Date has been added');
         $(`#addDateModal`).modal('hide');
       })
       .catch(error => {
-        this.toast.error('Unable to add date to group', 'Error');
+        this.isCreatingDate = false;
+        this.toast.error('Unable to add date to group');
         this.tracking.TrackError('Error occurred adding date to group', error);
       });
   }
