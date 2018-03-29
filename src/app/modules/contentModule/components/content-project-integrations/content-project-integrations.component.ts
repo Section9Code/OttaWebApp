@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, Input } from '@angular/core';
-import { ContentProjectIntegrationService, ProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
+import { ContentProjectIntegrationService, ProjectIntegrationModel, WordpressProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
 import { ToastsManager } from 'ng2-toastr';
 import { MixpanelService } from 'services/mixpanel.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
@@ -21,6 +21,10 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   // Variables
   isLoadingIntegration = false;
   integrations: ProjectIntegrationModel[];
+  isCreating = false;
+
+  // Forms
+  wordpressForm: WordpressProjectIntegrationModel = new WordpressProjectIntegrationModel();
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -56,6 +60,14 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   }
 
   // Methods
-  addWordpres() {
+  showWordpressForm() {
+    this.wordpressForm = new WordpressProjectIntegrationModel();
+    $('#wordpressModal').modal('show');
+  }
+
+  addWordpressIntegration(){
+    console.log('Add wordpress integration');
+
+    $('#wordpressModal').modal('hide');
   }
 }
