@@ -41,6 +41,8 @@ import { ContentCalendarComponent } from './components/content-calendar/content-
 import { ContentItemContentService } from 'services/content-item-content.service';
 import { EventService } from 'services/event.service';
 import { ContentEventsComponent } from './components/content-events/content-events.component';
+import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
+import { ContentProjectIntegrationsComponent } from './components/content-project-integrations/content-project-integrations.component';
 
 
 // Routes for this module to be added to the application
@@ -96,6 +98,7 @@ const routes: Routes = [
         ContentProjectSettingsLayoutComponent,
         ContentProjectDraftsCreateLayoutComponent,
         ContentProjectDraftsUpdateLayoutComponent,
+        ContentProjectIntegrationsComponent,
 
         // Components
         ContentProjectListComponent,
@@ -113,7 +116,8 @@ const routes: Routes = [
         ContentProjectShareService,
         CommentService,
         ContentItemContentService,
-        EventService
+        EventService,
+        ContentProjectIntegrationService
     ],
 })
 export class ContentModule {
