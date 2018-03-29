@@ -5,6 +5,7 @@ import { CreatorInfo } from 'services/suggestions.service';
 import { Observable } from 'rxjs/Observable';
 import { ContentItemTypeModel } from 'services/content-item-type.service';
 import { EventDateModel, EventGroupModel } from './event.service';
+import { WordpressLinkModel } from './ContentProjectIntegration.service';
 
 @Injectable()
 export class ContentItemService {
@@ -68,6 +69,8 @@ export class ContentItemModel {
   DeadLine: Date;
   Tasks: ContentItemTask[];
   Tags: string[];
+
+  WordpressLink: WordpressLinkModel;
 }
 
 export class ContentItemTask {

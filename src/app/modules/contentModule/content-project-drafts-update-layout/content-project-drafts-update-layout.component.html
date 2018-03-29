@@ -2,7 +2,8 @@
 <div class="row" *ngIf="!isLoading">
     <div class="col-xs-12 col-sm-8">
         <otta-panel [title]="'Update'">
-            <content-item-details [data]="item" [content]="itemContent" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="updateItem($event)" [createButtonText]="'Update'"></content-item-details>
+            <content-item-details [data]="item" [content]="itemContent" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="updateItem($event)"
+                [createButtonText]="'Update'"></content-item-details>
         </otta-panel>
     </div>
     <div class="col-xs-12 col-sm-4">
@@ -15,12 +16,26 @@
         </otta-panel>
 
         <otta-panel [title]="'Integration'">
-            <p>
-                Connect this post to your other sources
-            </p>
-            <p *ngIf="hasWordpressIntegration">
-                <button class="btn btn-default" (click)="linkToWordpress()">Link to wordpress</button>
-            </p>
+            <div *ngIf="hasWordpressIntegration || item.WordpressLink">
+
+                <div class="pull-left">
+                    <i class="fa fa-wordpress fa-5x"></i>
+                </div>
+                <h2>Wordpress</h2>
+
+                <div *ngIf="!item.WordpressLink">
+                    <p>
+                        Connect this post to your other sources
+                    </p>
+                    <p *ngIf="hasWordpressIntegration">
+                        <button class="btn btn-default" (click)="linkToWordpress()">Link to wordpress</button>
+                    </p>
+                </div>
+                <p *ngIf="item.WordpressLink">
+                    <a href="http://ottatest.azurewebsites.net/wp-admin/post.php?post={{ item.WordpressLink.BlogPostId }}&action=edit" target="_new">Go to your wordpress post</a>
+                </p>
+
+            </div>
         </otta-panel>
 
         <otta-panel [title]="'Discussion'">

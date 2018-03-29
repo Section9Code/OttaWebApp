@@ -9,7 +9,7 @@ import { ContentDataMessage } from '../components/content-item-details/content-i
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from 'services/auth.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
-import { ProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
+import { ProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 
 @Component({
     moduleId: module.id,
@@ -44,6 +44,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         private sharedData: ContentProjectShareService,
         private contentItemService: ContentItemService,
         private contentItemContentService: ContentItemContentService,
+        private integrationService: ContentProjectIntegrationService,
         private auth: AuthService,
         private alertSvc: SweetAlertService
     ) { }
@@ -175,5 +176,25 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
 
     linkToWordpress() {
         console.log('Link item to wordpress');
+
+        if(!this.item.DeadLine)
+        {
+            this.toast.info('A post must have a deadline before it can be added to your wordpress site','Information');
+            return;
+        }
+
+        // Create the blog post
+        this.integrationService.createWordpressForItem(this.item.ProjectId, this.item.id).toPromise()
+        .then(response => {
+            // Link the item to its blog post
+            this.item.WordpressLink = response;
+            this.sharedData.updateContent(this.item);
+            this.toast.success('Blog post create');
+        })
+        .catch(error => {
+            console.log('Error while creating blog post');
+            this.tracking.TrackError('Error creating blog post for content item');
+            this.toast.error('Unable to create blog post', 'Error');
+        });
     }
 }
