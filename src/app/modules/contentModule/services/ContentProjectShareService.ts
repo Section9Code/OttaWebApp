@@ -186,4 +186,24 @@ export class ContentProjectShareService {
     this.currentProject.next(project);
   }
 
+  addIntegration(newIntegration: ProjectIntegrationModel) {
+    var list = this.integrations.getValue();
+    list.push(newIntegration);
+    this.integrations.next(list);
+  }
+
+  updateIntegration(integration: ProjectIntegrationModel) {
+    this.removeIntegration(integration.id);
+    this.addIntegration(integration);
+  }
+
+  removeIntegration(oldIntegrationId: string) {
+    var list = this.integrations.getValue();
+    var index: number = list.findIndex(x => x.id === oldIntegrationId);
+    if (index > -1) {
+      list.splice(index, 1);
+      this.integrations.next(list);
+    }
+  }
+
 }
