@@ -14,6 +14,15 @@
             <button type="button" class="btn btn-danger" (click)="deleteItem()">Delete</button>
         </otta-panel>
 
+        <otta-panel [title]="'Integration'">
+            <p>
+                Connect this post to your other sources
+            </p>
+            <p *ngIf="hasWordpressIntegration">
+                <button class="btn btn-default" (click)="linkToWordpress()">Link to wordpress</button>
+            </p>
+        </otta-panel>
+
         <otta-panel [title]="'Discussion'">
             <otta-comment [ParentOrganisationId]="item.Partition" [ParentObjectId]="item.id"></otta-comment>
         </otta-panel>

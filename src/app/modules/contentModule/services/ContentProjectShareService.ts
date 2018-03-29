@@ -12,7 +12,7 @@ import { ContentItemModel, ContentItemService } from 'services/content-item.serv
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { MixpanelService } from 'services/mixpanel.service';
 import { ContentItemTypeModel, ContentItemTypeService } from 'services/content-item-type.service';
-import { ProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
+import { ProjectIntegrationModel, ContentProjectIntegrationService, IntegrationTypes } from 'services/ContentProjectIntegration.service';
 
 // This service is shared by the content project pages to make sure important data is only processed once
 @Injectable()
@@ -204,6 +204,18 @@ export class ContentProjectShareService {
       list.splice(index, 1);
       this.integrations.next(list);
     }
+  }
+
+  hasWordpressIntegration(): boolean {
+    const list = this.integrations.getValue();
+    const index = list.findIndex(i => i.IntegrationType === IntegrationTypes.Wordpress);
+    return index !== -1;
+  }
+
+  hasMediumIntegration(): boolean {
+    const list = this.integrations.getValue();
+    const index = list.findIndex(i => i.IntegrationType === IntegrationTypes.Medium);
+    return index !== -1;
   }
 
 }

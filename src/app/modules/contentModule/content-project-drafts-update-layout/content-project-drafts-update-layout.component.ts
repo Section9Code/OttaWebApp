@@ -9,6 +9,7 @@ import { ContentDataMessage } from '../components/content-item-details/content-i
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from 'services/auth.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
+import { ProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
 
 @Component({
     moduleId: module.id,
@@ -31,6 +32,9 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     contentItemSub: Subscription;
     contentItemContentSub: Subscription;
     isAdminSub: Subscription;
+
+    // Integrations
+    hasWordpressIntegration = false;
 
     constructor(
         private router: Router,
@@ -75,6 +79,9 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         this.isAdminSub = this.sharedData.userIsAdmin.subscribe(
             response => this.userIsAdmin = response
         );
+
+        // Integrations
+        this.hasWordpressIntegration = this.sharedData.hasWordpressIntegration();
 
         // Get the current users profile
         this.currentUsersAuthId = this.auth.currentUserAuthId();
@@ -164,5 +171,9 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         // Navigate back to drafts
         const url = `/content/${this.sharedData.currentProject.getValue().id}/items`;
         this.router.navigateByUrl(url);
+    }
+
+    linkToWordpress() {
+        console.log('Link item to wordpress');
     }
 }

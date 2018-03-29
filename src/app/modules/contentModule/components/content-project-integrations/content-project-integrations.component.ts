@@ -65,8 +65,6 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   sortIntegration() {
     this.wordpressIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Wordpress);
     this.mediumIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Medium);
-    console.log('Sorted integrations', this.wordpressIntegrations);
-    console.log('Sorted integrations', this.wordpressIntegrations.length);
   }
 
   // Methods
