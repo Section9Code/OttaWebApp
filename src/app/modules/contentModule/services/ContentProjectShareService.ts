@@ -12,6 +12,7 @@ import { ContentItemModel, ContentItemService } from 'services/content-item.serv
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { MixpanelService } from 'services/mixpanel.service';
 import { ContentItemTypeModel, ContentItemTypeService } from 'services/content-item-type.service';
+import { ProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 
 // This service is shared by the content project pages to make sure important data is only processed once
 @Injectable()
@@ -31,11 +32,21 @@ export class ContentProjectShareService {
   isLoadingContentTypes = new BehaviorSubject<boolean>(false);
   contentTypes = new BehaviorSubject<ContentItemTypeModel[]>([]);
 
+  // Integrations
+  isLoadingIntegrations = new BehaviorSubject<boolean>(false);
+  integrations = new BehaviorSubject<ProjectIntegrationModel[]>([]);
+
 
   // Construct the service
-  constructor(private contentProjectService: ContentProjectService, private organisationService: OrganisationService,
-    private userDataService: UserDataService, private contentItemService: ContentItemService, private toast: ToastsManager,
-    private tracking: MixpanelService, private contentTypeService: ContentItemTypeService) {
+  constructor(
+    private contentProjectService: ContentProjectService,
+    private organisationService: OrganisationService,
+    private userDataService: UserDataService,
+    private contentItemService: ContentItemService,
+    private toast: ToastsManager,
+    private tracking: MixpanelService,
+    private contentTypeService: ContentItemTypeService,
+    private integrationService: ContentProjectIntegrationService) {
     console.log('ContentProjectShareService: Initialize');
   }
 
@@ -48,6 +59,7 @@ export class ContentProjectShareService {
     this.currentProject.next(new ContentProjectModel());
     this.contentItems.next([]);
     this.contentTypes.next([]);
+    this.integrations.next([]);
 
     // Is the user an organisation admin
     this.userIsAdmin.next(this.userDataService.userIsOrgAdmin);
@@ -64,6 +76,20 @@ export class ContentProjectShareService {
       response => this.contentTypes.next(response),
       error => console.log('ContentProjectShareService: Error loading content types', projectId),
       () => console.log('ContentProjectShareService: Done loading content types', projectId)
+    );
+
+    // Load the project integrations
+    this.isLoadingIntegrations.next(true);
+    this.integrationService.getAll(projectId).subscribe(
+      response => {
+        this.integrations.next(response);
+        this.isLoadingIntegrations.next(false);
+      },
+      error => {
+        console.log('ContentProjectShareService: Error loading project integrations', projectId);
+        this.isLoadingIntegrations.next(false);
+      },
+      () => console.log('ContentProjectShareService: Done loading integrations', projectId)
     );
   }
 
