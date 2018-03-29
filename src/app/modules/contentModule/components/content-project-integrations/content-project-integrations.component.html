@@ -1,7 +1,19 @@
 <otta-panel [title]="'Integrations'" [loading]="isLoadingIntegration">
   <div>
-    <h3>Wordpress</h3>
-    <button class="btn btn-default" (click)="showWordpressForm()">Add your wordpress site</button>
+    <h3>Wordpress</h3>    
+    <button *ngIf="wordpressIntegrations.length === 0" class="btn btn-default" (click)="showWordpressForm()">Add your wordpress site</button> 
+
+    <div *ngFor="let wpIntegration of wordpressIntegrations" class="widget style1 navy-bg">
+        <div class="row">
+            <div class="col-xs-4">
+                <i class="fa fa-wordpress fa-5x"></i>
+            </div>
+            <div class="col-xs-8 text-right">
+                <span> <strong>{{ wpIntegration.Name }}</strong> </span><br/>
+                <button (click)="removeIntegration(wpIntegration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
+            </div>
+        </div>
+    </div>
 
   </div>
   <!-- <p>
@@ -68,7 +80,7 @@
           <div class="form-group" [class.has-error]="!wpPassword.valid">
             <label class="col-sm-2 control-label">Password</label>
             <div class="col-sm-10">
-              <input type="password" class="form-control" id="wpPassword" name="wpPassword" required [(ngModel)]="wordpressForm.wpPassword" autocomplete="off" #wpPassword="ngModel">
+              <input type="password" class="form-control" id="wpPassword" name="wpPassword" required [(ngModel)]="wordpressForm.Password" autocomplete="off" #wpPassword="ngModel">
               <span class="help-block m-b-none">
                 Password for the user
               </span>

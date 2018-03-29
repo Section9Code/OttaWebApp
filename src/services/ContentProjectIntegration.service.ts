@@ -18,6 +18,10 @@ export class ContentProjectIntegrationService {
     addWordpressIntegration(projectId: string, integration: WordpressProjectIntegrationModel): Observable<ProjectIntegrationModel> {
         return this.authHttp.post(`${this.url}/${projectId}/wordpress`, integration).map(response => response.json());
     }
+
+    removeIntegration(projectId: string, integrationId: string): Observable<boolean> {
+        return this.authHttp.delete(`${this.url}/${projectId}/${integrationId}`).map(response => response.json());
+    }
 }
 
 export class ProjectIntegrationModel {
