@@ -1,31 +1,39 @@
 <otta-panel [title]="'Integrations'" [loading]="isLoadingIntegration">
   <div>
-    <h3>Wordpress</h3>    
-    <button *ngIf="wordpressIntegrations.length === 0" class="btn btn-default" (click)="showWordpressForm()">Add your wordpress site</button> 
-
-    <div *ngFor="let wpIntegration of wordpressIntegrations" class="widget style1 navy-bg">
-        <div class="row">
-            <div class="col-xs-4">
-                <i class="fa fa-wordpress fa-5x"></i>
-            </div>
-            <div class="col-xs-8 text-right">
-                <span> <strong>{{ wpIntegration.Name }}</strong> </span><br/>
-                <button (click)="removeIntegration(wpIntegration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
-            </div>
-        </div>
+    <h3>Wordpress</h3>
+    <div *ngIf="wordpressIntegrations.length === 0">
+      <p>
+        Connect this project directly to your wordpress site so it is able to manage your posts for you.
+      </p>
+      <button class="btn btn-default" (click)="showWordpressForm()">Add your wordpress site</button>
     </div>
 
+    <div *ngFor="let wpIntegration of wordpressIntegrations" class="widget style1 navy-bg">
+      <div class="row">
+        <div class="col-xs-4">
+          <i class="fa fa-wordpress fa-5x"></i>
+        </div>
+        <div class="col-xs-8 text-right">
+          <span>
+            <strong>{{ wpIntegration.Name }}</strong>
+          </span>
+          <br/>
+          <button (click)="removeIntegration(wpIntegration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
+        </div>
+      </div>
+    </div>
   </div>
-  <!-- <p>
-    <strong>Coming soon</strong>
-    <ul>
-      <li>Wordpress</li>
-      <li>Twitter</li>
-      <li>Medium</li>
-      <li>Facebook</li>
-      <li>Pinterest</li>
-    </ul>
-  </p> -->
+
+
+  <div>
+    <h3>Medium</h3>
+    <div *ngIf="mediumIntegrations.length === 0">
+        <p>
+          Connect this project directly to medium so it is able to manage your posts for you.
+        </p>
+        <button class="btn btn-default" (click)="showMediumForm()">Add your medium site</button>
+      </div>
+  </div>
 </otta-panel>
 
 <div class="modal inmodal" id="wordpressModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -49,7 +57,9 @@
           You need to:
         </p>
         <ul>
-          <li>Add a new user to your site, set it's type to <strong>Editor</strong></li>
+          <li>Add a new user to your site, set it's type to
+            <strong>Editor</strong>
+          </li>
           <li>Give it a strong password</li>
         </ul>
 
@@ -59,7 +69,8 @@
           <div class="form-group" [class.has-error]="!wpHost.valid">
             <label class="col-sm-2 control-label">Website URL</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="wpHost" name="wpHost" required [(ngModel)]="wordpressForm.WebsiteUrl" placeholder="https://www.website.com" #wpHost="ngModel">
+              <input type="text" class="form-control" id="wpHost" name="wpHost" required [(ngModel)]="wordpressForm.WebsiteUrl" placeholder="https://www.website.com"
+                #wpHost="ngModel">
               <span class="help-block m-b-none">
                 The address of your site, it just needs to be the plain URL. https://www.yoursite.com for instance.
               </span>
@@ -80,7 +91,8 @@
           <div class="form-group" [class.has-error]="!wpPassword.valid">
             <label class="col-sm-2 control-label">Password</label>
             <div class="col-sm-10">
-              <input type="password" class="form-control" id="wpPassword" name="wpPassword" required [(ngModel)]="wordpressForm.Password" autocomplete="off" #wpPassword="ngModel">
+              <input type="password" class="form-control" id="wpPassword" name="wpPassword" required [(ngModel)]="wordpressForm.Password"
+                autocomplete="off" #wpPassword="ngModel">
               <span class="help-block m-b-none">
                 Password for the user
               </span>
