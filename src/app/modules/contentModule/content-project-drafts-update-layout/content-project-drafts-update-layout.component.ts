@@ -35,6 +35,8 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
 
     // Integrations
     hasWordpressIntegration = false;
+    isUpdatingWPPost = false;
+    isDeletingWPPost = false;
 
     constructor(
         private router: Router,
@@ -95,36 +97,45 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         if (this.isAdminSub) { this.isAdminSub.unsubscribe() };
     }
 
-    updateItem(data: ContentDataMessage) {
+    updateItem(data: ContentDataMessage, closeOnCompletion: boolean = false) {
         console.log('Update draft', data);
         this.isUpdating = true;
 
-        // Update the draft
+        // Update the content item
         this.contentItemService.updateItem(data.contentItem).toPromise()
             .then(response => {
-                // Draft item updated
+                // Item updated
+                this.item = response;
+
+                // Update the item's content
                 const contentItem = new ContentItemContentModel();
                 contentItem.Content = data.content;
                 contentItem.ParentContentItemId = response.id;
-
-                // Update the item content
                 this.contentItemContentService.addContent(contentItem).toPromise()
                     .then(contentResponse => {
                         // Content updated
                         this.sharedData.updateContent(response);
                         this.toast.success('Item updated');
-                        this.navigateBackToItems();
+                        this.isUpdating = false;
+                        this.itemContent = contentResponse;
+
+                        // Close if required
+                        if (closeOnCompletion) {
+                            this.navigateBackToItems();
+                        }
                     })
                     .catch(error => {
                         // Error storing content
                         this.toast.error('Unable to store content')
                         this.tracking.TrackError('Unable to store content', error);
+                        this.isUpdating = false;
                     });
             })
             .catch(error => {
                 // Unable to update draft item
                 this.toast.error('Unable to update item')
                 this.tracking.TrackError('Unable to update item', error);
+                this.isUpdating = false;
             });
 
     }
@@ -174,27 +185,116 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         this.router.navigateByUrl(url);
     }
 
-    linkToWordpress() {
+    createWordpressPost() {
         console.log('Link item to wordpress');
 
-        if(!this.item.DeadLine)
-        {
-            this.toast.info('A post must have a deadline before it can be added to your wordpress site','Information');
+        if (!this.item.DeadLine) {
+            this.toast.info('A post must have a deadline before it can be added to your wordpress site', 'Information');
             return;
         }
 
         // Create the blog post
         this.integrationService.createWordpressForItem(this.item.ProjectId, this.item.id).toPromise()
-        .then(response => {
-            // Link the item to its blog post
-            this.item.WordpressLink = response;
-            this.sharedData.updateContent(this.item);
-            this.toast.success('Blog post create');
-        })
-        .catch(error => {
-            console.log('Error while creating blog post');
-            this.tracking.TrackError('Error creating blog post for content item');
-            this.toast.error('Unable to create blog post', 'Error');
-        });
+            .then(response => {
+                // Link the item to its blog post
+                this.item.WordpressLink = response;
+                this.sharedData.updateContent(this.item);
+                this.toast.success('Blog post create');
+            })
+            .catch(error => {
+                console.log('Error while creating blog post');
+                this.tracking.TrackError('Error creating blog post for content item');
+                this.toast.error('Unable to create blog post', error);
+            });
+    }
+
+    updateWordpressPost() {
+        console.log('Update wordpress post');
+
+        // Make sure there is a linked wordpress post        
+        if (this.item.WordpressLink) {
+
+            // Alert the user
+            this.alertSvc.swal({
+                title: 'Update content',
+                text: "Are you sure you want to <strong>update</strong>?<br/><br/>Any changes you have made to the content of the blog post will be replaced.",
+                type: 'info',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Yes, delete it!'
+            }).then(() => {
+                // Confirmed
+                console.log('Confirmed');
+
+                // Update the post
+                this.isUpdatingWPPost = true;
+                this.integrationService.updateWordpressForItem(this.item.ProjectId, this.item.id).toPromise()
+                    .then(updateResponse => {
+                        this.item.WordpressLink = updateResponse;
+                        this.sharedData.updateContent(this.item);
+                        this.toast.success('Blog post updated');
+                        this.isUpdatingWPPost = false;
+                    })
+                    .catch(updateError => {
+                        console.log('Error while updating blog post');
+                        this.tracking.TrackError('Error updating blog post for content item');
+                        this.toast.error('Unable to update blog post', updateError);
+                        this.isUpdatingWPPost = false;
+                    });
+            },
+                error => {
+                    // Error
+                    console.log('Alert dismissed');
+                },
+                () => {
+                    // Complete
+                }
+            );
+        }
+
+    }
+
+    deleteWordpressPost() {
+        console.log('Delete wordpress post');
+
+        // Confirm action with user
+        this.alertSvc.swal({
+            title: 'Delete post',
+            text: "Are you sure you want to <strong>delete</strong> this wordpress post?<br/><br/>Any changed you have made on your site will be lost",
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonColor: '#3085d6',
+            cancelButtonColor: '#d33',
+            confirmButtonText: 'Yes, delete it!'
+        }).then(() => {
+            // Confirmed
+            console.log('Confirmed');
+
+            this.isDeletingWPPost = true;
+            this.integrationService.deleteWordpressForItem(this.item.ProjectId, this.item.id).toPromise()
+                .then(deleteResponse => {
+                    // WP post deleted
+                    this.item.WordpressLink = null;
+                    this.sharedData.updateContent(this.item);
+                    this.toast.success('Blog post deleted');
+                    this.isDeletingWPPost = false;
+                })
+                .catch(deleteError => {
+                    // Error deleting WP post
+                    console.log('Error while deleting blog post');
+                    this.tracking.TrackError('Error deleting blog post for content item');
+                    this.toast.error('Unable to deleting blog post', deleteError);
+                    this.isDeletingWPPost = false;
+                });
+        },
+            error => {
+                // Error
+                console.log('Alert dismissed');
+            },
+            () => {
+                // Complete
+            }
+        );
     }
 }

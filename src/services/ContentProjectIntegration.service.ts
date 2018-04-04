@@ -26,6 +26,14 @@ export class ContentProjectIntegrationService {
     createWordpressForItem(projectId: string, contentId: string): Observable<WordpressLinkModel> {
         return this.authHttp.post(`${this.url}/${projectId}/wordpress/create/${contentId}`, null).map(response => response.json());
     }
+
+    updateWordpressForItem(projectId: string, contentId: string): Observable<WordpressLinkModel> {
+        return this.authHttp.put(`${this.url}/${projectId}/wordpress/create/${contentId}`, null).map(response => response.json());
+    }
+
+    deleteWordpressForItem(projectId: string, contentId: string): Observable<boolean> {
+        return this.authHttp.delete(`${this.url}/${projectId}/wordpress/create/${contentId}`, null).map(response => response.json());
+    }
 }
 
 export class ProjectIntegrationModel {
@@ -56,4 +64,5 @@ export class WordpressLinkModel
 {
     BlogPostId: string;
     Url: string;
+    LastPublishedContentId: string;
 }
