@@ -130,7 +130,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
         newEvent.title = `${item.Title}`;
         newEvent.start = moment(item.DeadLine);
         newEvent.color = item.ContentTypeColourHex;
-        newEvent.borderColor = 'gray';
+        //newEvent.borderColor = 'gray';
 
         newEvent.isContent = true;
         newEvent.isEvent = false;
