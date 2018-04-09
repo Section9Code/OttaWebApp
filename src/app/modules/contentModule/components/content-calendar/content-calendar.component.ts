@@ -9,6 +9,7 @@ import { Observer } from 'rxjs/Observer';
 import { ISubscription, Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
 import { Router } from '@angular/router';
+import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 
 declare var jQuery: any;
 
@@ -56,8 +57,12 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     eventDrop: (event, delta, revertFunc, jsEvent, ui, view) => this.eventDrop(event, delta, revertFunc, jsEvent, ui, view)
   };
 
-  constructor(private shared: ContentProjectShareService, private contentItemService: ContentItemService, private toast: ToastsManager,
-    private router: Router) {
+  constructor(
+    private shared: ContentProjectShareService,
+    private contentItemService: ContentItemService,
+    private toast: ToastsManager,
+    private router: Router,
+    private contentIntegrationService: ContentProjectIntegrationService) {
   }
 
   ngOnInit(): void {
@@ -253,9 +258,9 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
         // Update the items deadline
         let newDeadline: moment.Moment = event.start;
-        item.DeadLine = new Date(newDeadline.year(), newDeadline.month(), newDeadline.date());
+        item.DeadLine = new Date(newDeadline.toISOString() + '+00:00');
 
-        // Update
+        // Update the content item with the new deadline
         this.contentItemService.updateItem(item).toPromise()
           .then(updateResponse => {
             this.toast.success('Item updated');

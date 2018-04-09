@@ -23,6 +23,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     item: ContentItemModel = new ContentItemModel();
     itemContent: ContentItemContentModel = new ContentItemContentModel();
     isLoading = false;
+    isCreatingLink = false;
     isUpdating = false;
     userIsAdmin = false;
     currentUsersAuthId = '';
@@ -189,22 +190,25 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         console.log('Link item to wordpress');
 
         if (!this.item.DeadLine) {
-            this.toast.info('A post must have a deadline before it can be added to your wordpress site', 'Information');
+            this.toast.error('A post must have a deadline before it can be added to your wordpress site', 'Information');
             return;
         }
 
         // Create the blog post
+        this.isCreatingLink = true;
         this.integrationService.createWordpressForItem(this.item.ProjectId, this.item.id).toPromise()
             .then(response => {
                 // Link the item to its blog post
                 this.item.WordpressLink = response;
                 this.sharedData.updateContent(this.item);
                 this.toast.success('Blog post create');
+                this.isCreatingLink = false;
             })
             .catch(error => {
                 console.log('Error while creating blog post');
                 this.tracking.TrackError('Error creating blog post for content item');
                 this.toast.error('Unable to create blog post', error);
+                this.isCreatingLink = false;
             });
     }
 
@@ -222,7 +226,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
                 cancelButtonColor: '#d33',
-                confirmButtonText: 'Yes, delete it!'
+                confirmButtonText: 'Yes, update it!'
             }).then(() => {
                 // Confirmed
                 console.log('Confirmed');

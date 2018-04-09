@@ -29,14 +29,14 @@
                         Connect this post to your other sources
                     </p>
                     <p *ngIf="hasWordpressIntegration">
-                        <button class="btn btn-default" (click)="createWordpressPost()">Link to wordpress</button>
+                        <button class="btn btn-default" (click)="createWordpressPost()" [ladda]="isCreatingLink">Link to wordpress</button>
                     </p>
                 </div>
                 <!-- Item is linked to wordpress -->
                 <p *ngIf="item.WordpressLink">
                     <a href="http://ottatest.azurewebsites.net/wp-admin/post.php?post={{ item.WordpressLink.BlogPostId }}&action=edit" target="_new">Go to your wordpress post</a>
                     <br/>
-                    <button *ngIf="itemContent.id != item.WordpressLink.LastPublishedContentId" (click)="updateWordpressPost()" class="btn btn-xs btn-outline btn-default" [ladda]="isUpdatingWPPost">Update</button>
+                    <button *ngIf="itemContent.Content && itemContent.id != item.WordpressLink.LastPublishedContentId" (click)="updateWordpressPost()" class="btn btn-xs btn-outline btn-default" [ladda]="isUpdatingWPPost">Update</button>
                     <button class="btn btn-xs btn-outline btn-danger" (click)="deleteWordpressPost()" [ladda]="isDeletingWPPost">Delete</button>
                 </p>
 

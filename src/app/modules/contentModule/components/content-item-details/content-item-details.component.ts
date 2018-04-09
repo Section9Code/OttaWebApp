@@ -71,7 +71,8 @@ export class ContentItemDetailsComponent implements OnInit {
         if (this.displayDeadLineDate) {
             // Update the format
             const selectedDate: any = this.displayDeadLineDate;
-            this.data.DeadLine = new Date(selectedDate.date.year, selectedDate.date.month - 1, selectedDate.date.day, 0, 0, 0, 0);
+            var dateString: string = `${selectedDate.date.year}-${selectedDate.date.month.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${selectedDate.date.day.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}T00:00:00+00:00`;
+            this.data.DeadLine = new Date(dateString);
         }
         else
         {
