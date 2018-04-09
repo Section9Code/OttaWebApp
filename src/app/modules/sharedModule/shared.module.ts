@@ -11,6 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
 import { PipesModule } from 'app/components/common/pipes/pipes.module';
 import { OttaColourPickerComponent } from './otta-colour-picker/otta-colour-picker.component';
+import { OttaDatetimePickerComponent } from './otta-datetime-picker/otta-datetime-picker.component';
 
 // User Profile Feature Module 
 @NgModule({
@@ -27,7 +28,8 @@ import { OttaColourPickerComponent } from './otta-colour-picker/otta-colour-pick
         PanelLoadingSpinnerComponent,
         OttaPanelComponent,
         OttaCommentComponent,
-        OttaColourPickerComponent
+        OttaColourPickerComponent,
+        OttaDatetimePickerComponent
     ],
     declarations: [
         LoadingSpinnerComponent,
@@ -35,7 +37,8 @@ import { OttaColourPickerComponent } from './otta-colour-picker/otta-colour-pick
         PanelLoadingSpinnerComponent,
         OttaPanelComponent,
         OttaCommentComponent,
-        OttaColourPickerComponent
+        OttaColourPickerComponent,
+        OttaDatetimePickerComponent
     ],
     providers: [
     ],

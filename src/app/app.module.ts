@@ -29,6 +29,7 @@ import { SweetAlertService } from 'ng2-sweetalert2';
 import { TagInputModule } from 'ngx-chips';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { MyDatePickerModule } from 'mydatepicker';
+import { A2Edatetimepicker } from 'ng2-eonasdan-datetimepicker';
 import { WelcomeService } from 'services/welcome.service';
 
 import { UserProfileModule } from 'app/modules/userProfileModule/userProfile.module';
@@ -56,7 +57,7 @@ import { TourService } from 'services/tour.service';
     AppviewsModule,
     WidgetsModule,
     PipesModule,
-    
+
     UserProfileModule,
     PersonaModule,
     OrganisationModule,
@@ -68,7 +69,8 @@ import { TourService } from 'services/tour.service';
     ToastModule.forRoot(),  // For showing toast messages to user
     TagInputModule,
     MyDatePickerModule,
-    FroalaEditorModule.forRoot(), 
+    A2Edatetimepicker,
+    FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
     RouterModule.forRoot(ROUTES)
   ],
@@ -83,7 +85,7 @@ import { TourService } from 'services/tour.service';
     AuthenticatedGuard,
     OrganisationAdminGuard,
     MixpanelService,
-    SweetAlertService, 
+    SweetAlertService,
     TourService,
 
     // Create the AuthHttp service for using Auth0 JWT tokens to make calls to the back end

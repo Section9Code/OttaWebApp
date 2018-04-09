@@ -4,6 +4,7 @@ import { ContentProjectShareService } from 'app/modules/contentModule/services/C
 import { ContentItemTypeModel } from 'services/content-item-type.service';
 import { IMyDpOptions, IMyDate } from 'mydatepicker';
 import { ContentItemContentModel } from 'services/content-item-content.service';
+import * as moment from 'moment';
 
 // Example
 // <content-item-details [data]="contentItemData" [content]="contentItemContentData" showCancel=true [isUpdating]="isUpdatingVariable" (submitClicked)="submitMethod(data)" (cancelClicked)="cancelMethod()" [hideHtmlEditor]="false"></content-item-details>
@@ -33,13 +34,7 @@ export class ContentItemDetailsComponent implements OnInit {
         charCounterCount: false
     };
 
-    displayDeadLineDate: any;
-
-    // Options for the date picker
-    datePickerOptions: IMyDpOptions = {
-        // other options...
-        dateFormat: 'dd mmm yyyy',
-    };
+    displayDeadLineDate: moment.Moment;
 
     // Events
     @Output() submitClicked = new EventEmitter<ContentDataMessage>();
@@ -55,32 +50,26 @@ export class ContentItemDetailsComponent implements OnInit {
 
         // Reformat the date into something the data picker understands
         if (this.data.DeadLine) {
-            const currentDate = this.data.DeadLine.toString();
-
-            // tslint:disable-next-line:max-line-length
-            const newDate = { date: { year: +currentDate.substring(0, 4), month: +currentDate.substring(5, 7), day: +currentDate.substring(8, 10) } };
-            this.displayDeadLineDate = newDate;
+            this.displayDeadLineDate = moment(this.data.DeadLine);
         }
     }
 
 
     submitForm() {
-        console.log('Component: Submit form');
+        console.log('Component: Submit form', this.displayDeadLineDate);
 
         // The deadline date of the item needs to be reformatted
         if (this.displayDeadLineDate) {
             // Update the format
-            const selectedDate: any = this.displayDeadLineDate;
-            var dateString: string = `${selectedDate.date.year}-${selectedDate.date.month.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}-${selectedDate.date.day.toLocaleString('en-US', {minimumIntegerDigits: 2, useGrouping:false})}T00:00:00+00:00`;
-            this.data.DeadLine = new Date(dateString);
+            this.data.DeadLine = new Date(this.displayDeadLineDate.toISOString());
         }
-        else
-        {
+        else {
             // No deadline date
             this.data.DeadLine = null;
         }
 
-        const dataGram: ContentDataMessage = {contentItem: this.data, content: this.content.Content};
+        // Send the create event
+        const dataGram: ContentDataMessage = { contentItem: this.data, content: this.content.Content };
         this.submitClicked.emit(dataGram);
     }
 
@@ -89,6 +78,7 @@ export class ContentItemDetailsComponent implements OnInit {
         console.log('Component: Cancel form');
         this.cancelClicked.emit();
     }
+
 }
 
 export class ContentDataMessage {

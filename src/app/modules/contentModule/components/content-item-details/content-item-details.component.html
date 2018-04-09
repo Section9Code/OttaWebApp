@@ -60,8 +60,8 @@
 
     <div class="form-group">
         <label class="col-sm-2 control-label">Deadline</label>
-        <div class="col-sm-10">
-            <my-date-picker name="mydate" [options]="datePickerOptions" [(ngModel)]="displayDeadLineDate"></my-date-picker>
+        <div class="col-sm-10">            
+            <otta-datetime-picker name="dpDeadline" [(ngModel)]="displayDeadLineDate" ></otta-datetime-picker>
             <span class="help-block m-b-none">
                 A deadline isn't required, but can be useful if you want to get this out by a certain date
             </span>
@@ -69,7 +69,7 @@
     </div>
 
     <div class="form-group">
-        <div class="col-sm-4 col-sm-offset-2">
+        <div class="col-sm-10 col-sm-offset-2">
             <button type="button" *ngIf="showCancel" class="btn btn-white" (click)="cancelForm()">{{cancelButtonText}}</button>
             <button class="btn btn-primary" type="submit" (click)="submitForm()" [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">{{createButtonText}}</button>
         </div>
