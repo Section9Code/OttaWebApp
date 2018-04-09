@@ -55,7 +55,7 @@ export class ContentProjectDraftsCreateLayoutComponent implements OnInit {
                                 // Update the list of items
                                 this.sharedData.addContent(newContentItem);
                                 // Navigate back to the list of items
-                                this.navigateBackToItem();
+                                this.navigateToContentItem(newContentItem.id);
                             }
                         )
                         .catch(
@@ -84,6 +84,13 @@ export class ContentProjectDraftsCreateLayoutComponent implements OnInit {
     navigateBackToItem() {
         // Navigate back to items
         const url = `/content/${this.sharedData.currentProject.getValue().id}/items`;
+        this.router.navigateByUrl(url);
+    }
+
+    navigateToContentItem(id: string)
+    {
+        // Navigate back to items
+        const url = `/content/${this.sharedData.currentProject.getValue().id}/items/${id}`;
         this.router.navigateByUrl(url);
     }
 }

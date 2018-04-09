@@ -6,7 +6,7 @@ import { IMyDpOptions, IMyDate } from 'mydatepicker';
 import { ContentItemContentModel } from 'services/content-item-content.service';
 
 // Example
-// <content-item-details [data]="contentItemData" [content]="contentItemContentData" showCancel=true [isUpdating]="isUpdatingVariable" (submitClicked)="submitMethod(data)" (cancelClicked)="cancelMethod()"></content-item-details>
+// <content-item-details [data]="contentItemData" [content]="contentItemContentData" showCancel=true [isUpdating]="isUpdatingVariable" (submitClicked)="submitMethod(data)" (cancelClicked)="cancelMethod()" [hideHtmlEditor]="false"></content-item-details>
 
 @Component({
     moduleId: module.id,
@@ -22,6 +22,7 @@ export class ContentItemDetailsComponent implements OnInit {
     @Input() isUpdating = false;
     @Input() createButtonText = 'Create';
     @Input() cancelButtonText = 'Cancel';
+    @Input() hideHtmlEditor = false;
 
     // List of all the available content types
     contentTypes: ContentItemTypeModel[];
@@ -43,7 +44,6 @@ export class ContentItemDetailsComponent implements OnInit {
     // Events
     @Output() submitClicked = new EventEmitter<ContentDataMessage>();
     @Output() cancelClicked = new EventEmitter<any>();
-
 
     constructor(private sharedService: ContentProjectShareService) {
     }

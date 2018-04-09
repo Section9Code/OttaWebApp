@@ -3,13 +3,13 @@
     <div class="col-xs-12 col-sm-12 col-md-8">
             <otta-panel [title]="'Create content item'">
                     <content-item-details [data]="contentItemData" [showCancel]="true" [isUpdating]="isUpdating" (submitClicked)="create($event)"
-                        (cancelClicked)="cancel()"></content-item-details>
+                        (cancelClicked)="cancel()" [hideHtmlEditor]="true"></content-item-details>
                 </otta-panel>    
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-4">
-        <otta-panel [title]="'Tasks'">
-            <h2>Coming soon</h2>
+        <otta-panel>
+            <h2>Tasks - coming soon</h2>
             <p>
                 Not only can you create content here in otta but you will be able to assign work to members of your team based on what you need to get done.
             </p>

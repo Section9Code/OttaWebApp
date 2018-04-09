@@ -76,4 +76,6 @@
     </div>
 </form>
 
-<div [froalaEditor]="editorOptions" [(froalaModel)]="content.Content"></div>
+<div *ngIf="!hideHtmlEditor">
+    <div [froalaEditor]="editorOptions" [(froalaModel)]="content.Content"></div>
+</div>
