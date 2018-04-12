@@ -24,14 +24,39 @@
     </div>
   </div>
 
-
+  <!-- MEDIUM -->
   <div>
     <h3>Medium</h3>
     <div *ngIf="mediumIntegrations.length === 0">
-        <p>
-          Connect this project directly to medium so it is able to manage your posts for you.
-        </p>
-        <button class="btn btn-default" (click)="showMediumForm()">Add your medium site</button>
+      <p>
+        Connect this project directly to medium so it is able to manage your posts for you.
+      </p>
+      <button class="btn btn-default" (click)="showMediumForm()">Add your medium site</button>
+    </div>
+  </div>
+
+  <!-- TWITTER -->
+  <div>
+    <h3>Twitter</h3>
+    <div *ngIf="twitterIntegrations.length === 0">
+      <p>
+        Connect this project directly to twitter so it is able to manage your posts for you.
+      </p>
+      <button class="btn btn-default" (click)="showTwitterForm()" [ladda]="isConnectingToTwitter">Add twitter to this project</button>
+    </div>
+    <div *ngFor="let twitterIntegration of twitterIntegrations" class="widget style1 navy-bg">
+        <div class="row">
+          <div class="col-xs-4">
+            <i class="fa fa-twitter fa-5x"></i>
+          </div>
+          <div class="col-xs-8 text-right">
+            <span>
+              <strong>{{ twitterIntegration.Name }}</strong>
+            </span>
+            <br/><br/>
+            <button (click)="removeIntegration(twitterIntegration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
+          </div>
+        </div>
       </div>
   </div>
 </otta-panel>

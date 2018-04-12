@@ -34,6 +34,10 @@ export class ContentProjectIntegrationService {
     deleteWordpressForItem(projectId: string, contentId: string): Observable<boolean> {
         return this.authHttp.delete(`${this.url}/${projectId}/wordpress/create/${contentId}`, null).map(response => response.json());
     }
+
+    twitterGetLogin(projectId: string): Observable<string> {
+        return this.authHttp.get(`${this.url}/${projectId}/twitter/getLogin`).map(response => response.json());
+    }
 }
 
 export class ProjectIntegrationModel {
@@ -60,9 +64,9 @@ export class WordpressProjectIntegrationModel extends ProjectIntegrationModel {
     Password: string;
 }
 
-export class WordpressLinkModel
-{
+export class WordpressLinkModel {
     BlogPostId: string;
     Url: string;
     LastPublishedContentId: string;
 }
+
