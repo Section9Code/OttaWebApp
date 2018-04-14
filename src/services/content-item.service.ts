@@ -5,7 +5,7 @@ import { CreatorInfo } from 'services/suggestions.service';
 import { Observable } from 'rxjs/Observable';
 import { ContentItemTypeModel } from 'services/content-item-type.service';
 import { EventDateModel, EventGroupModel } from './event.service';
-import { WordpressLinkModel } from './ContentProjectIntegration.service';
+import { WordpressLinkModel, IntegrationTypes } from './ContentProjectIntegration.service';
 
 @Injectable()
 export class ContentItemService {
@@ -48,6 +48,14 @@ export class ContentItemService {
     return this.authHttp.get(`${this.url}/${projectId}/${id}`).map(response => response.json());
   }
 
+  addMessage(projectId: string, contentItemId: string, message: ContentItemMessageModel): Observable<ContentItemMessageModel> {
+    return this.authHttp.post(`${this.url}/${projectId}/drafts/${contentItemId}/message`, message).map(response => response.json());
+  }
+
+  deleteMessage(projectId: string, contentItemId: string, messageId: string): Observable<boolean> {
+    return this.authHttp.delete(`${this.url}/${projectId}/drafts/${contentItemId}/message/${messageId}`).map(response => response.json());
+  }
+
 }
 
 export class ContentItemModel {
@@ -86,4 +94,16 @@ export class CalendarDataModel {
   PublicEvents: EventDateModel[];
   PublicEventGroups: EventGroupModel[];
   ProjectEventGroups: EventGroupModel[];
+}
+
+export class ContentItemMessageModel {
+  Id: string;
+  SendTime: Date;
+  MessageType: IntegrationTypes;
+  Title: string;
+  Message: string;
+  ImageUrl: string;
+  // Related ContentItemMessage link
+  LinkedItemPartition: string;
+  LinkedItemRowKey: string;
 }
