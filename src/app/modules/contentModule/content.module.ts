@@ -43,6 +43,7 @@ import { EventService } from 'services/event.service';
 import { ContentEventsComponent } from './components/content-events/content-events.component';
 import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 import { ContentProjectIntegrationsComponent } from './components/content-project-integrations/content-project-integrations.component';
+import { ContentItemMessagesComponent } from './components/content-item-messages/content-item-messages.component';
 
 
 // Routes for this module to be added to the application
@@ -52,21 +53,23 @@ const routes: Routes = [
         children: [
             { path: '', component: ContentHomeLayoutComponent, canActivate: [AuthenticatedGuard] },
             { path: 'create', component: ContentCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
-            { path: ':id', component: ContentProjectLayoutComponent, canActivate: [AuthenticatedGuard], 
-            children: [
-                {path: '', component: ContentProjectCalendarLayoutComponent, canActivate: [AuthenticatedGuard] },
-                {path: 'items', component: ContentProjectDraftsLayoutComponent, canActivate: [AuthenticatedGuard] },
-                {path: 'items/create', component: ContentProjectDraftsCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
-                {path: 'items/:id2', component: ContentProjectDraftsUpdateLayoutComponent, canActivate: [AuthenticatedGuard] },
-                {path: 'pitches', component: ContentProjectPitchesLayoutComponent, canActivate: [AuthenticatedGuard] },
-                {path: 'events', component: ContentProjectEventsLayoutComponent, canActivate: [AuthenticatedGuard] },
-                {path: 'settings', component: ContentProjectSettingsLayoutComponent, canActivate: [AuthenticatedGuard, OrganisationAdminGuard]},
-            ]}
+            {
+                path: ':id', component: ContentProjectLayoutComponent, canActivate: [AuthenticatedGuard],
+                children: [
+                    { path: '', component: ContentProjectCalendarLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'items', component: ContentProjectDraftsLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'items/create', component: ContentProjectDraftsCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'items/:id2', component: ContentProjectDraftsUpdateLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'pitches', component: ContentProjectPitchesLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'events', component: ContentProjectEventsLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'settings', component: ContentProjectSettingsLayoutComponent, canActivate: [AuthenticatedGuard, OrganisationAdminGuard] },
+                ]
+            }
         ]
     }
 ];
 
-// User Profile Feature Module 
+// User Profile Feature Module
 @NgModule({
     imports: [
         BrowserModule,
@@ -106,7 +109,8 @@ const routes: Routes = [
         ContentItemTypeListComponent,
         ContentItemTypeLabelComponent,
         ContentCalendarComponent,
-        ContentEventsComponent
+        ContentEventsComponent,
+        ContentItemMessagesComponent
     ],
     providers: [
         MixpanelService,

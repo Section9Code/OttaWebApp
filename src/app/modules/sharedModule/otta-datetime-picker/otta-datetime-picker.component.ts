@@ -5,6 +5,8 @@ import * as moment from 'moment';
 // This control wraps the Bootstrap 2 Datepicker
 // http://eonasdan.github.io/bootstrap-datetimepicker/
 
+// <otta-datetime-picker name="dpDeadline" [(ngModel)]="displayDeadLineDate" ></otta-datetime-picker>
+
 declare var $: any;
 
 const noop = () => { };

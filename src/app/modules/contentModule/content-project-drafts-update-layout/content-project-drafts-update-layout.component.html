@@ -5,6 +5,10 @@
             <content-item-details [data]="item" [content]="itemContent" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="updateItem($event)"
                 [createButtonText]="'Update'"></content-item-details>
         </otta-panel>
+
+        <otta-panel [title]="'Social media'">
+            <app-content-item-messages [data]="item"></app-content-item-messages>
+        </otta-panel>
     </div>
     <div class="col-xs-12 col-sm-4">
         <otta-panel [title]="'Delete'" *ngIf="userIsAdmin || draft.CreatorAuthId === currentUsersAuthId">
@@ -46,5 +50,6 @@
         <otta-panel [title]="'Discussion'">
             <otta-comment [ParentOrganisationId]="item.Partition" [ParentObjectId]="item.id"></otta-comment>
         </otta-panel>
+
     </div>
 </div>

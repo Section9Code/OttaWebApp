@@ -49,11 +49,11 @@ export class ContentItemService {
   }
 
   addMessage(projectId: string, contentItemId: string, message: ContentItemMessageModel): Observable<ContentItemMessageModel> {
-    return this.authHttp.post(`${this.url}/${projectId}/drafts/${contentItemId}/message`, message).map(response => response.json());
+    return this.authHttp.post(`${this.url}/${projectId}/${contentItemId}/message`, message).map(response => response.json());
   }
 
   deleteMessage(projectId: string, contentItemId: string, messageId: string): Observable<boolean> {
-    return this.authHttp.delete(`${this.url}/${projectId}/drafts/${contentItemId}/message/${messageId}`).map(response => response.json());
+    return this.authHttp.delete(`${this.url}/${projectId}/${contentItemId}/message/${messageId}`).map(response => response.json());
   }
 
 }
@@ -79,6 +79,7 @@ export class ContentItemModel {
   Tags: string[];
 
   WordpressLink: WordpressLinkModel;
+  SocialMediaMessages: ContentItemMessageModel[];
 }
 
 export class ContentItemTask {

@@ -18,8 +18,8 @@ import { ProjectIntegrationModel, ContentProjectIntegrationService } from 'servi
     styleUrls: ['content-project-drafts-update-layout.component.scss']
 })
 export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDestroy {
-    projectId: string;
-    itemId: string;
+    projectId: string;  // Passed in from the url
+    itemId: string;     // Passed in from the url
     item: ContentItemModel = new ContentItemModel();
     itemContent: ContentItemContentModel = new ContentItemContentModel();
     isLoading = false;
@@ -62,7 +62,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
             // Load the content item
             this.contentItemSub = this.contentItemService.getItem(this.projectId, this.itemId).subscribe(
                 data => {
-                    console.log('Loaded item', data);
+                    console.log('Loaded content item', data);
                     this.item = data;
 
                     // Get the latest content of this content item

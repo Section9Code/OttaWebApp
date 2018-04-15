@@ -1,0 +1,62 @@
+<div>
+  <button class="btn btn-primary" (click)="showAddMessage()">Add Message</button>
+</div>
+<div *ngFor="let message of data.SocialMediaMessages">
+  <p>
+    Message: {{message.Message}} - {{message.SendTime}} - <button class="btn btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</button>
+  </p>
+</div>
+
+<div class="modal inmodal" id="addMessageModal" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated fadeIn">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <i class="fa fa-twitter modal-icon"></i>
+        <h4 class="modal-title">Add social media message</h4>
+        <small class="font-bold">Add a new social media message to this item</small>
+      </div>
+      <div class="modal-body">
+
+
+        <form method="get" class="form-horizontal" (ngSubmit)="addMessage()" #addMessageForm="ngForm">
+          <div class="form-group" [class.has-error]="!message.valid">
+            <label class="col-sm-2 control-label">Message</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="message" name="message" required [(ngModel)]="newMessage.Message" #message="ngModel">
+              <span class="help-block m-b-none">
+                The message to be shown to the user
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <label class="col-sm-2 control-label">Send date</label>
+            <div class="col-sm-10">
+              <otta-datetime-picker name="sendtime" [(ngModel)]="newMessage.SendTime"></otta-datetime-picker>
+              <span class="help-block m-b-none">
+                Date and time you want the message sent
+              </span>
+            </div>
+          </div>
+
+          <div class="form-group">
+            <div class="col-sm-10 col-sm-offset-2">
+              <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+              <button class="btn btn-primary" type="submit" [disabled]="!addMessageForm.form.valid" [ladda]="isCreatingMessage">Add message</button>
+            </div>
+          </div>
+        </form>
+
+
+      </div>
+      <!-- <div class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary">Save changes</button>
+      </div> -->
+    </div>
+  </div>
+</div>
