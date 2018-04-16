@@ -1,12 +1,55 @@
 <div>
-  <button class="btn btn-primary" (click)="showAddMessage()">Add Message</button>
-</div>
-<div *ngFor="let message of data.SocialMediaMessages">
-  <p>
-    Message: {{message.Message}} - {{message.SendTime}} - <button class="btn btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</button>
-  </p>
+  <!-- Menu buttons -->
+  <button class="btn btn-primary" (click)="showAddTwitterMessage()">Add Message</button>
+
+  <div class="btn-group">
+    <button class="btn btn-white" type="button" (click)="showAddTwitterMessage()">
+      <i class="fa fa-twitter"> </i>
+    </button>
+    <button class="btn btn-white" type="button">
+      <i class="fa fa-facebook"> </i>
+    </button>
+    <button class="btn btn-white" type="button">
+      <i class="fa fa-medium"> </i>
+    </button>
+    <button class="btn btn-white" type="button">
+      <i class="fa fa-google-plus"> </i>
+    </button>
+    <button class="btn btn-white" type="button">
+      <i class="fa fa-linkedin"> </i>
+    </button>
+  </div>
+
+  <div class="pull-right">
+      Hide sent items: <input type="checkbox" [checked]="hideMessagesInThePast" (change)="hideMessagesInThePast = !hideMessagesInThePast">
+  </div>
 </div>
 
+
+<!-- List of messages -->
+<div id="vertical-timeline" class="vertical-container dark-timeline">
+  <div class="vertical-timeline-block" *ngFor="let message of sortedMessages()">
+    <div class="vertical-timeline-icon twitter-bg">
+      <i class="fa fa-twitter"></i>
+    </div>
+
+    <div class="vertical-timeline-content">
+      <p>
+        <strong>{{ message.Message }}</strong>
+      </p>
+      <a *ngIf="!messageIsInThePast(message)" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
+      <span class="vertical-date">
+        <small>{{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}</small>
+      </span>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+<!-- Modal dialogs -->
 <div class="modal inmodal" id="addMessageModal" tabindex="-1" role="dialog" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content animated fadeIn">
@@ -22,7 +65,7 @@
       <div class="modal-body">
 
 
-        <form method="get" class="form-horizontal" (ngSubmit)="addMessage()" #addMessageForm="ngForm">
+        <form method="get" class="form-horizontal" (ngSubmit)="addTwitterMessage()" #addMessageForm="ngForm">
           <div class="form-group" [class.has-error]="!message.valid">
             <label class="col-sm-2 control-label">Message</label>
             <div class="col-sm-10">

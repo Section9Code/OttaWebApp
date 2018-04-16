@@ -99,7 +99,7 @@ export class CalendarDataModel {
 
 export class ContentItemMessageModel {
   Id: string;
-  SendTime: Date;
+  SendTime: string;
   MessageType: IntegrationTypes;
   Title: string;
   Message: string;

@@ -9,7 +9,7 @@ import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
 declare var $: any;
 
 @Component({
-  selector: 'app-content-item-messages',
+  selector: 'otta-content-item-messages',
   templateUrl: './content-item-messages.component.html',
   styleUrls: ['./content-item-messages.component.css']
 })
@@ -18,6 +18,8 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
 
   newMessage = new ContentItemMessageModel();
   isCreatingMessage = false;
+
+  hideMessagesInThePast = true;
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -33,12 +35,30 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   ngOnDestroy(): void {
   }
 
-  showAddMessage() {
+  messageIsInThePast(message: ContentItemMessageModel): boolean {
+    if (!message.SendTime) { return false; }
+    return message.SendTime < new Date().toISOString();
+  }
+
+  sortedMessages(): ContentItemMessageModel[] {
+    // Sort the messages by date
+    var messages = this.data.SocialMediaMessages.sort((one, two) => (one.SendTime > two.SendTime ? 1 : -1));
+
+    // Remove messages in the past if they should not be shown
+    if(this.hideMessagesInThePast)
+    {
+      messages = messages.filter(m => !this.messageIsInThePast(m));
+    }
+
+    return messages;
+  }
+
+  showAddTwitterMessage() {
     this.newMessage = new ContentItemMessageModel();
     $(`#addMessageModal`).modal('show');
   }
 
-  addMessage() {
+  addTwitterMessage() {
     console.log('Add message', this.newMessage);
     this.isCreatingMessage = true;
 
@@ -67,7 +87,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
         });
   }
 
-  deleteMessage(messageId: string) {
+  deleteTwitterMessage(messageId: string) {
     console.log('Delete message');
     this.alertSvc.swal({
       title: 'Delete message',
