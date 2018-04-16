@@ -16,9 +16,14 @@ declare var $: any;
 export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   @Input() data: ContentItemModel = new ContentItemModel();
 
-  newMessage = new ContentItemMessageModel();
-  isCreatingMessage = false;
+  // The list of messages to show to the user
+  messages: DisplayContentItemMessageModel[] = [];
 
+  // A new message for the user to fill in
+  newMessage = new ContentItemMessageModel();
+
+  // Flags
+  isCreatingMessage = false;
   hideMessagesInThePast = true;
 
   constructor(
@@ -30,27 +35,50 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
+    // Generate the list of messages to show to the user
+    this.redrawMessageList();
   }
 
   ngOnDestroy(): void {
   }
 
+  // Updates the message list with the view the user wants to see
+  redrawMessageList() {
+    this.messages = this.sortMessages();
+  }
+
+  sortMessages(): DisplayContentItemMessageModel[] {
+    const outputMessages: DisplayContentItemMessageModel[] = [];
+
+    // Sort the messages by date
+    const list = this.data.SocialMediaMessages.sort((one, two) => (one.SendTime > two.SendTime ? 1 : -1));
+
+    // Loop through all the messages, update them to the display type and remove any that should not be shown
+    list.forEach(item => {
+      if (this.messageIsInThePast(item)) {
+        // Messages is in the past
+        if (!this.hideMessagesInThePast) {
+          // Past messages should be shown, add it too the list
+          const msg: DisplayContentItemMessageModel = item as DisplayContentItemMessageModel;
+          msg.hasBeenSent = true;
+          outputMessages.push(msg);
+        }
+      }
+      else {
+        // This message hasn't been sent yet
+        const msg: DisplayContentItemMessageModel = item as DisplayContentItemMessageModel;
+        msg.hasBeenSent = false;
+        outputMessages.push(msg);
+      }
+    });
+
+    // Return the new message list
+    return outputMessages;
+  }
+
   messageIsInThePast(message: ContentItemMessageModel): boolean {
     if (!message.SendTime) { return false; }
     return message.SendTime < new Date().toISOString();
-  }
-
-  sortedMessages(): ContentItemMessageModel[] {
-    // Sort the messages by date
-    var messages = this.data.SocialMediaMessages.sort((one, two) => (one.SendTime > two.SendTime ? 1 : -1));
-
-    // Remove messages in the past if they should not be shown
-    if(this.hideMessagesInThePast)
-    {
-      messages = messages.filter(m => !this.messageIsInThePast(m));
-    }
-
-    return messages;
   }
 
   showAddTwitterMessage() {
@@ -74,6 +102,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
           console.log('Message created');
           this.data.SocialMediaMessages.push(this.newMessage);
           this.sharedService.updateContent(this.data);
+          this.redrawMessageList();
           this.toast.success('Social media message added');
           this.isCreatingMessage = false;
           $(`#addMessageModal`).modal('hide');
@@ -125,5 +154,8 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
       }
     );
   }
+}
 
+export class DisplayContentItemMessageModel extends ContentItemMessageModel {
+  hasBeenSent: boolean;
 }

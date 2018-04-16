@@ -21,14 +21,14 @@
   </div>
 
   <div class="pull-right">
-      Hide sent items: <input type="checkbox" [checked]="hideMessagesInThePast" (change)="hideMessagesInThePast = !hideMessagesInThePast">
+      Hide sent items: <input type="checkbox" [checked]="hideMessagesInThePast" (change)="hideMessagesInThePast = !hideMessagesInThePast; redrawMessageList();">
   </div>
 </div>
 
 
 <!-- List of messages -->
 <div id="vertical-timeline" class="vertical-container dark-timeline">
-  <div class="vertical-timeline-block" *ngFor="let message of sortedMessages()">
+  <div class="vertical-timeline-block" *ngFor="let message of messages">
     <div class="vertical-timeline-icon twitter-bg">
       <i class="fa fa-twitter"></i>
     </div>
@@ -37,7 +37,7 @@
       <p>
         <strong>{{ message.Message }}</strong>
       </p>
-      <a *ngIf="!messageIsInThePast(message)" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
+      <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
       <span class="vertical-date">
         <small>{{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}</small>
       </span>
