@@ -12,6 +12,7 @@ import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
 import { PipesModule } from 'app/components/common/pipes/pipes.module';
 import { OttaColourPickerComponent } from './otta-colour-picker/otta-colour-picker.component';
 import { OttaDatetimePickerComponent } from './otta-datetime-picker/otta-datetime-picker.component';
+import { OttaModalComponent } from './otta-modal/otta-modal.component';
 
 // User Profile Feature Module 
 @NgModule({
@@ -29,7 +30,8 @@ import { OttaDatetimePickerComponent } from './otta-datetime-picker/otta-datetim
         OttaPanelComponent,
         OttaCommentComponent,
         OttaColourPickerComponent,
-        OttaDatetimePickerComponent
+        OttaDatetimePickerComponent,
+        OttaModalComponent
     ],
     declarations: [
         LoadingSpinnerComponent,
@@ -38,7 +40,8 @@ import { OttaDatetimePickerComponent } from './otta-datetime-picker/otta-datetim
         OttaPanelComponent,
         OttaCommentComponent,
         OttaColourPickerComponent,
-        OttaDatetimePickerComponent
+        OttaDatetimePickerComponent,
+        OttaModalComponent
     ],
     providers: [
     ],

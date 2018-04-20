@@ -83,7 +83,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
 
   showAddTwitterMessage() {
     this.newMessage = new ContentItemMessageModel();
-    $(`#addMessageModal`).modal('show');
+    $(`#addTwitterMessageModal`).modal('show');
   }
 
   addTwitterMessage() {
@@ -105,7 +105,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
           this.redrawMessageList();
           this.toast.success('Social media message added');
           this.isCreatingMessage = false;
-          $(`#addMessageModal`).modal('hide');
+          $(`#addTwitterMessageModal`).modal('hide');
         })
       .catch(
         error => {

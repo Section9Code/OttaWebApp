@@ -1,0 +1,22 @@
+<div class="modal inmodal" id="{{ modalId }}" tabindex="-1" role="dialog" aria-hidden="true">
+  <div class="modal-dialog">
+    <div class="modal-content animated fadeIn">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">&times;</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <i class="fa {{ icon }} modal-icon"></i>
+        <h4 class="modal-title">{{ title }}</h4>
+        <small class="font-bold">{{ heading }}</small>
+      </div>
+      <div class="modal-body">
+        <ng-content></ng-content>
+      </div>
+      <div *ngIf="showFooter" class="modal-footer">
+        <button type="button" class="btn btn-white" data-dismiss="modal">Close</button>
+        <button type="button" class="btn btn-primary" (click)="footerClick()">{{ footerButtonText }}</button>
+      </div>
+    </div>
+  </div>
+</div>
