@@ -61,7 +61,7 @@
     <div class="form-group">
         <label class="col-sm-2 control-label">Deadline</label>
         <div class="col-sm-10">            
-            <otta-datetime-picker name="dpDeadline" [(ngModel)]="displayDeadLineDate" ></otta-datetime-picker>
+            <otta-datetime-picker name="dpDeadline" [(ngModel)]="displayDeadLineDate" [minDate]="datePickerMinDate"></otta-datetime-picker>
             <span class="help-block m-b-none">
                 A deadline isn't required, but can be useful if you want to get this out by a certain date
             </span>

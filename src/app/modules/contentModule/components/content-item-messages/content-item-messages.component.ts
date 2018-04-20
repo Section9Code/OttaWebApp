@@ -5,6 +5,7 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { ToastsManager } from 'ng2-toastr';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
+import * as moment from 'moment';
 
 declare var $: any;
 
@@ -21,6 +22,9 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
 
   // A new message for the user to fill in
   newMessage = new ContentItemMessageModel();
+
+  // Settings
+  datePickerMinDate = moment();
 
   // Flags
   isCreatingMessage = false;
@@ -135,6 +139,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
           const index = this.data.SocialMediaMessages.findIndex(i => i.Id === messageId);
           this.data.SocialMediaMessages.splice(index, 1);
           this.sharedService.updateContent(this.data);
+          this.redrawMessageList();
           // Tell the user
           this.toast.success('Message deleted');
         })

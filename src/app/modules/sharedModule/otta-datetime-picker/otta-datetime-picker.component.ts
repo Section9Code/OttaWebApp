@@ -32,6 +32,9 @@ const customValidationProvider = {
 export class OttaDatetimePickerComponent implements ControlValueAccessor, Validator, OnInit, OnDestroy, AfterViewInit {
   // VARIABLES -----------------------------
   @Input() name: string;
+  @Input() minDate: moment.Moment = moment('2015-01-01');
+
+
 
   // Holds the value of this control
   _value: moment.Moment;
@@ -49,7 +52,8 @@ export class OttaDatetimePickerComponent implements ControlValueAccessor, Valida
     // Initialise the control using the bootstrap 3 datetime picker
     const id = `#${this.name}`;
     $(id).datetimepicker({
-      format: 'Do MMMM YYYY, h:mm a'
+      format: 'Do MMMM YYYY, h:mm a',
+      minDate: this.minDate
     });
 
     // Update the control when something changes
@@ -77,7 +81,7 @@ export class OttaDatetimePickerComponent implements ControlValueAccessor, Valida
   set value(v: any) {
     // Make sure the value being passed in is a moment object
     let newValue: moment.Moment = v;
-    if(!newValue){
+    if (!newValue) {
       return;
     }
 

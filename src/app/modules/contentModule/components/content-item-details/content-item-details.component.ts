@@ -34,6 +34,8 @@ export class ContentItemDetailsComponent implements OnInit {
         charCounterCount: false
     };
 
+    // Set the min date for the deadline datetime picker to be now
+    datePickerMinDate = moment();
     displayDeadLineDate: moment.Moment;
 
     // Events
