@@ -68,5 +68,7 @@ export class WordpressLinkModel {
     BlogPostId: string;
     Url: string;
     LastPublishedContentId: string;
+    LastPublishedDate: Date;
+    AdminUrl: string;
 }
 

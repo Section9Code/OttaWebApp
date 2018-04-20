@@ -67,6 +67,9 @@ export class ContentItemModel {
 
   State: string;
 
+  Archived: boolean;
+  ArchivedDate: Date;
+
   ContentTypeId: string;
   ContentTypeTitle: string;
   ContentTypeColourHex: string;
@@ -74,12 +77,19 @@ export class ContentItemModel {
   Created: Date;
   CreatorAuthId: string;
   Creator: CreatorInfo;
+
   DeadLine: Date;
   Tasks: ContentItemTask[];
   Tags: string[];
 
+  // Integrations
   WordpressLink: WordpressLinkModel;
+
+  // Messages
   SocialMediaMessages: ContentItemMessageModel[];
+
+  // Primary URL to the content item
+  PrimaryUrl: string;
 }
 
 export class ContentItemTask {

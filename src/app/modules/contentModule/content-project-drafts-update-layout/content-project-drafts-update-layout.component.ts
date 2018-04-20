@@ -199,6 +199,10 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         this.integrationService.createWordpressForItem(this.item.ProjectId, this.item.id).toPromise()
             .then(response => {
                 // Link the item to its blog post
+                if(!this.item.PrimaryUrl || this.item.PrimaryUrl === '')
+                {
+                    this.item.PrimaryUrl = response.Url;
+                }
                 this.item.WordpressLink = response;
                 this.sharedData.updateContent(this.item);
                 this.toast.success('Blog post create');
@@ -215,13 +219,13 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     updateWordpressPost() {
         console.log('Update wordpress post');
 
-        // Make sure there is a linked wordpress post        
+        // Make sure there is a linked wordpress post
         if (this.item.WordpressLink) {
 
             // Alert the user
             this.alertSvc.swal({
                 title: 'Update content',
-                text: "Are you sure you want to <strong>update</strong>?<br/><br/>Any changes you have made to the content of the blog post will be replaced.",
+                text: 'Are you sure you want to <strong>update</strong>?<br/><br/>Any changes you have made to the content of the blog post will be replaced.',
                 type: 'info',
                 showCancelButton: true,
                 confirmButtonColor: '#3085d6',
@@ -265,7 +269,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         // Confirm action with user
         this.alertSvc.swal({
             title: 'Delete post',
-            text: "Are you sure you want to <strong>delete</strong> this wordpress post?<br/><br/>Any changed you have made on your site will be lost",
+            text: 'Are you sure you want to <strong>delete</strong> this wordpress post?<br/><br/>Any changed you have made on your site will be lost',
             type: 'warning',
             showCancelButton: true,
             confirmButtonColor: '#3085d6',
@@ -279,6 +283,11 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
             this.integrationService.deleteWordpressForItem(this.item.ProjectId, this.item.id).toPromise()
                 .then(deleteResponse => {
                     // WP post deleted
+                    // Remove the URL if it is the one being used on the post
+                    if (this.item.PrimaryUrl === this.item.WordpressLink.Url) {
+                        this.item.PrimaryUrl = '';
+                    }
+                    // Update the item
                     this.item.WordpressLink = null;
                     this.sharedData.updateContent(this.item);
                     this.toast.success('Blog post deleted');
