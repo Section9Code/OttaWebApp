@@ -45,6 +45,11 @@
   </div>
 </div>
 
+<!-- Message if there are no messages waiting to be sent -->
+<div *ngIf="messages.length === 0" class="text-center">
+  <h2>No messages waiting to be sent</h2>
+</div>
+
 
 
 
