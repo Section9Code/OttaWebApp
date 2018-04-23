@@ -51,10 +51,10 @@ export class AuthService {
         // Load the users profile into the tracking system
         this.getProfile(() => {
           this.mixpanel.TrackProfile(this.userProfile);
-        })
+        });
 
         // User flow control to decide where to send the user next now they have logged in
-        console.log('Checking user');
+        console.log('Checking user', this.userProfile);
 
         // Get any join data that may have been supplied
         let joinData: JoinData = JSON.parse(localStorage.getItem('joinData'));
@@ -99,13 +99,15 @@ export class AuthService {
   }
 
   // Log out of the system
-  public logout(): void {
+  public logout(redirectBackToLogin: boolean = true): void {
     // Remove tokens and expiry time from localStorage
     localStorage.removeItem('access_token');
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
     // Go back to the home route
-    this.router.navigate(['/login']);
+    if (redirectBackToLogin) {
+      this.router.navigate(['/login']);
+    }
   }
 
   // Is the current user authenticated

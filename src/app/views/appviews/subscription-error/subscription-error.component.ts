@@ -4,11 +4,11 @@ import { Router } from '@angular/router';
 
 @Component({
     moduleId: module.id,
-    selector: 'in-active',
-    templateUrl: 'in-active.component.html',
-    styleUrls: ['in-active.component.scss']
+    selector: 'subscription-error',
+    templateUrl: 'subscription-error.component.html',
+    styleUrls: ['subscription-error.component.scss']
 })
-export class InActiveComponent {
+export class SubscriptionErrorComponent {
 
     constructor(private authService: AuthService, public router: Router) { 
         // Automatically logout anyone who comes to this page

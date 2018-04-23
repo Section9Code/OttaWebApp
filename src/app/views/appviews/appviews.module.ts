@@ -22,6 +22,7 @@ import { JoinComponent } from "app/views/appviews/join/join.component";
 import { InActiveComponent } from "app/views/appviews/in-active/in-active.component";
 import { WelcomeToTheTeamComponent } from "app/views/appviews/welcome-to-the-team/welcome-to-the-team.component";
 import { VerifyEmailComponent } from "app/views/appviews/verify-email/verify-email.component";
+import { SubscriptionErrorComponent } from "./subscription-error/subscription-error.component";
 
 @NgModule({
   declarations: [
@@ -38,7 +39,8 @@ import { VerifyEmailComponent } from "app/views/appviews/verify-email/verify-ema
     JoinComponent,
     InActiveComponent,
     WelcomeToTheTeamComponent,
-    VerifyEmailComponent
+    VerifyEmailComponent,
+    SubscriptionErrorComponent
   ],
   imports: [
     BrowserModule,

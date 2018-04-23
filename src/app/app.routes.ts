@@ -25,6 +25,7 @@ import { JoinComponent } from "app/views/appviews/join/join.component";
 import { InActiveComponent } from "app/views/appviews/in-active/in-active.component";
 import { WelcomeToTheTeamComponent } from "app/views/appviews/welcome-to-the-team/welcome-to-the-team.component";
 import { VerifyEmailComponent } from "app/views/appviews/verify-email/verify-email.component";
+import { SubscriptionErrorComponent } from "./views/appviews/subscription-error/subscription-error.component";
 
 export const ROUTES: Routes = [
   // Main redirect
@@ -68,13 +69,14 @@ export const ROUTES: Routes = [
   {
     path: '', component: BlankLayoutComponent,
     children: [
-      { path: 'login', component: LoginComponent },
-      { path: 'callback', component: CallbackComponent },
-      { path: 'problem', component: ProblemComponent },
-      { path: 'join', component: JoinComponent },
-      { path: 'inActive', component: InActiveComponent },   
-      { path: 'welcome', component: WelcomeComponent, canActivate: [AuthenticatedGuard] },
-      { path: 'welcomeToTheTeam', component: WelcomeToTheTeamComponent, canActivate:[AuthenticatedGuard]},
+      { path: 'login', component: LoginComponent },                                         // Main login form
+      { path: 'callback', component: CallbackComponent },                                   // For the authentication system to call back into with a user
+      { path: 'problem', component: ProblemComponent },                                     // When there was a problem logging in
+      { path: 'join', component: JoinComponent },                                           // For when a user wants to join a subscription
+      { path: 'inactive', component: InActiveComponent },                                   // For whehn a user has been removed from a subscription
+      { path: 'subscriptionerror', component: SubscriptionErrorComponent },                 // For when a user can't be joined onto a subscription
+      { path: 'welcome', component: WelcomeComponent, canActivate: [AuthenticatedGuard] },  // Welcome message for new users
+      { path: 'welcomeToTheTeam', component: WelcomeToTheTeamComponent, canActivate:[AuthenticatedGuard]},  // For welcoming new team members to the system
       { path: 'verifyemail', component: VerifyEmailComponent, canActivate: [AuthenticatedGuard]}
     ]
   },

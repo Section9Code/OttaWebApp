@@ -19,7 +19,8 @@
         "sparkline",
         "swal",
         "sweetalert",
-        "toastr"
+        "toastr",
+        "verifyemail"
     ],
     "workbench.editor.enablePreview": false
 }
