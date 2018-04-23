@@ -25,7 +25,10 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     isLoading = false;
     isCreatingLink = false;
     isUpdating = false;
+
     userIsAdmin = false;
+    userIsCreator = false;
+
     currentUsersAuthId = '';
 
     // Subscriptions
@@ -70,6 +73,11 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
                         contentResponse => this.itemContent = contentResponse
                     );
 
+                    // Is the current user the creator of this item
+                    if(this.item.CreatorAuthId && this.item.CreatorAuthId === this.currentUsersAuthId)
+                    {
+                        this.userIsCreator = true;
+                    }
                 },
                 error => {
                     this.toast.error('Unable to load item');

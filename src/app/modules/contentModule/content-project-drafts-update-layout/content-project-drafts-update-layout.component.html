@@ -11,7 +11,7 @@
         </otta-panel>
     </div>
     <div class="col-xs-12 col-sm-4">
-        <otta-panel [title]="'Delete'" *ngIf="userIsAdmin || draft.CreatorAuthId === currentUsersAuthId">
+        <otta-panel [title]="'Delete'" *ngIf="userIsAdmin || userIsCreator">
             <p>
                 If you no longer need this item it can be delete, there is no way to recover this item once it has been deleted.
             </p>
