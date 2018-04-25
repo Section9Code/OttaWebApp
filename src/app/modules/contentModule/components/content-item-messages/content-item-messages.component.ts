@@ -1,10 +1,11 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ContentItemModel, ContentItemService, ContentItemMessageModel } from 'services/content-item.service';
 import { ContentProjectShareService } from '../../services/ContentProjectShareService';
 import { MixpanelService } from 'services/mixpanel.service';
 import { ToastsManager } from 'ng2-toastr';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
+import { ContentItemMessageTwitterFormComponent } from '../content-item-message-twitter-form/content-item-message-twitter-form.component';
 
 declare var $: any;
 
@@ -19,6 +20,9 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   // The list of messages to show to the user
   messages: DisplayContentItemMessageModel[] = [];
   hideMessagesInThePast = true;
+
+  // Components
+  @ViewChild('twitterMessageComponent') private twitterMessageComponent: ContentItemMessageTwitterFormComponent;
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -76,6 +80,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   }
 
   showAddTwitterMessage() {
+    this.twitterMessageComponent.resetForm();
     $(`#addTwitterMessageModal`).modal('show');
   }
 

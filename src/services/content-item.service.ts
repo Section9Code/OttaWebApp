@@ -111,10 +111,27 @@ export class ContentItemMessageModel {
   Id: string;
   SendTime: string;
   MessageType: IntegrationTypes;
+
+  // Is this message relative to the publish date of the content item
+  IsRelative: boolean;
+  RelativeSendValue: number;
+  RelativeSendUnit: ContentItemMessageRelativeUnitModel;
+
+  // This is the text that the user edits
+  EditorText: string;
+
   Title: string;
   Message: string;
   ImageUrl: string;
   // Related ContentItemMessage link
   LinkedItemPartition: string;
   LinkedItemRowKey: string;
+}
+
+export enum ContentItemMessageRelativeUnitModel {
+  Minutes,  // 0
+  Hours,    // 1
+  Days,     // 2
+  Weeks,    // 3
+  Months    // 4
 }

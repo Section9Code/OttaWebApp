@@ -1,11 +1,12 @@
 import { Component, Input, Output, EventEmitter } from '@angular/core';
-import { ContentItemModel, ContentItemMessageModel, ContentItemService } from 'services/content-item.service';
+import { ContentItemModel, ContentItemMessageModel, ContentItemService, ContentItemMessageRelativeUnitModel } from 'services/content-item.service';
 import * as moment from 'moment';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
 import { ContentProjectShareService } from '../../services/ContentProjectShareService';
 import { MixpanelService } from 'services/mixpanel.service';
 import { ToastsManager } from 'ng2-toastr';
 import { SweetAlertService } from 'ng2-sweetalert2';
+import { send } from 'q';
 
 @Component({
   selector: 'otta-content-item-message-twitter-form',
@@ -19,8 +20,15 @@ export class ContentItemMessageTwitterFormComponent {
 
   // Variables
   isCreatingMessage = false;
+  showTimeOptions = true;
+  showAbsoluteForm = false;
+  showRelativeForm = false;
+  sendUnit: string;
+
+
   // A new message for the user to fill in
   newMessage = new ContentItemMessageModel();
+
   // Datepicker settings
   datePickerMinDate = moment();
 
@@ -32,14 +40,23 @@ export class ContentItemMessageTwitterFormComponent {
     private alertSvc: SweetAlertService) {
   }
 
+  showAbsoluteHandler() {
+    this.newMessage.IsRelative = false;
+    this.showTimeOptions = false;
+    this.showAbsoluteForm = true;
+  }
 
+  showRelativeHandler() {
+    this.newMessage.IsRelative = true;
+    this.newMessage.RelativeSendValue = 5;
+    this.newMessage.RelativeSendUnit = ContentItemMessageRelativeUnitModel.Minutes;
+    this.showTimeOptions = false;
+    this.showRelativeForm = true;
+  }
 
-
-
-
-
+  // Adds a twitter message to be sent at a specific time
   addTwitterMessage() {
-    console.log('Add message', this.newMessage);
+    console.log('Add specific twitter message', this.newMessage);
     this.isCreatingMessage = true;
 
     // Update the message
@@ -48,6 +65,58 @@ export class ContentItemMessageTwitterFormComponent {
     this.newMessage.Title = '';
 
     // Add the message
+    this.addMessageToSystem();
+  }
+
+  // Adds a twitter message to be sent at a time relative to the publish of the article
+  addRelativeTwitterMessage() {
+    console.log('Add relative twitter message', this.newMessage);
+    this.isCreatingMessage = true;
+
+    // Update the message
+    this.newMessage.MessageType = IntegrationTypes.Twitter;
+    this.newMessage.ImageUrl = '';
+    this.newMessage.Title = '';
+
+    // Calculate the send time
+    this.newMessage.RelativeSendUnit = +this.sendUnit;
+    let sendTime: moment.Moment;
+    sendTime = moment(this.contentItem.DeadLine);
+    console.log('Relative unit', this.newMessage.RelativeSendUnit)
+    switch (this.newMessage.RelativeSendUnit) {
+      case ContentItemMessageRelativeUnitModel.Minutes:
+        console.log('Set send time - minutes');
+        sendTime = sendTime.add(this.newMessage.RelativeSendValue, 'minutes');
+        break;
+      case ContentItemMessageRelativeUnitModel.Hours:
+        console.log('Set send time - hours');
+        sendTime = sendTime.add(this.newMessage.RelativeSendValue, 'hours');
+        break;
+      case ContentItemMessageRelativeUnitModel.Days:
+        console.log('Set send time - days');
+        sendTime = sendTime.add(this.newMessage.RelativeSendValue, 'days');
+        break;
+      case ContentItemMessageRelativeUnitModel.Weeks:
+        console.log('Set send time - weeks');
+        sendTime = sendTime.add(this.newMessage.RelativeSendValue, 'weeks');
+        break;
+      case ContentItemMessageRelativeUnitModel.Months:
+        console.log('Set send time - months');
+        sendTime = sendTime.add(this.newMessage.RelativeSendValue, 'months');
+        break;
+      default:
+        console.error('Set send time not set correctly');
+        break;
+    }
+
+    // Set the send time
+    this.newMessage.SendTime = sendTime.toISOString();
+
+    // Add
+    this.addMessageToSystem();
+  }
+
+  addMessageToSystem() {
     this.contentService.addMessage(this.contentItem.ProjectId, this.contentItem.id, this.newMessage).toPromise()
       .then(
         response => {
@@ -57,6 +126,7 @@ export class ContentItemMessageTwitterFormComponent {
           this.messageAdded.emit(response);
           this.toast.success('Social media message added');
           this.isCreatingMessage = false;
+          this.resetForm();
         })
       .catch(
         error => {
@@ -64,7 +134,15 @@ export class ContentItemMessageTwitterFormComponent {
           this.tracking.TrackError('Error while creating social media message', error);
           this.toast.error('Unable to create social media message', 'Error');
           this.isCreatingMessage = false;
+          this.resetForm();
         });
+  }
+
+  resetForm() {
+    this.newMessage = new ContentItemMessageModel();
+    this.showTimeOptions = true;
+    this.showAbsoluteForm = false;
+    this.showRelativeForm = false;
   }
 
 
