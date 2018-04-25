@@ -59,6 +59,10 @@
                                     Your plan is currently active, the next period will be billed on {{organisation.CurrentPlan.CurrentPeriodEnd | date}} (£{{organisation.CurrentPlan.MonthlyCharge/100}}
                                     x {{organisation.CurrentPlan.MaxUsers}})
                                 </p>
+                                <p>
+                                    Your organisation can have up to a maximum of
+                                    <strong>{{organisation.CurrentPlan.MaxProjects}}</strong> projects
+                                </p>
                                 <div>
                                     <button class="btn btn-danger" (click)="cancelSubscription()">Cancel subscription</button>
                                 </div>
@@ -71,8 +75,12 @@
                                     <strong>cancel at period end</strong>, it will no longer be available from
                                     <strong>{{organisation.CurrentPlan.CurrentPeriodEnd | date}}</strong>
                                 </p>
+                                <p>
+                                    Your organisation can have up to a maximum of
+                                    <strong>{{organisation.CurrentPlan.MaxProjects}}</strong> projects
+                                </p>
                                 <div [hidden]="!organisation.CurrentPlan.CancelAtPeriodEnd">
-                                    <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + users + ' user(s)'" [buttonText]="'Reinstate subscription'"
+                                    <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + userAllowance + ' user(s)'" [buttonText]="'Reinstate subscription'"
                                         [amount]="amountToCharge" (onPayment)="subscriptionPaid($event)">
                                     </stripe-button>
                                 </div>
@@ -118,7 +126,11 @@
                                 <strong>{{organisation.CurrentPlan.TrialEnd | date}}</strong>
                             </p>
                             <p>
-                                <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + users + ' user(s)'" [buttonText]="'Pay for subscription now'"
+                                Your organisation can have up to a maximum of
+                                <strong>{{organisation.CurrentPlan.MaxProjects}}</strong> projects
+                            </p>
+                            <p>
+                                <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + userAllowance + ' user(s)'" [buttonText]="'Pay for subscription now'"
                                     [amount]="amountToCharge" (onPayment)="subscriptionPaid($event)">
                                 </stripe-button>
                             </p>
