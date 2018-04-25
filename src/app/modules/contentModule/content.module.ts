@@ -44,6 +44,7 @@ import { ContentEventsComponent } from './components/content-events/content-even
 import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 import { ContentProjectIntegrationsComponent } from './components/content-project-integrations/content-project-integrations.component';
 import { ContentItemMessagesComponent } from './components/content-item-messages/content-item-messages.component';
+import { ContentItemMessageTwitterFormComponent } from './components/content-item-message-twitter-form/content-item-message-twitter-form.component';
 
 
 // Routes for this module to be added to the application
@@ -110,7 +111,8 @@ const routes: Routes = [
         ContentItemTypeLabelComponent,
         ContentCalendarComponent,
         ContentEventsComponent,
-        ContentItemMessagesComponent
+        ContentItemMessagesComponent,
+        ContentItemMessageTwitterFormComponent
     ],
     providers: [
         MixpanelService,

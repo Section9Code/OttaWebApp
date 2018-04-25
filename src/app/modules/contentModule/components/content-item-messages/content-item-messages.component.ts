@@ -5,7 +5,6 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { ToastsManager } from 'ng2-toastr';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
-import * as moment from 'moment';
 
 declare var $: any;
 
@@ -19,15 +18,6 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
 
   // The list of messages to show to the user
   messages: DisplayContentItemMessageModel[] = [];
-
-  // A new message for the user to fill in
-  newMessage = new ContentItemMessageModel();
-
-  // Settings
-  datePickerMinDate = moment();
-
-  // Flags
-  isCreatingMessage = false;
   hideMessagesInThePast = true;
 
   constructor(
@@ -86,38 +76,12 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   }
 
   showAddTwitterMessage() {
-    this.newMessage = new ContentItemMessageModel();
     $(`#addTwitterMessageModal`).modal('show');
   }
 
-  addTwitterMessage() {
-    console.log('Add message', this.newMessage);
-    this.isCreatingMessage = true;
-
-    // Update the message
-    this.newMessage.MessageType = IntegrationTypes.Twitter;
-    this.newMessage.ImageUrl = '';
-    this.newMessage.Title = '';
-
-    // Add the message
-    this.contentService.addMessage(this.data.ProjectId, this.data.id, this.newMessage).toPromise()
-      .then(
-        response => {
-          console.log('Message created');
-          this.data.SocialMediaMessages.push(this.newMessage);
-          this.sharedService.updateContent(this.data);
-          this.redrawMessageList();
-          this.toast.success('Social media message added');
-          this.isCreatingMessage = false;
-          $(`#addTwitterMessageModal`).modal('hide');
-        })
-      .catch(
-        error => {
-          console.log('Error creating message', error);
-          this.tracking.TrackError('Error while creating social media message', error);
-          this.toast.error('Unable to create social media message', 'Error');
-          this.isCreatingMessage = false;
-        });
+  addedTwitterMessage(message: ContentItemMessageModel) {
+    $(`#addTwitterMessageModal`).modal('hide');
+    this.redrawMessageList();
   }
 
   deleteTwitterMessage(messageId: string) {
@@ -159,6 +123,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
       }
     );
   }
+
 }
 
 export class DisplayContentItemMessageModel extends ContentItemMessageModel {
