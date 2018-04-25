@@ -24,6 +24,7 @@ export class ContentItemMessageTwitterFormComponent {
   showAbsoluteForm = false;
   showRelativeForm = false;
   sendUnit: string;
+  buttonText = 'Add message';
 
 
   // A new message for the user to fill in
@@ -65,7 +66,7 @@ export class ContentItemMessageTwitterFormComponent {
     this.newMessage.Title = '';
 
     // Add the message
-    this.addMessageToSystem();
+    this.save();
   }
 
   // Adds a twitter message to be sent at a time relative to the publish of the article
@@ -113,17 +114,29 @@ export class ContentItemMessageTwitterFormComponent {
     this.newMessage.SendTime = sendTime.toISOString();
 
     // Add
-    this.addMessageToSystem();
+    this.save();
+  }
+
+  save() {
+    if (!this.newMessage.Id || this.newMessage.Id === '') {
+      // Add the message
+      this.addMessageToSystem();
+    }
+    else {
+      // Update an existing message
+      this.updateMessageInSystem();
+    }
   }
 
   addMessageToSystem() {
+    console.log('Add message to system');
     this.contentService.addMessage(this.contentItem.ProjectId, this.contentItem.id, this.newMessage).toPromise()
       .then(
-        response => {
+        addedMessage => {
           console.log('Message created');
-          this.contentItem.SocialMediaMessages.push(this.newMessage);
+          this.contentItem.SocialMediaMessages.push(addedMessage);
           this.sharedService.updateContent(this.contentItem);
-          this.messageAdded.emit(response);
+          this.messageAdded.emit(addedMessage);
           this.toast.success('Social media message added');
           this.isCreatingMessage = false;
           this.resetForm();
@@ -138,13 +151,66 @@ export class ContentItemMessageTwitterFormComponent {
         });
   }
 
+  updateMessageInSystem() {
+    console.log('Update message in system');
+
+    // Delete the old message
+    this.contentService.deleteMessage(this.contentItem.ProjectId, this.contentItem.id, this.newMessage.Id).toPromise()
+      .then(deleteSuccess => {
+        // Remove the message from the item
+        var index = this.contentItem.SocialMediaMessages.findIndex(m => m.Id === this.newMessage.Id);
+        this.contentItem.SocialMediaMessages.splice(index, 1);
+
+        // Add the new message
+        this.newMessage.Id = '';
+        this.contentService.addMessage(this.contentItem.ProjectId, this.contentItem.id, this.newMessage).toPromise()
+          .then(addedMessage => {
+            // Message added successfully
+            this.contentItem.SocialMediaMessages.push(addedMessage);
+            this.sharedService.updateContent(this.contentItem);
+            this.messageAdded.emit(addedMessage);
+            this.toast.success('Message updated');
+            this.isCreatingMessage = false;
+            this.resetForm();
+          })
+          .catch(addError => {
+            this.toast.error('Unable to update the message');
+            this.tracking.TrackError('Error occurred adding a new message', addError);
+            this.isCreatingMessage = false;
+          });
+      })
+      .catch(deleteError => {
+        this.toast.error('Unable to update the message');
+        this.tracking.TrackError('Error occurred adding a new message', deleteError);
+        this.isCreatingMessage = false;
+      });
+  }
+
+  // Reset the form to is new state
   resetForm() {
+    this.sendUnit = '0';
+    this.buttonText = 'Add message';
     this.newMessage = new ContentItemMessageModel();
     this.showTimeOptions = true;
     this.showAbsoluteForm = false;
     this.showRelativeForm = false;
   }
 
+  // Called from outside the component if the user wants to edit a message
+  editMessage(message: ContentItemMessageModel) {
+    this.newMessage = message;
 
+    this.showTimeOptions = false;
+    this.showRelativeForm = false;
+    this.showAbsoluteForm = false;
+    this.buttonText = 'Update message';
 
+    if (message.IsRelative) {
+      this.showRelativeForm = true;
+      this.sendUnit = this.newMessage.RelativeSendUnit.toString();
+    }
+    else {
+      this.showAbsoluteForm = true;
+    }
+  }
 }

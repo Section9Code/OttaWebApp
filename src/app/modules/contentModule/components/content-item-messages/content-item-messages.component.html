@@ -30,12 +30,12 @@
 <!-- List of messages -->
 <div id="vertical-timeline" class="vertical-container dark-timeline">
   <div class="vertical-timeline-block" *ngFor="let message of messages">
-    <div class="vertical-timeline-icon twitter-bg">
+    <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
       <i class="fa fa-twitter"></i>
     </div>
 
     <div class="vertical-timeline-content">
-      <p>
+      <p (click)="editMessage(message)">
         <strong>{{ message.Message }}</strong>
       </p>
       <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>

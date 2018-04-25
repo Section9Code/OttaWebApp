@@ -84,6 +84,15 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
     $(`#addTwitterMessageModal`).modal('show');
   }
 
+  editMessage(message: ContentItemMessageModel) {
+    switch (message.MessageType) {
+      case IntegrationTypes.Twitter:
+        this.twitterMessageComponent.editMessage(message);
+        $(`#addTwitterMessageModal`).modal('show');
+        break;
+    }
+  }
+
   addedTwitterMessage(message: ContentItemMessageModel) {
     $(`#addTwitterMessageModal`).modal('hide');
     this.redrawMessageList();
