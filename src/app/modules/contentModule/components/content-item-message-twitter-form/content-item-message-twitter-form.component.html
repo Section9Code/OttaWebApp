@@ -16,10 +16,10 @@
   <form method="get" class="form-horizontal" (ngSubmit)="addTwitterMessage()" #addMessageForm="ngForm">
 
     <!-- Message -->
-    <div class="form-group" [class.has-error]="!message.valid">
+    <div class="form-group" [class.has-error]="!absMessage.valid">
       <label class="col-sm-2 control-label">Message</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="message" name="message" required [(ngModel)]="newMessage.Message" #message="ngModel">
+        <input type="text" class="form-control" id="absMessage" name="absMessage" required [(ngModel)]="newMessage.Message" #absMessage="ngModel">
         <span class="help-block m-b-none">
           The message to be shown to the user
         </span>
@@ -46,14 +46,15 @@
   </form>
 </div>
 
+<!-- RELATIVE FORM  -->
 <div *ngIf="showRelativeForm">
     <form method="get" class="form-horizontal" (ngSubmit)="addRelativeTwitterMessage()" #addMessageForm="ngForm">
 
         <!-- Message -->
-        <div class="form-group" [class.has-error]="!message.valid">
+        <div class="form-group" [class.has-error]="!relMessage.valid">
           <label class="col-sm-2 control-label">Message</label>
           <div class="col-sm-10">
-            <input type="text" class="form-control" id="message" name="message" required [(ngModel)]="newMessage.Message" #message="ngModel">
+            <input type="text" class="form-control" id="relMessage" name="relMessage" required [(ngModel)]="newMessage.Message" #relMessage="ngModel">
             <span class="help-block m-b-none">
               The message to be shown to the user
             </span>

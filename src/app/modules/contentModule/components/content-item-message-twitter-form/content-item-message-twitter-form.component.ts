@@ -45,6 +45,7 @@ export class ContentItemMessageTwitterFormComponent {
     this.newMessage.IsRelative = false;
     this.showTimeOptions = false;
     this.showAbsoluteForm = true;
+    document.getElementById('absMessage').focus();
   }
 
   showRelativeHandler() {
@@ -157,12 +158,14 @@ export class ContentItemMessageTwitterFormComponent {
     // Delete the old message
     this.contentService.deleteMessage(this.contentItem.ProjectId, this.contentItem.id, this.newMessage.Id).toPromise()
       .then(deleteSuccess => {
-        // Remove the message from the item
+        // Remove the original message
         var index = this.contentItem.SocialMediaMessages.findIndex(m => m.Id === this.newMessage.Id);
         this.contentItem.SocialMediaMessages.splice(index, 1);
 
         // Add the new message
         this.newMessage.Id = '';
+        this.newMessage.LinkedItemPartition = '';
+        this.newMessage.LinkedItemRowKey = '';
         this.contentService.addMessage(this.contentItem.ProjectId, this.contentItem.id, this.newMessage).toPromise()
           .then(addedMessage => {
             // Message added successfully
