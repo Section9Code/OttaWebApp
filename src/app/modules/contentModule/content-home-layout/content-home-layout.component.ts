@@ -54,7 +54,7 @@ export class ContentHomeLayoutComponent implements OnInit {
     createProject() {
         if (this.projectCount < this.maxProjects) {
             // Send the user to the create page
-            this.router.navigateByUrl('./create');
+            this.router.navigateByUrl('/content/create');
         }
         else {
             this.alertSvc.swal({
