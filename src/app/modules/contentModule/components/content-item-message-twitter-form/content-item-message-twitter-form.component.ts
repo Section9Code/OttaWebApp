@@ -45,7 +45,6 @@ export class ContentItemMessageTwitterFormComponent {
     this.newMessage.IsRelative = false;
     this.showTimeOptions = false;
     this.showAbsoluteForm = true;
-    document.getElementById('absMessage').focus();
   }
 
   showRelativeHandler() {
@@ -135,6 +134,12 @@ export class ContentItemMessageTwitterFormComponent {
       .then(
         addedMessage => {
           console.log('Message created');
+          // Make sure there is an array to push the item into
+          if (!this.contentItem.SocialMediaMessages) {
+            this.contentItem.SocialMediaMessages = [];
+          }
+
+          // Add the message and tell the user
           this.contentItem.SocialMediaMessages.push(addedMessage);
           this.sharedService.updateContent(this.contentItem);
           this.messageAdded.emit(addedMessage);
@@ -191,12 +196,18 @@ export class ContentItemMessageTwitterFormComponent {
 
   // Reset the form to is new state
   resetForm() {
+    // Reset the whole form
     this.sendUnit = '0';
     this.buttonText = 'Add message';
     this.newMessage = new ContentItemMessageModel();
     this.showTimeOptions = true;
     this.showAbsoluteForm = false;
     this.showRelativeForm = false;
+
+    // If the content item doesn't have a deadline or a URL go straight to the absolute form
+    if (!this.contentItem.DeadLine || !this.contentItem.PrimaryUrl) {
+      this.showAbsoluteHandler();
+    }
   }
 
   // Called from outside the component if the user wants to edit a message

@@ -124,9 +124,6 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
                 console.log('Item updated', response);
                 this.item = response;
 
-                // Refresh the the messages component
-                this.contentItemMessagesComponent.redrawMessageList();
-
                 // Update the item's content
                 console.log('Update item content');
                 const contentItem = new ContentItemContentModel();
@@ -139,6 +136,9 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
 
                         // Update the shared copy of the data
                         this.sharedData.updateContent(response);
+
+                        // Refresh the the messages component
+                        this.contentItemMessagesComponent.redrawMessageList();
 
                         // Inform the user
                         this.toast.success('Item updated');

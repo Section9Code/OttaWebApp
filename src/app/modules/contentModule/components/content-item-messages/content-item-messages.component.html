@@ -40,7 +40,11 @@
       </p>
       <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
       <span class="vertical-date">
-        <small>{{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}</small>
+        <small>
+          {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
+          <span *ngIf="message.IsRelative">(relative)</span>
+          <span *ngIf="!message.IsRelative">(static)</span>
+        </small>
       </span>
     </div>
   </div>
