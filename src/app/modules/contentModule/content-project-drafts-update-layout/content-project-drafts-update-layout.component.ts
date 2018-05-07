@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ContentItemModel, ContentItemService } from 'services/content-item.service';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { MixpanelService } from 'services/mixpanel.service';
@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from 'services/auth.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { ProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
+import { ContentItemMessagesComponent } from '../components/content-item-messages/content-item-messages.component';
 
 @Component({
     moduleId: module.id,
@@ -22,10 +23,14 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     itemId: string;     // Passed in from the url
     item: ContentItemModel = new ContentItemModel();
     itemContent: ContentItemContentModel = new ContentItemContentModel();
+
+    // Components
+    @ViewChild('contentItemMessages') private contentItemMessagesComponent: ContentItemMessagesComponent;
+
+    // Flags
     isLoading = false;
     isCreatingLink = false;
     isUpdating = false;
-
     userIsAdmin = false;
     userIsCreator = false;
 
@@ -74,8 +79,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
                     );
 
                     // Is the current user the creator of this item
-                    if(this.item.CreatorAuthId && this.item.CreatorAuthId === this.currentUsersAuthId)
-                    {
+                    if (this.item.CreatorAuthId && this.item.CreatorAuthId === this.currentUsersAuthId) {
                         this.userIsCreator = true;
                     }
                 },
@@ -107,23 +111,36 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     }
 
     updateItem(data: ContentDataMessage, closeOnCompletion: boolean = false) {
-        console.log('Update draft', data);
+        console.log('Update item', data);
         this.isUpdating = true;
+
+        // tslint:disable-next-line:max-line-length
+        this.toast.info('This can take a few seconds, especially if you have a lot of related items like posts and social media messages. We are working on it.', 'This might take a few moments');
 
         // Update the content item
         this.contentItemService.updateItem(data.contentItem).toPromise()
             .then(response => {
                 // Item updated
+                console.log('Item updated', response);
                 this.item = response;
 
+                // Refresh the the messages component
+                this.contentItemMessagesComponent.redrawMessageList();
+
                 // Update the item's content
+                console.log('Update item content');
                 const contentItem = new ContentItemContentModel();
                 contentItem.Content = data.content;
                 contentItem.ParentContentItemId = response.id;
                 this.contentItemContentService.addContent(contentItem).toPromise()
                     .then(contentResponse => {
-                        // Content updated
+                        // Item content updated
+                        console.log('Item content updated', contentResponse);
+
+                        // Update the shared copy of the data
                         this.sharedData.updateContent(response);
+
+                        // Inform the user
                         this.toast.success('Item updated');
                         this.isUpdating = false;
                         this.itemContent = contentResponse;
@@ -207,8 +224,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         this.integrationService.createWordpressForItem(this.item.ProjectId, this.item.id).toPromise()
             .then(response => {
                 // Link the item to its blog post
-                if(!this.item.PrimaryUrl || this.item.PrimaryUrl === '')
-                {
+                if (!this.item.PrimaryUrl || this.item.PrimaryUrl === '') {
                     this.item.PrimaryUrl = response.Url;
                 }
                 this.item.WordpressLink = response;

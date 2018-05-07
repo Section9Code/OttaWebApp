@@ -42,7 +42,13 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
 
   // Updates the message list with the view the user wants to see
   redrawMessageList() {
-    this.messages = this.sortMessages();
+    if (this.data.SocialMediaMessages && this.data.SocialMediaMessages.length > 0) {
+      // Sort the messages
+      this.messages = this.sortMessages();
+    } else {
+      // No messages to show
+      this.messages = [];
+    }
   }
 
   sortMessages(): DisplayContentItemMessageModel[] {
