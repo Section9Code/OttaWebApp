@@ -1,6 +1,6 @@
 {
-  "name": "inspinia",
-  "version": "2.7.1",
+  "name": "OttaWebApp",
+  "version": "0.1.0",
   "scripts": {
     "ng": "ng",
     "start": "ng serve",
