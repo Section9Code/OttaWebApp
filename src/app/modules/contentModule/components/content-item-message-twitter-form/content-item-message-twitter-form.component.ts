@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, AfterViewInit } from '@angular/core';
 import { ContentItemModel, ContentItemMessageModel, ContentItemService, ContentItemMessageRelativeUnitModel } from 'services/content-item.service';
 import * as moment from 'moment';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
@@ -7,6 +7,9 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { ToastsManager } from 'ng2-toastr';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { send } from 'q';
+import { ImagesService } from 'services/images.service';
+
+declare var $: any;
 
 @Component({
   selector: 'otta-content-item-message-twitter-form',
@@ -16,6 +19,7 @@ import { send } from 'q';
 export class ContentItemMessageTwitterFormComponent {
   // Component inputs/outputs
   @Input() contentItem: ContentItemModel = new ContentItemModel();
+  @Input() images: string[] = [];
   @Output() messageAdded = new EventEmitter();
 
   // Variables
@@ -25,7 +29,6 @@ export class ContentItemMessageTwitterFormComponent {
   showRelativeForm = false;
   sendUnit: string;
   buttonText = 'Add message';
-
 
   // A new message for the user to fill in
   newMessage = new ContentItemMessageModel();
@@ -45,6 +48,11 @@ export class ContentItemMessageTwitterFormComponent {
     this.newMessage.IsRelative = false;
     this.showTimeOptions = false;
     this.showAbsoluteForm = true;
+    // Load the image picker for the form when the page has rendered
+    setTimeout(() => {
+      // HACK: You need to wait a few moments for the form to render before calling the function to show the image picker
+      $('#twitterImages').imagepicker();
+    }, 300);
   }
 
   showRelativeHandler() {

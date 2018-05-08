@@ -56,5 +56,5 @@
 </div>
 
 <otta-modal [modalId]="'addTwitterMessageModal'" [title]="'Add twitter message'" [heading]="'Add a new twitter message to this item'" [icon]="'fa-twitter'">
-  <otta-content-item-message-twitter-form #twitterMessageComponent [contentItem]="data" (messageAdded)="addedTwitterMessage()"></otta-content-item-message-twitter-form>
+  <otta-content-item-message-twitter-form #twitterMessageComponent [contentItem]="data" [images]="images" (messageAdded)="addedTwitterMessage()"></otta-content-item-message-twitter-form>
 </otta-modal>

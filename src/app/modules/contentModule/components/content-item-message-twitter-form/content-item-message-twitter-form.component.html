@@ -1,13 +1,14 @@
 <div *ngIf="showTimeOptions">
   <p>
-      What sort of message do you want to send?
+    What sort of message do you want to send?
   </p>
   <div class="row">
     <div class="col-xs-12 col-sm-6">
       <button class="btn btn-primary btn-block btn-rounded btn-lg" (click)="showAbsoluteHandler()">Send at a specific time</button>
     </div>
     <div class="col-xs-12 col-sm-6">
-      <button class="btn btn-primary btn-block btn-rounded btn-lg" (click)="showRelativeHandler()">Send based on when the <br/>item is published</button>
+      <button class="btn btn-primary btn-block btn-rounded btn-lg" (click)="showRelativeHandler()">Send based on when the
+        <br/>item is published</button>
     </div>
   </div>
 </div>
@@ -37,6 +38,26 @@
       </div>
     </div>
 
+    <style>
+      .thumbnailPic {
+        width: 100px !important;
+      }
+    </style>
+
+    <!-- Image -->
+    <div class="form-group">
+      <label class="col-sm-2 control-label">Image</label>
+      <div class="col-sm-10">
+        <select id="twitterImages">
+          <option value=""></option>
+          <option *ngFor="let image of images" [attr.data-img-src]="image" [attr.data-img-class]="'thumbnailPic'" value="{{image}}">{{ image }}</option>
+        </select>
+        <span class="help-block m-b-none">
+          Image you want to appear on your tweet
+        </span>
+      </div>
+    </div>
+
     <div class="form-group">
       <div class="col-sm-10 col-sm-offset-2">
         <button class="btn btn-white" data-dismiss="modal">Cancel</button>
@@ -48,49 +69,50 @@
 
 <!-- RELATIVE FORM  -->
 <div *ngIf="showRelativeForm">
-    <form method="get" class="form-horizontal" (ngSubmit)="addRelativeTwitterMessage()" #addMessageForm="ngForm">
+  <form method="get" class="form-horizontal" (ngSubmit)="addRelativeTwitterMessage()" #addMessageForm="ngForm">
 
-        <!-- Message -->
-        <div class="form-group" [class.has-error]="!relMessage.valid">
-          <label class="col-sm-2 control-label">Message</label>
-          <div class="col-sm-10">
-            <input type="text" class="form-control" id="relMessage" name="relMessage" required [(ngModel)]="newMessage.Message" #relMessage="ngModel">
-            <span class="help-block m-b-none">
-              The message to be shown to the user
-            </span>
-          </div>
+    <!-- Message -->
+    <div class="form-group" [class.has-error]="!relMessage.valid">
+      <label class="col-sm-2 control-label">Message</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" id="relMessage" name="relMessage" required [(ngModel)]="newMessage.Message" #relMessage="ngModel">
+        <span class="help-block m-b-none">
+          The message to be shown to the user
+        </span>
+      </div>
+    </div>
+
+    <!-- Send time -->
+    <div class="form-group" [class.has-error]="!relativeValue.valid">
+      <label class="col-sm-2 control-label">Send after publish</label>
+      <div class="col-sm-10 ">
+
+        <div class="col-xs-12 col-sm-6" style="padding-left: 0px; padding-right: 0px;">
+          <input type="number" class="form-control" id="relativeValue" name="relativeValue" required [(ngModel)]="newMessage.RelativeSendValue"
+            #relativeValue="ngModel">
         </div>
-    
-        <!-- Send time -->
-        <div class="form-group" [class.has-error]="!relativeValue.valid">
-            <label class="col-sm-2 control-label">Send after publish</label>
-            <div class="col-sm-10 ">
-      
-              <div class="col-xs-12 col-sm-6" style="padding-left: 0px; padding-right: 0px;">
-                  <input type="number" class="form-control" id="relativeValue" name="relativeValue" required [(ngModel)]="newMessage.RelativeSendValue" #relativeValue="ngModel" >
-              </div>
-              
-              <div class="col-xs-12 col-sm-6" style="padding-left: 0px; padding-right: 0px;">
-                  <select class="form-control m-b" id="relativeSendUnit" name="relativeSendUnit" [(ngModel)]="sendUnit" #relativeSendUnit="ngModel">
-                      <option value="0">Minutes</option>
-                      <option value="1">Hours</option>
-                      <option value="2">Days</option>
-                      <option value="3">Weeks</option>
-                      <option value="4">Months</option>
-                  </select>
-              </div>                            
-      
-              <span class="help-block m-b-none">
-                The amount of time after the item is published you want this message to be sent.
-              </span>
-            </div>
-          </div>
-    
-        <div class="form-group">
-          <div class="col-sm-10 col-sm-offset-2">
-            <button class="btn btn-white" data-dismiss="modal">Cancel</button>
-            <button class="btn btn-primary" type="submit" [disabled]="!addMessageForm.form.valid" [ladda]="isCreatingMessage">{{buttonText}}</button>
-          </div>
+
+        <div class="col-xs-12 col-sm-6" style="padding-left: 0px; padding-right: 0px;">
+          <select class="form-control m-b" id="relativeSendUnit" name="relativeSendUnit" [(ngModel)]="sendUnit" #relativeSendUnit="ngModel">
+            <option value="0">Minutes</option>
+            <option value="1">Hours</option>
+            <option value="2">Days</option>
+            <option value="3">Weeks</option>
+            <option value="4">Months</option>
+          </select>
         </div>
-      </form>
+
+        <span class="help-block m-b-none">
+          The amount of time after the item is published you want this message to be sent.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-10 col-sm-offset-2">
+        <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!addMessageForm.form.valid" [ladda]="isCreatingMessage">{{buttonText}}</button>
+      </div>
+    </div>
+  </form>
 </div>

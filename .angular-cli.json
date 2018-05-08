@@ -28,6 +28,7 @@
         "../node_modules/froala-editor/css/froala_editor.pkgd.min.css",
         "../node_modules/bootstrap-tour/build/css/bootstrap-tour.min.css",
         "../node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
+        "../node_modules/image-picker/image-picker/image-picker.css",
         "styles.scss"
       ],
       "scripts": [
@@ -40,7 +41,8 @@
         "../node_modules/fullcalendar/dist/fullcalendar.js",
         "../node_modules/froala-editor/js/froala_editor.pkgd.min.js",
         "../node_modules/bootstrap-tour/build/js/bootstrap-tour.min.js",
-        "../node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js"
+        "../node_modules/eonasdan-bootstrap-datetimepicker/src/js/bootstrap-datetimepicker.js",
+        "../node_modules/image-picker/image-picker/image-picker.js"
       ],
       "environmentSource": "environments/environment.ts",
       "environments": {

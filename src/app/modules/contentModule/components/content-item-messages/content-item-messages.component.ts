@@ -6,6 +6,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
 import { ContentItemMessageTwitterFormComponent } from '../content-item-message-twitter-form/content-item-message-twitter-form.component';
+import { ImagesService } from 'services/images.service';
 
 declare var $: any;
 
@@ -16,6 +17,7 @@ declare var $: any;
 })
 export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   @Input() data: ContentItemModel = new ContentItemModel();
+  images: string[] = [];
 
   // The list of messages to show to the user
   messages: DisplayContentItemMessageModel[] = [];
@@ -29,15 +31,23 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
     private contentService: ContentItemService,
     private tracking: MixpanelService,
     private toast: ToastsManager,
-    private alertSvc: SweetAlertService
+    private alertSvc: SweetAlertService,
+    private imageStore: ImagesService
   ) { }
 
   ngOnInit(): void {
     // Generate the list of messages to show to the user
     this.redrawMessageList();
+    this.loadImages();
   }
 
   ngOnDestroy(): void {
+  }
+  // Load images
+  loadImages() {
+    this.imageStore.getAllFilesInFolder(`contentItem/${this.data.id}`).toPromise()
+      .then(response => this.images = response)
+      .catch(() => { console.log('Error occurred loading images'); });
   }
 
   // Updates the message list with the view the user wants to see
