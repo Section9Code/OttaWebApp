@@ -4,17 +4,18 @@
   <!-- No files message -->
   <div *ngIf="files.length === 0" class="text-center">
     <h2>No files found</h2>
-    <p>
-        Drag a file here to upload it
-    </p>
   </div>
 
   <!-- Files found -->
   <div *ngIf="files.length > 0">
     <!-- List files -->
-    <div *ngFor="let file of files">
-      <img src="{file}">
+    <div class="row">      
+      <div class="col-xs-6 col-sm-4 col-md-3 col-lg-3" *ngFor="let file of files">
+          <img [src]="file" width="100%">
+          <a (click)="deleteImage(file)">Delete</a>
+      </div>      
     </div>
-
   </div>
+
+  <dropzone #dropzoneComponent [config]="dropzoneConfig" [message]="'Click or drag images here to upload'" (error)="onUploadError($event)" (success)="onUploadSuccess($event)" (queueComplete)="onQueueComplete($event)"></dropzone>
 </div>

@@ -121,6 +121,11 @@ export class AuthService {
   public currentUserAuthId(): string {
     return localStorage.getItem("AuthId");
   }
+  
+  // Get the access token used to talk to the API
+  public getAccessToken(): string {
+    return localStorage.getItem('access_token');
+  }
 
   // Get the current users profile
   public getProfile(cb): void {

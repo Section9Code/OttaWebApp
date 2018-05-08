@@ -30,8 +30,8 @@ import { TagInputModule } from 'ngx-chips';
 import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { MyDatePickerModule } from 'mydatepicker';
 import { A2Edatetimepicker } from 'ng2-eonasdan-datetimepicker';
+import { DropzoneModule, DropzoneConfigInterface, DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { WelcomeService } from 'services/welcome.service';
-
 import { UserProfileModule } from 'app/modules/userProfileModule/userProfile.module';
 import { PersonaModule } from 'app/modules/personaModule/persona.module';
 import { SharedModule } from 'app/modules/sharedModule/shared.module';
@@ -42,6 +42,16 @@ import { CreatorModule } from 'app/modules/creatorModule/creator.module';
 import { CreatorService } from 'services/creator.service';
 import { ContentModule } from 'app/modules/contentModule/content.module';
 import { TourService } from 'services/tour.service';
+import { environment } from 'environments/environment';
+
+
+const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
+  // Change this to your upload POST address:
+   url: `${environment.baseApiUrl}/api/images`,
+   maxFilesize: 5,
+   acceptedFiles: 'image/*'
+ };
+
 
 @NgModule({
   declarations: [
@@ -72,6 +82,7 @@ import { TourService } from 'services/tour.service';
     A2Edatetimepicker,
     FroalaEditorModule.forRoot(),
     FroalaViewModule.forRoot(),
+    DropzoneModule,
     RouterModule.forRoot(ROUTES)
   ],
   providers: [
@@ -87,6 +98,12 @@ import { TourService } from 'services/tour.service';
     MixpanelService,
     SweetAlertService,
     TourService,
+
+    // Dropzone configuration
+    {
+      provide: DROPZONE_CONFIG,
+      useValue: DEFAULT_DROPZONE_CONFIG
+    },
 
     // Create the AuthHttp service for using Auth0 JWT tokens to make calls to the back end
     {

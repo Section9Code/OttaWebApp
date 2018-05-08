@@ -25,5 +25,10 @@ export class ImagesService {
     return this.authHttp.get(`${this.url}?folderName=${folderName}`).map(response => response.json());
   }
 
+  // Delete a file
+  deleteFile(path: string): Observable<boolean>{
+    return this.authHttp.delete(`${this.url}?path=${path}`).map(response => response.json());
+  }
+
 }
 

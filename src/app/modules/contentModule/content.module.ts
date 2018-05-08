@@ -46,6 +46,7 @@ import { ContentProjectIntegrationsComponent } from './components/content-projec
 import { ContentItemMessagesComponent } from './components/content-item-messages/content-item-messages.component';
 import { ContentItemMessageTwitterFormComponent } from './components/content-item-message-twitter-form/content-item-message-twitter-form.component';
 import { ContentItemFilesComponent } from './components/content-item-files/content-item-files.component';
+import { DropzoneModule } from 'ngx-dropzone-wrapper';
 
 
 // Routes for this module to be added to the application
@@ -86,7 +87,8 @@ const routes: Routes = [
         SharedModule,
         FroalaEditorModule,
         FroalaViewModule,
-        MyDatePickerModule
+        MyDatePickerModule,
+        DropzoneModule
     ],
     exports: [
         RouterModule
