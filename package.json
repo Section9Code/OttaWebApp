@@ -46,7 +46,7 @@
     "ng2-toastr": "^4.1.2",
     "ngx-bootstrap": "^1.9.3",
     "ngx-chips": "^1.5.3",
-    "ngx-dropzone-wrapper": "^5.3.5",
+    "ngx-dropzone-wrapper": "^4.9.0",
     "peity": "^3.2.1",
     "production": "0.0.2",
     "rxjs": "^5.4.2",
