@@ -11,12 +11,18 @@ export class ImagesService {
 
   constructor(private authHttp: AuthHttp) { }
 
+  // Upload a file
   upload(image: File): Observable<string> {
     // Create the form data to send to the API
-    let form:FormData = new FormData();
-    form.append('file[]', image);    
+    let form: FormData = new FormData();
+    form.append('file[]', image);
     // Send
     return this.authHttp.post(this.url, form).map(response => response.json());
+  }
+
+  // Get all the files in a folder
+  getAllFilesInFolder(folderName: string): Observable<string[]> {
+    return this.authHttp.get(`${this.url}?folderName=${folderName}`).map(response => response.json());
   }
 
 }

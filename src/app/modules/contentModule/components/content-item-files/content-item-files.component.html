@@ -1,0 +1,20 @@
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
+
+<div *ngIf="!isLoading">
+  <!-- No files message -->
+  <div *ngIf="files.length === 0" class="text-center">
+    <h2>No files found</h2>
+    <p>
+        Drag a file here to upload it
+    </p>
+  </div>
+
+  <!-- Files found -->
+  <div *ngIf="files.length > 0">
+    <!-- List files -->
+    <div *ngFor="let file of files">
+      <img src="{file}">
+    </div>
+
+  </div>
+</div>
