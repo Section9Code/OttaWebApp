@@ -1,15 +1,26 @@
 <loadingSpinner [loading]="isLoading"></loadingSpinner>
 <div class="row" *ngIf="!isLoading">
     <div class="col-xs-12 col-sm-8">
+        <!-- Main content information -->
         <otta-panel [title]="'Update'">
             <content-item-details [data]="item" [content]="itemContent" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="updateItem($event)"
                 [createButtonText]="'Update'"></content-item-details>
         </otta-panel>
 
+        <!-- Files -->
+        <otta-panel [title]="'Media items'">
+            <p>
+                Media items for this content item. Put your images, and other assets here.
+            </p>
+        </otta-panel>
+
+        <!-- Social media post -->
         <otta-panel [title]="'Social media'">
             <otta-content-item-messages #contentItemMessages [data]="item"></otta-content-item-messages>
         </otta-panel>
     </div>
+
+    <!-- Side information -->
     <div class="col-xs-12 col-sm-4">
         <otta-panel [title]="'Delete'" *ngIf="userIsAdmin || userIsCreator">
             <p>
