@@ -51,7 +51,7 @@ export class ContentItemMessageTwitterFormComponent {
     // Load the image picker for the form when the page has rendered
     setTimeout(() => {
       // HACK: You need to wait a few moments for the form to render before calling the function to show the image picker
-      $('#twitterImages').imagepicker();
+      $('#twitterImage').imagepicker();
     }, 300);
   }
 
@@ -70,8 +70,16 @@ export class ContentItemMessageTwitterFormComponent {
 
     // Update the message
     this.newMessage.MessageType = IntegrationTypes.Twitter;
-    this.newMessage.ImageUrl = '';
     this.newMessage.Title = '';
+
+    // Check if an image has been selected
+    // HACK: Angular doesn't see the ahange when an image is selected
+    const imageUrl = $('#twitterImage').val();
+    if(imageUrl)
+    {
+      console.log('User selected image', imageUrl);
+      this.newMessage.ImageUrl = imageUrl;
+    }
 
     // Add the message
     this.save();

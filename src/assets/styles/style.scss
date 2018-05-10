@@ -57,3 +57,8 @@
     margin: 0;
   }
 }
+
+/* Formats image picker thumbnail images to be the right size */
+img.image_picker_image.pickerThumbnailPic {
+  width: 5pc;
+}

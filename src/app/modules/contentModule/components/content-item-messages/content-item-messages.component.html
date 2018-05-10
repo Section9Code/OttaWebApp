@@ -38,6 +38,9 @@
       <p (click)="editMessage(message)">
         <strong>{{ message.Message }}</strong>
       </p>
+      <p *ngIf="message.ImageUrl">
+        <img src="{{message.ImageUrl}}" width="50px"/>
+      </p>
       <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
       <span class="vertical-date">
         <small>
