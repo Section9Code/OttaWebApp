@@ -92,7 +92,8 @@ export class ContentItemFilesComponent implements OnInit, OnDestroy {
 
   // Searchs the social media messages for an image
   checkMessagesForImage(path: string): boolean {
-    var items = this.data.SocialMediaMessages.filter(m => m.ImageUrl == path);
+    // tslint:disable-next-line:triple-equals
+    const items = this.data.SocialMediaMessages.filter(m => m.ImageUrl == path);
     if (items.length > 0) {
       // Image is in a social media message
       return true;
@@ -109,13 +110,14 @@ export class ContentItemFilesComponent implements OnInit, OnDestroy {
 
     // Check to see if the image has been used in any upcoming social media messages
     if (this.checkMessagesForImage(filePath)) {
+      // tslint:disable-next-line:max-line-length
       this.toast.warning('This image can not be deleted because it is in an upcoming social media message. Change the messages so it isn\'t used then you can delete this image', 'Cannot be deleted');
       return;
     }
 
     this.alertSvc.swal({
       title: 'Delete image',
-      text: "Are you sure you want to delete this image?",
+      text: 'Are you sure you want to delete this image?',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
