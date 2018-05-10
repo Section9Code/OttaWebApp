@@ -32,7 +32,7 @@ export class ContentItemFilesComponent implements OnInit, OnDestroy {
     maxFilesize: 5,
     acceptedFiles: 'image/*'
   };
-  
+
   @ViewChild('dropzoneComponent') dropzoneComponent: DropzoneComponent;
 
   constructor(
@@ -90,10 +90,28 @@ export class ContentItemFilesComponent implements OnInit, OnDestroy {
     this.dropzoneComponent.directiveRef.reset();
   }
 
+  // Searchs the social media messages for an image
+  checkMessagesForImage(path: string): boolean {
+    var items = this.data.SocialMediaMessages.filter(m => m.ImageUrl == path);
+    if (items.length > 0) {
+      // Image is in a social media message
+      return true;
+    }
+
+    // Image not found
+    return false;
+  }
+
   deleteImage(filePath: string) {
     // Get the name of the file
     const fileParts = filePath.split('/');
     const fileName = fileParts[fileParts.length - 1];
+
+    // Check to see if the image has been used in any upcoming social media messages
+    if (this.checkMessagesForImage(filePath)) {
+      this.toast.warning('This image can not be deleted because it is in an upcoming social media message. Change the messages so it isn\'t used then you can delete this image', 'Cannot be deleted');
+      return;
+    }
 
     this.alertSvc.swal({
       title: 'Delete image',

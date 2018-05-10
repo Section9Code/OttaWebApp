@@ -90,9 +90,7 @@ export class ContentItemMessageTwitterFormComponent {
     if (imageUrl) {
       console.log('User selected image', imageUrl);
       this.newMessage.ImageUrl = imageUrl;
-    }
-    else
-    {
+    } else {
       this.newMessage.ImageUrl = '';
     }
   }
@@ -103,7 +101,7 @@ export class ContentItemMessageTwitterFormComponent {
     this.isCreatingMessage = true;
 
     // Update the message
-    this.newMessage.MessageType = IntegrationTypes.Twitter;    
+    this.newMessage.MessageType = IntegrationTypes.Twitter;
     this.newMessage.Title = '';
     this.setSelectedImage();
 
