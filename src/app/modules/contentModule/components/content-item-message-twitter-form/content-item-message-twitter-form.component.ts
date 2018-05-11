@@ -56,7 +56,18 @@ export class ContentItemMessageTwitterFormComponent {
     setTimeout(() => {
       // HACK: You need to wait a few moments for the form to render before calling the function to show the image picker
       $('#twitterImage').imagepicker();
+      $('#twitterImage').change(() => { this.imageChanged($('#twitterImage').val()); });
     }, 300);
+  }
+
+  imageChanged(imageUrl: string) {
+    console.log('Image changed', imageUrl);
+
+    if (!imageUrl) {
+      this.newMessage.ImageUrl = '';
+    } else {
+      this.newMessage.ImageUrl = imageUrl;
+    }
   }
 
   showRelativeHandler() {
@@ -78,22 +89,22 @@ export class ContentItemMessageTwitterFormComponent {
     this.newMessage.Title = '';
 
     // Check if an image has been selected
-    this.setSelectedImage();
+    //this.setSelectedImage();
 
     // Add the message
     this.save();
   }
 
-  setSelectedImage() {
-    // HACK: Angular doesn't see the change when an image is selected so this updates the model
-    const imageUrl = $('#twitterImage').val();
-    if (imageUrl) {
-      console.log('User selected image', imageUrl);
-      this.newMessage.ImageUrl = imageUrl;
-    } else {
-      this.newMessage.ImageUrl = '';
-    }
-  }
+  // setSelectedImage() {
+  //   // HACK: Angular doesn't see the change when an image is selected so this updates the model
+  //   const imageUrl = $('#twitterImage').val();
+  //   if (imageUrl) {
+  //     console.log('User selected image', imageUrl);
+  //     this.newMessage.ImageUrl = imageUrl;
+  //   } else {
+  //     this.newMessage.ImageUrl = '';
+  //   }
+  // }
 
   // Adds a twitter message to be sent at a time relative to the publish of the article
   addRelativeTwitterMessage() {
@@ -103,7 +114,7 @@ export class ContentItemMessageTwitterFormComponent {
     // Update the message
     this.newMessage.MessageType = IntegrationTypes.Twitter;
     this.newMessage.Title = '';
-    this.setSelectedImage();
+    //this.setSelectedImage();
 
     // Calculate the send time
     this.newMessage.RelativeSendUnit = +this.sendUnit;
@@ -187,7 +198,7 @@ export class ContentItemMessageTwitterFormComponent {
     console.log('Update message in system');
 
     // Update the image the user has selected if needed
-    this.setSelectedImage();
+    //this.setSelectedImage();
 
     // Delete the old message
     this.contentService.deleteMessage(this.contentItem.ProjectId, this.contentItem.id, this.newMessage.Id).toPromise()

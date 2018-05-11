@@ -108,8 +108,13 @@ export class CalendarDataModel {
 }
 
 export class ContentItemMessageModel {
+  // Id of the message
   Id: string;
+
+  // Time the message will be sent
   SendTime: string;
+  
+  // The type of message
   MessageType: IntegrationTypes;
 
   // Is this message relative to the publish date of the content item

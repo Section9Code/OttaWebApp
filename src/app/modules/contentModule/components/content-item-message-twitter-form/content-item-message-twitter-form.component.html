@@ -44,7 +44,7 @@
     <div class="form-group">
       <label class="col-sm-2 control-label">Image</label>
       <div class="col-sm-10">
-        <select id="twitterImage" name="twitterImage" [(ngModel)]="newMessage.ImageUrl" (change)="alert('Image changed');" #twitterImage="ngModel">
+        <select id="twitterImage" name="twitterImage" [(ngModel)]="newMessage.ImageUrl" (change)="imageChanged();" #twitterImage="ngModel">
           <option value=""></option>
           <option *ngFor="let image of images" [attr.data-img-src]="image" [attr.data-img-class]="'pickerThumbnailPic'" value="{{image}}">{{ image }}</option>
         </select>
@@ -61,6 +61,9 @@
       </div>
     </div>
   </form>
+
+  <!-- Preview twitter message -->
+  <app-content-item-message-twitter-preview [message]="newMessage"></app-content-item-message-twitter-preview>
 </div>
 
 <!-- === RELATIVE FORM =========================================================================== -->

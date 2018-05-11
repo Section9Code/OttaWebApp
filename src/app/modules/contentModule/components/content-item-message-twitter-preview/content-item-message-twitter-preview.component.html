@@ -1,0 +1,23 @@
+
+<div class="permalink-tweet">
+  <div class="content clearfix">
+    <div class="permalink-header">
+      <img src="/assets/images/logo/logosquare.png" id="twit_logo" class=" avatar js-action-profile-avatar" />
+      <strong data-aria-label-part="" class="fullname js-action-profile-name show-popup-with-id">
+        <span id="twit_nome">You twitter name</span>
+      </strong>
+      <span>&rlm;</span>
+      <span data-aria-label-part="" class="username js-action-profile-name">
+        <b>
+          <span id="twit_account">@YourTwitterName</span>
+        </b>
+      </span>
+    </div>
+  </div>
+  <p lang="it" data-aria-label-part="0" class="js-tweet-text tweet-text">
+    <span id="twit_content">{{ message.Message }}</span>
+  </p>
+  <div *ngIf="message.ImageUrl" id="box-image" class="box-image">
+    <img id="twit_img" title="" src="{{ message.ImageUrl }}" />
+  </div>
+</div>

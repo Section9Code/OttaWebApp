@@ -47,6 +47,7 @@ import { ContentItemMessagesComponent } from './components/content-item-messages
 import { ContentItemMessageTwitterFormComponent } from './components/content-item-message-twitter-form/content-item-message-twitter-form.component';
 import { ContentItemFilesComponent } from './components/content-item-files/content-item-files.component';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
+import { ContentItemMessageTwitterPreviewComponent } from './components/content-item-message-twitter-preview/content-item-message-twitter-preview.component';
 
 
 // Routes for this module to be added to the application
@@ -116,7 +117,8 @@ const routes: Routes = [
         ContentEventsComponent,
         ContentItemMessagesComponent,
         ContentItemMessageTwitterFormComponent,
-        ContentItemFilesComponent
+        ContentItemFilesComponent,
+        ContentItemMessageTwitterPreviewComponent
     ],
     providers: [
         MixpanelService,
