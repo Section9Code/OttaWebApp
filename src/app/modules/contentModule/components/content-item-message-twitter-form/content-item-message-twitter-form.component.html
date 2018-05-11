@@ -22,7 +22,7 @@
     <div class="form-group" [class.has-error]="!absMessage.valid">
       <label class="col-sm-2 control-label">Message</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="absMessage" name="absMessage" required [(ngModel)]="newMessage.Message" #absMessage="ngModel">
+        <input type="text" class="form-control" id="absMessage" name="absMessage" required [(ngModel)]="newMessage.EditorText" (keyup)="editorTextChanged()" #absMessage="ngModel">
         <span class="help-block m-b-none">
           The message to be shown to the user
         </span>
@@ -74,7 +74,7 @@
     <div class="form-group" [class.has-error]="!relMessage.valid">
       <label class="col-sm-2 control-label">Message</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="relMessage" name="relMessage" required [(ngModel)]="newMessage.Message" #relMessage="ngModel">
+        <input type="text" class="form-control" id="relMessage" name="relMessage" required [(ngModel)]="newMessage.EditorText" (keyup)="editorTextChanged()" #relMessage="ngModel">
         <span class="help-block m-b-none">
           The message to be shown to the user
         </span>
@@ -128,4 +128,7 @@
       </div>
     </div>
   </form>
+
+  <!-- Preview twitter message -->
+  <app-content-item-message-twitter-preview [message]="newMessage"></app-content-item-message-twitter-preview>
 </div>

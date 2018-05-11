@@ -60,6 +60,7 @@ export class ContentItemMessageTwitterFormComponent {
     }, 300);
   }
 
+  // Called every time the users changes the image they have selected
   imageChanged(imageUrl: string) {
     console.log('Image changed', imageUrl);
 
@@ -68,6 +69,21 @@ export class ContentItemMessageTwitterFormComponent {
     } else {
       this.newMessage.ImageUrl = imageUrl;
     }
+  }
+
+  // Called every time the message text is updated, this performs transforms on the texts and updates the message
+  editorTextChanged() {
+    let text = this.newMessage.EditorText;
+
+    // Replace text
+    // {title} ===> Title of the content item
+    text = text.replace('{title}', this.contentItem.Title);
+
+    // {url} ===> Url of the content item
+    text = text.replace('{url}', `${this.contentItem.PrimaryUrl}?utm_source=twitter&utm_medium=social&utm_campaign=otta`);
+
+    // Set the message to be the updated text
+    this.newMessage.Message = `${text}`;
   }
 
   showRelativeHandler() {
@@ -254,11 +270,21 @@ export class ContentItemMessageTwitterFormComponent {
   editMessage(message: ContentItemMessageModel) {
     this.newMessage = message;
 
+    if (!message.EditorText || message.EditorText === '') {
+      // The message has no editor text
+      this.newMessage.EditorText = message.Message;
+    } else {
+      // The message has editor text
+      this.newMessage.EditorText = message.EditorText;
+    }
+
+    // Setup the right form to show
     this.showTimeOptions = false;
     this.showRelativeForm = false;
     this.showAbsoluteForm = false;
     this.buttonText = 'Update message';
 
+    // Set the time the message will be sent
     if (message.IsRelative) {
       this.showRelativeForm = true;
       this.sendUnit = this.newMessage.RelativeSendUnit.toString();
@@ -267,6 +293,7 @@ export class ContentItemMessageTwitterFormComponent {
       this.showAbsoluteForm = true;
     }
 
+    // Render the image picker
     this.renderImagePicker();
   }
 }

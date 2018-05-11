@@ -102,9 +102,9 @@
       white-space: pre-wrap;
   }
   .permalink-tweet p, .permalink-tweet p b {
-      font-size: 28px;
+      font-size: 22px;
       font-weight: 300;
-      line-height: 34px;
+      line-height: 25px;
   }
   
   textarea{
@@ -201,7 +201,7 @@
       border: medium none;
       color: #292f33;
       font-family: Arial,Helvetica,sans-serif;
-      font-size: 29px;
+      font-size: 22px;
       overflow: hidden;
       line-height: 35px;
       size: 22px;
