@@ -7,6 +7,7 @@ import { ContentProjectShareService } from 'app/modules/contentModule/services/C
 import { ContentItemService, ContentItemModel } from 'services/content-item.service';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
+import { ContentDataMessage } from '../components/content-item-details/content-item-details.component';
 
 @Component({
     moduleId: module.id,
@@ -18,14 +19,16 @@ export class ContentProjectDraftsLayoutComponent implements OnInit, OnDestroy {
     contentItems: ContentItemModel[] = [];
     contentItemsSub: Subscription;
     isLoading = false;
+    isUpdating = false;
     searchCriteria = '';
 
     searchShowAll = true;
     searchShowIdeas = false;
     searchShowInProgress = false;
     searchShowContent = false;
-
     isFilteringSearch = false;
+
+    quickAddContentItemData = new ContentItemModel();
 
     constructor(private tracking: MixpanelService, private toast: ToastsManager, private router: Router,
         private sharedData: ContentProjectShareService, private contentItemService: ContentItemService) {
@@ -54,6 +57,34 @@ export class ContentProjectDraftsLayoutComponent implements OnInit, OnDestroy {
         let url = `/content/${currentProjectId}/items/create`;
         console.log('Navigating to:', url);
         this.router.navigateByUrl(url);
+    }
+
+    quickAddContent(data: ContentDataMessage) {
+        console.log('Create item');
+        this.isUpdating = true;
+
+        // Update the data
+        data.contentItem.ProjectId = this.sharedData.currentProject.getValue().id;
+        data.contentItem.State = 'idea';
+
+        // Create the content item
+        this.contentItemService.createItem(this.sharedData.currentProject.getValue().id, data.contentItem).toPromise()
+            .then(response => {
+                this.toast.success('Item created');
+                this.tracking.Track(MixpanelEvent.Content_Draft_Created, { 'id': response });
+                // Update the list of items
+                this.sharedData.addContent(response);
+                this.isUpdating = false;
+                this.quickAddContentItemData = new ContentItemModel();
+            })
+            .catch(
+                // Error occurred while trying to save content item
+                error => {
+                    this.toast.error('Unable to create item');
+                    this.tracking.TrackError('Error occurred trying to create item', error);
+                    this.isUpdating = false;
+                }
+            );
     }
 
     navigateToItem(item: ContentItemModel) {

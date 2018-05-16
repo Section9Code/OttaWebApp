@@ -17,10 +17,14 @@
                 </div>
                 <div class="m-t-md">
                     <div class="pull-right">
-                        <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="searchShowAll" (change)="updateSearch()" id="checkBoxShowAll"> All </label>
-                        <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="searchShowIdeas" (change)="updateSearch()" id="checkBoxShowIdeas"> Idea </label>
-                        <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="searchShowInProgress" (change)="updateSearch()" id="checkBoxShowInProgress"> In progress </label>
-                        <label class="checkbox-inline"><input type="checkbox" [(ngModel)]="searchShowContent" (change)="updateSearch()" id="checkBoxShowContent"> Content </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" [(ngModel)]="searchShowAll" (change)="updateSearch()" id="checkBoxShowAll"> All </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" [(ngModel)]="searchShowIdeas" (change)="updateSearch()" id="checkBoxShowIdeas"> Idea </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" [(ngModel)]="searchShowInProgress" (change)="updateSearch()" id="checkBoxShowInProgress"> In progress </label>
+                        <label class="checkbox-inline">
+                            <input type="checkbox" [(ngModel)]="searchShowContent" (change)="updateSearch()" id="checkBoxShowContent"> Content </label>
                     </div>
                     <!-- 
                         <div class="pull-right">
@@ -80,21 +84,15 @@
                     </tbody>
                 </table>
             </div>
+        </otta-panel>
 
-
-
-
-
-
-
-
-
-
-
+        <otta-panel [title]="'Quick add'">
+            <content-item-details [data]="quickAddContentItemData" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="quickAddContent($event)"
+                [hideHtmlEditor]="true" [minimalForm]="true" [hideCloseButton]="true"></content-item-details>
         </otta-panel>
     </div>
 
-
+    <!-- Right hand side -->
     <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
         <h2>Keep all your ideas in one place</h2>
         <p>

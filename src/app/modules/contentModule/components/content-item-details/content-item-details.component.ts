@@ -7,7 +7,7 @@ import { ContentItemContentModel } from 'services/content-item-content.service';
 import * as moment from 'moment';
 
 // Example
-// <content-item-details [data]="contentItemData" [content]="contentItemContentData" showCancel=true [isUpdating]="isUpdatingVariable" (submitClicked)="submitMethod(data)" (cancelClicked)="cancelMethod()" [hideHtmlEditor]="false"></content-item-details>
+// <content-item-details [data]="contentItemData" [content]="contentItemContentData" showCancel=true [isUpdating]="isUpdatingVariable" (submitClicked)="submitMethod(data)" (cancelClicked)="cancelMethod()" [hideHtmlEditor]="false" [minimalForm]="false" [hideCloseButton]="false"></content-item-details>
 
 @Component({
     moduleId: module.id,
@@ -24,6 +24,8 @@ export class ContentItemDetailsComponent implements OnInit {
     @Input() createButtonText = 'Create';
     @Input() cancelButtonText = 'Cancel';
     @Input() hideHtmlEditor = false;
+    @Input() minimalForm = false;
+    @Input() hideCloseButton = false;
 
     // List of all the available content types
     contentTypes: ContentItemTypeModel[];
@@ -79,6 +81,12 @@ export class ContentItemDetailsComponent implements OnInit {
     cancelForm() {
         console.log('Component: Cancel form');
         this.cancelClicked.emit();
+    }
+
+    resetForm() {
+        console.log('Reset form');
+        this.isUpdating = false;
+        this.data = new ContentItemModel();
     }
 
 }
