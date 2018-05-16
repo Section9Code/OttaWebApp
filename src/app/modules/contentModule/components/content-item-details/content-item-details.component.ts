@@ -57,7 +57,7 @@ export class ContentItemDetailsComponent implements OnInit {
     }
 
 
-    submitForm() {
+    submitForm(closeWhenDone: boolean) {
         console.log('Component: Submit form', this.displayDeadLineDate);
 
         // The deadline date of the item needs to be reformatted
@@ -71,7 +71,7 @@ export class ContentItemDetailsComponent implements OnInit {
         }
 
         // Send the create event
-        const dataGram: ContentDataMessage = { contentItem: this.data, content: this.content.Content };
+        const dataGram: ContentDataMessage = { contentItem: this.data, content: this.content.Content, closeOnCompletion: closeWhenDone };
         this.submitClicked.emit(dataGram);
     }
 
@@ -86,4 +86,5 @@ export class ContentItemDetailsComponent implements OnInit {
 export class ContentDataMessage {
     contentItem: ContentItemModel;
     content: string;
+    closeOnCompletion = false;
 }

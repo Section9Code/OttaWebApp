@@ -54,8 +54,16 @@ export class ContentProjectDraftsCreateLayoutComponent implements OnInit {
                                 this.tracking.Track(MixpanelEvent.Content_Draft_Created, { 'id': newContentItem });
                                 // Update the list of items
                                 this.sharedData.addContent(newContentItem);
-                                // Navigate back to the list of items
-                                this.navigateToContentItem(newContentItem.id);
+
+                                // Where should the user go next
+                                if (data.closeOnCompletion) {
+                                    // They want to close the item when they are done
+                                    this.navigateBackToList();
+                                }
+                                else {
+                                    // They want to keep editing the item
+                                    this.navigateToContentItem(newContentItem.id);
+                                }
                             }
                         )
                         .catch(
@@ -78,17 +86,16 @@ export class ContentProjectDraftsCreateLayoutComponent implements OnInit {
 
     cancel() {
         console.log('Cancel item');
-        this.navigateBackToItem();
+        this.navigateBackToList();
     }
 
-    navigateBackToItem() {
+    navigateBackToList() {
         // Navigate back to items
         const url = `/content/${this.sharedData.currentProject.getValue().id}/items`;
         this.router.navigateByUrl(url);
     }
 
-    navigateToContentItem(id: string)
-    {
+    navigateToContentItem(id: string) {
         // Navigate back to items
         const url = `/content/${this.sharedData.currentProject.getValue().id}/items/${id}`;
         this.router.navigateByUrl(url);

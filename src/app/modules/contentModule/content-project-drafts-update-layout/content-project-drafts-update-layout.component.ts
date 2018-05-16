@@ -110,7 +110,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         if (this.isAdminSub) { this.isAdminSub.unsubscribe() };
     }
 
-    updateItem(data: ContentDataMessage, closeOnCompletion: boolean = false) {
+    updateItem(data: ContentDataMessage) {
         console.log('Update item', data);
         this.isUpdating = true;
 
@@ -146,7 +146,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
                         this.itemContent = contentResponse;
 
                         // Close if required
-                        if (closeOnCompletion) {
+                        if (data.closeOnCompletion) {
                             this.navigateBackToItems();
                         }
                     })
