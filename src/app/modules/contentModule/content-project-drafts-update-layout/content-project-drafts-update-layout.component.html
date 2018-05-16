@@ -29,7 +29,7 @@
         </otta-panel>
 
         <otta-panel [title]="'Integration'">
-            <div *ngIf="hasWordpressIntegration || item.WordpressLink">
+            <div *ngIf="hasWordpressIntegration">
 
                 <div class="pull-left">
                     <i class="fa fa-wordpress fa-5x m-md"></i>
@@ -58,7 +58,14 @@
                         <button class="btn btn-xs btn-outline btn-danger" (click)="deleteWordpressPost()" [ladda]="isDeletingWPPost">Delete</button>
                     </p>
                 </div>
+            </div>
 
+            <!-- No integrations to show -->
+            <div *ngIf="!hasWordpressIntegration" class="text-center">
+                <h2>No integrations</h2>
+                <p>
+                    This project isn't integrated with any outside sites. Go to the settings tab and add integrations for this project.
+                </p>
             </div>
         </otta-panel>
 
