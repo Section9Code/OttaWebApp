@@ -23,6 +23,12 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   messages: DisplayContentItemMessageModel[] = [];
   hideMessagesInThePast = true;
 
+  // Flags
+  noIntegrations = true;
+  canAddTwitterMessages = false;
+  canAddFacebookMessages = false;
+  canAddLinkedInMessages = false;
+
   // Components
   @ViewChild('twitterMessageComponent') private twitterMessageComponent: ContentItemMessageTwitterFormComponent;
 
@@ -39,10 +45,30 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
     // Generate the list of messages to show to the user
     this.redrawMessageList();
     this.loadImages();
+    this.setupIntegrationOptions();
+  }
+
+  // Loads the integrations the project has and stops users from picking options they have not configured
+  setupIntegrationOptions() {
+    const integrations = this.sharedService.integrations.getValue();
+    const twitterIntegrations = integrations.filter(e => e.IntegrationType === IntegrationTypes.Twitter);
+    const facebookIntegrations = integrations.filter(e => e.IntegrationType === IntegrationTypes.Facebook);
+    const linkedInIntegrations = integrations.filter(e => e.IntegrationType === IntegrationTypes.LinkedIn);
+
+    // Set the flags for each type of integration the user has
+    if (twitterIntegrations.length > 0) { this.canAddTwitterMessages = true; }
+    if (facebookIntegrations.length > 0) { this.canAddFacebookMessages = true; }
+    if (linkedInIntegrations.length > 0) { this.canAddLinkedInMessages = true; }
+
+    // If there are any integrations set the 'NoIntegrations' flag to false
+    if (this.canAddTwitterMessages || this.canAddFacebookMessages || this.canAddLinkedInMessages) {
+      this.noIntegrations = false;
+    }
   }
 
   ngOnDestroy(): void {
   }
+
   // Load images
   loadImages() {
     this.imageStore.getAllFilesInFolder(`contentItem/${this.data.id}`).toPromise()

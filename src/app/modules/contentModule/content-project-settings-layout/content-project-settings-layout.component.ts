@@ -16,10 +16,15 @@ import { ContentProjectShareService } from 'app/modules/contentModule/services/C
 export class ContentProjectSettingsLayoutComponent implements OnInit {
     project: ContentProjectModel = new ContentProjectModel();
 
-
-    constructor(private tracking: MixpanelService, private toast: ToastsManager, private route: ActivatedRoute, private router: Router,
-        private projectService: ContentProjectService, private userDataService: UserDataService,
-        private sharedService: ContentProjectShareService, private alertSvc: SweetAlertService) {
+    constructor(
+        private tracking: MixpanelService,
+        private toast: ToastsManager,
+        private route: ActivatedRoute,
+        private router: Router,
+        private projectService: ContentProjectService,
+        private userDataService: UserDataService,
+        private sharedService: ContentProjectShareService,
+        private alertSvc: SweetAlertService) {
     }
 
     ngOnInit(): void {

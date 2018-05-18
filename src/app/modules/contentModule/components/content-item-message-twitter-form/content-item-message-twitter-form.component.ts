@@ -80,9 +80,11 @@ export class ContentItemMessageTwitterFormComponent {
     text = text.replace('{title}', this.contentItem.Title);
 
     // {url} ===> Url of the content item
-    let separator = '?';
-    if (this.contentItem.PrimaryUrl.indexOf('?') > -1) { separator = '&'; };
-    text = text.replace('{url}', `${this.contentItem.PrimaryUrl}${separator}utm_source=twitter&utm_medium=social&utm_campaign=otta`);
+    if (this.contentItem.PrimaryUrl) {
+      let separator = '?';
+      if (this.contentItem.PrimaryUrl.indexOf('?') > -1) { separator = '&'; };
+      text = text.replace('{url}', `${this.contentItem.PrimaryUrl}${separator}utm_source=twitter&utm_medium=social&utm_campaign=otta`);
+    }
 
     // Set the message to be the updated text
     this.newMessage.Message = text;
