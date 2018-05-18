@@ -9,7 +9,7 @@
 
         <!-- Files -->
         <otta-panel [title]="'Images'">
-            <otta-content-item-files [data]="item"></otta-content-item-files>
+            <otta-content-item-files [data]="item" (fileUploaded)="handleFileUploaded();" (fileDeleted)="handleFileDeleted()"></otta-content-item-files>
         </otta-panel>
 
         <!-- Social media post -->

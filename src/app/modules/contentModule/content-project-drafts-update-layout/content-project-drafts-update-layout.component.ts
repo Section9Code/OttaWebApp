@@ -334,4 +334,15 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
             }
         );
     }
+
+    // Called when a file has been uploaded to the content item
+    handleFileUploaded(filePath: string) {
+        // Reload all the images offered to the social media posts
+        this.contentItemMessagesComponent.loadImages();
+    }
+
+    handleFileDeleted() {
+        // Reload the images offered to the social media posts
+        this.contentItemMessagesComponent.loadImages();
+    }
 }

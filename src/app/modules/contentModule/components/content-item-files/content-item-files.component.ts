@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy, Input, ViewChild } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, ViewChild, Output, EventEmitter } from '@angular/core';
 import { ContentItemModel } from 'services/content-item.service';
 import { ImagesService } from 'services/images.service';
 import { Subscription } from 'rxjs/Subscription';
@@ -18,6 +18,8 @@ import { DropzoneComponent } from 'ngx-dropzone-wrapper';
 export class ContentItemFilesComponent implements OnInit, OnDestroy {
   // Variables
   @Input() data: ContentItemModel = new ContentItemModel();
+  @Output() fileUploaded: EventEmitter<string> = new EventEmitter<string>();
+  @Output() fileDeleted: EventEmitter<string> = new EventEmitter<string>();
   files: string[] = [];
   fileSub: Subscription;
 
@@ -77,6 +79,7 @@ export class ContentItemFilesComponent implements OnInit, OnDestroy {
 
   onUploadError(event) {
     console.log('Upload error', event);
+    this.toast.error('An error occurred while uploading an image', 'Error');
     this.reloadImages();
   }
 
@@ -84,6 +87,7 @@ export class ContentItemFilesComponent implements OnInit, OnDestroy {
     console.log('Upload success', event);
     const imageSrc = event[1];
     this.files.push(imageSrc);
+    this.fileUploaded.emit(imageSrc);
   }
 
   onQueueComplete(event) {
@@ -93,8 +97,7 @@ export class ContentItemFilesComponent implements OnInit, OnDestroy {
   // Searches the social media messages for an image
   checkMessagesForImage(path: string): boolean {
     // tslint:disable-next-line:triple-equals
-    if(!this.data.SocialMediaMessages)
-    {
+    if (!this.data.SocialMediaMessages) {
       // There are no social media messages, so image can't be being used.
       return false;
     }
@@ -139,6 +142,7 @@ export class ContentItemFilesComponent implements OnInit, OnDestroy {
           this.files.splice(index, 1);
           // Inform the user
           this.toast.success('File deleted');
+          this.fileDeleted.emit(filePath);
         })
         .catch(deleteError => {
           console.log('Error deleting file', filePath);
