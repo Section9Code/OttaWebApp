@@ -61,17 +61,16 @@
             </div>
 
             <!-- No integrations to show -->
-            <div *ngIf="!hasWordpressIntegration" class="text-center">
-                <h2>No integrations</h2>
-                <p>
-                    This project isn't integrated with any outside sites. Go to the settings tab and add integrations for this project.
-                </p>
+            <div *ngIf="!hasWordpressIntegration" class="alert alert-info">
+                <div>
+                    <strong>No integrations configured</strong>: This project isn't integrated with any outside sites. To be able to automatically
+                    post this to a website please go to the settings tab and add your web sites.
+                </div>
             </div>
         </otta-panel>
 
         <otta-panel [title]="'Discussion'">
             <otta-comment [ParentOrganisationId]="item.Partition" [ParentObjectId]="item.id"></otta-comment>
         </otta-panel>
-
     </div>
 </div>

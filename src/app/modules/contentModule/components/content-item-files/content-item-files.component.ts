@@ -90,9 +90,16 @@ export class ContentItemFilesComponent implements OnInit, OnDestroy {
     this.dropzoneComponent.directiveRef.reset();
   }
 
-  // Searchs the social media messages for an image
+  // Searches the social media messages for an image
   checkMessagesForImage(path: string): boolean {
     // tslint:disable-next-line:triple-equals
+    if(!this.data.SocialMediaMessages)
+    {
+      // There are no social media messages, so image can't be being used.
+      return false;
+    }
+
+    // Search the social media messages for the item
     const items = this.data.SocialMediaMessages.filter(m => m.ImageUrl == path);
     if (items.length > 0) {
       // Image is in a social media message
