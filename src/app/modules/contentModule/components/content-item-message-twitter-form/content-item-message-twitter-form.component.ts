@@ -29,6 +29,8 @@ export class ContentItemMessageTwitterFormComponent {
   showRelativeForm = false;
   sendUnit: string;
   buttonText = 'Add message';
+  messageLength = 0;
+  messageMaxLength = 280;
 
   // A new message for the user to fill in
   newMessage = new ContentItemMessageModel();
@@ -88,6 +90,9 @@ export class ContentItemMessageTwitterFormComponent {
 
     // Set the message to be the updated text
     this.newMessage.Message = text;
+
+    // Measure message length
+    this.messageLength = this.newMessage.Message.length;
   }
 
   showRelativeHandler() {
@@ -108,23 +113,9 @@ export class ContentItemMessageTwitterFormComponent {
     this.newMessage.MessageType = IntegrationTypes.Twitter;
     this.newMessage.Title = '';
 
-    // Check if an image has been selected
-    //this.setSelectedImage();
-
     // Add the message
     this.save();
   }
-
-  // setSelectedImage() {
-  //   // HACK: Angular doesn't see the change when an image is selected so this updates the model
-  //   const imageUrl = $('#twitterImage').val();
-  //   if (imageUrl) {
-  //     console.log('User selected image', imageUrl);
-  //     this.newMessage.ImageUrl = imageUrl;
-  //   } else {
-  //     this.newMessage.ImageUrl = '';
-  //   }
-  // }
 
   // Adds a twitter message to be sent at a time relative to the publish of the article
   addRelativeTwitterMessage() {
@@ -134,8 +125,7 @@ export class ContentItemMessageTwitterFormComponent {
     // Update the message
     this.newMessage.MessageType = IntegrationTypes.Twitter;
     this.newMessage.Title = '';
-    //this.setSelectedImage();
-
+  
     // Calculate the send time
     this.newMessage.RelativeSendUnit = +this.sendUnit;
     let sendTime: moment.Moment;
@@ -216,9 +206,6 @@ export class ContentItemMessageTwitterFormComponent {
 
   updateMessageInSystem() {
     console.log('Update message in system');
-
-    // Update the image the user has selected if needed
-    //this.setSelectedImage();
 
     // Delete the old message
     this.contentService.deleteMessage(this.contentItem.ProjectId, this.contentItem.id, this.newMessage.Id).toPromise()

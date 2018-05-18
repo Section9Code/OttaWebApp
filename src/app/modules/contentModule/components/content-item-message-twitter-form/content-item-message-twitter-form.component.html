@@ -19,15 +19,24 @@
   <form method="get" class="form-horizontal" (ngSubmit)="addTwitterMessage()" #addMessageForm="ngForm">
 
     <!-- Message -->
-    <div class="form-group" [class.has-error]="!absMessage.valid">
+    <div class="form-group" [class.has-error]="!absMessage.valid || messageLength > messageMaxLength">
       <label class="col-sm-2 control-label">Message</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="absMessage" name="absMessage" required [(ngModel)]="newMessage.EditorText" (keyup)="editorTextChanged()" #absMessage="ngModel">
+        <div class="input-group m-b">
+          <input type="text" class="form-control" id="absMessage" name="absMessage" required [(ngModel)]="newMessage.EditorText" (keyup)="editorTextChanged()"
+            #absMessage="ngModel">
+          <span class="input-group-addon">{{ messageLength }}</span>
+        </div>
         <span class="help-block m-b-none">
-          Your twitter message. You can use <strong>&#123;title&#125;</strong> and <strong>&#123;url&#125;</strong> in place of you title and URL and we will keep them up-to-date.
+          Your twitter message. You can use
+          <strong>&#123;title&#125;</strong> and
+          <strong>&#123;url&#125;</strong> in place of you title and URL and we will keep them up-to-date.
         </span>
       </div>
     </div>
+
+
+
 
     <!-- Date time -->
     <div class="form-group">
@@ -53,14 +62,14 @@
         </span>
         <span class="help-block m-b-none" *ngIf="images.length == 0">
           Upload at lease one image before adding a twitter message to be able to select it here
-        </span>        
+        </span>
       </div>
     </div>
 
     <div class="form-group">
       <div class="col-sm-10 col-sm-offset-2">
         <button class="btn btn-white" data-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary" type="submit" [disabled]="!addMessageForm.form.valid" [ladda]="isCreatingMessage">{{buttonText}}</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!addMessageForm.form.valid || messageLength > messageMaxLength" [ladda]="isCreatingMessage">{{buttonText}}</button>
       </div>
     </div>
   </form>
@@ -77,9 +86,12 @@
     <div class="form-group" [class.has-error]="!relMessage.valid">
       <label class="col-sm-2 control-label">Message</label>
       <div class="col-sm-10">
-        <input type="text" class="form-control" id="relMessage" name="relMessage" required [(ngModel)]="newMessage.EditorText" (keyup)="editorTextChanged()" #relMessage="ngModel">
+        <input type="text" class="form-control" id="relMessage" name="relMessage" required [(ngModel)]="newMessage.EditorText" (keyup)="editorTextChanged()"
+          #relMessage="ngModel">
         <span class="help-block m-b-none">
-          Your twitter message. You can use <strong>&#123;title&#125;</strong> and <strong>&#123;url&#125;</strong> in place of you title and URL and we will keep them up-to-date.
+          Your twitter message. You can use
+          <strong>&#123;title&#125;</strong> and
+          <strong>&#123;url&#125;</strong> in place of you title and URL and we will keep them up-to-date.
         </span>
       </div>
     </div>
@@ -112,17 +124,17 @@
 
     <!-- Image -->
     <div class="form-group">
-        <label class="col-sm-2 control-label">Image</label>
-        <div class="col-sm-10">
-          <select id="twitterImage" name="twitterImage" [(ngModel)]="newMessage.ImageUrl" (change)="alert('Image changed');" #twitterImage="ngModel">
-            <option value=""></option>
-            <option *ngFor="let image of images" [attr.data-img-src]="image" [attr.data-img-class]="'pickerThumbnailPic'" value="{{image}}">{{ image }}</option>
-          </select>
-          <span class="help-block m-b-none">
-            Image you want to appear on your tweet
-          </span>
-        </div>
+      <label class="col-sm-2 control-label">Image</label>
+      <div class="col-sm-10">
+        <select id="twitterImage" name="twitterImage" [(ngModel)]="newMessage.ImageUrl" (change)="alert('Image changed');" #twitterImage="ngModel">
+          <option value=""></option>
+          <option *ngFor="let image of images" [attr.data-img-src]="image" [attr.data-img-class]="'pickerThumbnailPic'" value="{{image}}">{{ image }}</option>
+        </select>
+        <span class="help-block m-b-none">
+          Image you want to appear on your tweet
+        </span>
       </div>
+    </div>
 
     <div class="form-group">
       <div class="col-sm-10 col-sm-offset-2">
