@@ -83,11 +83,13 @@
   <form method="get" class="form-horizontal" (ngSubmit)="addRelativeTwitterMessage()" #addMessageForm="ngForm">
 
     <!-- Message -->
-    <div class="form-group" [class.has-error]="!relMessage.valid">
+    <div class="form-group" [class.has-error]="!relMessage.valid || messageLength > messageMaxLength">
       <label class="col-sm-2 control-label">Message</label>
-      <div class="col-sm-10">
-        <input type="text" class="form-control" id="relMessage" name="relMessage" required [(ngModel)]="newMessage.EditorText" (keyup)="editorTextChanged()"
-          #relMessage="ngModel">
+      <div class="col-sm-10">        
+        <div class="input-group m-b">
+            <input type="text" class="form-control" id="relMessage" name="relMessage" required [(ngModel)]="newMessage.EditorText" (keyup)="editorTextChanged()" #relMessage="ngModel">
+            <span class="input-group-addon">{{ messageLength }}</span>
+          </div>
         <span class="help-block m-b-none">
           Your twitter message. You can use
           <strong>&#123;title&#125;</strong> and
@@ -139,7 +141,7 @@
     <div class="form-group">
       <div class="col-sm-10 col-sm-offset-2">
         <button class="btn btn-white" data-dismiss="modal">Cancel</button>
-        <button class="btn btn-primary" type="submit" [disabled]="!addMessageForm.form.valid" [ladda]="isCreatingMessage">{{buttonText}}</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!addMessageForm.form.valid || messageLength > messageMaxLength" [ladda]="isCreatingMessage">{{buttonText}}</button>
       </div>
     </div>
   </form>
