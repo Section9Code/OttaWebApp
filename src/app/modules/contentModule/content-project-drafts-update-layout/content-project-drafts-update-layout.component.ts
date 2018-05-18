@@ -341,7 +341,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         this.contentItemMessagesComponent.loadImages();
     }
 
-    handleFileDeleted() {
+    handleFileDeleted(filePath: string) {
         // Reload the images offered to the social media posts
         this.contentItemMessagesComponent.loadImages();
     }
