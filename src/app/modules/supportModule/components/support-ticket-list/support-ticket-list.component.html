@@ -1,0 +1,34 @@
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
+
+<div *ngIf="!isLoading!">
+  <!-- No tickets message -->
+  <div *ngIf="tickets.length == 0">
+    <h2>No support tickets raised</h2>
+  </div>
+
+  <!-- Ticket list -->
+  <div *ngIf="tickets.length > 0">
+
+    <table class="table table-hover issue-tracker">
+      <tbody>
+        <tr *ngFor="let ticket of tickets">
+          <td class="issue-info">
+            <a [routerLink]="[]">
+              {{ ticket.Subject }}
+            </a>
+            <small>
+              {{ ticket.Message }}
+            </small>
+          </td>
+          <td>
+            Adrian Novak
+          </td>
+          <td>
+            {{ ticket.Created }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</div>

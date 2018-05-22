@@ -14,6 +14,7 @@ import { BasicLayoutComponent } from 'app/components/common/layouts/basicLayout.
 import { AuthenticatedGuard } from 'services/security/auth-guard.service';
 import { SupportIndexLayoutComponent } from './layouts/support-index-layout/support-index-layout.component';
 import { SupportMainLayoutComponent } from './layouts/support-main-layout/support-main-layout.component';
+import { SupportTicketListComponent } from './components/support-ticket-list/support-ticket-list.component';
 
 // Routes for this module to be added to the application
 const supportRoutes: Routes = [
@@ -46,7 +47,8 @@ const supportRoutes: Routes = [
   ],
   declarations: [
     SupportIndexLayoutComponent,
-    SupportMainLayoutComponent
+    SupportMainLayoutComponent,
+    SupportTicketListComponent
   ]
 })
 export class SupportModule { }
