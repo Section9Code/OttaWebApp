@@ -21,8 +21,19 @@ export class UserService {
     return this.authHttp.post(this.url, data).map(response => response.json());
   }
 
+  // Add a support suggestion
   addSuggestion(suggestion: string): Observable<boolean> {
-    return this.authHttp.post(`${this.url}/AddSuggestion`, suggestion).map(response => response.json());
+    return this.authHttp.post(`${this.url}/suggestion`, suggestion).map(response => response.json());
+  }
+
+  // Get all the users existing support tickets
+  getAllSupportTickets(): Observable<UserSupportTicket[]> {
+    return this.authHttp.get(`${this.url}/support`).map(response => response.json());
+  }
+
+  // Add a new support ticket
+  addSupportTicket(ticket: UserSupportTicket): Observable<UserSupportTicket> { 
+    return this.authHttp.post(`${this.url}/support`, ticket).map(response => response.json());
   }
 }
 
@@ -33,4 +44,10 @@ export class UserSettings {
   public MarketingOptIn: boolean;
   public ShowCreatorOptions: boolean;
   public ShowOrganisationOptions: boolean;
+}
+
+export class UserSupportTicket {
+  public Subject: string;
+  public Message: string;
+  public Created: Date;
 }
