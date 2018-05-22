@@ -57,8 +57,7 @@ export class SupportCreateTicketLayoutComponent implements OnInit {
           this.isCreating = false;
           this.toast.error('Unable to create support ticket. Please try again later', 'Error');
         });
-    }
-    else {
+    } else {
       // Form isn't valid
       this.toast.info('Form is not valid. Please update the form and try again');
     }
