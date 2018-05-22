@@ -13,13 +13,19 @@ import { ToastModule } from 'ng2-toastr';
 import { BasicLayoutComponent } from 'app/components/common/layouts/basicLayout.component';
 import { AuthenticatedGuard } from 'services/security/auth-guard.service';
 import { SupportIndexLayoutComponent } from './layouts/support-index-layout/support-index-layout.component';
+import { SupportMainLayoutComponent } from './layouts/support-main-layout/support-main-layout.component';
 
 // Routes for this module to be added to the application
 const supportRoutes: Routes = [
   {
     path: 'support', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
     children: [
-      { path: '', component: SupportIndexLayoutComponent, canActivate: [AuthenticatedGuard] }
+      {
+        path: '', component: SupportIndexLayoutComponent, canActivate: [AuthenticatedGuard], 
+        children: [
+          { path: '', component: SupportMainLayoutComponent, canActivate: [AuthenticatedGuard] }
+        ]
+      }
     ]
   }
 ];
@@ -39,7 +45,8 @@ const supportRoutes: Routes = [
     SharedModule
   ],
   declarations: [
-    SupportIndexLayoutComponent
+    SupportIndexLayoutComponent,
+    SupportMainLayoutComponent
   ]
 })
 export class SupportModule { }
