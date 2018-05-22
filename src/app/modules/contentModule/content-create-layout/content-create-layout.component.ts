@@ -30,7 +30,7 @@ export class ContentCreateLayoutComponent implements OnInit {
             response => {
                 // Success - Project created
                 console.log('Project created', response);
-                this.toast.success(`Your content project ${this.dataItem.Title} has been created`, 'Project created');
+                this.toast.success(`Your project ${this.dataItem.Title} has been created`, 'Project created');
                 this.userDataService.addProject(response);
                 this.router.navigateByUrl('/content');
             },

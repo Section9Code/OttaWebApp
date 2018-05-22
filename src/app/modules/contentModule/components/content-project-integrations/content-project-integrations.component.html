@@ -1,11 +1,11 @@
 <otta-panel [title]="'Integrations'" [loading]="isLoadingIntegration">
   <div>
-    <h3>Wordpress</h3>
+    <h3>WordPress</h3>
     <div *ngIf="wordpressIntegrations.length === 0">
       <p>
-        Connect this project directly to your wordpress site so it is able to manage your posts for you.
+        Connect this project directly to your WordPress site so it is able to manage your posts for you.
       </p>
-      <button class="btn btn-default" (click)="showWordpressForm()">Add your wordpress site</button>
+      <button class="btn btn-default" (click)="showWordpressForm()">Add your WordPress site</button>
     </div>
 
     <div *ngFor="let wpIntegration of wordpressIntegrations" class="widget style1 navy-bg">
@@ -75,15 +75,15 @@
       </div>
       <div class="modal-body">
         <p>
-          To be able to work with your wordpress site you need to add a new user editor to your site. Otta can then log into your wordpress
-          as that user. This way we can not get to the administration settings of your site, only the posts, tags, and categories.
+          To allow Otta to work with your WordPress site add a new Editor user to your site. Adding these user 
+          details below will allow Otta to log into your WordPress site. This will not give Otta access to the 
+          administration settings of your site, only the posts, tags and categories.
         </p>
         <p>
           You need to:
         </p>
         <ul>
-          <li>Add a new user to your site, set it's type to
-            <strong>Editor</strong>
+          <li>Add a new user to your site, set it's type to <strong>Editor</strong>
           </li>
           <li>Give it a strong password</li>
         </ul>
