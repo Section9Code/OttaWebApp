@@ -17,12 +17,12 @@ import { AppviewsModule } from "./views/appviews/appviews.module";
 import { LayoutsModule } from "./components/common/layouts/layouts.module";
 import { AuthService, authHttpServiceFactory } from "services/auth.service";
 import { AuthHttp } from "angular2-jwt/angular2-jwt";
-import { AuthenticatedGuard, OrganisationAdminGuard } from "services/security/auth-guard.service";
-import { WidgetsModule } from "app/components/widgets/widgets.module";
-import { SuggestionsService } from "services/suggestions.service";
-import { FlowService } from "services/security/flow.service";
-import { PipesModule } from "app/components/common/pipes/pipes.module";
-import { MixpanelService } from "services/mixpanel.service";
+import { AuthenticatedGuard, OrganisationAdminGuard } from 'services/security/auth-guard.service';
+import { WidgetsModule } from 'app/components/widgets/widgets.module';
+import { SuggestionsService } from 'services/suggestions.service';
+import { FlowService } from 'services/security/flow.service';
+import { PipesModule } from 'app/components/common/pipes/pipes.module';
+import { MixpanelService } from 'services/mixpanel.service';
 import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { LaddaModule } from 'angular2-ladda';
 import { SweetAlertService } from 'ng2-sweetalert2';
@@ -43,6 +43,7 @@ import { CreatorService } from 'services/creator.service';
 import { ContentModule } from 'app/modules/contentModule/content.module';
 import { TourService } from 'services/tour.service';
 import { environment } from 'environments/environment';
+import { SupportModule } from 'app/modules/supportModule/support.module';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
@@ -73,9 +74,10 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     OrganisationModule,
     CreatorModule,
     ContentModule,
+    SupportModule,
     SharedModule,
 
-    LaddaModule.forRoot({ style: "expand-right", spinnerSize: 20, spinnerColor: "white", spinnerLines: 12 }), // For showing progess on buttons
+    LaddaModule.forRoot({ style: 'expand-right', spinnerSize: 20, spinnerColor: 'white', spinnerLines: 12 }), // For showing progress on buttons
     ToastModule.forRoot(),  // For showing toast messages to user
     TagInputModule,
     MyDatePickerModule,

@@ -134,6 +134,12 @@
       </li> -->
 
 
+      <li [ngClass]="{active: activeRoute('support')}">
+        <a [routerLink]="['/support']">
+          <i class="fa fa-question"></i>
+          <span class="nav-label">Support</span>
+        </a>
+      </li>
 
 
       <li [ngClass]="{active: activeRoute('suggestions')}">
