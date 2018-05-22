@@ -2,7 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { LayoutsModule } from '../../components/common/layouts/layouts.module';
 import { SharedModule } from '../sharedModule/shared.module';
@@ -40,6 +40,7 @@ const supportRoutes: Routes = [
     BrowserAnimationsModule,
     RouterModule.forChild(supportRoutes),
     FormsModule,
+    ReactiveFormsModule,
     HttpModule,
     LayoutsModule,
     LaddaModule,

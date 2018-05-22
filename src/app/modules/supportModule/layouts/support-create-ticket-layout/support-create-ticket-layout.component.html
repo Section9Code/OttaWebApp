@@ -1,3 +1,35 @@
-<p>
-  support-create-ticket-layout works!
-</p>
+<otta-panel [title]="'Create support ticket'">
+  <form [formGroup]="ticketForm" class="form-horizontal" (ngSubmit)="addTicket()">
+    <!-- Subject -->
+    <div class="form-group" [class.has-error]="ticketForm.controls['subject'].invalid">
+      <label class="col-sm-2 control-label">Subject</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" formControlName="subject">
+        <span class="help-block m-b-none">
+          The subject of this support request
+        </span>
+      </div>
+    </div>
+
+    <!-- Message -->
+    <div class="form-group" [class.has-error]="ticketForm.controls['message'].invalid">
+      <label class="col-sm-2 control-label">Message</label>
+      <div class="col-sm-10">
+        <textarea class="form-control" formControlName="message" rows="10"></textarea>
+        <span class="help-block m-b-none">
+          Please explain the problem you are having. Minimum length is 20 characters.
+        </span>
+      </div>
+    </div>
+
+    <!-- Buttons -->
+    <div class="form-group">
+      <div class="col-xs-4 col-sm-offset-2">
+        <button class="btn btn-primary" type="submit" [disabled]="!ticketForm.valid" [ladda]="isCreating">Submit</button>
+      </div>
+      <div class="col-xs-6 text-right">
+        <button class="btn btn-white" (click)="cancel()">Cancel</button>
+      </div>
+    </div>
+  </form>
+</otta-panel>

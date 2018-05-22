@@ -27,12 +27,12 @@ export class UserService {
   }
 
   // Get all the users existing support tickets
-  getAllSupportTickets(): Observable<UserSupportTicket[]> {
+  getAllSupportTickets(): Observable<UserSupportTicketModel[]> {
     return this.authHttp.get(`${this.url}/support`).map(response => response.json());
   }
 
   // Add a new support ticket
-  addSupportTicket(ticket: UserSupportTicket): Observable<UserSupportTicket> { 
+  addSupportTicket(ticket: UserSupportTicketModel): Observable<UserSupportTicketModel> { 
     return this.authHttp.post(`${this.url}/support`, ticket).map(response => response.json());
   }
 }
@@ -46,7 +46,7 @@ export class UserSettings {
   public ShowOrganisationOptions: boolean;
 }
 
-export class UserSupportTicket {
+export class UserSupportTicketModel {
   public Subject: string;
   public Message: string;
   public Created: Date;

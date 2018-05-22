@@ -20,11 +20,8 @@
               {{ ticket.Message }}
             </small>
           </td>
-          <td>
-            Adrian Novak
-          </td>
-          <td>
-            {{ ticket.Created }}
+          <td width="20%">
+            {{ ticket.Created | date:'mediumDate' }}
           </td>
         </tr>
       </tbody>

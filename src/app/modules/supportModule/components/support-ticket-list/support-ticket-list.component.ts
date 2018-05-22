@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { UserService, UserSupportTicket } from 'services/user.service';
+import { UserService, UserSupportTicketModel } from 'services/user.service';
 import { ToastsManager } from 'ng2-toastr';
 import { MixpanelEvent, MixpanelService } from 'services/mixpanel.service';
 
@@ -10,7 +10,7 @@ import { MixpanelEvent, MixpanelService } from 'services/mixpanel.service';
 })
 export class SupportTicketListComponent implements OnInit {
   isLoading = false;
-  tickets: UserSupportTicket[] = [];
+  tickets: UserSupportTicketModel[] = [];
 
   constructor(
     private userService: UserService,
