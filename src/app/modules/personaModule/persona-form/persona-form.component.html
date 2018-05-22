@@ -101,15 +101,16 @@
         </div>
     </div>
 
-    <!-- Notes -->
+    <!-- Image -->
     <div class="form-group">
         <label class="col-sm-2 control-label">Image</label>
         <div class="col-sm-6">
             <input type="file" name="imageUpload" (change)="imageUploadFileChanges($event)" placeholder="Upload file..." />
             <button style="margin-top:5px; margin-bottom:5px" type="button" class="btn btn-info" name="imageUploadBtn" [disabled]="imagesToUpload.length == 0" [ladda]="isUploadingImage" (click)="imageUpload()">Upload image</button>
+            <button class="btn btn-default" *ngIf="formData.ImageUrl" (click)="formData.ImageUrl = '';">Clear image</button>
         </div>
         <div class="col-sm-4">
-            <img [src]="formData.ImageUrl" [hidden]="formData.ImageUrl == ''"/>
+            <img [src]="formData.ImageUrl" *ngIf="formData.ImageUrl" width="100px"/>
         </div>
         <div class="col-sm-12 col-sm-offset-2">
             <span class="help-block m-b-none">
@@ -121,13 +122,15 @@
 
     <!-- Controls -->
     <div class="form-group">
-        <div class="col-sm-10 col-sm-offset-2">
-            <button class="btn btn-white" type="button" (click)="cancelPersonaForm();">Cancel</button>
+        <div class="col-xs-4 col-sm-offset-2">            
             <button class="btn btn-primary" type="submit" [disabled]="!createPersonaForm.form.valid" [ladda]="showProgress">Save</button>
-            <div class="pull-right" [hidden]="!showDelete">
-                <button class="btn btn-danger" type="button" (click)="deletePersonaForm();">Delete</button>
-            </div>
+            <button class="btn btn-danger" type="button" *ngIf="showDelete" (click)="deletePersonaForm();">Delete</button>
         </div>
+        
+        <div class="col-xs-6 text-right">
+            <button class="btn btn-white" type="button" (click)="cancelPersonaForm();">Cancel</button>
+        </div>
+        
     </div>
 
 
