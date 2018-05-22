@@ -15,6 +15,7 @@ import { AuthenticatedGuard } from 'services/security/auth-guard.service';
 import { SupportIndexLayoutComponent } from './layouts/support-index-layout/support-index-layout.component';
 import { SupportMainLayoutComponent } from './layouts/support-main-layout/support-main-layout.component';
 import { SupportTicketListComponent } from './components/support-ticket-list/support-ticket-list.component';
+import { SupportCreateTicketLayoutComponent } from './layouts/support-create-ticket-layout/support-create-ticket-layout.component';
 
 // Routes for this module to be added to the application
 const supportRoutes: Routes = [
@@ -22,9 +23,10 @@ const supportRoutes: Routes = [
     path: 'support', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
     children: [
       {
-        path: '', component: SupportIndexLayoutComponent, canActivate: [AuthenticatedGuard], 
+        path: '', component: SupportIndexLayoutComponent, canActivate: [AuthenticatedGuard],
         children: [
-          { path: '', component: SupportMainLayoutComponent, canActivate: [AuthenticatedGuard] }
+          { path: '', component: SupportMainLayoutComponent, canActivate: [AuthenticatedGuard] },
+          { path: 'create', component: SupportCreateTicketLayoutComponent, canActivate: [AuthenticatedGuard] }
         ]
       }
     ]
@@ -48,7 +50,8 @@ const supportRoutes: Routes = [
   declarations: [
     SupportIndexLayoutComponent,
     SupportMainLayoutComponent,
-    SupportTicketListComponent
+    SupportTicketListComponent,
+    SupportCreateTicketLayoutComponent
   ]
 })
 export class SupportModule { }
