@@ -48,6 +48,7 @@ import { ContentItemMessageTwitterFormComponent } from './components/content-ite
 import { ContentItemFilesComponent } from './components/content-item-files/content-item-files.component';
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { ContentItemMessageTwitterPreviewComponent } from './components/content-item-message-twitter-preview/content-item-message-twitter-preview.component';
+import { ContentSearchLayoutComponent } from './content-search-layout/content-search-layout.component';
 
 
 // Routes for this module to be added to the application
@@ -57,6 +58,7 @@ const routes: Routes = [
         children: [
             { path: '', component: ContentHomeLayoutComponent, canActivate: [AuthenticatedGuard] },
             { path: 'create', component: ContentCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
+            { path: 'search', component: ContentSearchLayoutComponent, canActivate: [AuthenticatedGuard] },
             {
                 path: ':id', component: ContentProjectLayoutComponent, canActivate: [AuthenticatedGuard],
                 children: [
@@ -118,7 +120,8 @@ const routes: Routes = [
         ContentItemMessagesComponent,
         ContentItemMessageTwitterFormComponent,
         ContentItemFilesComponent,
-        ContentItemMessageTwitterPreviewComponent
+        ContentItemMessageTwitterPreviewComponent,
+        ContentSearchLayoutComponent
     ],
     providers: [
         MixpanelService,

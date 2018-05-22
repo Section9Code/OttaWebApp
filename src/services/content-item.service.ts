@@ -22,6 +22,10 @@ export class ContentItemService {
     return this.authHttp.get(`${this.url}/${projectId}/${id}`).map(response => response.json());
   }
 
+  search(criteria: string): Observable<ContentItemModel[]> {
+    return this.authHttp.get(`${this.url}/search?criteria=${criteria}`).map(response => response.json());
+  }
+
   createItem(projectId: string, content: ContentItemModel): Observable<ContentItemModel> {
     return this.authHttp.post(`${this.url}/${projectId}`, content).map(response => response.json());
   }

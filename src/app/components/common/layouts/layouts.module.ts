@@ -12,6 +12,7 @@ import {NavigationComponent} from "./../navigation/navigation.component";
 import {FooterComponent} from "./../footer/footer.component";
 import {TopNavbarComponent} from "./../topnavbar/topnavbar.component";
 import {TopNavigationNavbarComponent} from "./../topnavbar/topnavigationnavbar.component";
+import { FormsModule } from "@angular/forms";
 
 
 @NgModule({
@@ -27,6 +28,7 @@ import {TopNavigationNavbarComponent} from "./../topnavbar/topnavigationnavbar.c
   imports: [
     BrowserModule,
     RouterModule,
+    FormsModule,
     BsDropdownModule.forRoot()
   ],
   exports: [

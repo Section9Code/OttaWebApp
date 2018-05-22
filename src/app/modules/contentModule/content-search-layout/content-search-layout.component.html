@@ -1,0 +1,74 @@
+<!-- Heading -->
+<div class="row wrapper white-bg page-heading">
+  <div class="col-lg-10">
+    <h2>Create content project</h2>
+    <ol class="breadcrumb">
+      <li>
+        <a [routerLink]="['/home']">Home</a>
+      </li>
+      <li>
+        <a [routerLink]="['/home/content']">Content</a>
+      </li>
+      <li>
+        <strong>Search</strong>
+      </li>
+    </ol>
+  </div>
+</div>
+
+<!-- Search results -->
+<div class="wrapper wrapper-content animated fadeInRight">
+  <div class="row">
+    <div class="col-lg-12">
+      <div class="ibox float-e-margins">
+        <div class="ibox-content">
+          <h2>
+            {{ searchResults.length }} results found for:
+            <span class="text-navy">“{{ searchCriteria }}”</span>
+          </h2>
+          <!-- <small>Request time (0.23 seconds)</small> -->
+
+          <!-- Search form =================================================
+          <div class="search-form">
+            <form action="index.html" method="get">
+              <div class="input-group">
+                <input type="text" placeholder="{{searchCriteria}}" name="search" class="form-control input-lg">
+                <div class="input-group-btn">
+                  <button class="btn btn-lg btn-primary" type="submit">
+                    Search
+                  </button>
+                </div>
+              </div>
+
+            </form>
+          </div> -->
+          <div class="hr-line-dashed"></div>
+
+          <!-- Search results ============================================== -->
+          <loadingSpinner [loading]="isLoading"></loadingSpinner>
+          
+          <div *ngIf="!isLoading">
+          
+            <div class="search-result" *ngFor="let item of searchResults">
+            <div>
+              <h3>
+                <a [routerLink]="['/content', item.ProjectId, 'items', item.id]">{{ item.Title }}</a>
+              </h3>
+              <a [routerLink]="['/content', item.ProjectId, 'items', item.id]" class="search-link">/content/{{ item.ProjectId }}/items/{{ item.id }}</a>
+              <p>
+                {{ item.Description }}
+              </p>
+            </div>
+            <div class="hr-line-dashed"></div>
+          </div>
+
+        </div>
+
+
+
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
