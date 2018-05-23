@@ -22,6 +22,10 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   isLoadingIntegration = false;
   isCreating = false;
   isConnectingToTwitter = false;
+
+  twitterOAuthFormUrl = '';
+
+  // Integrations with other systems
   integrations: ProjectIntegrationModel[] = [];
   wordpressIntegrations: ProjectIntegrationModel[] = [];
   mediumIntegrations: ProjectIntegrationModel[] = [];
@@ -76,21 +80,21 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     $('#wordpressModal').modal('show');
   }
 
+  // Show the user the form they can use to authenticate their twitter account
   showTwitterForm() {
     this.isConnectingToTwitter = true;
     this.integrationService.twitterGetLogin(this.project.id).toPromise()
       .then(response => {
-        console.log('Success', response);
+        console.log('Got twitter oAuth link', response);
+
         // Send the user to the twitter authentication page
-        var url = response;
-        var myWindow = window.open(url, 'twitterAuth', 'width=500,height=550');
-
-
+        this.twitterOAuthFormUrl = response;
+        const myWindow = window.open(this.twitterOAuthFormUrl, 'twitterAuth', 'width=500,height=550');
 
         // Loop around a call back until the new integration is found
         let loopCount = 0;
         let integrationFound = false;
-        let timer = setInterval(() => {
+        const timer = setInterval(() => {
           // This loops around every few seconds looking for the new twitter integration
           console.log('Checking for integration', loopCount);
 
@@ -104,6 +108,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
                 // New integration found
                 integrationFound = true;  // Stops multiple promises returning at the same time, only the first one is counted
                 console.log('Found new integration');
+                this.twitterOAuthFormUrl = '';
                 this.sharedService.addIntegration(newTwitterIntegration[0]);
                 this.isConnectingToTwitter = false;
                 this.toast.success('Twitter is now connected to your project', 'Twitter connected');
@@ -118,6 +123,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
           if (++loopCount >= 20) {
             console.log('Max limit reached, stopping');
             this.isConnectingToTwitter = false;
+            this.twitterOAuthFormUrl = '';
             this.toast.error('Unable to connect your project with twitter, please try again', 'Unable to connect');
             clearInterval(timer);
           }

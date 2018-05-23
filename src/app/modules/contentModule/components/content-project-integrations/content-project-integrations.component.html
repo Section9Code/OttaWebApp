@@ -42,6 +42,9 @@
       <p>
         Connect this project directly to twitter so it is able to manage your posts for you.
       </p>
+      <p *ngIf="twitterOAuthFormUrl != ''">
+        If the twitter authentication form doesn't automatically open <a href="{{ twitterOAuthFormUrl }}" target="_new">use this link to authenticate your account</a>.
+      </p>
       <button class="btn btn-default" (click)="showTwitterForm()" [ladda]="isConnectingToTwitter">Add twitter to this project</button>
     </div>
     <div *ngFor="let twitterIntegration of twitterIntegrations" class="widget style1 navy-bg">
