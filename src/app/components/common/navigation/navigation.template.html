@@ -45,42 +45,13 @@
         </a>
       </li>
 
-      <!-- <li [ngClass]="{active: activeRoute('dashboards')}">
-        <a href="#">
-          <i class="fa fa-briefcase"></i>
-          <span class="nav-label">Dashboard examples</span>
-          <span class="fa arrow"></span>
-        </a>
-        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('dashboards')}">
-          <li [ngClass]="{active: activeRoute('dashboard1')}">
-            <a [routerLink]="['/dashboards/dashboard1']">Dashboard v.1</a>
-          </li>
-          <li [ngClass]="{active: activeRoute('dashboard2')}">
-            <a [routerLink]="['/dashboards/dashboard2']">Dashboard v.2</a>
-          </li>
-          <li [ngClass]="{active: activeRoute('dashboard3')}">
-            <a [routerLink]="['/dashboards/dashboard3']">Dashboard v.3</a>
-          </li>
-          <li [ngClass]="{active: activeRoute('dashboard4')}">
-            <a [routerLink]="['/dashboards/dashboard4']">Dashboard v.4</a>
-          </li>
-          <li [ngClass]="{active: activeRoute('dashboard5')}">
-            <a [routerLink]="['/dashboards/dashboard5']">Dashboard v.5</a>
-          </li>
-        </ul>
-      </li> -->
-
-
-
+      <!-- 
       <li [ngClass]="{active: activeRoute('creator')}" *ngIf="showCreatorOptions">
         <a [routerLink]="['/creator']">
           <i class="fa fa-address-book-o"></i>
           <span class="nav-label">Creator Profiles</span>
         </a>
-      </li>
-
-
-
+      </li> -->
 
       <li [ngClass]="{active: activeRoute('personas')}" *ngIf="showOrganisationOptions">
         <a [routerLink]="['/personas']">
@@ -88,14 +59,6 @@
           <span class="nav-label">Personas</span>
         </a>
       </li>
-
-
-      <!-- <li [ngClass]="{active: activeRoute('content')}" *ngIf="showOrganisationOptions">
-        <a [routerLink]="['/content']">
-          <i class="fa fa-calendar"></i>
-          <span class="nav-label">Content</span>
-        </a>
-      </li> -->
 
       <li [ngClass]="{active: activeRoute('content')}" *ngIf="showOrganisationOptions">
         <a [routerLink]="['/content']">
@@ -112,27 +75,6 @@
           </li>
         </ul>
       </li>
-
-
-      <!-- <li [ngClass]="{active: activeRoute('calendars')}" *ngIf="showOrganisationOptions">
-        <a href="#">
-          <i class="fa fa-bath"></i>
-          <span class="nav-label">Calendars</span>
-          <span class="fa arrow"></span>
-        </a>
-        <ul class="nav nav-second-level collapse" [ngClass]="{in: activeRoute('calendars')}">
-          <li [ngClass]="{active: activeRoute('month')}">
-            <a [routerLink]="['/calendars/month']">Calendar Alpha</a>
-          </li>
-          <li [ngClass]="{active: activeRoute('month2')}" class="disabled">
-            <a [routerLink]="['/calendars/month2']">Calendar Beta</a>
-          </li>
-          <li [ngClass]="{active: activeRoute('month3')}" class="disabled">
-            <a [routerLink]="['/calendars/month3']">Calendar Gamma</a>
-          </li>
-        </ul>
-      </li> -->
-
 
       <li [ngClass]="{active: activeRoute('support')}">
         <a [routerLink]="['/support']">
@@ -156,9 +98,6 @@
         </a>
       </li>
 
-      <!--<li [ngClass]="{active: activeRoute('login')}">
-        <a [routerLink]="['/login']"><i class="fa fa-th-large"></i> <span class="nav-label">Login example</span></a>
-      </li>-->
     </ul>
 
   </div>
