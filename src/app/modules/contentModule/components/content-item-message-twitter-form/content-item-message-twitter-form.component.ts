@@ -46,11 +46,25 @@ export class ContentItemMessageTwitterFormComponent {
     private alertSvc: SweetAlertService) {
   }
 
+  // Shows the absolute time form
   showAbsoluteHandler() {
     this.newMessage.IsRelative = false;
     this.showTimeOptions = false;
     this.showAbsoluteForm = true;
+    // Set the time on the form
+    this.newMessage.SendTime = moment().add(5, 'minutes').toISOString();
+
     // Load the image picker for the form when the page has rendered
+    this.renderImagePicker();
+  }
+
+  // Shows the relative time form
+  showRelativeHandler() {
+    this.newMessage.IsRelative = true;
+    this.newMessage.RelativeSendValue = 5;
+    this.newMessage.RelativeSendUnit = ContentItemMessageRelativeUnitModel.Minutes;
+    this.showTimeOptions = false;
+    this.showRelativeForm = true;
     this.renderImagePicker();
   }
 
@@ -95,14 +109,7 @@ export class ContentItemMessageTwitterFormComponent {
     this.messageLength = this.newMessage.Message.length;
   }
 
-  showRelativeHandler() {
-    this.newMessage.IsRelative = true;
-    this.newMessage.RelativeSendValue = 5;
-    this.newMessage.RelativeSendUnit = ContentItemMessageRelativeUnitModel.Minutes;
-    this.showTimeOptions = false;
-    this.showRelativeForm = true;
-    this.renderImagePicker();
-  }
+  
 
   // Adds a twitter message to be sent at a specific time
   addTwitterMessage() {
