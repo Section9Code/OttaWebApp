@@ -15,8 +15,12 @@ export class WelcomeToTheTeamComponent implements OnInit {
     isUpdatingData: boolean = false;
     data: WelcomeModel = new WelcomeModel();
 
-    constructor(private tracking: MixpanelService, private router: Router, private authService: AuthService, private welcomeService: WelcomeService) {
-    }
+    constructor(
+        private tracking: MixpanelService, 
+        private router: Router, 
+        private authService: AuthService, 
+        private welcomeService: WelcomeService
+    ) {}
 
     ngOnInit(): void {
         this.tracking.Track(MixpanelEvent.WelcomeToTheTeam);
@@ -24,42 +28,46 @@ export class WelcomeToTheTeamComponent implements OnInit {
         // Load data about the user
         this.welcomeService.getData().subscribe(
             response => {
-                console.log("Loaded data", response);
+                console.log('Loaded user details', response);
                 this.data = response;
                 this.data.MarketingOptIn = true;
             },
             error => {
-                console.log("Error occurred while loading welcome data", error);
+                console.log('Error occurred while loading welcome data', error);
                 this.router.navigate(['/problem']);
             }
         );
     }
 
     completeSetup() {
-        console.log("Complete setup");
+        console.log('Complete setup');
         this.isUpdatingData = true;
 
         // Update the users details
         this.welcomeService.updateData(this.data).subscribe(
             response => {
-                console.log("Data sent", response);
-                this.isUpdatingData = false;
-                this.signupComplete = true;
+                console.log('Data sent', response);
+                // Send the user on to the main page of the application
+                this.router.navigateByUrl('/');
+
+                // // Show the welcome message
+                // this.isUpdatingData = false;
+                // this.signupComplete = true;
             },
             error => {
-                console.log("Error loading data", error);
-                this.router.navigateByUrl("/problem");
+                console.log('Error loading data', error);
+                this.router.navigateByUrl('/problem');
             }
         );
     }
 
     public next() {
-        this.tracking.Track(MixpanelEvent.WelcomeToTheTeam, { Action: "next" })
+        this.tracking.Track(MixpanelEvent.WelcomeToTheTeam, { Action: 'next' })
         this.router.navigateByUrl('/');
     }
 
     public skip() {
-        this.tracking.Track(MixpanelEvent.WelcomeToTheTeam, { Action: "skip" })
+        this.tracking.Track(MixpanelEvent.WelcomeToTheTeam, { Action: 'skip' })
         this.router.navigateByUrl('/');
     }
 }
