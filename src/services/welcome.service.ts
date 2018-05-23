@@ -28,6 +28,8 @@ export class WelcomeModel {
   public Name: string;
   public Email: string;
   public MarketingOptIn: boolean;
+  public AgreeToTerms: boolean;
   public ShowCreatorOptions: boolean;
   public ShowOrganisationOptions: boolean;
+  public UserIsAdmin: boolean;
 }

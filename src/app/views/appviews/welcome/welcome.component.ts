@@ -12,6 +12,7 @@ import { WelcomeModel, WelcomeService } from 'services/welcome.service';
     styleUrls: ['welcome.component.scss']
 })
 export class WelcomeComponent implements OnInit {
+    isLoading = false;
     signupComplete: boolean;
     currentStep: string;
     data: WelcomeModel;
@@ -27,11 +28,12 @@ export class WelcomeComponent implements OnInit {
         this.currentStep = 'step1';
 
         // Get the data to show on the form
+        this.isLoading = true;
         this.welcomeService.getData().subscribe(
             response => {
                 console.log('Loaded data', response);
                 this.data = response;
-                this.data.MarketingOptIn = true;
+                this.isLoading = false;
             },
             error => {
                 console.log(this.newMethod(), error);

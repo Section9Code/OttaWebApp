@@ -23,6 +23,7 @@ import { InActiveComponent } from "app/views/appviews/in-active/in-active.compon
 import { WelcomeToTheTeamComponent } from "app/views/appviews/welcome-to-the-team/welcome-to-the-team.component";
 import { VerifyEmailComponent } from "app/views/appviews/verify-email/verify-email.component";
 import { SubscriptionErrorComponent } from "./subscription-error/subscription-error.component";
+import { SharedModule } from "../../modules/sharedModule/shared.module";
 
 @NgModule({
   declarations: [
@@ -50,7 +51,8 @@ import { SubscriptionErrorComponent } from "./subscription-error/subscription-er
     SparklineModule,
     WidgetsModule,
     PipesModule,
-    LaddaModule
+    LaddaModule,
+    SharedModule
   ],
   exports: [
     StarterViewComponent,

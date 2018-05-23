@@ -30,8 +30,20 @@
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Keep me updated</label>
                             <div class="col-sm-10">
-                                <input type="checkbox" id="keepMeInformed" name="keepMeInformed" [(ngModel)]="data.MarketingOptIn" checked #keepMeInformed="ngModel">
+                                <input type="checkbox" id="keepMeInformed" name="keepMeInformed" [(ngModel)]="data.MarketingOptIn" #keepMeInformed="ngModel">
                                 <span class="help-block m-b-none">Keep me up to date. We hate spam as much as you do, so we will never do it</span>
+                            </div>
+                        </div>
+
+                        <div class="form-group">
+                            <label class="col-sm-2 control-label">Terms and conditions</label>
+                            <div class="col-sm-10">
+                                <input type="checkbox" id="AgreeToTerms" name="AgreeToTerms" [(ngModel)]="data.AgreeToTerms" required #AgreeToTerms="ngModel">
+                                <span class="help-block m-b-none">By checking this box I agree to Otta's
+                                    <a href="https://otta.io/TermsAndConditions.html" target="_new">Terms and Conditions</a>,
+                                    <a href="https://otta.io/PrivacyPolicy.html" target="_new">Privacy policy</a>, and
+                                    <a href="https://otta.io/TermsOfService.html" target="_new">Terms of service</a>
+                                </span>
                             </div>
                         </div>
 
