@@ -5,17 +5,17 @@
 
 // PROD
 export const environment = {
-  production: false,
+  production: true,
   authConfig: {
-    clientId: 'pVM3vKxgpj2hpxsdEgQ9Cg8rG0Ug4NvA',
+    clientId: 'pKXL3IeC4maYk6h4Zwvl97LspRen7PA5',
     domain: 'otta.eu.auth0.com',
     callbackURL: 'https://app.otta.io/callback',
-    audience: 'https://otta.eu.auth0.com/userinfo',
+    audience: 'OttaTestApi',
     redirectUri: 'https://app.otta.io/callback',
     scopes: 'openid name email profile'
   },
   baseApiUrl: 'https://ottaapi.azurewebsites.net',
   stripeKey: 'pk_live_dMj7EjUe7c8UTzMrwYfcxR8L',
   pricePerUser: 999,
-  version: 'v0.2 Alpha'
+  version: 'v0.3.328 Alpha'
 };
