@@ -3,8 +3,9 @@
 // `ng build --env=prod` then `environment.prod.ts` will be used instead.
 // The list of which env maps to which file can be found in `.angular-cli.json`.
 
+// PROD
 export const environment = {
-  production: true,
+  production: false,
   authConfig: {
     clientId: 'pVM3vKxgpj2hpxsdEgQ9Cg8rG0Ug4NvA',
     domain: 'otta.eu.auth0.com',
@@ -16,5 +17,5 @@ export const environment = {
   baseApiUrl: 'https://ottaapi.azurewebsites.net',
   stripeKey: 'pk_live_dMj7EjUe7c8UTzMrwYfcxR8L',
   pricePerUser: 999,
-  version: 'v0.1 Alpha'
+  version: 'v0.2 Alpha'
 };
