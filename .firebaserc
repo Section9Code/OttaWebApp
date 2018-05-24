@@ -1,5 +1,6 @@
 {
   "projects": {
-    "default": "otta-web-app"
+    "default": "otta-web-app",
+    "prod": "otta-live-web-app"
   }
 }
