@@ -32,7 +32,7 @@ export class UserService {
   }
 
   // Add a new support ticket
-  addSupportTicket(ticket: UserSupportTicketModel): Observable<UserSupportTicketModel> { 
+  addSupportTicket(ticket: UserSupportTicketModel): Observable<UserSupportTicketModel> {
     return this.authHttp.post(`${this.url}/support`, ticket).map(response => response.json());
   }
 }
@@ -44,6 +44,7 @@ export class UserSettings {
   public MarketingOptIn: boolean;
   public ShowCreatorOptions: boolean;
   public ShowOrganisationOptions: boolean;
+  public SendAFriendCode: string;
 }
 
 export class UserSupportTicketModel {

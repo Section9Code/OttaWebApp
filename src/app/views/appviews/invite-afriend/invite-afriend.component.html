@@ -1,0 +1,16 @@
+<div class="widget yellow-bg p-xl">
+    <h2>
+        Share with a friend and get a month <strong>free</strong>
+    </h2>
+    <br/>
+    <p>
+        Invite a friend to start using Otta and when they sign up you 
+        will get a month for free. Sign up as many friends as you like and 
+        we will give you a month free every time.
+    </p>
+    <p *ngIf="shareLink != ''">
+        Your unique sign-up link <strong><span id="userFriendLink">{{shareLink}}</span></strong>
+        <br/><br/>
+        <button class="btn btn-default btn-outline" (click)="share()">Copy to clipboard</button>
+    </p>
+</div>
