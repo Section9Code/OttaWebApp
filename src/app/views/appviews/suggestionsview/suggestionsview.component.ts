@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { SuggestionsService, SuggestionReduced } from "services/suggestions.service";
 import { Observable } from 'rxjs/Observable';
 import 'rxjs/add/operator/catch';
@@ -8,33 +8,55 @@ import { MixpanelService, MixpanelEvent } from "services/mixpanel.service";
 import { ToastsManager } from "ng2-toastr/ng2-toastr";
 import { Router } from "@angular/router";
 import { SweetAlertService } from 'ng2-sweetalert2';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-suggestionsview',
   templateUrl: './suggestionsview.component.html',
   styleUrls: ['./suggestionsview.component.css'],
 })
-export class SuggestionsViewComponent implements OnInit {
-  currentUser: string;
-  private suggestions: SuggestionReduced[];
+export class SuggestionsViewComponent implements OnInit, OnDestroy {
+  currentUser = '';
+  suggestions: SuggestionReduced[] = [];
+  isLoading = false;
 
-  constructor(private suggestionsSvc: SuggestionsService, private mixpanel: MixpanelService, private toast: ToastsManager, private route: Router, private alertSvc: SweetAlertService) {
+  subSuggestions: Subscription;
+
+
+  constructor(
+    private suggestionsSvc: SuggestionsService,
+    private mixpanel: MixpanelService,
+    private toast: ToastsManager,
+    private route: Router,
+    private alertSvc: SweetAlertService) {
     this.currentUser = localStorage.getItem("AuthId");
   }
 
   ngOnInit() {
-    this.mixpanel.Track(MixpanelEvent.View_all_suggestions, { Action: "View all" })
+    this.mixpanel.Track(MixpanelEvent.View_all_suggestions, { Action: 'View all' });
+
     // Load suggestions
-    this.suggestionsSvc.getAll().subscribe(
-      response => this.suggestions = response,
-      error => console.log('Error occurred while getting suggestions', error),
-      () => console.log('Suggestions loaded', this.suggestions)
-    )
+    this.isLoading = true;
+    this.subSuggestions = this.suggestionsSvc.getAll().subscribe(
+      response => {
+        this.suggestions = response;
+        this.isLoading = false;
+      },
+      error => {
+        console.log('Error occurred while getting suggestions', error);
+        this.toast.error('Unable to load suggestions');
+        this.mixpanel.TrackError('Error while loading suggestions', error);
+        this.isLoading = false;
+      });
+  }
+
+  ngOnDestroy(): void {
+    if (this.subSuggestions) { this.subSuggestions.unsubscribe(); }
   }
 
   upVote(suggestion: SuggestionReduced) {
     console.log('Up Vote', suggestion.id);
-    this.mixpanel.Track(MixpanelEvent.Up_vote_suggestion, { Action: "Up vote", Suggestion: suggestion.id });
+    this.mixpanel.Track(MixpanelEvent.Up_vote_suggestion, { Action: 'Up vote', Suggestion: suggestion.id });
     this.suggestionsSvc.upVote(suggestion.id).subscribe(
       response => {
         if (response.Success) {
@@ -42,17 +64,17 @@ export class SuggestionsViewComponent implements OnInit {
           suggestion.Score++;
         }
         else {
-          this.toast.warning('You have already voted on this suggestion', "Up vote");
+          this.toast.warning('You have already voted on this suggestion', 'Up vote');
         }
 
       },
-      error => this.mixpanel.TrackError("Error occured while up voting suggestion", error)
+      error => this.mixpanel.TrackError('Error occurred while up voting suggestion', error)
     );
   }
 
   downVote(suggestion: SuggestionReduced) {
     console.log('Down Vote', suggestion.id);
-    this.mixpanel.Track(MixpanelEvent.Down_vote_suggestion, { Action: "Down vote", Suggestion: suggestion.id });
+    this.mixpanel.Track(MixpanelEvent.Down_vote_suggestion, { Action: 'Down vote', Suggestion: suggestion.id });
     this.suggestionsSvc.downVote(suggestion.id).subscribe(
       response => {
         if (response.Success) {
@@ -60,10 +82,10 @@ export class SuggestionsViewComponent implements OnInit {
           this.toast.success('Suggestion down voted', 'Down vote');
         }
         else {
-          this.toast.warning('You have already voted on this suggestion', "Down vote");
+          this.toast.warning('You have already voted on this suggestion', 'Down vote');
         }
       },
-      error => this.mixpanel.TrackError("Error occured while down voting suggestion", error)
+      error => this.mixpanel.TrackError('Error occurred while down voting suggestion', error)
     );
   }
 
@@ -72,12 +94,12 @@ export class SuggestionsViewComponent implements OnInit {
   }
 
   remove(suggestion: SuggestionReduced) {
-    console.log("Remove suggestion", suggestion.id)
+    console.log('Remove suggestion', suggestion.id)
 
     // Ask the user if they are sure they want to remove the suggestion
     this.alertSvc.swal({
       title: 'Are you sure?',
-      text: "You won't be able to revert this!",
+      text: 'You won\'t be able to revert this!',
       type: 'warning',
       showCancelButton: true,
       confirmButtonColor: '#3085d6',
@@ -85,29 +107,29 @@ export class SuggestionsViewComponent implements OnInit {
       confirmButtonText: 'Yes, delete it!'
     }).then(() => {
       // Delete the suggestion
-      console.log("Delete suggestion");
+      console.log('Delete suggestion');
       this.suggestionsSvc.remove(suggestion.id).subscribe(
         success => {
-          console.log("Response");
+          console.log('Response');
           // Success
           if (success) {
             // Suggestion deleted
-            console.log("Success");
-            let index = this.suggestions.indexOf(suggestion);
+            console.log('Success');
+            const index = this.suggestions.indexOf(suggestion);
             this.suggestions.splice(index, 1);
             this.mixpanel.Track(MixpanelEvent.Remove_Suggestion, { Suggestion: suggestion.id, SuggestionTitle: suggestion.Title });
-            this.toast.success("Suggestion has been removed","Remove suggestion");            
+            this.toast.success('Suggestion has been removed', 'Remove suggestion');
           }
           else {
             // Suggestion can't be deleted
-            console.log("Can't delete");
-            this.toast.error("Unable to delete suggestion");
+            console.log('Can\'t delete');
+            this.toast.error('Unable to delete suggestion');
           }
         },
         error => {
           // Error
-          console.log("Error");
-          this.mixpanel.TrackError("Error occured while trying to delete suggestion", error);
+          console.log('Error');
+          this.mixpanel.TrackError('Error occured while trying to delete suggestion', error);
         },
         () => {
           // Complete
@@ -115,7 +137,7 @@ export class SuggestionsViewComponent implements OnInit {
       );
     }).catch(() => { });
 
-    
+
   }
 
 }
