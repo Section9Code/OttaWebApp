@@ -23,11 +23,13 @@
 
     <loadingSpinner [loading]="isLoading"></loadingSpinner>
 
-    <div ng-if="personas.length === 0">
-        <h2>You don't have any personas yet, would you like to <a [routerLink]="['/personas/create']">create one?</a></h2>
-    </div>
+    <div class="row" *ngIf="!isLoading">
+        <div *ngIf="personas.length == 0">
+            <h2>You don't have any personas yet, would you like to
+                <a [routerLink]="['/personas/create']">create one?</a>
+            </h2>
+        </div>
 
-    <div class="row">
         <!-- Show a list of all personas -->
         <div class="col-lg-4 col-md-6" *ngFor="let persona of personas">
             <a [routerLink]="['/personas', persona.id]">
@@ -40,7 +42,9 @@
                         </div>
                     </div>
                     <div class="col-sm-8">
-                        <h3><strong>{{persona.Name}}</strong></h3>
+                        <h3>
+                            <strong>{{persona.Name}}</strong>
+                        </h3>
                         {{persona.Age}}
                         <br/>
 
