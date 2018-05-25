@@ -6,13 +6,17 @@
     </div>
     <div class="ibox-content">
         <p>
-            You have been invited to join Otta. 
-        </p>        
-        <p>
-            Click the button below and we will create an account for you and link
-            it to the organisation.
+            You have been invited to join Otta.
         </p>
-        <button *ngIf="showJoinButton" class="btn btn-primary btn-block" (click)="auth.signup()">Join</button>        
-        <p class="m-t"> <small>Otta &copy; 2018</small> </p>
+        <p *ngIf="showJoinOrgMessage">
+            Click the button below and we will create an account for you and link it to the organisation.
+        </p>
+        <p *ngIf="showJoinFromFriendMessage">
+            Thanks for coming, your friend thinks you will love Otta and we hope so to. Click the button below and we will get you started.
+        </p>
+        <button *ngIf="showJoinButton" class="btn btn-primary btn-block" (click)="auth.signup()">Join</button>
+        <p class="m-t">
+            <small>Otta &copy; 2018</small>
+        </p>
     </div>
 </div>

@@ -22,7 +22,7 @@ export class InviteAfriendComponent implements OnInit {
       .then(response => {
         console.log('Loaded settings', response);
         this.shareCode = response.SendAFriendCode;
-        this.shareLink = `https://app.otta.io/join?friend=${this.shareCode}`;
+        this.shareLink = `https://app.otta.io/join?t=friend&code=${this.shareCode}`;
       })
       .catch();
   }

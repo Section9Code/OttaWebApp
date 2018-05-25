@@ -10,7 +10,7 @@ import { UserDataService } from 'services/user-data.service';
 })
 export class AppComponent {
 
-  constructor(public auth: AuthService, private toast: ToastsManager, private vcr: ViewContainerRef, private userDataService: UserDataService) {
+  constructor(public auth: AuthService, private toast: ToastsManager, private vcr: ViewContainerRef) {
     this.auth.handleAuthentication();
     this.toast.setRootViewContainerRef(vcr);
   }

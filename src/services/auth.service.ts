@@ -28,7 +28,7 @@ export class AuthService {
   // The current users profile information
   public userProfile: Auth0Profile;
 
-  constructor(public router: Router, private flowSvc: FlowService, private mixpanel: MixpanelService, private userData: UserDataService) { }
+  constructor(public router: Router, private flowSvc: FlowService, private mixpanel: MixpanelService) { }
 
   // Log into the system
   public login(): void {
@@ -58,14 +58,10 @@ export class AuthService {
 
         // Get any join data that may have been supplied
         let joinData: JoinData = JSON.parse(localStorage.getItem('joinData'));
-
         this.flowSvc.loginCheck(joinData).subscribe(
           response => {
             // The flow control will tell the app where to send the user next
             localStorage.removeItem('joinData');
-
-            // Setup any application data for this user
-            this.userData.loadUsersData();
 
             // Send the user to the next page
             this.router.navigate([response.NextPage]);
