@@ -1,33 +1,34 @@
 import { Injectable } from '@angular/core';
 import { AuthService, Auth0Profile } from "services/auth.service";
+import { environment } from 'environments/environment.devserver';
 
-declare var mixpanel:any;
+declare var mixpanel: any;
 
 // Service for interacting with Mixpanel for tracking the users actions
 @Injectable()
 export class MixpanelService {
 
-  constructor() { }
+  constructor(
+  ) { }
 
-  // Track an event into Mixpanel  
-  public Track(event:MixpanelEvent, properties?:any)
-  {    
-    var eventName = this.GetEventName(event);    
-    if(properties)
-    {
+  // Track an event into Mixpanel
+  public Track(event: MixpanelEvent, properties?: any) {
+    // Don't track if the environment isn't production
+    if (!environment.production) { return; };
+
+    var eventName = this.GetEventName(event);
+    if (properties) {
       console.log("Mixpanel - Track event with properties:", eventName);
       mixpanel.track(eventName, properties);
     }
-    else
-    {
+    else {
       console.log("Mixpanel - Track event:", eventName);
       mixpanel.track(eventName);
     }
   }
 
   // Get the name of the event to send to mixpanel from the enum of events
-  private GetEventName(event: MixpanelEvent):string
-  {
+  private GetEventName(event: MixpanelEvent): string {
     var name = MixpanelEvent[event];
     name = name.replace(/_/g, ' ');
     return name;
@@ -35,28 +36,31 @@ export class MixpanelService {
 
   // Track a profile
   // Is given the ID token from authentication
-  public TrackProfile(profile:Auth0Profile)
-  {
+  public TrackProfile(profile: Auth0Profile) {
+    // Don't track if the environment isn't production
+    if (!environment.production) { return; };
+
     console.log('Mixpanel - Track profile', profile);
     mixpanel.identify(profile.sub);
     mixpanel.people.set({
-        "$first_name": profile.given_name,
-        "$last_name": profile.family_name,
-        //"$created": profile.updated_at,
-        "$email": profile.email
+      "$first_name": profile.given_name,
+      "$last_name": profile.family_name,
+      //"$created": profile.updated_at,
+      "$email": profile.email
     });
   }
 
-  public TrackError(message:string, error?:any)
-  {
+  public TrackError(message: string, error?: any) {
+    // Don't track if the environment isn't production
+    if (!environment.production) { return; };
+
     console.log('Mixpanel - Error');
     mixpanel.track("Error", { Message: message, Details: error });
   }
 
 }
 
-export enum MixpanelEvent
-{
+export enum MixpanelEvent {
   Login,
   Welcome,
   WelcomeToTheTeam,
