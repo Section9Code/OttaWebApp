@@ -30,11 +30,10 @@ export class ContentItemDetailsComponent implements OnInit {
     // List of all the available content types
     contentTypes: ContentItemTypeModel[];
 
-    // Options for the freola html editor
-    editorOptions: Object = {
-        placeholderText: 'Edit Your Content Here!',
-        charCounterCount: false
-    };
+    // Options for the content editor
+    contentEditorOptions = {
+        placeholder: 'Edit your content here!'
+      };
 
     // Set the min date for the deadline datetime picker to be now
     datePickerMinDate = moment();

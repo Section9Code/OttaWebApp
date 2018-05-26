@@ -93,5 +93,5 @@
 </form>
 
 <div *ngIf="!hideHtmlEditor">
-    <div [froalaEditor]="editorOptions" [(froalaModel)]="content.Content"></div>
+    <quill-editor [(ngModel)]="content.Content" [options]="contentEditorOptions"></quill-editor>
 </div>

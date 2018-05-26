@@ -27,7 +27,7 @@ import { ToastModule } from 'ng2-toastr/ng2-toastr';
 import { LaddaModule } from 'angular2-ladda';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { TagInputModule } from 'ngx-chips';
-import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
+import { QuillEditorModule } from 'ng2-quill-editor';
 import { MyDatePickerModule } from 'mydatepicker';
 import { A2Edatetimepicker } from 'ng2-eonasdan-datetimepicker';
 import { DropzoneModule, DropzoneConfigInterface, DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
@@ -76,14 +76,12 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     ContentModule,
     SupportModule,
     SharedModule,
-
     LaddaModule.forRoot({ style: 'expand-right', spinnerSize: 20, spinnerColor: 'white', spinnerLines: 12 }), // For showing progress on buttons
     ToastModule.forRoot(),  // For showing toast messages to user
     TagInputModule,
     MyDatePickerModule,
     A2Edatetimepicker,
-    FroalaEditorModule.forRoot(),
-    FroalaViewModule.forRoot(),
+    QuillEditorModule,
     DropzoneModule,
     RouterModule.forRoot(ROUTES)
   ],
