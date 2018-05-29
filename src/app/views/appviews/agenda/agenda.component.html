@@ -1,3 +1,27 @@
-<p>
-  agenda works!
-</p>
+<h2>Agenda</h2>
+
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
+
+<div *ngIf="!isLoading">
+  <!-- Project list -->
+  <div *ngFor="let project of agenda.Projects">
+    <h3>{{ project.Title }}</h3>
+    <div class="row">
+      <!-- Days of the week -->
+      <table>
+        <tr>
+          <td *ngFor="let day of project.Data">
+            {{ day.Date | date:'shortDate' }}
+
+            <ul>
+              <li *ngFor="let item of day.Items">
+                {{ item.Title }}
+              </li>
+            </ul>
+
+          </td>
+        </tr>
+      </table>
+    </div>
+  </div>
+</div>

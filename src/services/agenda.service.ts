@@ -12,39 +12,39 @@ export class AgendaService {
   ) { }
 
   // Get the agenda for the current user
-  getAgenda(): Observable<Agenda> {
+  getAgenda(): Observable<AgendaModel> {
     return this.authHttp.get(`${this.url}`).map(response => response.json());
   }
 }
 
-export class Agenda {
+export class AgendaModel {
   StartDate: Date;
   EndDate: Date;
-  Projects: AgendaProject[];
+  Projects: AgendaProjectModel[];
 }
 
-export class AgendaProject {
+export class AgendaProjectModel {
   Title: string;
   Id: string;
-  Data: AgendaDay[];
+  Data: AgendaDayModel[];
 }
 
-export class AgendaDay {
+export class AgendaDayModel {
   Date: Date;
-  Items: AgendaItem[];
+  Items: AgendaItemModel[];
 }
 
-export class AgendaItem {
+export class AgendaItemModel {
   Id: string;
   ProjectId: string;
   Occurs: Date;
-  Type: AgendaItemType;
+  Type: AgendaItemTypeEnum;
   ColourHex: string;
   Title: string;
   Description: string;
 }
 
-export enum AgendaItemType {
+export enum AgendaItemTypeEnum {
   ContentItem,
   Event
 }
