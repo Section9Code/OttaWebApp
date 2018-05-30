@@ -1,0 +1,17 @@
+.AgendaDateList {
+    list-style-type: none;
+    padding: 0px;
+}
+
+.AgnedaDateItem {
+    border-bottom: 1px solid #444;
+    padding-bottom: 5px;
+    padding-top: 5px;
+}
+
+.AgendaItemList {
+    padding-left: 20px;
+}
+
+.AgendaDateItem {
+}
