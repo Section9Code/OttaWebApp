@@ -29,8 +29,8 @@ export class StarterViewComponent implements OnDestroy, OnInit {
       {
         element: '#tour_Agenda',
         title: 'Your agenda for the day',
-        content: 'See what you need to deal with today. This is a <strong>Demo idea</strong> for the moment.',
-        placement: 'left',
+        content: 'See what you have coming up in the next week so you are prepared for it',
+        placement: 'bottom',
         backdrop: true,
         backdropContainer: '#wrapper'
       },

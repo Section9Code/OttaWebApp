@@ -4,7 +4,7 @@
 }
 
 .AgnedaDateItem {
-    border-bottom: 1px solid #444;
+    border-bottom: 1px dotted #ddd;
     padding-bottom: 5px;
     padding-top: 5px;
 }

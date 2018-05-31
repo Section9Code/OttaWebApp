@@ -8,9 +8,14 @@
         <li class="AgnedaDateItem" *ngFor="let day of project.Data">
           {{ day.Date | date:'d MMM' }}
           <ul class="AgendaItemList">
-            <li class="AgendaItemItem" *ngFor="let item of day.Items">              
-              <div *ngIf="item.Type == 1">{{ item.Title }}</div>  <!-- Event -->
-              <a *ngIf="item.Type == 0" [routerLink]="['/content', project.Id, 'items', item.Id]">{{ item.Title }}</a>    <!-- Content item -->
+            <li class="AgendaItemItem" *ngFor="let item of day.Items">
+              <!-- Event                             -->
+              <div *ngIf="item.Type == 1">{{ item.Title }}</div>
+              <!-- Content Item -->
+              <a *ngIf="item.Type == 0" [routerLink]="['/content', project.Id, 'items', item.Id]">
+                <!-- {{ item.Title }} -->
+                <span class="label label-primary" [ngStyle]="{ 'background-color': item.ColourHex }">{{item.Title}}</span>
+              </a>    
             </li>
           </ul>
         </li>
