@@ -26,6 +26,7 @@ import { SubscriptionErrorComponent } from './subscription-error/subscription-er
 import { SharedModule } from '../../modules/sharedModule/shared.module';
 import { InviteAfriendComponent } from './invite-afriend/invite-afriend.component';
 import { AgendaComponent } from './agenda/agenda.component';
+import { OfferComponent } from './offer/offer.component';
 
 @NgModule({
   declarations: [
@@ -45,7 +46,8 @@ import { AgendaComponent } from './agenda/agenda.component';
     VerifyEmailComponent,
     SubscriptionErrorComponent,
     InviteAfriendComponent,
-    AgendaComponent
+    AgendaComponent,
+    OfferComponent
   ],
   imports: [
     BrowserModule,

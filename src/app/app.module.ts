@@ -45,6 +45,7 @@ import { TourService } from 'services/tour.service';
 import { environment } from 'environments/environment';
 import { SupportModule } from 'app/modules/supportModule/support.module';
 import { AgendaService } from 'services/agenda.service';
+import { CouponService } from 'services/coupon.service';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
@@ -100,6 +101,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SweetAlertService,
     TourService,
     AgendaService,
+    CouponService,
 
     // Dropzone configuration
     {

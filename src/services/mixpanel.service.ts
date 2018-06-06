@@ -18,13 +18,18 @@ export class MixpanelService {
 
     var eventName = this.GetEventName(event);
     if (properties) {
-      console.log("Mixpanel - Track event with properties:", eventName);
+      console.log('Mixpanel - Track event with properties:', eventName);
       mixpanel.track(eventName, properties);
     }
     else {
-      console.log("Mixpanel - Track event:", eventName);
+      console.log('Mixpanel - Track event:', eventName);
       mixpanel.track(eventName);
     }
+  }
+
+  // Track and event into mixpanel with an action
+  public TrackAction(event: MixpanelEvent, ActionName: string) {
+    this.Track(event, { Action: ActionName });
   }
 
   // Get the name of the event to send to mixpanel from the enum of events
@@ -43,10 +48,10 @@ export class MixpanelService {
     console.log('Mixpanel - Track profile', profile);
     mixpanel.identify(profile.sub);
     mixpanel.people.set({
-      "$first_name": profile.given_name,
-      "$last_name": profile.family_name,
+      '$first_name': profile.given_name,
+      '$last_name': profile.family_name,
       //"$created": profile.updated_at,
-      "$email": profile.email
+      '$email': profile.email
     });
   }
 
@@ -55,7 +60,7 @@ export class MixpanelService {
     if (!environment.production) { return; };
 
     console.log('Mixpanel - Error');
-    mixpanel.track("Error", { Message: message, Details: error });
+    mixpanel.track('Error', { Message: message, Details: error });
   }
 
 }
@@ -66,6 +71,7 @@ export enum MixpanelEvent {
   WelcomeToTheTeam,
   Home,
   Join,
+  Offer,
   Added_Suggestion,
 
   // Suggestions

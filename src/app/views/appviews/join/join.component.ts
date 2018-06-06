@@ -87,12 +87,14 @@ export class JoinData {
     showCreatorOptions: boolean;
     showOrganisationOptions: boolean;
     friendCode: string;
+    offerCode: string;
 
-    constructor(type: string, senderId: string, organisationId: string, showCreatorOptions, showOrganisationOptions) {
+    constructor(type: string, senderId: string, organisationId: string, showCreatorOptions, showOrganisationOptions, offerCode: string = '') {
         this.type = type;
         this.senderId = senderId;
         this.organisationId = organisationId;
         this.showCreatorOptions = showCreatorOptions;
         this.showOrganisationOptions = showOrganisationOptions;
+        this.offerCode = offerCode;
     }
 }
