@@ -72,16 +72,17 @@ export class PaymentInfo {
 }
 
 export class UserInfo {
+  numberOfUsers: number;
+
   constructor(userCount: number) {
     this.numberOfUsers = userCount;
   }
-
-  numberOfUsers: number;
 }
 
 export class Organisation {
   Name: string;
   CurrentPlan: OrganisationPaymentPlan;
+  Offer: CouponModel;
   IsActive: boolean;
 
   AdminUsers: string[];
@@ -105,6 +106,27 @@ export class OrganisationPaymentPlan {
   CurrentPeriodStart: Date;
   CurrentPeriodEnd: Date;
   MonthlyCharge: number;
+  Discount: PaymentPlanDiscountModel;
+}
+
+export class PaymentPlanDiscountModel {
+  DiscountStart: Date;
+  DiscountEnd: Date;
+  CouponName: string;
+  AmountOff: number;
+  PercentageOff: number;
+  Duration: string;
+  DurationMonths: number;
+}
+
+export class CouponModel {
+  Id: string;
+  PercentageOff: number;
+  Currency: string;
+  AmountOff: number;
+  Duration: string;
+  DurationMonths: number;
+  Name: string;
 }
 
 export class OrganisationUsers {

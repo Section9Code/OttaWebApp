@@ -53,11 +53,15 @@
 
                         <!-- User has an active plan -->
                         <span *ngIf="organisation.CurrentPlan.Status == 'active'">
-                            <!-- Plan actice -->
+                            <!-- Plan active -->
                             <div *ngIf="!organisation.CurrentPlan.CancelAtPeriodEnd">
                                 <p>
                                     Your plan is currently active, the next period will be billed on {{organisation.CurrentPlan.CurrentPeriodEnd | date}} (£{{organisation.CurrentPlan.MonthlyCharge/100}}
                                     x {{organisation.CurrentPlan.MaxUsers}})
+                                </p>
+                                <p *ngIf="organisation.CurrentPlan.Discount">
+                                    You are currently receiving a discount so you will only pay <b>{{ discountAmountPerMonth / 100.00 }} per month</b><br/>
+                                    Discount terms: <b>{{ discountTerms }}</b>
                                 </p>
                                 <p>
                                     Your organisation can have up to a maximum of
@@ -74,7 +78,7 @@
                                     Your plan is set to
                                     <strong>cancel at period end</strong>, it will no longer be available from
                                     <strong>{{organisation.CurrentPlan.CurrentPeriodEnd | date}}</strong>
-                                </p>
+                                </p>                                
                                 <p>
                                     Your organisation can have up to a maximum of
                                     <strong>{{organisation.CurrentPlan.MaxProjects}}</strong> projects
@@ -121,7 +125,7 @@
                         <!-- Trial mode information -->
                         <span *ngIf="organisation.CurrentPlan.Status == 'trialing'">
                             <p>
-                                You plan is currently in
+                                Your plan is currently in
                                 <strong>trial mode</strong> and the trail will end on
                                 <strong>{{organisation.CurrentPlan.TrialEnd | date}}</strong>
                             </p>
@@ -129,6 +133,11 @@
                                 Your organisation can have up to a maximum of
                                 <strong>{{organisation.CurrentPlan.MaxProjects}}</strong> projects
                             </p>
+                            <p *ngIf="organisation.Offer">
+                                Special offer applied: <b>{{ organisation.Offer.Id }}</b>
+                                <br/>
+                                Special off terms: <b>{{ offerTerms }}</b>
+                            </p>                            
                             <p>
                                 <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + userAllowance + ' user(s)'" [buttonText]="'Pay for subscription now'"
                                     [amount]="amountToCharge" (onPayment)="subscriptionPaid($event)">
