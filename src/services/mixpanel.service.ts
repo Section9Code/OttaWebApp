@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AuthService, Auth0Profile } from "services/auth.service";
-import { environment } from 'environments/environment.devserver';
+import { environment } from 'environments/environment';
 
 declare var mixpanel: any;
 
