@@ -133,8 +133,8 @@
                                 Your organisation can have up to a maximum of
                                 <strong>{{organisation.CurrentPlan.MaxProjects}}</strong> projects
                             </p>
-                            <p *ngIf="organisation.Offer">
-                                Special offer applied: <b>{{ organisation.Offer.Id }}</b>
+                            <p *ngIf="organisation.CurrentPlan.Discount">
+                                Special offer applied: <b>{{ organisation.CurrentPlan.Discount.CouponName }}</b>
                                 <br/>
                                 Special off terms: <b>{{ offerTerms }}</b>
                             </p>                            

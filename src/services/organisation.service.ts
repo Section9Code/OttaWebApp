@@ -82,7 +82,6 @@ export class UserInfo {
 export class Organisation {
   Name: string;
   CurrentPlan: OrganisationPaymentPlan;
-  Offer: CouponModel;
   IsActive: boolean;
 
   AdminUsers: string[];
@@ -117,16 +116,6 @@ export class PaymentPlanDiscountModel {
   PercentageOff: number;
   Duration: string;
   DurationMonths: number;
-}
-
-export class CouponModel {
-  Id: string;
-  PercentageOff: number;
-  Currency: string;
-  AmountOff: number;
-  Duration: string;
-  DurationMonths: number;
-  Name: string;
 }
 
 export class OrganisationUsers {

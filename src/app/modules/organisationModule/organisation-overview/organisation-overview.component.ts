@@ -118,8 +118,8 @@ export class OrganisationOverviewComponent implements OnInit {
         let planCost = this.organisation.CurrentPlan.MonthlyCharge * this.organisation.CurrentPlan.MaxUsers;
 
         // Calculate any discount the user has
-        if (this.organisation.Offer) {
-            const coupon = this.organisation.Offer;
+        if (this.organisation.CurrentPlan.Discount) {
+            const coupon = this.organisation.CurrentPlan.Discount;
             if (coupon.AmountOff) {
                 planCost = planCost - coupon.AmountOff;
             }
@@ -135,19 +135,19 @@ export class OrganisationOverviewComponent implements OnInit {
         let msg = '';
 
         // If there is no offer on the organisation retun nothing
-        if (!this.organisation.Offer) { return ''; };
+        if (!this.organisation.CurrentPlan.Discount) { return ''; };
 
         // Type of discount
-        if (this.organisation.Offer.PercentageOff) { msg += `${this.organisation.Offer.PercentageOff}% off `; }
-        if (this.organisation.Offer.AmountOff) { msg += `£${this.organisation.Offer.AmountOff / 100.00} off `; }
+        if (this.organisation.CurrentPlan.Discount.PercentageOff) { msg += `${this.organisation.CurrentPlan.Discount.PercentageOff}% off `; }
+        if (this.organisation.CurrentPlan.Discount.AmountOff) { msg += `£${this.organisation.CurrentPlan.Discount.AmountOff / 100.00} off `; }
 
-        switch (this.organisation.Offer.Duration.toLocaleLowerCase()) {
+        switch (this.organisation.CurrentPlan.Discount.Duration.toLocaleLowerCase()) {
             case 'once':
                 msg += 'for one month ';
                 break;
             case 'repeating':
             case 'multi-month':
-                msg += `for ${this.organisation.Offer.DurationMonths} months `;
+                msg += `for ${this.organisation.CurrentPlan.Discount.DurationMonths} months `;
                 break;
             case 'forever':
                 msg += `forever `;
@@ -163,7 +163,7 @@ export class OrganisationOverviewComponent implements OnInit {
 
         // Calculate any discount the user has
         if (this.organisation.CurrentPlan.Discount) {
-            const coupon = this.organisation.Offer;
+            const coupon = this.organisation.CurrentPlan.Discount;
             if (this.organisation.CurrentPlan.Discount.AmountOff) {
                 planCost = planCost - this.organisation.CurrentPlan.Discount.AmountOff;
             } else {
