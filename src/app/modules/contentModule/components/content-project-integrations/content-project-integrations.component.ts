@@ -22,14 +22,17 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   isLoadingIntegration = false;
   isCreating = false;
   isConnectingToTwitter = false;
+  isConnectingToFacebook = false;
 
   twitterOAuthFormUrl = '';
+  facebookOAuthFromUrl = '';
 
   // Integrations with other systems
   integrations: ProjectIntegrationModel[] = [];
   wordpressIntegrations: ProjectIntegrationModel[] = [];
   mediumIntegrations: ProjectIntegrationModel[] = [];
   twitterIntegrations: ProjectIntegrationModel[] = [];
+  facebookIntegrations: ProjectIntegrationModel[] = [];
 
   // Forms
   wordpressForm: WordpressProjectIntegrationModel = new WordpressProjectIntegrationModel();
@@ -72,12 +75,81 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.wordpressIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Wordpress);
     this.mediumIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Medium);
     this.twitterIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Twitter);
+    this.facebookIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Facebook);
   }
 
   // Methods
   showWordpressForm() {
     this.wordpressForm = new WordpressProjectIntegrationModel();
     $('#wordpressModal').modal('show');
+  }
+
+  // Show the user the form they can use to authenticate their facebook account
+  showFacebookForm() {
+    this.isConnectingToFacebook = true;
+    this.integrationService.facebookGetLogin(this.project.id).toPromise()
+      .then(response => {
+        console.log('Got facebook oAuth link', response);
+
+        // Send the user to the facebook authentication page
+        this.facebookOAuthFromUrl = response;
+        const myWindow = window.open(this.facebookOAuthFromUrl, 'facebookAuth', 'width=500,height=550');
+
+        // Wait for the integration to be complete
+        this.waitForIntegration(IntegrationTypes.Facebook).then(integration => {
+          console.log('Integrated', integration);
+          this.isConnectingToFacebook = false;
+          this.toast.success('Project integrated with Facebook');
+          this.facebookOAuthFromUrl = '';
+          this.sharedService.addIntegration(integration);
+        })
+          .catch(error => {
+            console.log('Error waiting for facebook integration to complete');
+            this.isConnectingToFacebook = false;
+            this.facebookOAuthFromUrl = '';
+            this.toast.warning('Unable to connect to facebook. Please type again');
+          });
+
+
+      })
+      .catch(error => {
+        console.log('Error getting facebook login url', error);
+        this.isConnectingToFacebook = false;
+        this.toast.error('Unable to connect to facebook');
+        this.tracking.TrackError('Error getting facebook OAuth login url', error);
+      });
+  }
+
+  // Loop around 20 times checking for an integration of a specific type.
+  // Calls the promist when it finds the matching type or throws the error
+  // if not found after the limit is reached.
+  waitForIntegration(type: IntegrationTypes): Promise<ProjectIntegrationModel> {
+    return new Promise((resolve, reject) => {
+      let loopCount = 0;
+      const timer = setInterval(() => {
+        console.log('Checking for integration', loopCount);
+
+        // Check for the integration
+        this.integrationService.getAll(this.project.id).toPromise()
+          .then(allIntegrations => {
+            console.log('Checking integrations', allIntegrations);
+            let integration = allIntegrations.filter(i => i.IntegrationType === type);
+            if (integration.length >= 0) {
+              console.log('Found integration', integration);
+              clearInterval(timer);
+              resolve(integration[0]);
+            }
+          })
+          .catch(() => { });
+
+        if (++loopCount >= 20) {
+          // Reached the max number of checks
+          console.log('Max number of checks reached', type);
+          clearInterval(timer);
+          reject(new Error('Integration not found'));
+        }
+      }, 2000);
+    });
   }
 
   // Show the user the form they can use to authenticate their twitter account
@@ -91,44 +163,17 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
         this.twitterOAuthFormUrl = response;
         const myWindow = window.open(this.twitterOAuthFormUrl, 'twitterAuth', 'width=500,height=550');
 
-        // Loop around a call back until the new integration is found
-        let loopCount = 0;
-        let integrationFound = false;
-        const timer = setInterval(() => {
-          // This loops around every few seconds looking for the new twitter integration
-          console.log('Checking for integration', loopCount);
-
-          // Call the integration service
-          this.integrationService.getAll(this.project.id).toPromise()
-            .then(newIntegrations => {
-              console.log('Checking integrations');
-              var newTwitterIntegration = newIntegrations.filter(i => i.IntegrationType === IntegrationTypes.Twitter);
-
-              if (newTwitterIntegration.length > 0 && !integrationFound) {
-                // New integration found
-                integrationFound = true;  // Stops multiple promises returning at the same time, only the first one is counted
-                console.log('Found new integration');
-                this.twitterOAuthFormUrl = '';
-                this.sharedService.addIntegration(newTwitterIntegration[0]);
-                this.isConnectingToTwitter = false;
-                this.toast.success('Twitter is now connected to your project', 'Twitter connected');
-                clearInterval(timer);
-              }
-            })
-            .catch(newTwitterIntegrationError => {
-              console.log('Twitter integration error - Ignore', newTwitterIntegrationError)
-            });
-
-          // Looped enough times, stop checking
-          if (++loopCount >= 20) {
-            console.log('Max limit reached, stopping');
-            this.isConnectingToTwitter = false;
-            this.twitterOAuthFormUrl = '';
-            this.toast.error('Unable to connect your project with twitter, please try again', 'Unable to connect');
-            clearInterval(timer);
-          }
-        }, 2000);
-
+        // Wait for the user to accept the integration
+        this.waitForIntegration(IntegrationTypes.Twitter).then(integration => {
+          this.twitterOAuthFormUrl = '';
+          this.sharedService.addIntegration(integration);
+          this.isConnectingToTwitter = false;
+          this.toast.success('Twitter is now connected to your project', 'Twitter connected');
+        }).catch(error => {
+          this.isConnectingToTwitter = false;
+          this.twitterOAuthFormUrl = '';
+          this.toast.error('Unable to connect your project with twitter, please try again', 'Unable to connect');
+        });
 
 
       })
@@ -162,7 +207,6 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   }
 
   removeIntegration(integrationId: string) {
-
     this.alertSvc.swal({
       title: 'Are you sure?',
       text: 'Are you sure you want to remove this integration?',

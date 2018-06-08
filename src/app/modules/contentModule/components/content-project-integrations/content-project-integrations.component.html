@@ -43,25 +43,54 @@
         Connect this project directly to twitter so it is able to manage your posts for you.
       </p>
       <p *ngIf="twitterOAuthFormUrl != ''">
-        If the twitter authentication form doesn't automatically open <a href="{{ twitterOAuthFormUrl }}" target="_new">use this link to authenticate your account</a>.
+        If the twitter authentication form doesn't automatically open
+        <a href="{{ twitterOAuthFormUrl }}" target="_new">use this link to authenticate your account</a>.
       </p>
       <button class="btn btn-default" (click)="showTwitterForm()" [ladda]="isConnectingToTwitter">Add twitter to this project</button>
     </div>
     <div *ngFor="let twitterIntegration of twitterIntegrations" class="widget style1 navy-bg">
-        <div class="row">
-          <div class="col-xs-4">
-            <i class="fa fa-twitter fa-5x"></i>
-          </div>
-          <div class="col-xs-8 text-right">
-            <span>
-              <strong>{{ twitterIntegration.Name }}</strong>
-            </span>
-            <br/><br/>
-            <button (click)="removeIntegration(twitterIntegration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
-          </div>
+      <div class="row">
+        <div class="col-xs-4">
+          <i class="fa fa-twitter fa-5x"></i>
+        </div>
+        <div class="col-xs-8 text-right">
+          <span>
+            <strong>{{ twitterIntegration.Name }}</strong>
+          </span>
+          <br/>
+          <br/>
+          <button (click)="removeIntegration(twitterIntegration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
         </div>
       </div>
+    </div>
   </div>
+
+  <!-- Facebook pages -->
+  <div>
+    <h3>Facebook</h3>
+    <div *ngIf="facebookIntegrations.length === 0">
+      <p>
+        Connect this project with facebook so it is able to manage your posts for you.
+      </p>
+      <button class="btn btn-default" (click)="showFacebookForm()" [ladda]="isConnectingToFacebook">Add facebook to this project</button>
+    </div>
+    <div *ngFor="let integration of facebookIntegrations" class="widget style1 navy-bg">
+      <div class="row">
+        <div class="col-xs-4">
+          <i class="fa fa-facebook fa-5x"></i>
+        </div>
+        <div class="col-xs-8 text-right">
+          <span>
+            <strong>{{ integration.Name }}</strong>
+          </span>
+          <br/>
+          <br/>
+          <button (click)="removeIntegration(integration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </otta-panel>
 
 <div class="modal inmodal" id="wordpressModal" tabindex="-1" role="dialog" aria-hidden="true">
@@ -78,15 +107,16 @@
       </div>
       <div class="modal-body">
         <p>
-          To allow Otta to work with your WordPress site add a new Editor user to your site. Adding these user 
-          details below will allow Otta to log into your WordPress site. This will not give Otta access to the 
-          administration settings of your site, only the posts, tags and categories.
+          To allow Otta to work with your WordPress site add a new Editor user to your site. Adding these user details below will allow
+          Otta to log into your WordPress site. This will not give Otta access to the administration settings of your site,
+          only the posts, tags and categories.
         </p>
         <p>
           You need to:
         </p>
         <ul>
-          <li>Add a new user to your site, set it's type to <strong>Editor</strong>
+          <li>Add a new user to your site, set it's type to
+            <strong>Editor</strong>
           </li>
           <li>Give it a strong password</li>
         </ul>

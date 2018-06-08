@@ -38,6 +38,10 @@ export class ContentProjectIntegrationService {
     twitterGetLogin(projectId: string): Observable<string> {
         return this.authHttp.get(`${this.url}/${projectId}/twitter/getLogin`).map(response => response.json());
     }
+
+    facebookGetLogin(projectId: string): Observable<string> {
+        return this.authHttp.get(`${this.url}/${projectId}/facebook/getLogin`).map(response => response.json());
+    }
 }
 
 export class ProjectIntegrationModel {
