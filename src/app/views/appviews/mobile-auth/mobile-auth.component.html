@@ -1,0 +1,37 @@
+<div class="row wrapper white-bg page-heading">
+    <div class="col-lg-10">
+        <h2>Mobile</h2>
+        <ol class="breadcrumb">
+            <li>
+                <a [routerLink]="['/home']">Home</a>
+            </li>
+            <li>
+                <strong>Mobile</strong>
+            </li>
+        </ol>
+    </div>
+</div>
+
+<!-- Top level button row -->
+<!--    
+<div class="row wrapper border-bottom white-bg page-heading">
+    <div class="col-lg-10">
+        <button type="button" class="btn btn-primary" (click)="create()">Create</button>
+    </div>
+</div> -->
+
+<div class="wrapper-content animated fadeInRight">    
+  
+  <otta-panel [title]="'Mobile application'">
+    <p>
+      You can now get access to your projects on your mobile phone. Just down load our app and use this code to authenticate your app with your user account; 
+    </p>
+    <div *ngIf="shortCode">
+      Your authentication code is: <h2>{{shortCode}}</h2>
+    </div>
+    <div *ngIf="!shortCode">
+      <button class="btn btn-primary" (click)="generate();">Generate your authentication code</button>
+    </div>
+  </otta-panel>
+  
+</div>

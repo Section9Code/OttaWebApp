@@ -27,6 +27,7 @@ import { WelcomeToTheTeamComponent } from "app/views/appviews/welcome-to-the-tea
 import { VerifyEmailComponent } from "app/views/appviews/verify-email/verify-email.component";
 import { SubscriptionErrorComponent } from "./views/appviews/subscription-error/subscription-error.component";
 import { OfferComponent } from "./views/appviews/offer/offer.component";
+import { MobileAuthComponent } from "./views/appviews/mobile-auth/mobile-auth.component";
 
 export const ROUTES: Routes = [
   // Main redirect
@@ -63,7 +64,8 @@ export const ROUTES: Routes = [
   {
     path: '', component: BasicLayoutComponent,
     children: [
-      { path: 'home', component: StarterViewComponent, canActivate: [AuthenticatedGuard] }
+      { path: 'home', component: StarterViewComponent, canActivate: [AuthenticatedGuard] },
+      { path: 'mobile', component: MobileAuthComponent, canActivate: [AuthenticatedGuard] } // For authenticating a mobile device against a user
     ]
   },
 
@@ -78,8 +80,8 @@ export const ROUTES: Routes = [
       { path: 'inactive', component: InActiveComponent },                                   // For whehn a user has been removed from a subscription
       { path: 'subscriptionerror', component: SubscriptionErrorComponent },                 // For when a user can't be joined onto a subscription
       { path: 'welcome', component: WelcomeComponent, canActivate: [AuthenticatedGuard] },  // Welcome message for new users
-      { path: 'welcomeToTheTeam', component: WelcomeToTheTeamComponent, canActivate:[AuthenticatedGuard]},  // For welcoming new team members to the system
-      { path: 'verifyemail', component: VerifyEmailComponent, canActivate: [AuthenticatedGuard]}
+      { path: 'welcomeToTheTeam', component: WelcomeToTheTeamComponent, canActivate: [AuthenticatedGuard] },  // For welcoming new team members to the system
+      { path: 'verifyemail', component: VerifyEmailComponent, canActivate: [AuthenticatedGuard] }
     ]
   },
 

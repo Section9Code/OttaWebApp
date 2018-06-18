@@ -27,6 +27,7 @@ import { SharedModule } from '../../modules/sharedModule/shared.module';
 import { InviteAfriendComponent } from './invite-afriend/invite-afriend.component';
 import { AgendaComponent } from './agenda/agenda.component';
 import { OfferComponent } from './offer/offer.component';
+import { MobileAuthComponent } from './mobile-auth/mobile-auth.component';
 
 @NgModule({
   declarations: [
@@ -47,7 +48,8 @@ import { OfferComponent } from './offer/offer.component';
     SubscriptionErrorComponent,
     InviteAfriendComponent,
     AgendaComponent,
-    OfferComponent
+    OfferComponent,
+    MobileAuthComponent
   ],
   imports: [
     BrowserModule,
