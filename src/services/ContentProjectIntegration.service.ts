@@ -42,6 +42,10 @@ export class ContentProjectIntegrationService {
     facebookGetLogin(projectId: string): Observable<string> {
         return this.authHttp.get(`${this.url}/${projectId}/facebook/getLogin`).map(response => response.json());
     }
+
+    facebookRefresh(projectId: string, integrationID: string): Observable<ProjectIntegrationModel> {
+        return this.authHttp.get(`${this.url}/${projectId}/facebook/refresh/${integrationID}`).map(response => response.json());
+    }
 }
 
 export class ProjectIntegrationModel {

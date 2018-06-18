@@ -1,4 +1,8 @@
 <otta-panel [title]="'Integrations'" [loading]="isLoadingIntegration">
+
+  <h2>Publishing accounts</h2>
+
+  <!-- WORDPRESS -->
   <div>
     <h3>WordPress</h3>
     <div *ngIf="wordpressIntegrations.length === 0">
@@ -34,6 +38,8 @@
       <button class="btn btn-default" (click)="showMediumForm()">Add your medium site</button>
     </div>
   </div> -->
+
+  <h2>Social media accounts</h2>
 
   <!-- TWITTER -->
   <div>
@@ -85,6 +91,7 @@
           </span>
           <br/>
           <br/>
+          <button (click)="refreshFacebook(integration.id)" class="btn btn-xs btn-outline btn-default">Refresh</button>
           <button (click)="removeIntegration(integration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
         </div>
       </div>

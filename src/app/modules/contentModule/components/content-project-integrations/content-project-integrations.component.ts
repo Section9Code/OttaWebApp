@@ -109,8 +109,6 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
             this.facebookOAuthFromUrl = '';
             this.toast.warning('Unable to connect to facebook. Please type again');
           });
-
-
       })
       .catch(error => {
         console.log('Error getting facebook login url', error);
@@ -120,36 +118,18 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
       });
   }
 
-  // Loop around 20 times checking for an integration of a specific type.
-  // Calls the promist when it finds the matching type or throws the error
-  // if not found after the limit is reached.
-  waitForIntegration(type: IntegrationTypes): Promise<ProjectIntegrationModel> {
-    return new Promise((resolve, reject) => {
-      let loopCount = 0;
-      const timer = setInterval(() => {
-        console.log('Checking for integration', loopCount);
-
-        // Check for the integration
-        this.integrationService.getAll(this.project.id).toPromise()
-          .then(allIntegrations => {
-            console.log('Checking integrations', allIntegrations);
-            let integration = allIntegrations.filter(i => i.IntegrationType === type);
-            if (integration.length >= 0) {
-              console.log('Found integration', integration);
-              clearInterval(timer);
-              resolve(integration[0]);
-            }
-          })
-          .catch(() => { });
-
-        if (++loopCount >= 20) {
-          // Reached the max number of checks
-          console.log('Max number of checks reached', type);
-          clearInterval(timer);
-          reject(new Error('Integration not found'));
-        }
-      }, 2000);
-    });
+  // Refresh a facebook integration with the latest settings from the user
+  refreshFacebook(integrationId: string) {
+    this.integrationService.facebookRefresh(this.project.id, integrationId).toPromise()
+      .then(response => {
+        this.sharedService.removeIntegration(response.id);
+        this.sharedService.addIntegration(response);
+        this.toast.success('Facebook settings refreshed');
+      })
+      .catch(error => {
+        console.log('Unable to refresh your Facebook settings');
+        this.toast.warning('Unable to refresh facebook settings. Please type again');
+      });
   }
 
   // Show the user the form they can use to authenticate their twitter account
@@ -201,11 +181,13 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
       .catch(error => {
         console.log('Error while trying to add wordpress integration');
         this.tracking.TrackError(`Error while adding wordpress integration to project ${this.project.id}`);
+        // tslint:disable-next-line:max-line-length
         this.toast.error('Unable to add wordpress integration. Please check the website address is correct and the username and password are for an editor user', 'Unable to connect');
         this.isCreating = false;
       });
   }
 
+  // Remove an integration from the project
   removeIntegration(integrationId: string) {
     this.alertSvc.swal({
       title: 'Are you sure?',
@@ -237,6 +219,37 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
         // Complete
       }
     );
+  }
 
+  // Loop around 20 times checking for an integration of a specific type.
+  // Calls the promise when it finds the matching type or throws the error
+  // if not found after the limit is reached.
+  waitForIntegration(type: IntegrationTypes): Promise<ProjectIntegrationModel> {
+    return new Promise((resolve, reject) => {
+      let loopCount = 0;
+      const timer = setInterval(() => {
+        console.log('Checking for integration', loopCount);
+
+        // Check for the integration
+        this.integrationService.getAll(this.project.id).toPromise()
+          .then(allIntegrations => {
+            console.log('Checking integrations', allIntegrations);
+            let integration = allIntegrations.filter(i => i.IntegrationType === type);
+            if (integration.length >= 0) {
+              console.log('Found integration', integration);
+              clearInterval(timer);
+              resolve(integration[0]);
+            }
+          })
+          .catch(() => { });
+
+        if (++loopCount >= 20) {
+          // Reached the max number of checks
+          console.log('Max number of checks reached', type);
+          clearInterval(timer);
+          reject(new Error('Integration not found'));
+        }
+      }, 2000);
+    });
   }
 }
