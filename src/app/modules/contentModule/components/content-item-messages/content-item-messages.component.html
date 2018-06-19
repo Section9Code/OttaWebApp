@@ -1,5 +1,6 @@
 <div *ngIf="noIntegrations" class="alert alert-info">
-  <strong>No integrations configured</strong>: Currently there are no social media integrations configured for this project. To be able to send social media messages please link this project to your social media accounts in the settings tab.
+  <strong>No integrations configured</strong>: Currently there are no social media integrations configured for this project. To be
+  able to send social media messages please link this project to your social media accounts in the settings tab.
 </div>
 
 <!-- Show all menu options -->
@@ -8,10 +9,10 @@
     <!-- Menu buttons -->
     <!-- <button class="btn btn-primary" (click)="showAddTwitterMessage()">Add Message</button> -->
     <div class="btn-group">
-      <button class="btn btn-white" type="button" (click)="showAddTwitterMessage()" *ngIf="canAddTwitterMessages" >
+      <button class="btn btn-white" type="button" (click)="showAddTwitterMessage()" *ngIf="canAddTwitterMessages">
         <i class="fa fa-twitter"> </i>
       </button>
-      <button class="btn btn-white" type="button" *ngIf="canAddFacebookMessages">
+      <button class="btn btn-white" type="button" (click)="showFacebookMessageForm()" *ngIf="canAddFacebookMessages">
         <i class="fa fa-facebook"> </i>
       </button>
       <!-- <button class="btn btn-white" type="button">
@@ -31,9 +32,14 @@
     </div>
   </div>
 
+
+
   <!-- List of messages -->
   <div id="vertical-timeline" class="vertical-container dark-timeline">
+    <!-- Loop through all the messages -->
     <div class="vertical-timeline-block" *ngFor="let message of messages">
+
+      <!-- Twitter message -->
       <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
         <i class="fa fa-twitter"></i>
       </div>
@@ -54,8 +60,13 @@
           </small>
         </span>
       </div>
+      <!-- / Twitter message -->
+
     </div>
   </div>
+  <!-- / List of messages -->
+
+
 
   <!-- Message if there are no messages waiting to be sent -->
   <div *ngIf="messages.length === 0" class="text-center">
@@ -63,7 +74,12 @@
   </div>
 </div>
 
+<!-- Twitter modal form for adding new messages -->
 <otta-modal [modalId]="'addTwitterMessageModal'" [title]="'Add twitter message'" [heading]="'Add a new twitter message to this item'"
   [icon]="'fa-twitter'">
   <otta-content-item-message-twitter-form #twitterMessageComponent [contentItem]="data" [images]="images" (messageAdded)="addedTwitterMessage()"></otta-content-item-message-twitter-form>
+</otta-modal>
+
+<otta-modal [modalId]="'facebookModal'" [title]="'Add Facebook message'" [heading]="'Add a new Facebook post to this item'" [icon]="'fa-facebook'">
+  Hello
 </otta-modal>
