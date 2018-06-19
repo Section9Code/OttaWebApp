@@ -46,6 +46,10 @@ export class ContentProjectIntegrationService {
     facebookRefresh(projectId: string, integrationID: string): Observable<ProjectIntegrationModel> {
         return this.authHttp.get(`${this.url}/${projectId}/facebook/refresh/${integrationID}`).map(response => response.json());
     }
+
+    facebookGetAllIntegrations(projectId: string): Observable<FacebookProjectIntegrationModel[]> {
+        return this.authHttp.get(`${this.url}/${projectId}/facebook/getIntegrations`).map(response => response.json());
+    }
 }
 
 export class ProjectIntegrationModel {
@@ -70,6 +74,27 @@ export class WordpressProjectIntegrationModel extends ProjectIntegrationModel {
     WebsiteUrl: string;
     Username: string;
     Password: string;
+}
+
+export class FacebookProjectIntegrationModel extends ProjectIntegrationModel {
+    AccessToken: string;
+    TokenType: string;
+    ExpiresAt: Date;
+    Accounts: FacebookAccountsModel[];
+    UserDetails: FacebookUserDetailsModel;
+}
+
+export class FacebookAccountsModel {
+    id: string;
+    name: string;
+    accessToken: string;
+    category: string;
+    permissions: string[];
+}
+
+export class FacebookUserDetailsModel {
+    name: string;
+    id: string;
 }
 
 export class WordpressLinkModel {

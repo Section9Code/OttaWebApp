@@ -7,6 +7,7 @@ import { SweetAlertService } from 'ng2-sweetalert2';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
 import { ContentItemMessageTwitterFormComponent } from '../content-item-message-twitter-form/content-item-message-twitter-form.component';
 import { ImagesService } from 'services/images.service';
+import { ContentItemMessageFacebookFormComponent } from '../content-item-message-facebook-form/content-item-message-facebook-form.component';
 
 declare var $: any;
 
@@ -31,6 +32,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
 
   // Components
   @ViewChild('twitterMessageComponent') private twitterMessageComponent: ContentItemMessageTwitterFormComponent;
+  @ViewChild('facebookMessageComponent') private facebookMessageComponent: ContentItemMessageFacebookFormComponent;
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -130,6 +132,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   }
 
   showFacebookMessageForm() {
+    this.facebookMessageComponent.resetForm();
     $(`#facebookModal`).modal('show');
   }
 
