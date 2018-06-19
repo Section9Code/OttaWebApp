@@ -149,6 +149,12 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
     this.redrawMessageList();
   }
 
+  // A facebook message has been added
+  addedFacebookMessage(message: ContentItemMessageModel) {
+    $('facebookModal').modal('hide');
+    this.redrawMessageList();
+  }
+
   // Delete a message from the list 
   deleteTwitterMessage(messageId: string) {
     console.log('Delete message');

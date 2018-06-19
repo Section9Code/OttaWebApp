@@ -81,5 +81,5 @@
 </otta-modal>
 
 <otta-modal [modalId]="'facebookModal'" [title]="'Add Facebook message'" [heading]="'Add a new Facebook post to this item'" [icon]="'fa-facebook'">
-  Hello
+  <app-content-item-message-facebook-form #facebookMessageComponent [contentItem]="data" [images]="images" (messageAdded)="addedFacebookMessage()" ></app-content-item-message-facebook-form>
 </otta-modal>
