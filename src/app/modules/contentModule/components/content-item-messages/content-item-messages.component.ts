@@ -154,6 +154,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
 
   // A facebook message has been added
   addedFacebookMessage(message: ContentItemMessageModel) {
+    console.log('Added facebook message');
     $('facebookModal').modal('hide');
     this.redrawMessageList();
   }

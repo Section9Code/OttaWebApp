@@ -74,7 +74,7 @@
   <!-- Buttons -->
   <div *ngIf="facebookForm.controls.sendType.value" class="form-group">
     <div class="col-sm-8 col-sm-offset-2">
-      <button class="btn btn-primary" type="submit" [disabled]="facebookForm.invalid" [ladda]="isCreatingMessage">Create</button>
+      <button class="btn btn-primary" type="submit" (click)="createMessage()" [disabled]="facebookForm.invalid" [ladda]="isCreating">Create</button>
     </div>
     <div class="col-sm-2 pull-right">
       <button class="btn btn-white" data-dismiss="modal">Cancel</button>

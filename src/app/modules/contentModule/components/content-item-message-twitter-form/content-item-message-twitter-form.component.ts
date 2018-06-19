@@ -43,8 +43,7 @@ export class ContentItemMessageTwitterFormComponent implements IContentItemMessa
     private sharedService: ContentProjectShareService,
     private contentService: ContentItemService,
     private tracking: MixpanelService,
-    private toast: ToastsManager,
-    private alertSvc: SweetAlertService) {
+    private toast: ToastsManager) {
   }
 
   // Shows the absolute time form
