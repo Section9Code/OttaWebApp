@@ -13,8 +13,6 @@ export class ContentItemMessageFacebookFormComponent implements IContentItemMess
   @Input() images: string[] = [];
   @Output() messageAdded = new EventEmitter();
 
-
-
   constructor() { }
 
   resetForm() {
