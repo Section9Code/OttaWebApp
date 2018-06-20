@@ -37,32 +37,61 @@
   <!-- List of messages -->
   <div id="vertical-timeline" class="vertical-container dark-timeline">
     <!-- Loop through all the messages -->
-    <div class="vertical-timeline-block" *ngFor="let message of messages">
-
+    <ng-container *ngFor="let message of messages" [ngSwitch]="message.MessageType">
+      
       <!-- Twitter message -->
-      <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
-        <i class="fa fa-twitter"></i>
-      </div>
+      <div class="vertical-timeline-block" *ngSwitchCase="0">        
+        <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
+          <i class="fa fa-twitter"></i>
+        </div>
 
-      <div class="vertical-timeline-content">
-        <p (click)="editMessage(message)">
-          <strong>{{ message.Message }}</strong>
-        </p>
-        <p *ngIf="message.ImageUrl">
-          <img src="{{message.ImageUrl}}" width="50px" />
-        </p>
-        <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
-        <span class="vertical-date">
-          <small>
-            {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
-            <span *ngIf="message.IsRelative">(relative)</span>
-            <span *ngIf="!message.IsRelative">(static)</span>
-          </small>
-        </span>
+        <div class="vertical-timeline-content">
+          <p (click)="editMessage(message)">
+            <strong>{{ message.Message }}</strong>
+          </p>
+          <p *ngIf="message.ImageUrl">
+            <img src="{{message.ImageUrl}}" width="50px" />
+          </p>
+          <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
+          <span class="vertical-date">
+            <small>
+              {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
+              <span *ngIf="message.IsRelative">(relative)</span>
+              <span *ngIf="!message.IsRelative">(static)</span>
+            </small>
+          </span>
+        </div>        
       </div>
       <!-- / Twitter message -->
 
-    </div>
+      <!-- Facebook message -->
+      <div class="vertical-timeline-block" *ngSwitchCase="1">        
+          <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
+            <i class="fa fa-facebook"></i>
+          </div>
+  
+          <div class="vertical-timeline-content">
+            <p (click)="editMessage(message)">
+              <strong>{{ message.Message }}</strong>
+            </p>
+            <p *ngIf="message.ImageUrl">
+              <img src="{{message.ImageUrl}}" width="50px" />
+            </p>
+            <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
+            <span class="vertical-date">
+              <small>
+                {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
+                <span *ngIf="message.IsRelative">(relative)</span>
+                <span *ngIf="!message.IsRelative">(static)</span>
+              </small>
+            </span>
+          </div>        
+        </div>
+        <!-- / Facebook message -->
+
+
+
+    </ng-container>
   </div>
   <!-- / List of messages -->
 
@@ -80,6 +109,7 @@
   <otta-content-item-message-twitter-form #twitterMessageComponent [contentItem]="data" [images]="images" (messageAdded)="addedTwitterMessage()"></otta-content-item-message-twitter-form>
 </otta-modal>
 
-<otta-modal [modalId]="'facebookModal'" [title]="'Add Facebook message'" [heading]="'Add a new Facebook post to this item'" [icon]="'fa-facebook'">
-  <app-content-item-message-facebook-form #facebookMessageComponent [contentItem]="data" [images]="images" (messageAdded)="addedFacebookMessage()" ></app-content-item-message-facebook-form>
+<otta-modal [modalId]="'facebookModal'" [title]="'Add Facebook message'" [heading]="'Add a new Facebook post to this item'"
+  [icon]="'fa-facebook'">
+  <app-content-item-message-facebook-form #facebookMessageComponent [contentItem]="data" [images]="images" (messageAdded)="addedFacebookMessage()"></app-content-item-message-facebook-form>
 </otta-modal>
