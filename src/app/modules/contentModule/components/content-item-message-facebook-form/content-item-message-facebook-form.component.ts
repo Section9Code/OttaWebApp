@@ -107,6 +107,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
       msg.Title = '';
       msg.Message = this.facebookForm.controls.message.value;
       msg.MessageType = IntegrationTypes.Facebook;
+      msg.RemoteSystemSectionId = this.facebookForm.controls.facebookPage.value;
 
       // Set the send time of the message
       if (this.facebookForm.controls.sendType.value === 'specific') {
