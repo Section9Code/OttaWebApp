@@ -49,7 +49,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
     this.loadImages();
     this.setupIntegrationOptions();
   }
-  
+
   ngOnDestroy(): void {
   }
 
@@ -128,34 +128,51 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   // Show the add twitter message form
   showAddTwitterMessage() {
     this.twitterMessageComponent.resetForm();
-    $(`#addTwitterMessageModal`).modal('show');
+    this.twitterModal('show');
   }
 
   showFacebookMessageForm() {
     this.facebookMessageComponent.resetForm();
-    $(`#facebookModal`).modal('show');
+    this.facebookModal('show');
   }
 
   // Edit an existing twitter message
   editMessage(message: ContentItemMessageModel) {
+    console.log('Edit message', message);
+
     switch (message.MessageType) {
       case IntegrationTypes.Twitter:
         this.twitterMessageComponent.editMessage(message);
-        $(`#addTwitterMessageModal`).modal('show');
+        this.twitterModal('show');
+        break;
+
+      case IntegrationTypes.Facebook:
+        this.facebookMessageComponent.editMessage(message);
+        this.facebookModal('show');
         break;
     }
   }
 
   // A twitter message has been added, hide the the form and redraw the list
   addedTwitterMessage(message: ContentItemMessageModel) {
-    $(`#addTwitterMessageModal`).modal('hide');
+    this.twitterModal('hide');
     this.redrawMessageList();
   }
 
   // A facebook message has been added
   addedFacebookMessage(message: ContentItemMessageModel) {
-    $('facebookModal').modal('hide');
+    this.facebookModal('hide');
     this.redrawMessageList();
+  }
+
+  // Manages the twitter modal form
+  twitterModal(call: string) {
+    $(`#addTwitterMessageModal`).modal(call);
+  }
+
+  // Manages the facebook modal form
+  facebookModal(call: string) {
+    $('#facebookModal').modal(call);
   }
 
   // Delete a message from the list 

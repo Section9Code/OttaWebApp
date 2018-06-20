@@ -47,8 +47,6 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
 
   // Validates the form to make sure it is valid
   validateForm(group: FormGroup) {
-    console.log('Validate form', group);
-
     // // Clear errors
     group.controls.sendDateTime.setErrors(null);
     group.controls.relativeUnit.setErrors(null);
