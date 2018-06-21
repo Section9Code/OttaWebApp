@@ -136,6 +136,7 @@ export class ContentItemMessageModel {
   Title: string;
   Message: string;
   ImageUrl: string;
+  LinkUrl: string;
   // Related ContentItemMessage link
   LinkedItemPartition: string;
   LinkedItemRowKey: string;

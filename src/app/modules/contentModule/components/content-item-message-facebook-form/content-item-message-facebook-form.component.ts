@@ -24,7 +24,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
   facebookForm = new FormGroup({
     id: new FormControl(''),
     message: new FormControl('', Validators.required),
-    linkUrl: new FormControl(''),
+    linkUrl: new FormControl('', Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')),
     facebookPage: new FormControl('', Validators.required),
     sendType: new FormControl(''),
     sendDateTime: new FormControl(''),
@@ -69,7 +69,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
         group.controls.relativeAmount.setErrors({ isRequired: true });
       }
     }
-
+  
     return null;
   }
 
@@ -89,9 +89,14 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
   }
 
   resetForm() {
-    console.log('Facebook form: Reset');
+    console.log('Facebook form: Reset', this.contentItem.DeadLine);
     this.facebookForm.reset();
     this.submitButtonText = 'Create';
+
+    // If there is no deadline on the content then the user can't pick a relative publish time
+    if(!this.contentItem.DeadLine) {
+      this.facebookForm.controls.sendType.patchValue('specific');
+    }
   }
 
   editMessage(message: ContentItemMessageModel) {
@@ -102,6 +107,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
     this.facebookForm.controls.id.patchValue(message.Id);
     this.facebookForm.controls.message.patchValue(message.Message);
     this.facebookForm.controls.facebookPage.patchValue(message.RemoteSystemSectionId);
+    this.facebookForm.controls.linkUrl.patchValue(message.LinkUrl);
 
     if (message.IsRelative) {
       this.facebookForm.controls.sendType.patchValue('relative');
@@ -127,6 +133,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
       msg.Message = this.facebookForm.controls.message.value;
       msg.MessageType = IntegrationTypes.Facebook;
       msg.RemoteSystemSectionId = this.facebookForm.controls.facebookPage.value;
+      msg.LinkUrl = this.facebookForm.controls.linkUrl.value;
 
       // Set the send time of the message
       if (this.facebookForm.controls.sendType.value === 'specific') {
@@ -236,7 +243,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
         this.addMessageToSystem(message);
       })
       .catch(deleteError => {
-        // Error occured while trying to remove the old message
+        // Error occurred while trying to remove the old message
         console.log('Error while deleting the old message');
         this.tracking.TrackError(`Error deleting content message ${message.Id}`, deleteError);
         this.toast.error('Unable to update this message');

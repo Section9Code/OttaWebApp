@@ -10,7 +10,7 @@
     </div>
   </div>
 
-  <!-- Message -->
+  <!-- Link -->
   <div class="form-group" [class.has-error]="facebookForm.controls.linkUrl.invalid">
     <label class="col-sm-2 control-label">Link</label>
     <div class="col-sm-10">
@@ -39,7 +39,7 @@
     <label class="col-sm-2 control-label">When to send</label>
     <div class="col-sm-10">
       <button class="btn btn-default" (click)="facebookForm.controls.sendType.patchValue('specific')">Send at specific time</button>
-      <button class="btn btn-default" (click)="facebookForm.controls.sendType.patchValue('relative')">Send relative to publish date</button>
+      <button class="btn btn-default" *ngIf="contentItem.DeadLine" (click)="facebookForm.controls.sendType.patchValue('relative')">Send relative to publish date</button>
     </div>
   </div>
 
