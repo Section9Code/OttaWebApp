@@ -244,7 +244,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
       })
       .catch(deleteError => {
         // Error occurred while trying to remove the old message
-        console.log('Error while deleting the old message');
+        console.log('Error while deleting the old message', deleteError);
         this.tracking.TrackError(`Error deleting content message ${message.Id}`, deleteError);
         this.toast.error('Unable to update this message');
         this.isCreating = false;
