@@ -34,14 +34,18 @@ export class OttaDatetimePickerComponent implements ControlValueAccessor, Valida
   @Input() name: string;
   @Input() minDate: moment.Moment = moment('2015-01-01');
 
-
-
   // Holds the value of this control
   _value: moment.Moment;
+  lastValueUpdateMs = 0;
+
+  // Placeholders for the callbacks which are later providesd
+  // by the Control Value Accessor
+  private onTouchedCallback: () => void = noop;
+  private onChangeCallback: (_: any) => void = noop;
+  private onValidatorChangeCallback: () => void = noop;
 
   constructor() { }
 
-  // CONTROL FUNCTIONS ---------------------
   ngOnInit(): void {
   }
 
@@ -58,7 +62,8 @@ export class OttaDatetimePickerComponent implements ControlValueAccessor, Valida
 
     // Update the control when something changes
     $(id).on('dp.change', e => {
-      this.value = e.date;
+      this._value = e.date;
+      this.onChangeCallback(this._value);
     });
   }
 
@@ -66,16 +71,16 @@ export class OttaDatetimePickerComponent implements ControlValueAccessor, Valida
     throw new Error('Method not implemented.');
   }
 
-  // Placeholders for the callbacks which are later providesd
-  // by the Control Value Accessor
-  private onTouchedCallback: () => void = noop;
-  private onChangeCallback: (_: any) => void = noop;
-  private onValidatorChangeCallback: () => void = noop;
+
+
 
   // Get accessor
   get value(): any {
     return this._value;
   };
+
+
+
 
   // Set accessor including call the onchange callback
   set value(v: any) {
@@ -95,8 +100,8 @@ export class OttaDatetimePickerComponent implements ControlValueAccessor, Valida
 
     // Set the value if the current value is undefined OR is has a new date
     if (!this._value || newValue.toISOString() !== this._value.toISOString()) {
+      //console.log(`DTPicker - Updating value`, newValue.toISOString());
       this._value = newValue;
-      this.onChangeCallback(newValue);
 
       // Update the picker
       // HACK
@@ -105,11 +110,14 @@ export class OttaDatetimePickerComponent implements ControlValueAccessor, Valida
       // This code gives the DOM a chance to render the element before trying again. As a safe guard it will only try a 
       // few times before giving up.
       let tryCount = 0;
-      let retryTimer = setTimeout(() => {
+      const retryTimer = setTimeout(() => {
         // Update the picker
         const id = `#${this.name}`;
         if ($(id).data('DateTimePicker')) {
           $(id).data('DateTimePicker').date(newValue);
+          // Note: If the date does not show it could be that the min date for the control is set and the date you are 
+          // putting in is already past that date.
+          // console.log(`DTPicker - Value set`);
           clearTimeout(retryTimer);
         }
 
