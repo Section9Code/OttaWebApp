@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, Output, EventEmitter, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, Output, EventEmitter, OnDestroy, AfterViewInit } from '@angular/core';
 import { IContentItemMessageForm } from '../IContentItemMessageForm';
 import { ContentItemMessageModel, ContentItemModel, ContentItemService, ContentItemMessageRelativeUnitModel } from 'services/content-item.service';
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
@@ -22,6 +22,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
 
   // The form the user fills in on the page
   facebookForm = new FormGroup({
+    id: new FormControl(''),
     message: new FormControl('', Validators.required),
     linkUrl: new FormControl(''),
     facebookPage: new FormControl('', Validators.required),
@@ -33,6 +34,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
 
   // Integration being used
   facebookIntegration = new FacebookProjectIntegrationModel();
+  submitButtonText = 'Create';
 
   // Flags
   isCreating = false;
@@ -89,10 +91,28 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
   resetForm() {
     console.log('Facebook form: Reset');
     this.facebookForm.reset();
+    this.submitButtonText = 'Create';
   }
 
   editMessage(message: ContentItemMessageModel) {
     console.log('Facebook form: Edit message', message);
+    this.submitButtonText = 'Update';
+
+    this.facebookForm.reset();
+    this.facebookForm.controls.id.patchValue(message.Id);
+    this.facebookForm.controls.message.patchValue(message.Message);
+    this.facebookForm.controls.facebookPage.patchValue(message.RemoteSystemSectionId);
+
+    if (message.IsRelative) {
+      this.facebookForm.controls.sendType.patchValue('relative');
+      this.facebookForm.controls.relativeUnit.patchValue(message.RelativeSendUnit);
+      this.facebookForm.controls.relativeAmount.patchValue(message.RelativeSendValue);
+    } else {
+      this.facebookForm.controls.sendType.patchValue('specific');
+      let sendTime = moment(message.SendTime);
+      console.log(`Send time ${sendTime.format()}`);
+      this.facebookForm.controls.sendDateTime.patchValue(sendTime);
+    }
   }
 
   createMessage() {
@@ -102,6 +122,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
 
       // Create the message object
       let msg = new ContentItemMessageModel();
+      msg.Id = this.facebookForm.controls.id.value;
       msg.Title = '';
       msg.Message = this.facebookForm.controls.message.value;
       msg.MessageType = IntegrationTypes.Facebook;
@@ -165,7 +186,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
       this.addMessageToSystem(msg);
     } else {
       // Update an existing message
-      //this.updateMessageInSystem();
+      this.updateMessageInSystem(msg);
     }
   }
 
@@ -197,4 +218,30 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
           this.resetForm();
         });
   }
+
+  updateMessageInSystem(message: ContentItemMessageModel): any {
+    this.contentService.deleteMessage(this.contentItem.ProjectId, this.contentItem.id, message.Id).toPromise()
+      .then(success => {
+        // Original message deleted
+        // Remove the message from the list
+        const index = this.contentItem.SocialMediaMessages.findIndex(m => m.Id === message.Id);
+        this.contentItem.SocialMediaMessages.splice(index, 1);
+
+        // Clean up the message so all the ID's are gone
+        message.Id = '';
+        message.LinkedItemPartition = '';
+        message.LinkedItemRowKey = '';
+
+        // Add the message as a new item
+        this.addMessageToSystem(message);
+      })
+      .catch(deleteError => {
+        // Error occured while trying to remove the old message
+        console.log('Error while deleting the old message');
+        this.tracking.TrackError(`Error deleting content message ${message.Id}`, deleteError);
+        this.toast.error('Unable to update this message');
+        this.isCreating = false;
+      });
+  }
+
 }

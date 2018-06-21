@@ -147,8 +147,8 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
         break;
 
       case IntegrationTypes.Facebook:
-        this.facebookMessageComponent.editMessage(message);
         this.facebookModal('show');
+        this.facebookMessageComponent.editMessage(message);
         break;
     }
   }

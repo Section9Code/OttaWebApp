@@ -47,7 +47,7 @@
   <div *ngIf="facebookForm.controls.sendType.value == 'specific'" class="form-group" [class.has-error]="facebookForm.controls.sendDateTime.invalid">
     <label class="col-sm-2 control-label">At specific time</label>
     <div class="col-sm-10">
-      <otta-datetime-picker name="sendDateTime" formControlName="sendDateTime" [minDate]="datePickerMinDate" [disabled]="true"></otta-datetime-picker>
+      <otta-datetime-picker [name]="'sendTime'" formControlName="sendDateTime" [minDate]="datePickerMinDate"></otta-datetime-picker>
       <span class="help-block m-b-none">
         Help information
       </span>
@@ -74,7 +74,7 @@
   <!-- Buttons -->
   <div *ngIf="facebookForm.controls.sendType.value" class="form-group">
     <div class="col-sm-8 col-sm-offset-2">
-      <button class="btn btn-primary" type="submit" (click)="createMessage()" [disabled]="facebookForm.invalid" [ladda]="isCreating">Create</button>
+      <button class="btn btn-primary" type="submit" (click)="createMessage()" [disabled]="facebookForm.invalid" [ladda]="isCreating">{{ submitButtonText }}</button>
     </div>
     <div class="col-sm-2 pull-right">
       <button class="btn btn-white" data-dismiss="modal">Cancel</button>
