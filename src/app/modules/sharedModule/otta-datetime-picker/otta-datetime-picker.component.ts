@@ -79,20 +79,46 @@ export class OttaDatetimePickerComponent implements ControlValueAccessor, Valida
 
   // Set accessor including call the onchange callback
   set value(v: any) {
+    if (v == null) { return; }
+
+    // If a string value is passed into the datapicker convert it to a moment object
+    if (typeof (v) === 'string') {
+      // Convert v to moment
+      v = moment(v);
+    }
+
     // Make sure the value being passed in is a moment object
     let newValue: moment.Moment = v;
     if (!newValue) {
       return;
     }
 
-    // Set the value if the current value is undefined or is has a new date
+    // Set the value if the current value is undefined OR is has a new date
     if (!this._value || newValue.toISOString() !== this._value.toISOString()) {
       this._value = newValue;
       this.onChangeCallback(newValue);
 
       // Update the picker
-      const id = `#${this.name}`;
-      $(id).data("DateTimePicker").date(newValue);
+      // HACK
+      // Sometimes the picker isn't available on the page, if it's not there loop around a few times before giving up.
+      // This can happen when the DOM is changing something or the control is becoming visible (in a modal window for example)
+      // This code gives the DOM a chance to render the element before trying again. As a safe guard it will only try a 
+      // few times before giving up.
+      let tryCount = 0;
+      let retryTimer = setTimeout(() => {
+        // Update the picker
+        const id = `#${this.name}`;
+        if ($(id).data('DateTimePicker')) {
+          $(id).data('DateTimePicker').date(newValue);
+          clearTimeout(retryTimer);
+        }
+
+        if (++tryCount >= 5) {
+          clearTimeout(retryTimer);
+        }
+      }, 300);
+
+
     }
   }
 
