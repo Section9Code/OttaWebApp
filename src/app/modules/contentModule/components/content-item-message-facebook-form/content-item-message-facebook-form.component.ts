@@ -9,6 +9,8 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { ToastsManager } from 'ng2-toastr';
 import * as moment from 'moment';
 
+declare var $: any;
+
 @Component({
   selector: 'app-content-item-message-facebook-form',
   templateUrl: './content-item-message-facebook-form.component.html',
@@ -25,6 +27,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
     id: new FormControl(''),
     message: new FormControl('', Validators.required),
     linkUrl: new FormControl('', Validators.pattern('(https?://)?([\\da-z.-]+)\\.([a-z.]{2,6})[/\\w .-]*/?')),
+    imageUrl: new FormControl(''),
     facebookPage: new FormControl('', Validators.required),
     sendType: new FormControl(''),
     sendDateTime: new FormControl(''),
@@ -38,7 +41,6 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
 
   // Flags
   isCreating = false;
-
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -97,6 +99,23 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
     if(!this.contentItem.DeadLine) {
       this.facebookForm.controls.sendType.patchValue('specific');
     }
+
+    this.renderImagePicker();
+  }
+
+  // Render the image picker onto the page
+  renderImagePicker() {
+    setTimeout(() => {
+      // HACK: You need to wait a few moments for the form to render before calling the function to show the image picker
+      $('#imagePicker').imagepicker();
+      $('#imagePicker').change(() => { this.imageChanged($('#imagePicker').val()); });
+    }, 300);
+  }
+
+  // Update the currently selected image based on what the user picked
+  imageChanged(imageUrl: string)
+  {
+    this.facebookForm.controls.imageUrl.patchValue(imageUrl);
   }
 
   editMessage(message: ContentItemMessageModel) {
@@ -108,6 +127,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
     this.facebookForm.controls.message.patchValue(message.Message);
     this.facebookForm.controls.facebookPage.patchValue(message.RemoteSystemSectionId);
     this.facebookForm.controls.linkUrl.patchValue(message.LinkUrl);
+    this.facebookForm.controls.imageUrl.patchValue(message.ImageUrl);
 
     if (message.IsRelative) {
       this.facebookForm.controls.sendType.patchValue('relative');
@@ -119,6 +139,8 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
       console.log(`Send time ${sendTime.format()}`);
       this.facebookForm.controls.sendDateTime.patchValue(sendTime);
     }
+
+    this.renderImagePicker();
   }
 
   createMessage() {
@@ -134,6 +156,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
       msg.MessageType = IntegrationTypes.Facebook;
       msg.RemoteSystemSectionId = this.facebookForm.controls.facebookPage.value;
       msg.LinkUrl = this.facebookForm.controls.linkUrl.value;
+      msg.ImageUrl = this.facebookForm.controls.imageUrl.value;
 
       // Set the send time of the message
       if (this.facebookForm.controls.sendType.value === 'specific') {
@@ -198,6 +221,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
   }
 
   addMessageToSystem(message: ContentItemMessageModel) {
+    console.log('Add Facebook message', message);
     this.contentService.addMessage(this.contentItem.ProjectId, this.contentItem.id, message).toPromise()
       .then(
         addedMessage => {

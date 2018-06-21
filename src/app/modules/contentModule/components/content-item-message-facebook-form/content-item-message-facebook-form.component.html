@@ -21,6 +21,23 @@
     </div>
   </div>
 
+  <!-- Image -->
+  <div class="form-group">
+    <label class="col-sm-2 control-label">Image</label>
+    <div class="col-sm-10">
+      <select id="imagePicker" name="imagePicker" formControlName="imageUrl">
+        <option value=""></option>
+        <option *ngFor="let image of images" [attr.data-img-src]="image" [attr.data-img-class]="'pickerThumbnailPic'" value="{{image}}">{{ image }}</option>
+      </select>
+      <span class="help-block m-b-none" *ngIf="images.length > 0">
+        Image you want to appear on your message
+      </span>
+      <span class="help-block m-b-none" *ngIf="images.length == 0">
+        Upload at lease one image before adding a Facebook message to be able to select it here
+      </span>
+    </div>
+  </div>
+
   <!-- Facebook page -->
   <div class="form-group" [class.has-error]="facebookForm.controls.facebookPage.invalid">
     <label class="col-sm-2 control-label">Page</label>
@@ -70,10 +87,10 @@
       </select>
     </div>
     <div class="col-xs-12 col-sm-10 col-sm-offset-2">
-        <span class="help-block m-b-none">
-          Send the message at a time relative to when the content item is published.
-        </span>
-      </div>
+      <span class="help-block m-b-none">
+        Send the message at a time relative to when the content item is published.
+      </span>
+    </div>
   </div>
 
   <!-- Buttons -->
