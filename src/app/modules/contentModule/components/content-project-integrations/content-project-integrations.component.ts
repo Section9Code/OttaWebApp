@@ -93,7 +93,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
 
         // Send the user to the facebook authentication page
         this.facebookOAuthFromUrl = response;
-        const myWindow = window.open(this.facebookOAuthFromUrl, 'facebookAuth', 'width=500,height=550');
+        const myWindow = window.open(this.facebookOAuthFromUrl, 'facebookAuth', 'width=1000,height=800');
 
         // Wait for the integration to be complete
         this.waitForIntegration(IntegrationTypes.Facebook).then(integration => {
@@ -226,6 +226,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   // if not found after the limit is reached.
   waitForIntegration(type: IntegrationTypes): Promise<ProjectIntegrationModel> {
     return new Promise((resolve, reject) => {
+      console.log('Waiting for integration', type);
       let loopCount = 0;
       const timer = setInterval(() => {
         console.log('Checking for integration', loopCount);
@@ -235,7 +236,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
           .then(allIntegrations => {
             console.log('Checking integrations', allIntegrations);
             let integration = allIntegrations.filter(i => i.IntegrationType === type);
-            if (integration.length >= 0) {
+            if (integration.length >= 0 && integration[0] && integration[0] !== undefined) {
               console.log('Found integration', integration);
               clearInterval(timer);
               resolve(integration[0]);
