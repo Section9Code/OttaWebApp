@@ -28,6 +28,7 @@ import { InviteAfriendComponent } from './invite-afriend/invite-afriend.componen
 import { AgendaComponent } from './agenda/agenda.component';
 import { OfferComponent } from './offer/offer.component';
 import { MobileAuthComponent } from './mobile-auth/mobile-auth.component';
+import { IntegrationOauthComponent } from './integration-oauth/integration-oauth.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { MobileAuthComponent } from './mobile-auth/mobile-auth.component';
     InviteAfriendComponent,
     AgendaComponent,
     OfferComponent,
-    MobileAuthComponent
+    MobileAuthComponent,
+    IntegrationOauthComponent
   ],
   imports: [
     BrowserModule,

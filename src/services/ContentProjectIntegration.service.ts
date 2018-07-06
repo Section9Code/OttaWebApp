@@ -50,6 +50,10 @@ export class ContentProjectIntegrationService {
     facebookGetAllIntegrations(projectId: string): Observable<FacebookProjectIntegrationModel[]> {
         return this.authHttp.get(`${this.url}/${projectId}/facebook/getIntegrations`).map(response => response.json());
     }
+
+    completeCallback(state: string, code: string): Observable<any> {
+        return this.authHttp.get(`${this.url}/callback?state=${state}&code=${code}`).map(response => response.json());
+    }
 }
 
 export class FacebookOAuthDetails {

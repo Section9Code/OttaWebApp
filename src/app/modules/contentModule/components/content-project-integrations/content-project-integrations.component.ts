@@ -92,7 +92,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.integrationService.facebookGetLogin(this.project.id).toPromise()
       .then(response => {
         // Set the Facebook OAuth Cookies
-        this.cookieSvc.put('fbOAuthState', response.state);
+        this.cookieSvc.put('oAuthState', response.state);
         this.facebookOAuthFromUrl = response.url;
         const myWindow = window.open(this.facebookOAuthFromUrl, 'facebookAuth', 'width=1000,height=800');
 

@@ -28,6 +28,7 @@ import { VerifyEmailComponent } from "app/views/appviews/verify-email/verify-ema
 import { SubscriptionErrorComponent } from "./views/appviews/subscription-error/subscription-error.component";
 import { OfferComponent } from "./views/appviews/offer/offer.component";
 import { MobileAuthComponent } from "./views/appviews/mobile-auth/mobile-auth.component";
+import { IntegrationOauthComponent } from "./views/appviews/integration-oauth/integration-oauth.component";
 
 export const ROUTES: Routes = [
   // Main redirect
@@ -74,6 +75,7 @@ export const ROUTES: Routes = [
     children: [
       { path: 'login', component: LoginComponent },                                         // Main login form
       { path: 'callback', component: CallbackComponent },                                   // For the authentication system to call back into with a user
+      { path: 'integrationCallback', component: IntegrationOauthComponent},
       { path: 'problem', component: ProblemComponent },                                     // When there was a problem logging in
       { path: 'join', component: JoinComponent },                                           // For when a user wants to join a subscription
       { path: 'offer', component: OfferComponent },                                         // For whent he user joins with an offer code
