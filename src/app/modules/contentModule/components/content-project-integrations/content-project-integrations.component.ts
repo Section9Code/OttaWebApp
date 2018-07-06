@@ -5,6 +5,7 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { ContentProjectModel } from 'services/content-project.service';
 import { ContentProjectShareService } from '../../services/ContentProjectShareService';
+import { CookieService } from 'angular2-cookie/services/cookies.service';
 
 declare var $: any;
 
@@ -42,7 +43,8 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     private integrationService: ContentProjectIntegrationService,
     private toast: ToastsManager,
     private tracking: MixpanelService,
-    private alertSvc: SweetAlertService
+    private alertSvc: SweetAlertService,
+    private cookieSvc: CookieService
   ) { }
 
   ngOnInit(): void {
@@ -89,10 +91,9 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.isConnectingToFacebook = true;
     this.integrationService.facebookGetLogin(this.project.id).toPromise()
       .then(response => {
-        console.log('Got facebook oAuth link', response);
-
-        // Send the user to the facebook authentication page
-        this.facebookOAuthFromUrl = response;
+        // Set the Facebook OAuth Cookies
+        this.cookieSvc.put('fbOAuthState', response.state);
+        this.facebookOAuthFromUrl = response.url;
         const myWindow = window.open(this.facebookOAuthFromUrl, 'facebookAuth', 'width=1000,height=800');
 
         // Wait for the integration to be complete

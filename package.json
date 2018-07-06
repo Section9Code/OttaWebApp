@@ -25,6 +25,7 @@
     "@angular/platform-browser-dynamic": "^4.4.6",
     "@angular/platform-server": "^4.4.6",
     "@angular/router": "^4.4.6",
+    "angular2-cookie": "^1.2.6",
     "angular2-jwt": "^0.2.3",
     "angular2-ladda": "^1.2.2",
     "animate.css": "3.1.1",

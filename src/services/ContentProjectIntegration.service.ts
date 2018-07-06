@@ -39,7 +39,7 @@ export class ContentProjectIntegrationService {
         return this.authHttp.get(`${this.url}/${projectId}/twitter/getLogin`).map(response => response.json());
     }
 
-    facebookGetLogin(projectId: string): Observable<string> {
+    facebookGetLogin(projectId: string): Observable<FacebookOAuthDetails> {
         return this.authHttp.get(`${this.url}/${projectId}/facebook/getLogin`).map(response => response.json());
     }
 
@@ -50,6 +50,11 @@ export class ContentProjectIntegrationService {
     facebookGetAllIntegrations(projectId: string): Observable<FacebookProjectIntegrationModel[]> {
         return this.authHttp.get(`${this.url}/${projectId}/facebook/getIntegrations`).map(response => response.json());
     }
+}
+
+export class FacebookOAuthDetails {
+    state: string;
+    url: string;
 }
 
 export class ProjectIntegrationModel {

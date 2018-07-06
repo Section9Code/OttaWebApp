@@ -49,8 +49,7 @@
         Connect this project directly to twitter so it is able to manage your posts for you.
       </p>
       <p *ngIf="twitterOAuthFormUrl != ''">
-        If the twitter authentication form doesn't automatically open
-        <a href="{{ twitterOAuthFormUrl }}" target="_new">use this link to authenticate your account</a>.
+        If the twitter authentication form doesn't automatically open <a href="{{ twitterOAuthFormUrl }}" target="_new">use this link to authenticate your account</a>.
       </p>
       <button class="btn btn-default" (click)="showTwitterForm()" [ladda]="isConnectingToTwitter">Add twitter to this project</button>
     </div>
@@ -77,6 +76,9 @@
     <div *ngIf="facebookIntegrations.length === 0">
       <p>
         Connect this project with facebook so it is able to manage your posts for you.
+      </p>
+      <p *ngIf="facebookOAuthFromUrl">
+        If the login form doesn't open automatically <a href="{{facebookOAuthFromUrl}}" target="_new">follow this link</a> and approve Otta to use your Facebook account. This can happen if your browser is blocking pop-ups.
       </p>
       <button class="btn btn-default" (click)="showFacebookForm()" [ladda]="isConnectingToFacebook">Add facebook to this project</button>
     </div>
