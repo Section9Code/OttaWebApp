@@ -51,6 +51,10 @@ export class ContentProjectIntegrationService {
         return this.authHttp.get(`${this.url}/${projectId}/facebook/getIntegrations`).map(response => response.json());
     }
 
+    linkedInGetLogin(projectId: string): Observable<FacebookOAuthDetails> {
+        return this.authHttp.get(`${this.url}/${projectId}/linkedin/getLogin`).map(response => response.json());
+    }
+
     completeCallback(state: string, code: string): Observable<any> {
         return this.authHttp.get(`${this.url}/callback?state=${state}&code=${code}`).map(response => response.json());
     }

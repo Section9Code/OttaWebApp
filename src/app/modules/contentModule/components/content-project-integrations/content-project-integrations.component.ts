@@ -24,9 +24,11 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   isCreating = false;
   isConnectingToTwitter = false;
   isConnectingToFacebook = false;
+  isConnectingToLinkedIn = false;
 
   twitterOAuthFormUrl = '';
   facebookOAuthFromUrl = '';
+  linkedInOAuthFromUrl = '';
 
   // Integrations with other systems
   integrations: ProjectIntegrationModel[] = [];
@@ -34,6 +36,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   mediumIntegrations: ProjectIntegrationModel[] = [];
   twitterIntegrations: ProjectIntegrationModel[] = [];
   facebookIntegrations: ProjectIntegrationModel[] = [];
+  linkedInIntegrations: ProjectIntegrationModel[] = [];
 
   // Forms
   wordpressForm: WordpressProjectIntegrationModel = new WordpressProjectIntegrationModel();
@@ -78,6 +81,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.mediumIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Medium);
     this.twitterIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Twitter);
     this.facebookIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Facebook);
+    this.linkedInIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.LinkedIn);
   }
 
   // Methods
@@ -116,6 +120,37 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
         this.isConnectingToFacebook = false;
         this.toast.error('Unable to connect to facebook');
         this.tracking.TrackError('Error getting facebook OAuth login url', error);
+      });
+  }
+
+  showLinkedInForm() {
+    this.isConnectingToLinkedIn = true;
+    this.integrationService.linkedInGetLogin(this.project.id).toPromise()
+      .then(response => {
+        this.cookieSvc.put('oAuthState', response.state);
+        this.linkedInOAuthFromUrl = response.url;
+        const myWindow = window.open(this.linkedInOAuthFromUrl, 'facebookAuth', 'width=1000,height=800');
+
+        // Wait for the integration to be complete
+        this.waitForIntegration(IntegrationTypes.LinkedIn).then(integration => {
+          console.log('Integrated', integration);
+          this.isConnectingToLinkedIn = false;
+          this.toast.success('Project integrated with LinkedIn');
+          this.facebookOAuthFromUrl = '';
+          this.sharedService.addIntegration(integration);
+        })
+          .catch(error => {
+            console.log('Error waiting for LinkedIn integration to complete');
+            this.isConnectingToLinkedIn = false;
+            this.facebookOAuthFromUrl = '';
+            this.toast.warning('Unable to connect to LinkedIn. Please type again');
+          });
+      })
+      .catch(error => {
+        console.log('Error getting LinkedIn login url', error);
+        this.isConnectingToLinkedIn = false;
+        this.toast.error('Unable to connect to LinkedIn');
+        this.tracking.TrackError('Error getting LinkedIn OAuth login url', error);
       });
   }
 
