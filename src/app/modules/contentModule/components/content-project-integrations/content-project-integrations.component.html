@@ -129,6 +129,64 @@
     </div>
   </div>
 
+  <!-- Google Plus -->
+  <div>
+    <h3>Google</h3>
+    <div *ngIf="googleIntegrations.length === 0">
+      <p>
+        Connect this project with Google so it is able to manage your posts for you.
+      </p>
+      <p *ngIf="googleOAuthFormUrl">
+        If the login form doesn't open automatically <a href="{{googleOAuthFormUrl}}" target="_new">follow this link</a> and approve Otta to use your Google account. This can happen if your browser is blocking pop-ups.
+      </p>
+      <button class="btn btn-default" (click)="showGoogleForm()" [ladda]="isConnectionToGoogle">Add Google to this project</button>
+    </div>
+    <div *ngFor="let integration of googleIntegrations" class="widget style1 navy-bg">
+      <div class="row">
+        <div class="col-xs-4">
+          <i class="fa fa-google-plus fa-5x"></i>
+        </div>
+        <div class="col-xs-8 text-right">
+          <span>
+            <strong>{{ integration.Name }}</strong>
+          </span>
+          <br/>
+          <br/>
+          <button (click)="removeIntegration(integration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pinterest -->
+  <div>
+    <h3>Pinterest</h3>
+    <div *ngIf="pinterestIntegrations.length === 0">
+      <p>
+        Connect this project with Pinterest so it is able to manage your posts for you.
+      </p>
+      <p *ngIf="pinterestOAuthUrl">
+        If the login form doesn't open automatically <a href="{{pinterestOAuthUrl}}" target="_new">follow this link</a> and approve Otta to use your Pinterest account. This can happen if your browser is blocking pop-ups.
+      </p>
+      <button class="btn btn-default" (click)="showPinterestForm()" [ladda]="isConnectingToPinterest">Add Pinterest to this project</button>
+    </div>
+    <div *ngFor="let integration of pinterestIntegrations" class="widget style1 navy-bg">
+      <div class="row">
+        <div class="col-xs-4">
+          <i class="fa fa-pinterest fa-5x"></i>
+        </div>
+        <div class="col-xs-8 text-right">
+          <span>
+            <strong>{{ integration.Name }}</strong>
+          </span>
+          <br/>
+          <br/>
+          <button (click)="removeIntegration(integration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
 </otta-panel>
 
 <div class="modal inmodal" id="wordpressModal" tabindex="-1" role="dialog" aria-hidden="true">

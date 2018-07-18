@@ -25,10 +25,14 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   isConnectingToTwitter = false;
   isConnectingToFacebook = false;
   isConnectingToLinkedIn = false;
+  isConnectionToGoogle = false;
+  isConnectingToPinterest = false;
 
   twitterOAuthFormUrl = '';
   facebookOAuthFromUrl = '';
   linkedInOAuthFromUrl = '';
+  googleOAuthFormUrl = '';
+  pinterestOAuthUrl = '';
 
   // Integrations with other systems
   integrations: ProjectIntegrationModel[] = [];
@@ -37,6 +41,8 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   twitterIntegrations: ProjectIntegrationModel[] = [];
   facebookIntegrations: ProjectIntegrationModel[] = [];
   linkedInIntegrations: ProjectIntegrationModel[] = [];
+  googleIntegrations: ProjectIntegrationModel[] = [];
+  pinterestIntegrations: ProjectIntegrationModel[] = [];
 
   // Forms
   wordpressForm: WordpressProjectIntegrationModel = new WordpressProjectIntegrationModel();
@@ -82,6 +88,8 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.twitterIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Twitter);
     this.facebookIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Facebook);
     this.linkedInIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.LinkedIn);
+    this.googleIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Google);
+    this.pinterestIntegrations = this.integrations.filter(i => i.IntegrationType === IntegrationTypes.Pinterest);
   }
 
   // Methods
@@ -129,7 +137,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
       .then(response => {
         this.cookieSvc.put('oAuthState', response.state);
         this.linkedInOAuthFromUrl = response.url;
-        const myWindow = window.open(this.linkedInOAuthFromUrl, 'facebookAuth', 'width=1000,height=800');
+        const myWindow = window.open(this.linkedInOAuthFromUrl, 'oAuth', 'width=1000,height=800');
 
         // Wait for the integration to be complete
         this.waitForIntegration(IntegrationTypes.LinkedIn).then(integration => {
@@ -142,7 +150,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
           .catch(error => {
             console.log('Error waiting for LinkedIn integration to complete');
             this.isConnectingToLinkedIn = false;
-            this.facebookOAuthFromUrl = '';
+            this.linkedInOAuthFromUrl = '';
             this.toast.warning('Unable to connect to LinkedIn. Please type again');
           });
       })
@@ -151,6 +159,68 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
         this.isConnectingToLinkedIn = false;
         this.toast.error('Unable to connect to LinkedIn');
         this.tracking.TrackError('Error getting LinkedIn OAuth login url', error);
+      });
+  }
+
+  showGoogleForm() {
+    this.isConnectingToLinkedIn = true;
+    this.integrationService.googleGetLogin(this.project.id).toPromise()
+      .then(response => {
+        this.cookieSvc.put('oAuthState', response.state);
+        this.googleOAuthFormUrl = response.url;
+        const myWindow = window.open(this.googleOAuthFormUrl, 'oAuth', 'width=1000,height=800');
+
+        // Wait for the integration to be complete
+        this.waitForIntegration(IntegrationTypes.Google).then(integration => {
+          console.log('Integrated', integration);
+          this.isConnectionToGoogle = false;
+          this.toast.success('Project integrated with Google');
+          this.googleOAuthFormUrl = '';
+          this.sharedService.addIntegration(integration);
+        })
+          .catch(error => {
+            console.log('Error waiting for Google integration to complete');
+            this.isConnectionToGoogle = false;
+            this.googleOAuthFormUrl = '';
+            this.toast.warning('Unable to connect to Google. Please type again');
+          });
+      })
+      .catch(error => {
+        console.log('Error getting Google login url', error);
+        this.isConnectionToGoogle = false;
+        this.toast.error('Unable to connect to Google');
+        this.tracking.TrackError('Error getting Google OAuth login url', error);
+      });
+  }
+
+  showPinterestForm() {
+    this.isConnectingToPinterest = true;
+    this.integrationService.pinterestGetLogin(this.project.id).toPromise()
+      .then(response => {
+        this.cookieSvc.put('oAuthState', response.state);
+        this.pinterestOAuthUrl = response.url;
+        const myWindow = window.open(this.pinterestOAuthUrl, 'pinterest', 'width=1000,height=800');
+
+        // Wait for the integration to be complete
+        this.waitForIntegration(IntegrationTypes.Pinterest).then(integration => {
+          console.log('Integrated', integration);
+          this.isConnectingToPinterest = false;
+          this.toast.success('Project integrated with Pinterest');
+          this.pinterestOAuthUrl = '';
+          this.sharedService.addIntegration(integration);
+        })
+          .catch(error => {
+            console.log('Error waiting for Pinterest integration to complete');
+            this.isConnectingToPinterest = false;
+            this.pinterestOAuthUrl = '';
+            this.toast.warning('Unable to connect to Pinterest. Please type again');
+          });
+      })
+      .catch(error => {
+        console.log('Error getting Google login url', error);
+        this.isConnectingToPinterest = false;
+        this.toast.error('Unable to connect to Pinterest');
+        this.tracking.TrackError('Error getting Pinterest OAuth login url', error);
       });
   }
 

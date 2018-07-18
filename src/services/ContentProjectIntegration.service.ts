@@ -55,6 +55,14 @@ export class ContentProjectIntegrationService {
         return this.authHttp.get(`${this.url}/${projectId}/linkedin/getLogin`).map(response => response.json());
     }
 
+    googleGetLogin(projectId: string): Observable<FacebookOAuthDetails> {
+        return this.authHttp.get(`${this.url}/${projectId}/google/getLogin`).map(response => response.json());
+    }
+
+    pinterestGetLogin(projectId: string): Observable<FacebookOAuthDetails> {
+        return this.authHttp.get(`${this.url}/${projectId}/pinterest/getLogin`).map(response => response.json());
+    }
+
     completeCallback(state: string, code: string): Observable<any> {
         return this.authHttp.get(`${this.url}/callback?state=${state}&code=${code}`).map(response => response.json());
     }
@@ -80,7 +88,8 @@ export enum IntegrationTypes {
     Medium,
     Pinterest,
     Instagram,
-    Wordpress
+    Wordpress,
+    Google
 }
 
 export class WordpressProjectIntegrationModel extends ProjectIntegrationModel {
