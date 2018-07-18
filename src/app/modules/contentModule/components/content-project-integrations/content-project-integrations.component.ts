@@ -27,12 +27,14 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   isConnectingToLinkedIn = false;
   isConnectionToGoogle = false;
   isConnectingToPinterest = false;
+  isConnectingToMedium = false;
 
   twitterOAuthFormUrl = '';
   facebookOAuthFromUrl = '';
   linkedInOAuthFromUrl = '';
   googleOAuthFormUrl = '';
   pinterestOAuthUrl = '';
+  mediumOAuthUrl = '';
 
   // Integrations with other systems
   integrations: ProjectIntegrationModel[] = [];
@@ -217,10 +219,41 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
           });
       })
       .catch(error => {
-        console.log('Error getting Google login url', error);
+        console.log('Error getting Pinterest login url', error);
         this.isConnectingToPinterest = false;
         this.toast.error('Unable to connect to Pinterest');
         this.tracking.TrackError('Error getting Pinterest OAuth login url', error);
+      });
+  }
+
+  showMediumForm() {
+    this.isConnectingToMedium = true;
+    this.integrationService.mediumGetLogin(this.project.id).toPromise()
+      .then(response => {
+        this.cookieSvc.put('oAuthState', response.state);
+        this.mediumOAuthUrl = response.url;
+        const myWindow = window.open(this.mediumOAuthUrl, 'medium', 'width=1000,height=800');
+
+        // Wait for the integration to be complete
+        this.waitForIntegration(IntegrationTypes.Medium).then(integration => {
+          console.log('Integrated', integration);
+          this.isConnectingToMedium = false;
+          this.toast.success('Project integrated with Medium');
+          this.mediumOAuthUrl = '';
+          this.sharedService.addIntegration(integration);
+        })
+          .catch(error => {
+            console.log('Error waiting for Medium integration to complete');
+            this.isConnectingToMedium = false;
+            this.mediumOAuthUrl = '';
+            this.toast.warning('Unable to connect to Medium. Please type again');
+          });
+      })
+      .catch(error => {
+        console.log('Error getting Medium login url', error);
+        this.isConnectingToMedium = false;
+        this.toast.error('Unable to connect to Medium');
+        this.tracking.TrackError('Error getting Medium OAuth login url', error);
       });
   }
 

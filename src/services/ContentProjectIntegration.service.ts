@@ -63,6 +63,10 @@ export class ContentProjectIntegrationService {
         return this.authHttp.get(`${this.url}/${projectId}/pinterest/getLogin`).map(response => response.json());
     }
 
+    mediumGetLogin(projectId: string): Observable<FacebookOAuthDetails> {
+        return this.authHttp.get(`${this.url}/${projectId}/medium/getLogin`).map(response => response.json());
+    }
+
     completeCallback(state: string, code: string): Observable<any> {
         return this.authHttp.get(`${this.url}/callback?state=${state}&code=${code}`).map(response => response.json());
     }

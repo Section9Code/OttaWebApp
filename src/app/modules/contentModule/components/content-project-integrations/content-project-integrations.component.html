@@ -29,15 +29,33 @@
   </div>
 
   <!-- MEDIUM -->
-  <!-- <div>
+  <div>
     <h3>Medium</h3>
     <div *ngIf="mediumIntegrations.length === 0">
       <p>
-        Connect this project directly to medium so it is able to manage your posts for you.
+        Connect this project with Medium so it is able to manage your posts for you.
       </p>
-      <button class="btn btn-default" (click)="showMediumForm()">Add your medium site</button>
+      <p *ngIf="mediumOAuthUrl">
+        If the login form doesn't open automatically <a href="{{mediumOAuthUrl}}" target="_new">follow this link</a> and approve Otta to use your Medium account. This can happen if your browser is blocking pop-ups.
+      </p>
+      <button class="btn btn-default" (click)="showMediumForm()" [ladda]="isConnectingToMedium">Add Medium to this project</button>
     </div>
-  </div> -->
+    <div *ngFor="let integration of mediumIntegrations" class="widget style1 navy-bg">
+      <div class="row">
+        <div class="col-xs-4">
+          <i class="fa fa-medium fa-5x"></i>
+        </div>
+        <div class="col-xs-8 text-right">
+          <span>
+            <strong>{{ integration.Name }}</strong>
+          </span>
+          <br/>
+          <br/>
+          <button (click)="removeIntegration(integration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
   <h2>Social media accounts</h2>
 
