@@ -8,6 +8,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { send } from 'q';
 import { ImagesService } from 'services/images.service';
+import { IContentItemMessageForm } from '../IContentItemMessageForm';
 
 declare var $: any;
 
@@ -16,7 +17,7 @@ declare var $: any;
   templateUrl: './content-item-message-twitter-form.component.html',
   styleUrls: ['./content-item-message-twitter-form.component.css']
 })
-export class ContentItemMessageTwitterFormComponent {
+export class ContentItemMessageTwitterFormComponent implements IContentItemMessageForm {
   // Component inputs/outputs
   @Input() contentItem: ContentItemModel = new ContentItemModel();
   @Input() images: string[] = [];
@@ -42,8 +43,7 @@ export class ContentItemMessageTwitterFormComponent {
     private sharedService: ContentProjectShareService,
     private contentService: ContentItemService,
     private tracking: MixpanelService,
-    private toast: ToastsManager,
-    private alertSvc: SweetAlertService) {
+    private toast: ToastsManager) {
   }
 
   // Shows the absolute time form
@@ -109,7 +109,7 @@ export class ContentItemMessageTwitterFormComponent {
     this.messageLength = this.newMessage.Message.length;
   }
 
-  
+
 
   // Adds a twitter message to be sent at a specific time
   addTwitterMessage() {
@@ -132,7 +132,7 @@ export class ContentItemMessageTwitterFormComponent {
     // Update the message
     this.newMessage.MessageType = IntegrationTypes.Twitter;
     this.newMessage.Title = '';
-  
+
     // Calculate the send time
     this.newMessage.RelativeSendUnit = +this.sendUnit;
     let sendTime: moment.Moment;

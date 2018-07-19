@@ -30,7 +30,6 @@ export class WelcomeToTheTeamComponent implements OnInit {
             response => {
                 console.log('Loaded user details', response);
                 this.data = response;
-                this.data.MarketingOptIn = true;
             },
             error => {
                 console.log('Error occurred while loading welcome data', error);

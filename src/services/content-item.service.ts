@@ -121,6 +121,10 @@ export class ContentItemMessageModel {
   // The type of message
   MessageType: IntegrationTypes;
 
+  // The ID of the section on the remote system the message should be put into
+  // For Facebook this is the ID of the page the user wants to post to
+  RemoteSystemSectionId: string;
+
   // Is this message relative to the publish date of the content item
   IsRelative: boolean;
   RelativeSendValue: number;
@@ -132,6 +136,7 @@ export class ContentItemMessageModel {
   Title: string;
   Message: string;
   ImageUrl: string;
+  LinkUrl: string;
   // Related ContentItemMessage link
   LinkedItemPartition: string;
   LinkedItemRowKey: string;

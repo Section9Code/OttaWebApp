@@ -8,8 +8,9 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "deployDev": "ng build --dev --e=devserver && firebase deploy",
-    "deployProd": "ng build -prod --aot=false && firebase deploy -P prod"
+    "deployDev": "ng build --dev --e=devserver && firebase deploy -P default",
+    "deployProd": "ng build -prod --aot=false && firebase deploy -P prod",
+    "deployAll": "npm run deployDev && npm run deployProd"
   },
   "private": true,
   "dependencies": {
@@ -24,7 +25,7 @@
     "@angular/platform-browser-dynamic": "^4.4.6",
     "@angular/platform-server": "^4.4.6",
     "@angular/router": "^4.4.6",
-    "angular2-froala-wysiwyg": "^2.6.0",
+    "angular2-cookie": "^1.2.6",
     "angular2-jwt": "^0.2.3",
     "angular2-ladda": "^1.2.2",
     "animate.css": "3.1.1",
@@ -44,6 +45,7 @@
     "mydatepicker": "^2.6.2",
     "ng2-charts": "^1.5.0",
     "ng2-eonasdan-datetimepicker": "^0.1.0",
+    "ng2-quill-editor": "^2.0.0",
     "ng2-sweetalert2": "0.0.8",
     "ng2-toastr": "^4.1.2",
     "ngx-bootstrap": "^1.9.3",
@@ -59,7 +61,8 @@
     "@angular/cli": "^1.6.3",
     "@angular/compiler-cli": "^2.4.0",
     "@types/jasmine": "2.5.38",
-    "@types/node": "^6.0.90",
+    "@types/node": "^6.0.111",
+    "@types/quill": "^1.3.6",
     "codelyzer": "~2.0.0",
     "jasmine-core": "~2.5.2",
     "jasmine-spec-reporter": "~3.2.0",

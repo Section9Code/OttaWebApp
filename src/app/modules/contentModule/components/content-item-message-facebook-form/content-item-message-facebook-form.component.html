@@ -1,0 +1,106 @@
+<form [formGroup]="facebookForm" class="form-horizontal">
+  <!-- Message -->
+  <div class="form-group" [class.has-error]="facebookForm.controls.message.invalid">
+    <label class="col-sm-2 control-label">Message</label>
+    <div class="col-sm-10">
+      <textarea class="form-control" formControlName="message"></textarea>
+      <span class="help-block m-b-none">
+        The message you want to appear on Facebook
+      </span>
+    </div>
+  </div>
+
+  <!-- Link -->
+  <div class="form-group" [class.has-error]="facebookForm.controls.linkUrl.invalid">
+    <label class="col-sm-2 control-label">Link</label>
+    <div class="col-sm-10">
+      <input type="url" class="form-control" formControlName="linkUrl" />
+      <span class="help-block m-b-none">
+        The URL to the page you want to link to
+      </span>
+    </div>
+  </div>
+
+  <!-- Image -->
+  <!-- <div class="form-group">
+    <label class="col-sm-2 control-label">Image</label>
+    <div class="col-sm-10">
+      <select id="imagePicker" name="imagePicker" formControlName="imageUrl">
+        <option value=""></option>
+        <option *ngFor="let image of images" [attr.data-img-src]="image" [attr.data-img-class]="'pickerThumbnailPic'" value="{{image}}">{{ image }}</option>
+      </select>
+      <span class="help-block m-b-none" *ngIf="images.length > 0">
+        Image you want to appear on your message
+      </span>
+      <span class="help-block m-b-none" *ngIf="images.length == 0">
+        Upload at lease one image before adding a Facebook message to be able to select it here
+      </span>
+    </div>
+  </div> -->
+
+  <!-- Facebook page -->
+  <div class="form-group" [class.has-error]="facebookForm.controls.facebookPage.invalid">
+    <label class="col-sm-2 control-label">Page</label>
+    <div class="col-sm-10">
+      <select class="form-control" formControlName="facebookPage">
+        <option *ngFor="let page of facebookIntegration.Accounts" value="{{page.id}}">{{page.name}}</option>
+      </select>
+      <span class="help-block m-b-none">
+        The page on Facebook you want this message to appear on
+      </span>
+    </div>
+  </div>
+
+  <!-- Send type -->
+  <div *ngIf="!facebookForm.controls.sendType.value || facebookForm.controls.sendType.value === ''" class="form-group">
+    <label class="col-sm-2 control-label">When to send</label>
+    <div class="col-sm-10">
+      <button class="btn btn-default" (click)="facebookForm.controls.sendType.patchValue('specific')">Send at specific time</button>
+      <button class="btn btn-default" *ngIf="contentItem.DeadLine" (click)="facebookForm.controls.sendType.patchValue('relative')">Send relative to publish date</button>
+    </div>
+  </div>
+
+  <!-- Send at specific time -->
+  <div *ngIf="facebookForm.controls.sendType.value == 'specific'" class="form-group" [class.has-error]="facebookForm.controls.sendDateTime.invalid">
+    <label class="col-sm-2 control-label">At specific time</label>
+    <div class="col-sm-10">
+      <otta-datetime-picker [name]="'sendTime'" formControlName="sendDateTime" [minDate]="datePickerMinDate"></otta-datetime-picker>
+      <span class="help-block m-b-none">
+        Send the message at a specific time
+      </span>
+    </div>
+  </div>
+
+  <!-- Send at relative time -->
+  <div *ngIf="facebookForm.controls.sendType.value == 'relative'" class="form-group">
+    <label class="col-sm-2 control-label">Relative to publish</label>
+    <div class="col-sm-5" [class.has-error]="facebookForm.controls.relativeAmount.invalid">
+      <input type="number" class="form-control" formControlName="relativeAmount" />
+    </div>
+    <div class="col-sm-5" [class.has-error]="facebookForm.controls.relativeUnit.invalid">
+      <select class="form-control m-b" formControlName="relativeUnit">
+        <option value="0">Minutes</option>
+        <option value="1">Hours</option>
+        <option value="2">Days</option>
+        <option value="3">Weeks</option>
+        <option value="4">Months</option>
+      </select>
+    </div>
+    <div class="col-xs-12 col-sm-10 col-sm-offset-2">
+      <span class="help-block m-b-none">
+        Send the message at a time relative to when the content item is published.
+      </span>
+    </div>
+  </div>
+
+  <!-- Buttons -->
+  <div *ngIf="facebookForm.controls.sendType.value" class="form-group">
+    <div class="col-sm-8 col-sm-offset-2">
+      <button class="btn btn-primary" type="submit" (click)="createMessage()" [disabled]="facebookForm.invalid" [ladda]="isCreating">{{ submitButtonText }}</button>
+    </div>
+    <div class="col-sm-2 pull-right">
+      <button class="btn btn-white" data-dismiss="modal">Cancel</button>
+    </div>
+  </div>
+
+</form>

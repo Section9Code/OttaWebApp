@@ -1,0 +1,22 @@
+<div class="middle-box text-center loginscreen  animated fadeInDown">
+  <div>
+    <div>
+      <img src="/assets/images/logo/logosquare.png">
+    </div>
+  </div>
+  <div class="ibox-content">
+    <h2>Integrating your project</h2>
+    <p *ngIf="message" class="alert alert-danger">
+      {{ message }}
+    </p>
+    <p *ngIf="!isWorking">
+        We are linking your project, it will just take a sec.
+    </p>
+    <p *ngIf="!isWorking">
+      Complete. Your project is integrated.
+    </p>
+    <p class="m-t">
+      <small>Otta &copy; 2018</small>
+    </p>
+  </div>
+</div>

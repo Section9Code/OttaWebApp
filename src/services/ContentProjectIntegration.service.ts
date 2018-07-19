@@ -38,6 +38,27 @@ export class ContentProjectIntegrationService {
     twitterGetLogin(projectId: string): Observable<string> {
         return this.authHttp.get(`${this.url}/${projectId}/twitter/getLogin`).map(response => response.json());
     }
+
+    facebookGetLogin(projectId: string): Observable<FacebookOAuthDetails> {
+        return this.authHttp.get(`${this.url}/${projectId}/facebook/getLogin`).map(response => response.json());
+    }
+
+    facebookRefresh(projectId: string, integrationID: string): Observable<ProjectIntegrationModel> {
+        return this.authHttp.get(`${this.url}/${projectId}/facebook/refresh/${integrationID}`).map(response => response.json());
+    }
+
+    facebookGetAllIntegrations(projectId: string): Observable<FacebookProjectIntegrationModel[]> {
+        return this.authHttp.get(`${this.url}/${projectId}/facebook/getIntegrations`).map(response => response.json());
+    }
+
+    completeCallback(state: string, code: string): Observable<any> {
+        return this.authHttp.get(`${this.url}/callback?state=${state}&code=${code}`).map(response => response.json());
+    }
+}
+
+export class FacebookOAuthDetails {
+    state: string;
+    url: string;
 }
 
 export class ProjectIntegrationModel {
@@ -62,6 +83,27 @@ export class WordpressProjectIntegrationModel extends ProjectIntegrationModel {
     WebsiteUrl: string;
     Username: string;
     Password: string;
+}
+
+export class FacebookProjectIntegrationModel extends ProjectIntegrationModel {
+    AccessToken: string;
+    TokenType: string;
+    ExpiresAt: Date;
+    Accounts: FacebookAccountsModel[];
+    UserDetails: FacebookUserDetailsModel;
+}
+
+export class FacebookAccountsModel {
+    id: string;
+    name: string;
+    accessToken: string;
+    category: string;
+    permissions: string[];
+}
+
+export class FacebookUserDetailsModel {
+    name: string;
+    id: string;
 }
 
 export class WordpressLinkModel {

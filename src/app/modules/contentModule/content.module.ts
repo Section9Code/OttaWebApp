@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from '@angular/router';
 
@@ -32,7 +32,6 @@ import { ContentProjectDraftsUpdateLayoutComponent } from 'app/modules/contentMo
 import { ContentItemTypeListComponent } from 'app/modules/contentModule/components/content-item-type-list/content-item-type-list.component';
 import { ContentItemTypeService } from 'services/content-item-type.service';
 import { ContentItemTypeLabelComponent } from 'app/modules/contentModule/components/content-item-type-label/content-item-type-label.component';
-import { FroalaEditorModule, FroalaViewModule } from 'angular2-froala-wysiwyg';
 import { MyDatePickerModule } from 'mydatepicker';
 import { OttaCommentComponent } from 'app/modules/sharedModule/otta-comment/otta-comment.component';
 import { TimeAgoPipe } from 'app/components/common/pipes/timeAgo.pipe';
@@ -49,6 +48,8 @@ import { ContentItemFilesComponent } from './components/content-item-files/conte
 import { DropzoneModule } from 'ngx-dropzone-wrapper';
 import { ContentItemMessageTwitterPreviewComponent } from './components/content-item-message-twitter-preview/content-item-message-twitter-preview.component';
 import { ContentSearchLayoutComponent } from './content-search-layout/content-search-layout.component';
+import { QuillEditorModule } from 'ng2-quill-editor';
+import { ContentItemMessageFacebookFormComponent } from './components/content-item-message-facebook-form/content-item-message-facebook-form.component';
 
 
 // Routes for this module to be added to the application
@@ -81,6 +82,7 @@ const routes: Routes = [
         BrowserModule,
         BrowserAnimationsModule,
         FormsModule,
+        ReactiveFormsModule,
         HttpModule,
         LayoutsModule,
         RouterModule.forChild(routes),
@@ -88,8 +90,7 @@ const routes: Routes = [
         TagInputModule,
         ToastModule,
         SharedModule,
-        FroalaEditorModule,
-        FroalaViewModule,
+        QuillEditorModule,
         MyDatePickerModule,
         DropzoneModule
     ],
@@ -121,7 +122,8 @@ const routes: Routes = [
         ContentItemMessageTwitterFormComponent,
         ContentItemFilesComponent,
         ContentItemMessageTwitterPreviewComponent,
-        ContentSearchLayoutComponent
+        ContentSearchLayoutComponent,
+        ContentItemMessageFacebookFormComponent
     ],
     providers: [
         MixpanelService,

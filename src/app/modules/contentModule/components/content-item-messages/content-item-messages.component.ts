@@ -7,6 +7,7 @@ import { SweetAlertService } from 'ng2-sweetalert2';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
 import { ContentItemMessageTwitterFormComponent } from '../content-item-message-twitter-form/content-item-message-twitter-form.component';
 import { ImagesService } from 'services/images.service';
+import { ContentItemMessageFacebookFormComponent } from '../content-item-message-facebook-form/content-item-message-facebook-form.component';
 
 declare var $: any;
 
@@ -31,6 +32,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
 
   // Components
   @ViewChild('twitterMessageComponent') private twitterMessageComponent: ContentItemMessageTwitterFormComponent;
+  @ViewChild('facebookMessageComponent') private facebookMessageComponent: ContentItemMessageFacebookFormComponent;
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -48,8 +50,11 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
     this.setupIntegrationOptions();
   }
 
+  ngOnDestroy(): void {
+  }
+
   // Loads the integrations the project has and stops users from picking options they have not configured
-  setupIntegrationOptions() {
+  private setupIntegrationOptions() {
     const integrations = this.sharedService.integrations.getValue();
     const twitterIntegrations = integrations.filter(e => e.IntegrationType === IntegrationTypes.Twitter);
     const facebookIntegrations = integrations.filter(e => e.IntegrationType === IntegrationTypes.Facebook);
@@ -66,8 +71,6 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
     }
   }
 
-  ngOnDestroy(): void {
-  }
 
   // Load images
   loadImages() {
@@ -87,7 +90,8 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
     }
   }
 
-  sortMessages(): DisplayContentItemMessageModel[] {
+  // Sort the list of messages based on what the user wants to see
+  private sortMessages(): DisplayContentItemMessageModel[] {
     const outputMessages: DisplayContentItemMessageModel[] = [];
 
     // Sort the messages by date
@@ -103,8 +107,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
           msg.hasBeenSent = true;
           outputMessages.push(msg);
         }
-      }
-      else {
+      } else {
         // This message hasn't been sent yet
         const msg: DisplayContentItemMessageModel = item as DisplayContentItemMessageModel;
         msg.hasBeenSent = false;
@@ -116,30 +119,63 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
     return outputMessages;
   }
 
-  messageIsInThePast(message: ContentItemMessageModel): boolean {
+  // Is a message in the past
+  private messageIsInThePast(message: ContentItemMessageModel): boolean {
     if (!message.SendTime) { return false; }
     return message.SendTime < new Date().toISOString();
   }
 
+  // Show the add twitter message form
   showAddTwitterMessage() {
     this.twitterMessageComponent.resetForm();
-    $(`#addTwitterMessageModal`).modal('show');
+    this.twitterModal('show');
   }
 
+  showFacebookMessageForm() {
+    this.facebookMessageComponent.resetForm();
+    this.facebookModal('show');
+  }
+
+  // Edit an existing twitter message
   editMessage(message: ContentItemMessageModel) {
+    console.log('Edit message', message);
+
     switch (message.MessageType) {
       case IntegrationTypes.Twitter:
         this.twitterMessageComponent.editMessage(message);
-        $(`#addTwitterMessageModal`).modal('show');
+        this.twitterModal('show');
+        break;
+
+      case IntegrationTypes.Facebook:
+        this.facebookModal('show');
+        this.facebookMessageComponent.editMessage(message);
         break;
     }
   }
 
+  // A twitter message has been added, hide the the form and redraw the list
   addedTwitterMessage(message: ContentItemMessageModel) {
-    $(`#addTwitterMessageModal`).modal('hide');
+    this.twitterModal('hide');
     this.redrawMessageList();
   }
 
+  // A facebook message has been added
+  addedFacebookMessage(message: ContentItemMessageModel) {
+    this.facebookModal('hide');
+    this.redrawMessageList();
+  }
+
+  // Manages the twitter modal form
+  twitterModal(call: string) {
+    $(`#addTwitterMessageModal`).modal(call);
+  }
+
+  // Manages the facebook modal form
+  facebookModal(call: string) {
+    $('#facebookModal').modal(call);
+  }
+
+  // Delete a message from the list 
   deleteTwitterMessage(messageId: string) {
     console.log('Delete message');
     this.alertSvc.swal({
@@ -182,6 +218,7 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
 
 }
 
+// Extend the Content item message model with a boolean to show if it has already been sent
 export class DisplayContentItemMessageModel extends ContentItemMessageModel {
   hasBeenSent: boolean;
 }

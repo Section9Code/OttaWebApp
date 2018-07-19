@@ -25,6 +25,10 @@ import { VerifyEmailComponent } from 'app/views/appviews/verify-email/verify-ema
 import { SubscriptionErrorComponent } from './subscription-error/subscription-error.component';
 import { SharedModule } from '../../modules/sharedModule/shared.module';
 import { InviteAfriendComponent } from './invite-afriend/invite-afriend.component';
+import { AgendaComponent } from './agenda/agenda.component';
+import { OfferComponent } from './offer/offer.component';
+import { MobileAuthComponent } from './mobile-auth/mobile-auth.component';
+import { IntegrationOauthComponent } from './integration-oauth/integration-oauth.component';
 
 @NgModule({
   declarations: [
@@ -43,7 +47,11 @@ import { InviteAfriendComponent } from './invite-afriend/invite-afriend.componen
     WelcomeToTheTeamComponent,
     VerifyEmailComponent,
     SubscriptionErrorComponent,
-    InviteAfriendComponent
+    InviteAfriendComponent,
+    AgendaComponent,
+    OfferComponent,
+    MobileAuthComponent,
+    IntegrationOauthComponent
   ],
   imports: [
     BrowserModule,

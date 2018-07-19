@@ -72,11 +72,11 @@ export class PaymentInfo {
 }
 
 export class UserInfo {
+  numberOfUsers: number;
+
   constructor(userCount: number) {
     this.numberOfUsers = userCount;
   }
-
-  numberOfUsers: number;
 }
 
 export class Organisation {
@@ -105,6 +105,17 @@ export class OrganisationPaymentPlan {
   CurrentPeriodStart: Date;
   CurrentPeriodEnd: Date;
   MonthlyCharge: number;
+  Discount: PaymentPlanDiscountModel;
+}
+
+export class PaymentPlanDiscountModel {
+  DiscountStart: Date;
+  DiscountEnd: Date;
+  CouponName: string;
+  AmountOff: number;
+  PercentageOff: number;
+  Duration: string;
+  DurationMonths: number;
 }
 
 export class OrganisationUsers {

@@ -1,0 +1,25 @@
+<loadingSpinner [loading]="isLoading"></loadingSpinner>
+
+<div *ngIf="!isLoading">
+  <div class="row">
+    <div class="col-xs-12 col-sm-6 col-md-6 col-lg-4" *ngFor="let project of agenda.Projects">      
+      <a [routerLink]="['/content', project.Id]"><h3>{{ project.Title }}</h3></a>
+      <ul class="AgendaDateList">
+        <li class="AgnedaDateItem" *ngFor="let day of project.Data">
+          {{ day.Date | date:'d MMM' }}
+          <ul class="AgendaItemList">
+            <li class="AgendaItemItem" *ngFor="let item of day.Items">
+              <!-- Event                             -->
+              <div *ngIf="item.Type == 1">{{ item.Title }}</div>
+              <!-- Content Item -->
+              <a *ngIf="item.Type == 0" [routerLink]="['/content', project.Id, 'items', item.Id]">
+                <!-- {{ item.Title }} -->
+                <span class="label label-primary" [ngStyle]="{ 'background-color': item.ColourHex }">{{item.Title}}</span>
+              </a>    
+            </li>
+          </ul>
+        </li>
+      </ul>
+    </div>
+  </div>
+</div>

@@ -35,6 +35,11 @@ export class UserService {
   addSupportTicket(ticket: UserSupportTicketModel): Observable<UserSupportTicketModel> {
     return this.authHttp.post(`${this.url}/support`, ticket).map(response => response.json());
   }
+
+  // Get a short code to authenticate a mobile application
+  getMobileShortCode(): Observable<string> {
+    return this.authHttp.get(`${this.url}/mobileSecurity/code`).map(response => response.json());
+  }
 }
 
 
