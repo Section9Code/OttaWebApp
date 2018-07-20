@@ -98,7 +98,7 @@
       <p *ngIf="facebookOAuthFromUrl">
         If the login form doesn't open automatically <a href="{{facebookOAuthFromUrl}}" target="_new">follow this link</a> and approve Otta to use your Facebook account. This can happen if your browser is blocking pop-ups.
       </p>
-      <button class="btn btn-default" (click)="showFacebookForm()" [ladda]="isConnectingToFacebook">Add Facebook to this project</button>
+      <button [disabled]="true" class="btn btn-default" (click)="showFacebookForm()" [ladda]="isConnectingToFacebook">Add Facebook to this project</button> - Facebook integration coming soon
     </div>
     <div *ngFor="let integration of facebookIntegrations" class="widget style1 navy-bg">
       <div class="row">
