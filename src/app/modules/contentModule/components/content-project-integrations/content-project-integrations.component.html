@@ -148,7 +148,7 @@
   </div>
 
   <!-- Google Plus -->
-  <div>
+  <!-- <div>
     <h3>Google</h3>
     <div *ngIf="googleIntegrations.length === 0">
       <p>
@@ -174,7 +174,7 @@
         </div>
       </div>
     </div>
-  </div>
+  </div> -->
 
   <!-- Pinterest -->
   <div>
@@ -199,6 +199,7 @@
           </span>
           <br/>
           <br/>
+          <button (click)="refreshPinterest(integration.id)" class="btn btn-xs btn-outline btn-default">Refresh</button>
           <button (click)="removeIntegration(integration.id)" class="btn btn-xs btn-outline btn-default">Remove</button>
         </div>
       </div>

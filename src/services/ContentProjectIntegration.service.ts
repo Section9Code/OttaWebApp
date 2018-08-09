@@ -47,6 +47,10 @@ export class ContentProjectIntegrationService {
         return this.authHttp.get(`${this.url}/${projectId}/facebook/refresh/${integrationID}`).map(response => response.json());
     }
 
+    pinterestRefresh(projectId: string, integrationID: string): Observable<ProjectIntegrationModel> {
+        return this.authHttp.get(`${this.url}/${projectId}/pinterest/refresh/${integrationID}`).map(response => response.json());
+    }
+
     facebookGetAllIntegrations(projectId: string): Observable<FacebookProjectIntegrationModel[]> {
         return this.authHttp.get(`${this.url}/${projectId}/facebook/getIntegrations`).map(response => response.json());
     }

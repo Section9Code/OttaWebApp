@@ -267,8 +267,22 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
       })
       .catch(error => {
         console.log('Unable to refresh your Facebook settings');
-        this.toast.warning('Unable to refresh facebook settings. Please type again');
+        this.toast.warning('Unable to refresh Facebook settings. Please try again');
       });
+  }
+
+  // Refresh the boards on this integration with the latest from the user
+  refreshPinterest(integrationId: string) {
+    this.integrationService.pinterestRefresh(this.project.id, integrationId).toPromise()
+    .then(response => {
+      this.sharedService.removeIntegration(response.id);
+      this.sharedService.addIntegration(response);
+      this.toast.success('Pinterest settings refreshed');
+    })
+    .catch(error => {
+      console.log('Unable to refresh your Pinterest settings');
+      this.toast.warning('Unable to refresh Pinterest settings. Please try again');
+    });
   }
 
   // Show the user the form they can use to authenticate their twitter account
