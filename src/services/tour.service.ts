@@ -29,24 +29,6 @@ export class TourService {
         private alertSvc: SweetAlertService
     ) { }
 
-    // Sets up a tour to be shown
-    init(steps: any) {
-        console.warn('Tour init called - Remove this call');
-        return;
-
-        // this.currentTourSteps = steps;
-        // this.currentTour = new Tour({
-        //     steps: this.currentTourSteps,
-        //     template: this.popoverHtml
-        // });
-
-        // // Initialise the tour
-        // this.currentTour.init();
-
-        // // Start the tour
-        // this.currentTour.start();
-    }
-
     // Starts a tour of the page
     async show() {
         const pageUrl = this.processUrl(this.router.url);
@@ -56,7 +38,6 @@ export class TourService {
             // Load the tour for this page
             this.currentTourUrl = pageUrl;
             this.currentTourSteps = await this.loadSteps(this.currentTourUrl);
-            console.log('Loaded steps', this.currentTourSteps);
 
             // Setup the tour object
             this.currentTour = new Tour({
@@ -100,10 +81,12 @@ export class TourService {
         return cleanUrl;
     }
 
+    // Checks if a string is just a numeric value
     private isNumeric(value) {
         return /^\d+$/.test(value);
     }
 
+    // Checks if a string is a guid
     private isGuid(value) {
         const parts = value.split('-');
         if (parts.length === 5) { return true; }
@@ -111,7 +94,7 @@ export class TourService {
     }
 
     // Load the tour steps for the users current page
-    loadSteps(url: string): Promise<any> {
+    private loadSteps(url: string): Promise<any> {
         return new Promise<any>((resolve, reject) => {
             // Load the steps for this url
             this.authHttp.get(`${this.url}?path=${url}`).toPromise().then(response => {
@@ -124,13 +107,4 @@ export class TourService {
                 });
         });
     }
-
-    // Clears the current tour
-    clear() {
-        console.warn('Tour clear called. Not needed');
-        this.currentTourUrl = '';
-        this.currentTourSteps = null;
-        this.currentTour = null;
-    }
-
 }
