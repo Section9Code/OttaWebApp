@@ -111,6 +111,7 @@ export class FacebookProjectIntegrationModel extends ProjectIntegrationModel {
     TokenType: string;
     ExpiresAt: Date;
     Accounts: FacebookAccountsModel[];
+    Groups: FacebookGroupModel[];
     UserDetails: FacebookUserDetailsModel;
 }
 
@@ -120,6 +121,11 @@ export class FacebookAccountsModel {
     accessToken: string;
     category: string;
     permissions: string[];
+}
+
+export class FacebookGroupModel {
+    id: string;
+    name: string;
 }
 
 export class FacebookUserDetailsModel {
