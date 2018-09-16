@@ -36,6 +36,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
 
   // Integration being used
   facebookIntegration = new FacebookProjectIntegrationModel();
+  facebookSections = [];
   submitButtonText = 'Create';
 
   // Flags
@@ -70,7 +71,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
         group.controls.relativeAmount.setErrors({ isRequired: true });
       }
     }
-  
+
     return null;
   }
 
@@ -82,11 +83,31 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
         if (response && response.length > 0) {
           // Save the details of the users facebook integration
           this.facebookIntegration = response[0];
+          this.loadFacebookSections();
         }
       })
       .catch(() => {
         console.log('Error loading project integrations');
       });
+  }
+
+  private loadFacebookSections() {
+    this.facebookSections = [];
+    if (this.facebookIntegration) {
+      // Add all the page integrations
+      this.facebookIntegration.Accounts.forEach(p => this.facebookSections.push({
+        id: p.id,
+        name: `${p.name} (page)`,
+        isGroup: false
+      }));
+
+      // Add all the group integrations
+      this.facebookIntegration.Groups.forEach(p => this.facebookSections.push({
+        id: p.id,
+        name: `${p.name} (group)`,
+        isGroup: false
+      }));
+    }
   }
 
   resetForm() {
@@ -95,7 +116,7 @@ export class ContentItemMessageFacebookFormComponent implements OnInit, IContent
     this.submitButtonText = 'Create';
 
     // If there is no deadline on the content then the user can't pick a relative publish time
-    if(!this.contentItem.DeadLine) {
+    if (!this.contentItem.DeadLine) {
       this.facebookForm.controls.sendType.patchValue('specific');
     }
 
