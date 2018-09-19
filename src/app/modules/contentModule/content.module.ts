@@ -58,10 +58,12 @@ const routes: Routes = [
     {
         path: 'content', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
         children: [
+            // Overview pages (List all projects a user has access to)
             { path: '', component: ContentHomeLayoutComponent, canActivate: [AuthenticatedGuard] },
             { path: 'create', component: ContentCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
             { path: 'search', component: ContentSearchLayoutComponent, canActivate: [AuthenticatedGuard] },
             {
+                // Project pages
                 path: ':id', component: ContentProjectLayoutComponent, canActivate: [AuthenticatedGuard],
                 children: [
                     { path: '', component: ContentProjectCalendarLayoutComponent, canActivate: [AuthenticatedGuard] },

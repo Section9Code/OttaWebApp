@@ -73,6 +73,11 @@ export class ContentProjectLayoutComponent implements OnInit {
         this.router.navigateByUrl(`/content/${this.projectId}/events`);
     }
 
+    goToRequeue() {
+        this.currentView = "requeue";
+        this.router.navigateByUrl(`/content/${this.projectId}/requeue`);
+    }
+
     goToSettings() {
         this.currentView = 'settings';
         this.router.navigateByUrl(`/content/${this.projectId}/settings`);
