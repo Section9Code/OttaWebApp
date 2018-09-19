@@ -13,6 +13,7 @@ import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { MixpanelService } from 'services/mixpanel.service';
 import { ContentItemTypeModel, ContentItemTypeService } from 'services/content-item-type.service';
 import { ProjectIntegrationModel, ContentProjectIntegrationService, IntegrationTypes } from 'services/ContentProjectIntegration.service';
+import { RequeueModel, RequeueService, RequeueReducedModel } from 'services/requeue.service';
 
 // This service is shared by the content project pages to make sure important data is only processed once
 @Injectable()
@@ -36,6 +37,10 @@ export class ContentProjectShareService {
   isLoadingIntegrations = new BehaviorSubject<boolean>(false);
   integrations = new BehaviorSubject<ProjectIntegrationModel[]>([]);
 
+  // Requeue
+  isLoadingRequeues = new BehaviorSubject<boolean>(false);
+  requeues = new BehaviorSubject<RequeueReducedModel[]>([]);
+
 
   // Construct the service
   constructor(
@@ -46,12 +51,13 @@ export class ContentProjectShareService {
     private toast: ToastsManager,
     private tracking: MixpanelService,
     private contentTypeService: ContentItemTypeService,
-    private integrationService: ContentProjectIntegrationService) {
+    private integrationService: ContentProjectIntegrationService,
+    private requeueService: RequeueService) {
     console.log('ContentProjectShareService: Initialize');
   }
 
 
-  // Load all the data the user needs to run the application. Called once the user has logged into the application
+  // Load all the data the user needs to see a project (called once and shared across all pages in the project)
   loadProject(projectId: string) {
     console.log('ContentProjectShareService: Load project', projectId);
 
@@ -60,6 +66,7 @@ export class ContentProjectShareService {
     this.contentItems.next([]);
     this.contentTypes.next([]);
     this.integrations.next([]);
+    this.requeues.next([]);
 
     // Is the user an organisation admin
     this.userIsAdmin.next(this.userDataService.userIsOrgAdmin);
@@ -67,15 +74,15 @@ export class ContentProjectShareService {
     // Load the project information from the service
     this.contentProjectService.getProject(projectId).subscribe(
       response => this.currentProject.next(response),
-      error => console.log('ContentProjectShareService: Error loading project', projectId),
-      () => console.log('ContentProjectShareService: Done loading project', projectId)
+      error => console.log('ContentProjectShareService: Error loading project'),
+      () => console.log('ContentProjectShareService: Done loading project')
     );
 
     // Load content types
     this.contentTypeService.getTypes(projectId).subscribe(
       response => this.contentTypes.next(response),
-      error => console.log('ContentProjectShareService: Error loading content types', projectId),
-      () => console.log('ContentProjectShareService: Done loading content types', projectId)
+      error => console.log('ContentProjectShareService: Error loading content types'),
+      () => console.log('ContentProjectShareService: Done loading content types')
     );
 
     // Load the project integrations
@@ -86,10 +93,25 @@ export class ContentProjectShareService {
         this.isLoadingIntegrations.next(false);
       },
       error => {
-        console.log('ContentProjectShareService: Error loading project integrations', projectId);
+        console.log('ContentProjectShareService: Error loading project integrations');
         this.isLoadingIntegrations.next(false);
       },
-      () => console.log('ContentProjectShareService: Done loading integrations', projectId)
+      () => console.log('ContentProjectShareService: Done loading integrations')
+    );
+
+
+    // Load the project requeue
+    this.isLoadingRequeues.next(true);
+    this.requeueService.getAll(projectId).subscribe(
+      response => {
+        this.requeues.next(response);
+        this.isLoadingRequeues.next(false);
+      },
+      error => {
+        this.isLoadingRequeues.next(false);
+        console.log('ContentProjectShareService: Error loading requeues');
+      },
+      () => console.log('ContentProjectShareService: Done loading requeues')
     );
   }
 
@@ -120,7 +142,7 @@ export class ContentProjectShareService {
   // Add a new draft to the list
   addContent(newDraft: ContentItemModel) {
     // Get the current list of drafts
-    var draftList: ContentItemModel[] = this.contentItems.getValue();
+    const draftList: ContentItemModel[] = this.contentItems.getValue();
     draftList.push(newDraft);
     this.contentItems.next(draftList);
   }
@@ -128,10 +150,10 @@ export class ContentProjectShareService {
   // Update an existing draft in the list
   updateContent(updatedDraft: ContentItemModel) {
     // Get the current drafts
-    var draftList: ContentItemModel[] = this.contentItems.getValue();
+    const draftList: ContentItemModel[] = this.contentItems.getValue();
 
     // Find the matching draft
-    var existingDraftIndex: number = draftList.findIndex(x => x.id === updatedDraft.id);
+    const existingDraftIndex: number = draftList.findIndex(x => x.id === updatedDraft.id);
 
     // Update the draft
     if (existingDraftIndex > -1) {
@@ -142,10 +164,10 @@ export class ContentProjectShareService {
 
   deleteContent(draftId: string) {
     // Get the current drafts
-    var draftList: ContentItemModel[] = this.contentItems.getValue();
+    const draftList: ContentItemModel[] = this.contentItems.getValue();
 
     // Find the matching draft
-    var existingDraftIndex: number = draftList.findIndex(x => x.id === draftId);
+    const existingDraftIndex: number = draftList.findIndex(x => x.id === draftId);
 
     // Remove the draft
     if (existingDraftIndex > -1) {
@@ -157,15 +179,15 @@ export class ContentProjectShareService {
 
   // Add a new content type to the list
   addContentType(type: ContentItemTypeModel) {
-    var list = this.contentTypes.getValue();
+    const list = this.contentTypes.getValue();
     list.push(type);
     this.contentTypes.next(list);
   }
 
   // Remove an existing content type from the list
   removeContentType(type: ContentItemTypeModel) {
-    var list = this.contentTypes.getValue();
-    var index: number = list.findIndex(x => x.id === type.id);
+    const list = this.contentTypes.getValue();
+    const index: number = list.findIndex(x => x.id === type.id);
     if (index > -1) {
       list.splice(index, 1);
       this.contentTypes.next(list);
@@ -174,8 +196,8 @@ export class ContentProjectShareService {
 
   // Update an existing content type on the list
   updateContentType(type: ContentItemTypeModel) {
-    var list = this.contentTypes.getValue();
-    var index: number = list.findIndex(x => x.id === type.id);
+    const list = this.contentTypes.getValue();
+    const index: number = list.findIndex(x => x.id === type.id);
     if (index > -1) {
       list[index] = type;
       this.contentTypes.next(list);
@@ -187,7 +209,7 @@ export class ContentProjectShareService {
   }
 
   addIntegration(newIntegration: ProjectIntegrationModel) {
-    var list = this.integrations.getValue();
+    const list = this.integrations.getValue();
     list.push(newIntegration);
     this.integrations.next(list);
   }
@@ -198,8 +220,8 @@ export class ContentProjectShareService {
   }
 
   removeIntegration(oldIntegrationId: string) {
-    var list = this.integrations.getValue();
-    var index: number = list.findIndex(x => x.id === oldIntegrationId);
+    const list = this.integrations.getValue();
+    const index: number = list.findIndex(x => x.id === oldIntegrationId);
     if (index > -1) {
       list.splice(index, 1);
       this.integrations.next(list);
