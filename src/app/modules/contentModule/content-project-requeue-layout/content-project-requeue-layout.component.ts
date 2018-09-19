@@ -5,6 +5,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MixpanelService } from 'services/mixpanel.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { ToastsManager } from 'ng2-toastr';
+import { Router, ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
@@ -23,13 +24,16 @@ export class ContentProjectRequeueLayoutComponent implements OnInit {
     private sharedService: ContentProjectShareService,
     private requeueService: RequeueService,
     private tracking: MixpanelService,
-    private toast: ToastsManager
+    private toast: ToastsManager,
+    private router: Router,
+    private activatedRoute: ActivatedRoute
   ) {
     // Setup the create form
     this.createForm = new FormGroup({
       queueName: new FormControl('', Validators.required),
       queueColour: new FormControl('', Validators.required)
     });
+
   }
 
   ngOnInit() {
@@ -41,6 +45,7 @@ export class ContentProjectRequeueLayoutComponent implements OnInit {
   }
 
   navigateToItem(item: RequeueReducedModel) {
+    this.router.navigate(['/', item.Id], { relativeTo: this.activatedRoute });
   }
 
   showCreateModal() {
