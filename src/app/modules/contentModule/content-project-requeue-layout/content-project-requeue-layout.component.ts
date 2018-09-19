@@ -45,7 +45,7 @@ export class ContentProjectRequeueLayoutComponent implements OnInit {
   }
 
   navigateToItem(item: RequeueReducedModel) {
-    this.router.navigate(['/', item.Id], { relativeTo: this.activatedRoute });
+    this.router.navigate([item.Id], { relativeTo: this.activatedRoute });
   }
 
   showCreateModal() {
