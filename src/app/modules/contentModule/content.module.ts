@@ -50,6 +50,7 @@ import { ContentItemMessageTwitterPreviewComponent } from './components/content-
 import { ContentSearchLayoutComponent } from './content-search-layout/content-search-layout.component';
 import { QuillEditorModule } from 'ng2-quill-editor';
 import { ContentItemMessageFacebookFormComponent } from './components/content-item-message-facebook-form/content-item-message-facebook-form.component';
+import { RequeueService } from 'services/requeue.service';
 
 
 // Routes for this module to be added to the application
@@ -134,7 +135,8 @@ const routes: Routes = [
         CommentService,
         ContentItemContentService,
         EventService,
-        ContentProjectIntegrationService
+        ContentProjectIntegrationService,
+        RequeueService
     ],
 })
 export class ContentModule {
