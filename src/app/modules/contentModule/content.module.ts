@@ -51,6 +51,7 @@ import { ContentSearchLayoutComponent } from './content-search-layout/content-se
 import { QuillEditorModule } from 'ng2-quill-editor';
 import { ContentItemMessageFacebookFormComponent } from './components/content-item-message-facebook-form/content-item-message-facebook-form.component';
 import { RequeueService } from 'services/requeue.service';
+import { ContentProjectRequeueLayoutComponent } from './content-project-requeue-layout/content-project-requeue-layout.component';
 
 
 // Routes for this module to be added to the application
@@ -72,6 +73,7 @@ const routes: Routes = [
                     { path: 'items/:id2', component: ContentProjectDraftsUpdateLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'pitches', component: ContentProjectPitchesLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'events', component: ContentProjectEventsLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'requeue', component: ContentProjectRequeueLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'settings', component: ContentProjectSettingsLayoutComponent, canActivate: [AuthenticatedGuard, OrganisationAdminGuard] },
                 ]
             }
@@ -113,6 +115,7 @@ const routes: Routes = [
         ContentProjectDraftsCreateLayoutComponent,
         ContentProjectDraftsUpdateLayoutComponent,
         ContentProjectIntegrationsComponent,
+        ContentProjectRequeueLayoutComponent,
 
         // Components
         ContentProjectListComponent,
