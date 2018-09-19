@@ -19,6 +19,11 @@ export class RequeueService {
   getSingle(projectId: string, queueId: string): Observable<RequeueModel[]> {
     return this.authHttp.get(`${this.url}/${projectId}/${queueId}`).map(response => response.json());
   }
+
+  // Create a new queue
+  create(projectId: string, queue: RequeueModel): Observable<RequeueModel> {
+    return this.authHttp.post(`${this.url}/${projectId}`, queue).map(response => response.json());
+  }
 }
 
 export class RequeueModel {

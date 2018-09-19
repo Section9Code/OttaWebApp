@@ -5,9 +5,9 @@ import { Component, Input, Output, EventEmitter } from '@angular/core';
 // declare var $:any;
 // You can use $(`#modalId`).modal('hide'); to dismiss a modal from angular.
 
-// <otta-model [modalId]="'ModalID'" [title]="'Title'" [icon]="'fa-laptop'" [heading]="'Heading text'" [showFooter]="false" [footerButtonText]="'Save'" (footerButtonClicked)="" >
+// <otta-modal [modalId]="'ModalID'" [title]="'Title'" [icon]="'fa-laptop'" [heading]="'Heading text'" [showFooter]="false" [footerButtonText]="'Save'" (footerButtonClicked)="" >
 //    Put content here
-// </otta-model>
+// </otta-modal>
 
 @Component({
   selector: 'otta-modal',

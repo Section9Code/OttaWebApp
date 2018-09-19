@@ -1,6 +1,10 @@
 import { Component, forwardRef } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR, NG_VALIDATORS, Validator, AbstractControl } from '@angular/forms';
 
+// Example
+// Reactive form example
+// <otta-colour-picker name="queueColourPicker" formControlName="queueColour"></otta-colour-picker>
+
 const noop = () => {
 };
 

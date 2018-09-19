@@ -1,3 +1,82 @@
-<p>
-  content-project-requeue-layout works!
-</p>
+<div class="row">
+
+  <div class="col-xs-12 col-lg-10">
+    <otta-panel [title]="'Requeues'" [showButton]="true" [buttonText]="'Create'" (buttonClicked)="showCreateModal()">
+
+      <div class="table-responsive">
+        <table class="table table-hover issue-tracker">
+          <thead>
+            <tr>
+              <td>Name</td>
+              <td>Messages</td>
+              <td>Timeslots</td>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of queues">
+              <td (click)="navigateToItem(item)">
+                {{item.Name}}
+              </td>
+              <td>{{item.Messages}}</td>
+              <td>{{item.TimeSlots}}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </otta-panel>
+  </div>
+
+  <!-- Right hand side -->
+  <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
+    <h2>Make the most of your content</h2>
+    <p>
+      Just because you created a piece of content a while ago doesn't mean you shouldn't keep telling everyone about
+      it.
+    </p>
+    <p>
+      Use a requeue to send social media messages on a schedule of your choice. It can be to promote your content or
+      maybe you want to run a campaign.
+    </p>
+    <p>
+      Setup the queue, give it the timeslots you want the messages to go out at, then add the messages to the queue. We
+      will take care of the rest.
+    </p>
+
+  </div>
+
+
+</div>
+
+
+<otta-modal [modalId]="'requeueModal'" [title]="'Create queue'" [icon]="'fa-list'" [heading]="'Create a new queue'" [showFooter]="false">
+
+  <form class="form-horizontal" [formGroup]="createForm" (ngSubmit)="createQueue()">
+    <div class="form-group" [class.has-error]="createForm.controls.queueName.invalid">
+      <label class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" formControlName="queueName">
+        <span class="help-block m-b-none">
+          The name of this queue
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group" [class.has-error]="createForm.controls.queueColour.invalid">
+      <label class="col-sm-2 control-label">Colour</label>
+      <div class="col-sm-10">
+        <otta-colour-picker name="queueColourPicker" formControlName="queueColour"></otta-colour-picker>
+        <span class="help-block m-b-none">
+          The colour you want the queue to be (when shown on the calendar)
+        </span>
+      </div>
+    </div>
+
+
+    <div class="form-group">
+      <div class="col-sm-4 col-sm-offset-2">
+        <button class="btn btn-white" (click)="cancelCreateQueue()">Cancel</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!createForm.valid" [ladda]="isCreating">Submit</button>
+      </div>
+    </div>
+  </form>
+</otta-modal>

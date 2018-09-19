@@ -240,4 +240,24 @@ export class ContentProjectShareService {
     return index !== -1;
   }
 
+  addRequeue(queue: RequeueReducedModel) {
+    const list = this.requeues.getValue();
+    list.push(queue);
+    this.requeues.next(list);
+  }
+
+  removeRequeue(id: string) {
+    const list = this.requeues.getValue();
+    const index = list.findIndex(x => x.Id === id);
+    if (index > -1) {
+      list.splice(index, 1);
+      this.requeues.next(list);
+    }
+  }
+
+  updateRequeue(queue: RequeueReducedModel) {
+    this.removeRequeue(queue.Id);
+    this.addRequeue(queue);
+  }
+
 }
