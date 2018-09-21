@@ -55,6 +55,7 @@ import { ContentProjectRequeueLayoutComponent } from './content-project-requeue-
 import { ContentProjectRequeueDetailsLayoutComponent } from './content-project-requeue-details-layout/content-project-requeue-details-layout.component';
 import { CimListComponent } from './components/cim/cim-list/cim-list.component';
 import { CimSubstitutionsListComponent } from './components/cim/cim-substitutions-list/cim-substitutions-list.component';
+import { CimEditorTwitterComponent } from './components/cim/cim-editor-twitter/cim-editor-twitter.component';
 
 
 // Routes for this module to be added to the application
@@ -136,7 +137,8 @@ const routes: Routes = [
         ContentSearchLayoutComponent,
         ContentItemMessageFacebookFormComponent,
         CimListComponent,
-        CimSubstitutionsListComponent
+        CimSubstitutionsListComponent,
+        CimEditorTwitterComponent
     ],
     providers: [
         MixpanelService,

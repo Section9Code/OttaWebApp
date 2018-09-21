@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, OnDestroy, Output, EventEmitter, ViewChild } from '@angular/core';
 import { ContentItemMessageModel, ContentItemMessageSubstitution, ContentItemModel, ContentItemService } from 'services/content-item.service';
 import { ImagesService } from 'services/images.service';
 import { ToastsManager } from 'ng2-toastr';
@@ -7,6 +7,7 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { ContentProjectShareService } from '../../../services/ContentProjectShareService';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
 import { Subscription } from 'rxjs/Subscription';
+import { CimEditorTwitterComponent, ICimEditorCommon } from '../cim-editor-twitter/cim-editor-twitter.component';
 
 // JQuery command for modal dialogs
 declare var $: any;
@@ -52,6 +53,9 @@ export class CimListComponent implements OnInit, OnDestroy {
   canAddLinkedInMessages = false;
   canAddPinterestMessages = false;
   canAddMediumMessages = false;
+
+  // Editor components
+  @ViewChild('twitterEditor') private twitterEditor: ICimEditorCommon;
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -197,6 +201,16 @@ export class CimListComponent implements OnInit, OnDestroy {
     }
   }
 
+
+  // --- EDITOR FUNCTIONS -----------------------------------------
+  addTwitterMessage(){
+    this.twitterEditor.reset();
+    $('#twitterModal').modal('show');
+  }
+
+  cancelledTwitterEditor(){
+    $('#twitterModal').modal('hide');
+  }
 
 }
 
