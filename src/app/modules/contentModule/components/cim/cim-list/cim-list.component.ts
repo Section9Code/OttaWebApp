@@ -203,13 +203,44 @@ export class CimListComponent implements OnInit, OnDestroy {
 
 
   // --- EDITOR FUNCTIONS -----------------------------------------
-  addTwitterMessage(){
+  addTwitterMessage() {
     this.twitterEditor.reset();
     $('#twitterModal').modal('show');
   }
 
-  cancelledTwitterEditor(){
-    $('#twitterModal').modal('hide');
+  // The user has cancelled an editor
+  handleCancelled(modalName: string) {
+    $(`#${modalName}`).modal('hide');
+  }
+
+  // The user has added a new message
+  handleMessageCreated(message: ContentItemMessageModel, modalName) {
+    // Store the new message
+    console.log('Adding message')
+    this.contentService.addMessage(this.contentItem.ProjectId, this.contentItem.id, message).toPromise()
+      .then(
+        addedMessage => {
+          console.log('Message created');
+          // Make sure there is an array to push the item into
+          if (!this.contentItem.SocialMediaMessages) { this.contentItem.SocialMediaMessages = []; }
+
+          // Close the editor
+          $(`#${modalName}`).modal('hide');
+
+          // Add the message and tell the user
+          this.contentItem.SocialMediaMessages.push(addedMessage);
+          this.sharedService.updateContent(this.contentItem);
+          this.toast.success('Social media message added');
+          this.redrawMessageList();
+        })
+      .catch(
+        error => {
+          console.log('Error creating message', error);
+          this.tracking.TrackError('Error while creating social media message', error);
+          this.toast.error('Unable to create social media message', 'Error');
+        });
+
+
   }
 
 }
