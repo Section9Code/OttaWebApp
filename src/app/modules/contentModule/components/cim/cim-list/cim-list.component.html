@@ -1,0 +1,127 @@
+<div *ngIf="noIntegrations" class="alert alert-info">
+  <strong>No integrations configured</strong>: Currently there are no social media integrations configured for this
+  project. To be
+  able to send social media messages please link this project to your social media accounts in the settings tab.
+</div>
+
+<!-- Show all menu options -->
+<div *ngIf="!noIntegrations">
+
+  <!-- Menu buttons -->
+  <div>
+    <div class="btn-group">
+      <button class="btn btn-white" type="button" (click)="addTwitterMessage()" *ngIf="canAddTwitterMessages">
+        <i class="fa fa-twitter"> </i>
+      </button>
+      <button class="btn btn-white" type="button" (click)="addFacebookMessage()" *ngIf="canAddFacebookMessages">
+        <i class="fa fa-facebook"> </i>
+      </button>
+      <button class="btn btn-white" type="button" *ngIf="canAddLinkedInMessages">
+        <i class="fa fa-linkedin"> </i>
+      </button>
+      <button class="btn btn-white" type="button" *ngIf="canAddPinterestMessages">
+        <i class="fa fa-pinterest"> </i>
+      </button>
+      <button class="btn btn-white" type="button" *ngIf="canAddMediumMessages">
+        <i class="fa fa-medium"> </i>
+      </button>
+    </div>
+
+    <div class="pull-right">
+      Hide sent items:
+      <input type="checkbox" [checked]="hideMessagesInThePast" (change)="hideMessagesInThePast = !hideMessagesInThePast; redrawMessageList();">
+    </div>
+  </div>
+  <!-- End menu -->
+
+
+
+  <!-- Lists -->
+  <div class="row">
+
+    <div class="col-xs-12 col-sm-12 col-md-2 col-lg-2">
+      <h3>Substitutions</h3>
+      <app-cim-substitutions-list [substitutions]="substitutionsList" (onSubstitutionAdded)="handleSubstitutionAdded($event)" (onSubstitutionRemove)="handleSubstitutionRemoved($event)" (onSubstitutionValueUpdated)="handleSubstitionUpdated($event)"></app-cim-substitutions-list>
+    </div>
+
+    <div class="col-xs-12 col-sm-12 col-md-10 col-lg-10">
+      <h3>Messages</h3>
+      <!-- List of messages -->
+      <div id="vertical-timeline" class="vertical-container dark-timeline">
+        <!-- Loop through all the messages -->
+        <ng-container *ngFor="let message of messagesList" [ngSwitch]="message.MessageType">
+
+          <!-- Twitter message -->
+          <div class="vertical-timeline-block" *ngSwitchCase="0">
+            <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
+              <i class="fa fa-twitter"></i>
+            </div>
+
+            <div class="vertical-timeline-content">
+              <p (click)="editMessage(message)">
+                <strong>{{ message.Message }}</strong>
+              </p>
+              <p *ngIf="message.ImageUrl">
+                <img src="{{message.ImageUrl}}" width="50px" />
+              </p>
+              <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
+              <span class="vertical-date">
+                <small>
+                  {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
+                  <span *ngIf="message.IsRelative">(relative)</span>
+                  <span *ngIf="!message.IsRelative">(static)</span>
+                </small>
+              </span>
+            </div>
+          </div>
+          <!-- / Twitter message -->
+
+          <!-- Facebook message -->
+          <div class="vertical-timeline-block" *ngSwitchCase="1">
+            <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
+              <i class="fa fa-facebook"></i>
+            </div>
+
+            <div class="vertical-timeline-content">
+              <p (click)="editMessage(message)">
+                <strong>{{ message.Message }}</strong>
+              </p>
+              <p *ngIf="message.ImageUrl">
+                <img src="{{message.ImageUrl}}" width="50px" />
+              </p>
+              <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
+              <span class="vertical-date">
+                <small>
+                  {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
+                  <span *ngIf="message.IsRelative">(relative)</span>
+                  <span *ngIf="!message.IsRelative">(static)</span>
+                </small>
+              </span>
+            </div>
+          </div>
+          <!-- / Facebook message -->
+
+        </ng-container>
+
+
+      </div>
+      <!-- / List of messages -->
+
+      <!-- Message if there are no messages waiting to be sent -->
+      <div *ngIf="messagesList.length === 0" class="text-center">
+        <h2>No messages waiting to be sent</h2>
+      </div>
+
+    </div>
+
+
+  </div>
+
+
+
+
+
+
+
+
+</div>

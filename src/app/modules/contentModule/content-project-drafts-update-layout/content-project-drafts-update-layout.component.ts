@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
-import { ContentItemModel, ContentItemService } from 'services/content-item.service';
+import { ContentItemModel, ContentItemService, ContentItemMessageSubstitution } from 'services/content-item.service';
 import { ToastsManager } from 'ng2-toastr/src/toast-manager';
 import { MixpanelService } from 'services/mixpanel.service';
 import { ContentProjectShareService } from 'app/modules/contentModule/services/ContentProjectShareService';
@@ -11,6 +11,7 @@ import { AuthService } from 'services/auth.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { ProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 import { ContentItemMessagesComponent } from '../components/content-item-messages/content-item-messages.component';
+import { CimListComponent } from '../components/cim/cim-list/cim-list.component';
 
 @Component({
     moduleId: module.id,
@@ -26,6 +27,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
 
     // Components
     @ViewChild('contentItemMessages') private contentItemMessagesComponent: ContentItemMessagesComponent;
+    @ViewChild('contentItemMessagesList') private cimListComponent: CimListComponent;
 
     // Flags
     isLoading = false;
@@ -139,6 +141,7 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
 
                         // Refresh the the messages component
                         this.contentItemMessagesComponent.redrawMessageList();
+                        this.cimListComponent.update();
 
                         // Inform the user
                         this.toast.success('Item updated');
@@ -344,5 +347,38 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     handleFileDeleted(filePath: string) {
         // Reload the images offered to the social media posts
         this.contentItemMessagesComponent.loadImages();
+    }
+
+    // Called when a user adds a substitution item
+    async handleAddSubstitution(sub: ContentItemMessageSubstitution) {
+        // Make sure there is an array
+        if (!this.item.Substitutions) { this.item.Substitutions = []; }
+        this.item.Substitutions.push(sub);
+        const updatedItem = await this.contentItemService.updateItem(this.item).toPromise();
+        this.sharedData.updateContent(updatedItem);
+        this.toast.success('Substitution added');
+    }
+
+    // Called when the user removes a substitution item
+    async handleRemoveSubstitution(sub: ContentItemMessageSubstitution) {
+        // Remove the sub from the list
+        const index = this.item.Substitutions.findIndex(s => s.name === sub.name);
+        if (index !== -1) {
+            this.item.Substitutions.splice(index, 1);
+            const updatedItem = await this.contentItemService.updateItem(this.item).toPromise();
+            this.sharedData.updateContent(updatedItem);
+            this.toast.success('Substitution removed');
+        }
+    }
+
+    // Called when a substitution is updated
+    async handleUpdateSubstitution(sub: ContentItemMessageSubstitution) {
+        const index = this.item.Substitutions.findIndex(s => s.name === sub.name);
+        if (index !== -1) {
+            this.item.Substitutions[index] = sub;
+            const updatedItem = await this.contentItemService.updateItem(this.item).toPromise();
+            this.sharedData.updateContent(updatedItem);
+            this.toast.success('Substitution updated');
+        }
     }
 }

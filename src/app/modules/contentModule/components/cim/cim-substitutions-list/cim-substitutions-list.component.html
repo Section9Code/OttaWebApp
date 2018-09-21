@@ -1,0 +1,58 @@
+<button type="button" class="btn btn-default btn-xs" (click)="showAddForm()">Add substitution</button>
+<div *ngFor="let sub of substitutions" style="overflow: hidden">
+  <h5>{{sub.name}}</h5>
+  <h6>{{sub.value}} <a *ngIf="sub.name !== 'title' && sub.name !== 'link' && sub.name !== 'description'" [routerLink]=""
+      (click)="editSub(sub)">- Edit</a></h6>
+</div>
+
+
+
+
+<!-- Modal for adding a new substitution -->
+<otta-modal [modalId]="'addSubstitutionModal'" [title]="'Add substitution'" [heading]="'Add a new substitution that can be shared across all messages'"
+  [icon]="'fa-share-alt'">
+  <form class="form-horizontal" [formGroup]="subForm">
+
+    <!-- Name text entry input -->
+    <div *ngIf="!formIsEdit" class="form-group" [class.has-error]="subForm.controls.name.invalid">
+      <label class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" formControlName="name">
+        <span class="help-block m-b-none">
+          The name of the substitution you will use in you messages. Example: thing will become &#125;thing&#127; in
+          your messages
+        </span>
+      </div>
+    </div>
+
+    <!-- Name display (for updating) -->
+    <div *ngIf="formIsEdit" class="form-group">
+      <label class="col-sm-2 control-label">Name</label>
+      <div class="col-sm-10">
+        <h3>{{subForm.controls.name.value}}</h3>
+        <span class="help-block m-b-none">
+          The name of the substitution you will use in you messages.
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group" [class.has-error]="subForm.controls.val.invalid">
+      <label class="col-sm-2 control-label">Value</label>
+      <div class="col-sm-10">
+        <input type="text" class="form-control" formControlName="val">
+        <span class="help-block m-b-none">
+          The value you want to be substituted in your messages
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-10 col-sm-offset-2">
+        <button class="btn btn-white" (click)="cancel()">Cancel</button>
+        <button *ngIf="!formIsEdit" class="btn btn-primary" type="submit" [disabled]="!subForm.valid" (click)="addSubstitution()">Add</button>
+        <button *ngIf="formIsEdit" class="btn btn-primary" type="submit" [disabled]="!subForm.valid" (click)="updateSubstitution()">Update</button>
+        <button *ngIf="formIsEdit" class="btn btn-danger pull-right" type="submit" (click)="removeSub(subForm.controls.name.value)">Remove</button>
+      </div>
+    </div>
+  </form>
+</otta-modal>

@@ -92,6 +92,9 @@ export class ContentItemModel {
   // Messages
   SocialMediaMessages: ContentItemMessageModel[];
 
+  // Substitutions
+  Substitutions: ContentItemMessageSubstitution[];
+
   // Primary URL to the content item
   PrimaryUrl: string;
 }
@@ -117,7 +120,7 @@ export class ContentItemMessageModel {
 
   // Time the message will be sent
   SendTime: string;
-  
+
   // The type of message
   MessageType: IntegrationTypes;
 
@@ -137,6 +140,7 @@ export class ContentItemMessageModel {
   Message: string;
   ImageUrl: string;
   LinkUrl: string;
+
   // Related ContentItemMessage link
   LinkedItemPartition: string;
   LinkedItemRowKey: string;
@@ -148,4 +152,14 @@ export enum ContentItemMessageRelativeUnitModel {
   Days,     // 2
   Weeks,    // 3
   Months    // 4
+}
+
+export class ContentItemMessageSubstitution {
+  name: string;
+  value: string;
+
+  constructor(name: string, val: string) {
+    this.name = name;
+    this.value = val;
+  }
 }

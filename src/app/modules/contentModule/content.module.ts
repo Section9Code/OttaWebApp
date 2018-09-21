@@ -53,6 +53,8 @@ import { ContentItemMessageFacebookFormComponent } from './components/content-it
 import { RequeueService } from 'services/requeue.service';
 import { ContentProjectRequeueLayoutComponent } from './content-project-requeue-layout/content-project-requeue-layout.component';
 import { ContentProjectRequeueDetailsLayoutComponent } from './content-project-requeue-details-layout/content-project-requeue-details-layout.component';
+import { CimListComponent } from './components/cim/cim-list/cim-list.component';
+import { CimSubstitutionsListComponent } from './components/cim/cim-substitutions-list/cim-substitutions-list.component';
 
 
 // Routes for this module to be added to the application
@@ -132,7 +134,9 @@ const routes: Routes = [
         ContentItemFilesComponent,
         ContentItemMessageTwitterPreviewComponent,
         ContentSearchLayoutComponent,
-        ContentItemMessageFacebookFormComponent
+        ContentItemMessageFacebookFormComponent,
+        CimListComponent,
+        CimSubstitutionsListComponent
     ],
     providers: [
         MixpanelService,
