@@ -20,6 +20,20 @@ export class CimEditorCommon {
   cancel() {
     this.cancelled.emit();
   }
+
+  // Do the substitutions for any piece of text
+  performSubstitutions(input: string): string {
+    if(!input) { return ''; }
+    
+    let output = input;
+    this.substitutions.forEach(sub => {
+      const target = `{${sub.name}}`;
+      output = output.replace(target, sub.value);
+    });
+
+    return output;
+  }
+
 }
 
 export interface ICimEditorCommon {
@@ -39,6 +53,10 @@ export interface ICimEditorCommon {
 export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit, ICimEditorCommon {
   editorForm: FormGroup;
 
+  // For calculating message length remaining
+  maxCharacters = 280;
+  charactersRemaining: number = this.maxCharacters;
+
   constructor() {
     super();
 
@@ -56,10 +74,17 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit
   }
 
   // Reset the editor
-  public reset() {
+  public reset() {    
     this.editorForm.reset();
+    this.editorTextChanged();
   }
 
+  // Updates the character count of the message box
+  editorTextChanged() {    
+    let text = this.editorForm.controls.message.value;
+    text = this.performSubstitutions(text);
+    this.charactersRemaining = this.maxCharacters - text.length;
+  }
 }
 
 

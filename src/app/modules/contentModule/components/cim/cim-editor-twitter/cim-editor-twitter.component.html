@@ -1,8 +1,11 @@
 <form class="form-horizontal" [formGroup]="editorForm">
   <div class="form-group" [class.has-error]="editorForm.controls.message.invalid">
-    <label class="col-sm-2 control-label">Example Name</label>
+    <label class="col-sm-2 control-label">Message</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" formControlName="message">
+      <div class="input-group m-b">
+        <input type="text" class="form-control" formControlName="message" (keyup)="editorTextChanged()">
+        <span class="input-group-addon">{{ charactersRemaining }}</span>
+      </div>
       <span class="help-block m-b-none">
         Help information here
       </span>
