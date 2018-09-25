@@ -9,14 +9,15 @@ declare var $: any;
 
 export class CimEditorCommon {
     // Common inputs
-    @Input() substitutions: ContentItemMessageSubstitution[] = [];
-    @Input() images: string[] = [];
+    @Input() substitutions: ContentItemMessageSubstitution[] = [];  // The list of substitution items available to be used
+    @Input() images: string[] = [];                                 // The array of images available to be used
+    @Input() relativeDate = '';                                     // The date this item is relative too
 
     // Common outputs
-    @Output() messageCreated = new EventEmitter<ContentItemMessageModel>();
-    @Output() messageUpdated = new EventEmitter<ContentItemMessageModel>();
-    @Output() messageRemoved = new EventEmitter<string>();
-    @Output() cancelled = new EventEmitter();
+    @Output() messageCreated = new EventEmitter<ContentItemMessageModel>(); // Fired when the user wants to create a message
+    @Output() messageUpdated = new EventEmitter<ContentItemMessageModel>(); // Fired when the user wants to update an existing messages
+    @Output() messageRemoved = new EventEmitter<string>();                  // Fired when the user wants to remove a message
+    @Output() cancelled = new EventEmitter();                               // Fired when the user wants to cancel the dialog
 
     // Flags
     createMode = true;
@@ -48,27 +49,21 @@ export class CimEditorCommon {
 
         switch (unit) {
             case ContentItemMessageRelativeUnitModel.Minutes:
-                console.log('Set send time - minutes');
                 sendTime = sendTime.add(value, 'minutes');
                 break;
             case ContentItemMessageRelativeUnitModel.Hours:
-                console.log('Set send time - hours');
                 sendTime = sendTime.add(value, 'hours');
                 break;
             case ContentItemMessageRelativeUnitModel.Days:
-                console.log('Set send time - days');
                 sendTime = sendTime.add(value, 'days');
                 break;
             case ContentItemMessageRelativeUnitModel.Weeks:
-                console.log('Set send time - weeks');
                 sendTime = sendTime.add(value, 'weeks');
                 break;
             case ContentItemMessageRelativeUnitModel.Months:
-                console.log('Set send time - months');
                 sendTime = sendTime.add(value, 'months');
                 break;
             default:
-                console.error('Set send time not set correctly');
                 break;
         }
 
@@ -108,7 +103,8 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit
             sendDateTime: new FormControl(moment().add(5, 'minutes').toISOString()),
             sendType: new FormControl(),
             relativeSendValue: new FormControl(),
-            relativeSendUnit: new FormControl()
+            relativeSendUnit: new FormControl(),
+            relativeDate: new FormControl()
         }, this.validateFormSendTimes);
     }
 
@@ -121,12 +117,48 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit
         if (form.controls.sendType.value !== 'relative' && form.controls.sendType.value !== 'specific') { return { invalidSendTypeSelected: true }; }
 
         if (form.controls.sendType.value === 'relative') {
-            // Relative send time
-            if (!form.controls.relativeSendValue.value || form.controls.relativeSendValue.value === '') { return { noRelativeSendValue: true }; }
-            if (!form.controls.relativeSendUnit.value || form.controls.relativeSendUnit.value === '') { return { noRelativeSendUnit: true }; }
+            // Relative send time  
+            form.controls.relativeSendValue.setErrors(null);
+            form.controls.relativeSendUnit.setErrors(null);
+
+            // The send value must be set
+            if (!form.controls.relativeSendValue.value || form.controls.relativeSendValue.value === '') {
+                form.controls.relativeSendValue.setErrors({ 'incorrect': true });
+                return { noRelativeSendValue: true };
+            }
+
+            // The send unit must be set
+            if (!form.controls.relativeSendUnit.value || form.controls.relativeSendUnit.value === '') {
+                form.controls.relativeSendUnit.setErrors({ 'incorrect': true });
+                return { noRelativeSendUnit: true };
+            }
+
+            // The calculated send date must be in the future
+            const selectedDate = super.calcRelativeSendTime(+form.controls.relativeSendUnit.value, +form.controls.relativeSendValue.value, form.controls.relativeDate.value);
+            if (!selectedDate.isAfter(moment())) {
+                // The selected date is now or in the past
+                form.controls.relativeSendValue.setErrors({ 'incorrect': true });
+                form.controls.relativeSendUnit.setErrors({ 'incorrect': true });
+                return { sendDateInvalid: true };
+            }
+
         } else {
             // Specific send time
-            if (!form.controls.sendDateTime.value || form.controls.sendDateTime.value === '') { return { noSendTime: true }; }
+            form.controls.sendDateTime.setErrors(null);
+
+            // A send date must be selected
+            if (!form.controls.sendDateTime.value || form.controls.sendDateTime.value === '') {
+                form.controls.sendDateTime.setErrors({ 'incorrect': true });
+                return { noSendTime: true };
+            }
+
+            // Send must be in the future
+            const selectedDate = moment(form.controls.sendDateTime.value);
+            if (!selectedDate.isAfter(moment())) {
+                // The selected date is now or in the past
+                form.controls.sendDateTime.setErrors({ 'incorrect': true });
+                return { sendDateInvalid: true };
+            }
         }
 
         // Valid
@@ -139,6 +171,14 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit
         this.editorForm.reset();
         this.createMode = true;
         this.editorForm.controls.sendDateTime.patchValue(moment().add(5, 'minutes').toISOString());
+
+        // Only show the relative options if a relative date is supplied
+        if (!this.relativeDate || this.relativeDate === '') {
+            // Hide the relative option
+            this.editorForm.controls.sendType.patchValue('specific');
+        } else {
+            this.editorForm.controls.relativeDate.patchValue(this.relativeDate);
+        }
 
         // Reset other parts of the component
         this.editorTextChanged();
@@ -180,9 +220,9 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit
         if (this.editorForm.controls.sendType.value === 'relative') {
             // Relative send
             newMessage.IsRelative = true;
-            newMessage.RelativeSendUnit = this.editorForm.controls.relativeSendUnit.value;
-            newMessage.RelativeSendValue = this.editorForm.controls.relativeSendValue.value;
-            newMessage.SendTime = this.calcRelativeSendTime(newMessage.RelativeSendUnit, newMessage.RelativeSendValue, moment().toISOString()).toISOString();
+            newMessage.RelativeSendUnit = +this.editorForm.controls.relativeSendUnit.value;
+            newMessage.RelativeSendValue = +this.editorForm.controls.relativeSendValue.value;
+            newMessage.SendTime = this.calcRelativeSendTime(newMessage.RelativeSendUnit, newMessage.RelativeSendValue, this.relativeDate).toISOString();
         } else {
             // Specific send
             newMessage.IsRelative = false;
