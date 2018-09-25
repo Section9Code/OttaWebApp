@@ -64,7 +64,7 @@
               <p *ngIf="message.ImageUrl">
                 <img src="{{message.ImageUrl}}" width="50px" />
               </p>
-              <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
+              <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
               <span class="vertical-date">
                 <small>
                   {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
@@ -89,7 +89,7 @@
               <p *ngIf="message.ImageUrl">
                 <img src="{{message.ImageUrl}}" width="50px" />
               </p>
-              <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteTwitterMessage(message.Id)">Delete</a>
+              <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
               <span class="vertical-date">
                 <small>
                   {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
@@ -119,5 +119,5 @@
 </div>
 
 <otta-modal [modalId]="'twitterModal'" [title]="'Twitter'" [heading]="'Add a new twitter message'" [icon]="'fa-twitter'">
-  <app-cim-editor-twitter #twitterEditor [substitutions]="substitutionsList" [images]="images" [relativeDate]="contentItem.DeadLine" (cancelled)="handleCancelled('twitterModal')" (messageCreated)="handleMessageCreated($event, 'twitterModal')"></app-cim-editor-twitter>
+  <app-cim-editor-twitter #twitterEditor [substitutions]="substitutionsList" [images]="images" [relativeDate]="contentItem.DeadLine" (cancelled)="handleCancelled('twitterModal')" (messageCreated)="handleMessageCreated($event, 'twitterModal')" (messageUpdated)="handleMessageUpdated($event, 'twitterModal')" (messageRemoved)="handleMessageRemoved($event, 'twitterModal')"></app-cim-editor-twitter>
 </otta-modal>

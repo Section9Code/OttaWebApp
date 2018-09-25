@@ -175,6 +175,15 @@ export class CimListComponent implements OnInit, OnDestroy {
     return message.SendTime < new Date().toISOString();
   }
 
+  // The user wanted to edit a message
+  private editMessage(message: ContentItemMessageModel) {
+    switch (message.MessageType) {
+      case IntegrationTypes.Twitter:
+        this.editTwitterMessage(message);
+        break;
+    }
+  }
+
 
   private handleSubstitutionAdded(sub: ContentItemMessageSubstitution) {
     // Add the sub to the list
@@ -208,13 +217,18 @@ export class CimListComponent implements OnInit, OnDestroy {
     $('#twitterModal').modal('show');
   }
 
+  editTwitterMessage(message: ContentItemMessageModel) {
+    this.twitterEditor.edit(message);
+    $('#twitterModal').modal('show');
+  }
+
   // The user has cancelled an editor
   handleCancelled(modalName: string) {
     $(`#${modalName}`).modal('hide');
   }
 
   // The user has added a new message
-  handleMessageCreated(message: ContentItemMessageModel, modalName) {
+  handleMessageCreated(message: ContentItemMessageModel, modalName: string) {
     // Store the new message
     console.log('Adding message')
     this.contentService.addMessage(this.contentItem.ProjectId, this.contentItem.id, message).toPromise()
@@ -239,10 +253,68 @@ export class CimListComponent implements OnInit, OnDestroy {
           this.tracking.TrackError('Error while creating social media message', error);
           this.toast.error('Unable to create social media message', 'Error');
         });
-
-
   }
 
+  async handleMessageUpdated(message: ContentItemMessageModel, modalName: string) {
+    console.log('Message updated', message);
+    // Delete the old message
+    await this.contentService.deleteMessage(this.contentItem.ProjectId, this.contentItem.id, message.Id).toPromise();
+    // Add the new message
+    const updatedMessage = await this.contentService.addMessage(this.contentItem.ProjectId, this.contentItem.id, message).toPromise();
+
+    // Update the page
+    const index = this.contentItem.SocialMediaMessages.findIndex(i => i.Id === message.Id);
+    this.contentItem.SocialMediaMessages[index] = updatedMessage;
+    this.sharedService.updateContent(this.contentItem);
+    this.toast.success('Social media message updated');
+    this.redrawMessageList();
+
+    // Close the editor
+    $(`#${modalName}`).modal('hide');
+  }
+
+  async handleMessageRemoved(messageId: string, modalName: string) {
+    console.log('Message removed', messageId);
+
+    // Close the editor
+    $(`#${modalName}`).modal('hide');
+
+    // Delete
+    this.deleteMessage(messageId);
+  }
+
+  deleteMessage(messageId: string){
+    // Confirm delete
+    this.alertSvc.swal({
+      title: 'Delete message',
+      text: 'Are you sure you want to delete this message?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(() => {
+      // Confirmed
+      console.log('Confirmed');
+      // Delete the old message
+      this.contentService.deleteMessage(this.contentItem.ProjectId, this.contentItem.id, messageId).toPromise().then(() => {
+        // Update the page
+        const index = this.contentItem.SocialMediaMessages.findIndex(i => i.Id === messageId);
+        this.contentItem.SocialMediaMessages.splice(index, 1);
+        this.sharedService.updateContent(this.contentItem);
+        this.toast.success('Social media message deleted');
+        this.redrawMessageList();
+      });
+    },
+      error => {
+        // Error
+        console.log('Alert dismissed');
+      },
+      () => {
+        // Complete
+      }
+    );
+  }
 }
 
 // Extend the Content item message model with a boolean to show if it has already been sent

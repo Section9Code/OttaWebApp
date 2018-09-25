@@ -76,7 +76,21 @@ export class CimEditorCommon {
 export interface ICimEditorCommon {
     // The editor must reset itself
     reset();
+
+    // The user wants to edit an existing message
+    edit(message: ContentItemMessageModel);
 }
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -98,6 +112,7 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit
         super();
 
         this.editorForm = new FormGroup({
+            id: new FormControl(),
             message: new FormControl('', Validators.required),
             imageUrl: new FormControl(''),
             sendDateTime: new FormControl(moment().add(5, 'minutes').toISOString()),
@@ -169,7 +184,9 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit
     public reset() {
         // Reset the form
         this.editorForm.reset();
+        this.isCreating = false;
         this.createMode = true;
+        this.editMode = false;
         this.editorForm.controls.sendDateTime.patchValue(moment().add(5, 'minutes').toISOString());
 
         // Only show the relative options if a relative date is supplied
@@ -177,12 +194,38 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit
             // Hide the relative option
             this.editorForm.controls.sendType.patchValue('specific');
         } else {
+            // The relative data is kept in the form because validation can't access component variables
             this.editorForm.controls.relativeDate.patchValue(this.relativeDate);
         }
 
         // Reset other parts of the component
         this.editorTextChanged();
         this.renderImagePicker();
+    }
+
+    // The user wants to edit an existing item
+    public edit(message: ContentItemMessageModel) {
+        this.reset();
+        this.createMode = false;
+        this.editMode = true;
+
+        // Update the form
+        this.editorForm.controls.id.patchValue(message.Id);
+        this.editorForm.controls.message.patchValue(message.Message);
+        this.editorForm.controls.imageUrl.patchValue(message.ImageUrl);
+        if (message.IsRelative) {
+            // Relative time
+            this.editorForm.controls.sendType.patchValue('relative');
+            this.editorForm.controls.relativeSendUnit.patchValue(message.RelativeSendUnit.toString());
+            this.editorForm.controls.relativeSendValue.patchValue(message.RelativeSendValue);
+        } else {
+            // Specific time
+            this.editorForm.controls.sendType.patchValue('specific');
+            this.editorForm.controls.sendDateTime.patchValue(message.SendTime);
+        }
+
+        // Update the char counter
+        this.editorTextChanged();
     }
 
     // Renders the image picker widget on the form
@@ -212,25 +255,47 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements OnInit
 
     // Add a new message
     addMessage() {
-        const newMessage = new ContentItemMessageModel();
-        newMessage.MessageType = IntegrationTypes.Twitter;
-        newMessage.Message = this.editorForm.controls.message.value;
-        newMessage.ImageUrl = this.editorForm.controls.imageUrl.value;
-
-        if (this.editorForm.controls.sendType.value === 'relative') {
-            // Relative send
-            newMessage.IsRelative = true;
-            newMessage.RelativeSendUnit = +this.editorForm.controls.relativeSendUnit.value;
-            newMessage.RelativeSendValue = +this.editorForm.controls.relativeSendValue.value;
-            newMessage.SendTime = this.calcRelativeSendTime(newMessage.RelativeSendUnit, newMessage.RelativeSendValue, this.relativeDate).toISOString();
-        } else {
-            // Specific send
-            newMessage.IsRelative = false;
-            newMessage.SendTime = this.editorForm.controls.sendDateTime.value;
-        }
+        // Get the message from the form
+        this.isCreating = true;
+        const newMessage = this.GetMessageFromForm();
 
         // Tell the parent a new message item has been created
         this.messageCreated.emit(newMessage);
+    }
+
+    updateMessage() {
+      // Update the message object
+      this.isCreating = true;
+      const message = this.GetMessageFromForm();
+      message.Id = this.editorForm.controls.id.value;
+
+      // Tell the parent the message has been updated
+      this.messageUpdated.emit(message);
+    }
+
+    deleteMessage() {
+      this.messageRemoved.emit(this.editorForm.controls.id.value);
+    }
+
+    GetMessageFromForm(): ContentItemMessageModel {
+      const newMessage = new ContentItemMessageModel();
+      newMessage.MessageType = IntegrationTypes.Twitter;
+      newMessage.Message = this.editorForm.controls.message.value;
+      newMessage.ImageUrl = this.editorForm.controls.imageUrl.value;
+
+      if (this.editorForm.controls.sendType.value === 'relative') {
+          // Relative send
+          newMessage.IsRelative = true;
+          newMessage.RelativeSendUnit = +this.editorForm.controls.relativeSendUnit.value;
+          newMessage.RelativeSendValue = +this.editorForm.controls.relativeSendValue.value;
+          newMessage.SendTime = this.calcRelativeSendTime(newMessage.RelativeSendUnit, newMessage.RelativeSendValue, this.relativeDate).toISOString();
+      } else {
+          // Specific send
+          newMessage.IsRelative = false;
+          newMessage.SendTime = this.editorForm.controls.sendDateTime.value;
+      }
+
+      return newMessage;
     }
 }
 
