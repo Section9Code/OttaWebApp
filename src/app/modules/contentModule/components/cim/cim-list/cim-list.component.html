@@ -16,7 +16,7 @@
       <button class="btn btn-white" type="button" (click)="addFacebookMessage()" *ngIf="canAddFacebookMessages">
         <i class="fa fa-facebook"> </i>
       </button>
-      <button class="btn btn-white" type="button" *ngIf="canAddLinkedInMessages">
+      <button class="btn btn-white" type="button" (click)="addLinkedinMessage()" *ngIf="canAddLinkedInMessages">
         <i class="fa fa-linkedin"> </i>
       </button>
       <button class="btn btn-white" type="button" *ngIf="canAddPinterestMessages">
@@ -141,6 +141,18 @@
     (messageUpdated)="handleMessageUpdated($event, 'facebookModal')" 
     (messageRemoved)="handleMessageRemoved($event, 'facebookModal')">
   </app-cim-editor-facebook>
+</otta-modal>
+
+<otta-modal [modalId]="'linkedinModal'" [title]="'Linked In'" [heading]="''" [icon]="'fa-linkedin'">
+  <app-cim-editor-linkedin #linkedinEditor 
+    [substitutions]="substitutionsList" 
+    [images]="images" 
+    [relativeDate]="contentItem.DeadLine"
+    (cancelled)="handleCancelled('linkedinModal')" 
+    (messageCreated)="handleMessageCreated($event, 'linkedinModal')" 
+    (messageUpdated)="handleMessageUpdated($event, 'linkedinModal')" 
+    (messageRemoved)="handleMessageRemoved($event, 'linkedinModal')">
+  </app-cim-editor-linkedin>
 </otta-modal>
 
 

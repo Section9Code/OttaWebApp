@@ -60,6 +60,7 @@ export class CimListComponent implements OnInit, OnDestroy {
   // Editor components
   @ViewChild('twitterEditor') private twitterEditor: ICimEditorCommon;
   @ViewChild('facebookEditor') private facebookEditor: ICimEditorCommon;
+  @ViewChild('linkedinEditor') private linkedinEditor: ICimEditorCommon;
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -192,10 +193,12 @@ export class CimListComponent implements OnInit, OnDestroy {
         this.editTwitterMessage(message);
         break;
 
-      case IntegrationTypes.Facebook: {
+      case IntegrationTypes.Facebook:
         this.editFacebookMessage(message);
         break;
-      }
+
+      case IntegrationTypes.LinkedIn:
+        this.editLinkedInMessage(message);
     }
   }
 
@@ -237,6 +240,11 @@ export class CimListComponent implements OnInit, OnDestroy {
     this.showModal('facebookModal');
   }
 
+  addLinkedinMessage() {
+    this.linkedinEditor.reset();
+    this.showModal('linkedinModal');
+  }
+
   editTwitterMessage(message: ContentItemMessageModel) {
     this.twitterEditor.edit(message);
     this.showModal('twitterModal');
@@ -245,6 +253,11 @@ export class CimListComponent implements OnInit, OnDestroy {
   editFacebookMessage(message: ContentItemMessageModel) {
     this.facebookEditor.edit(message);
     this.showModal('facebookModal');
+  }
+
+  editLinkedInMessage(message: ContentItemMessageModel) {
+    this.linkedinEditor.edit(message);
+    this.showModal('linkedinModal');
   }
 
   // The user has cancelled an editor

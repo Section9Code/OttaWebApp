@@ -32,6 +32,7 @@ export abstract class CimEditorCommon {
     isCreating = false;
 
     settingsEditorHasImagePicker = true;
+    settingsImagePickerName = 'messageImage';
 
     // Default constructor, sets up the form for all editors
     constructor() {
@@ -162,8 +163,8 @@ export abstract class CimEditorCommon {
 
         setTimeout(() => {
             // HACK: You need to wait a few moments for the form to render before calling the function to show the image picker
-            $('#messageImage').imagepicker();
-            $('#messageImage').change(() => { this.imageChanged($('#messageImage').val()); });
+            $(`#${this.settingsImagePickerName}`).imagepicker();
+            $(`#${this.settingsImagePickerName}`).change(() => { this.imageChanged($(`#${this.settingsImagePickerName}`).val()); });
         }, 300);
     }
 
