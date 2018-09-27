@@ -7,7 +7,7 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { ContentProjectShareService } from '../../../services/ContentProjectShareService';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
 import { Subscription } from 'rxjs/Subscription';
-import { CimEditorTwitterComponent, ICimEditorCommon } from '../cim-editor-twitter/cim-editor-twitter.component';
+import { ICimEditorCommon } from '../cim-editor-common';
 
 // JQuery command for modal dialogs
 declare var $: any;

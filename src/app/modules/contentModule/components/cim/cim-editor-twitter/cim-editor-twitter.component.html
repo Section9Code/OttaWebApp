@@ -5,7 +5,7 @@
     <label class="col-sm-2 control-label">Message</label>
     <div class="col-sm-10">
       <div class="input-group m-b">
-        <input type="text" class="form-control" formControlName="message" (keyup)="editorTextChanged()">
+        <input type="text" class="form-control" formControlName="message" (keyup)="updateCharacterCounter()">
         <span class="input-group-addon">{{ charactersRemaining }}</span>
       </div>
       <span class="help-block m-b-none">
