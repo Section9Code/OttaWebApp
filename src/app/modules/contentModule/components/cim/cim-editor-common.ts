@@ -31,7 +31,7 @@ export abstract class CimEditorCommon {
     editMode = false;
     isCreating = false;
 
-    editorHasImagePicker = true;
+    settingsEditorHasImagePicker = true;
 
     // Default constructor, sets up the form for all editors
     constructor() {
@@ -39,6 +39,8 @@ export abstract class CimEditorCommon {
             id: new FormControl(),
             message: new FormControl('', Validators.required),
             imageUrl: new FormControl(''),
+            linkUrl: new FormControl(''),
+            section: new FormControl(),
             sendDateTime: new FormControl(moment().add(5, 'minutes').toISOString()),
             sendType: new FormControl(),
             relativeSendValue: new FormControl(),
@@ -106,7 +108,7 @@ export abstract class CimEditorCommon {
     protected cancel() {
         this.cancelled.emit();
     }
-   
+
     // Reset the editor
     public reset() {
         // Reset the form
@@ -139,6 +141,9 @@ export abstract class CimEditorCommon {
         this.editorForm.controls.id.patchValue(message.Id);
         this.editorForm.controls.message.patchValue(message.Message);
         this.editorForm.controls.imageUrl.patchValue(message.ImageUrl);
+        this.editorForm.controls.linkUrl.patchValue(message.LinkUrl);
+        this.editorForm.controls.section.patchValue(message.RemoteSystemSectionId);
+
         if (message.IsRelative) {
             // Relative time
             this.editorForm.controls.sendType.patchValue('relative');
@@ -151,9 +156,9 @@ export abstract class CimEditorCommon {
         }
     }
 
-     // Renders the image picker widget on the form
-     protected renderImagePicker() {
-        if (!this.editorHasImagePicker) { return; }
+    // Renders the image picker widget on the form
+    protected renderImagePicker() {
+        if (!this.settingsEditorHasImagePicker) { return; }
 
         setTimeout(() => {
             // HACK: You need to wait a few moments for the form to render before calling the function to show the image picker
@@ -199,10 +204,12 @@ export abstract class CimEditorCommon {
 
     // Read the form and turn it into a content message item
     protected GetMessageFromForm(): ContentItemMessageModel {
-        const newMessage = new ContentItemMessageModel();        
+        const newMessage = new ContentItemMessageModel();
         newMessage.MessageType = this.messageType;
         newMessage.Message = this.editorForm.controls.message.value;
         newMessage.ImageUrl = this.editorForm.controls.imageUrl.value;
+        newMessage.LinkUrl = this.editorForm.controls.linkUrl.value;
+        newMessage.RemoteSystemSectionId = this.editorForm.controls.section.value;
 
         if (this.editorForm.controls.sendType.value === 'relative') {
             // Relative send

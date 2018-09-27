@@ -5,7 +5,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { MixpanelService } from 'services/mixpanel.service';
 import { ContentProjectShareService } from '../../../services/ContentProjectShareService';
-import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
+import { IntegrationTypes, ProjectIntegrationModel, FacebookProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ICimEditorCommon } from '../cim-editor-common';
 
@@ -43,6 +43,9 @@ export class CimListComponent implements OnInit, OnDestroy {
   hideMessagesInThePast = true;
   substitutionsList: ContentItemMessageSubstitution[] = [];
 
+  // Integrations
+  facebookIntegration: FacebookProjectIntegrationModel;
+
   // Subscriptions
   subIntegrations: Subscription;
 
@@ -61,6 +64,7 @@ export class CimListComponent implements OnInit, OnDestroy {
   constructor(
     private sharedService: ContentProjectShareService,
     private contentService: ContentItemService,
+    private projectIntegrationService: ContentProjectIntegrationService,
     private tracking: MixpanelService,
     private toast: ToastsManager,
     private alertSvc: SweetAlertService,
@@ -115,6 +119,11 @@ export class CimListComponent implements OnInit, OnDestroy {
       if (linkedInIntegrations.length > 0) { this.canAddLinkedInMessages = true; this.noIntegrations = false; }
       if (pinterestIntegrations.length > 0) { this.canAddPinterestMessages = true; this.noIntegrations = false; }
       if (mediumIntegrations.length > 0) { this.canAddMediumMessages = true; this.noIntegrations = false; }
+
+      // Get specific integrations
+      this.projectIntegrationService.facebookGetAllIntegrations(this.sharedService.currentProject.getValue().id).toPromise().then(response => {
+        this.facebookIntegration = response[0];
+      });
     });
   }
 
@@ -224,7 +233,6 @@ export class CimListComponent implements OnInit, OnDestroy {
   }
 
   addFacebookMessage() {
-    console.log('show facebook editor');
     this.facebookEditor.reset();
     this.showModal('facebookModal');
   }
