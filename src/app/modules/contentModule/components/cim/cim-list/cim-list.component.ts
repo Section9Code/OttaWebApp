@@ -8,6 +8,7 @@ import { ContentProjectShareService } from '../../../services/ContentProjectShar
 import { IntegrationTypes, ProjectIntegrationModel, FacebookProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ICimEditorCommon } from '../cim-editor-common';
+import { CimMessagesListComponent } from '../cim-messages-list/cim-messages-list.component';
 
 // JQuery command for modal dialogs
 declare var $: any;
@@ -39,7 +40,6 @@ export class CimListComponent implements OnInit, OnDestroy {
   images: string[] = [];
 
   // The list of messages to show to the user
-  messagesList: ShowContentItemMessageModel[] = [];
   hideMessagesInThePast = true;
   substitutionsList: ContentItemMessageSubstitution[] = [];
 
@@ -61,6 +61,8 @@ export class CimListComponent implements OnInit, OnDestroy {
   @ViewChild('twitterEditor') private twitterEditor: ICimEditorCommon;
   @ViewChild('facebookEditor') private facebookEditor: ICimEditorCommon;
   @ViewChild('linkedinEditor') private linkedinEditor: ICimEditorCommon;
+
+  @ViewChild('messageListComponent') private messageListComponent: CimMessagesListComponent;
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -142,48 +144,9 @@ export class CimListComponent implements OnInit, OnDestroy {
 
   // Updates the message list with the view the user wants to see
   private redrawMessageList() {
-    if (this.messages && this.messages.length > 0) {
-      // Sort the messages
-      this.messagesList = this.sortMessages();
-    } else {
-      // No messages to show
-      this.messagesList = [];
+    if (this.messageListComponent) {
+      this.messageListComponent.redraw();
     }
-  }
-
-  // Sort the list of messages based on what the user wants to see
-  private sortMessages(): ShowContentItemMessageModel[] {
-    const outputMessages: ShowContentItemMessageModel[] = [];
-
-    // Sort the messages by date
-    const list = this.messages.sort((one, two) => (one.SendTime > two.SendTime ? 1 : -1));
-
-    // Loop through all the messages, update them to the display type and remove any that should not be shown
-    list.forEach(item => {
-      if (this.messageIsInThePast(item)) {
-        // Messages is in the past
-        if (!this.hideMessagesInThePast) {
-          // Past messages should be shown, add it too the list
-          const msg: ShowContentItemMessageModel = item as ShowContentItemMessageModel;
-          msg.hasBeenSent = true;
-          outputMessages.push(msg);
-        }
-      } else {
-        // This message hasn't been sent yet
-        const msg: ShowContentItemMessageModel = item as ShowContentItemMessageModel;
-        msg.hasBeenSent = false;
-        outputMessages.push(msg);
-      }
-    });
-
-    // Return the new message list
-    return outputMessages;
-  }
-
-  // Is a message in the past
-  private messageIsInThePast(message: ContentItemMessageModel): boolean {
-    if (!message.SendTime) { return false; }
-    return message.SendTime < new Date().toISOString();
   }
 
   // The user wanted to edit a message
@@ -363,7 +326,4 @@ export class CimListComponent implements OnInit, OnDestroy {
   }
 }
 
-// Extend the Content item message model with a boolean to show if it has already been sent
-export class ShowContentItemMessageModel extends ContentItemMessageModel {
-  hasBeenSent: boolean;
-}
+
