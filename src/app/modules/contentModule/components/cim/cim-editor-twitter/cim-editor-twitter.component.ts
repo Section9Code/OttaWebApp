@@ -19,6 +19,7 @@ export class CimEditorTwitterComponent extends CimEditorCommon implements ICimEd
 
     constructor() {
         super();
+        this.messageType = IntegrationTypes.Twitter;
     }
 
     reset() {

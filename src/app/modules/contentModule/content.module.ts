@@ -56,6 +56,7 @@ import { ContentProjectRequeueDetailsLayoutComponent } from './content-project-r
 import { CimListComponent } from './components/cim/cim-list/cim-list.component';
 import { CimSubstitutionsListComponent } from './components/cim/cim-substitutions-list/cim-substitutions-list.component';
 import { CimEditorTwitterComponent } from './components/cim/cim-editor-twitter/cim-editor-twitter.component';
+import { CimEditorFacebookComponent } from './components/cim/cim-editor-facebook/cim-editor-facebook.component';
 
 
 // Routes for this module to be added to the application
@@ -138,7 +139,8 @@ const routes: Routes = [
         ContentItemMessageFacebookFormComponent,
         CimListComponent,
         CimSubstitutionsListComponent,
-        CimEditorTwitterComponent
+        CimEditorTwitterComponent,
+        CimEditorFacebookComponent
     ],
     providers: [
         MixpanelService,

@@ -24,6 +24,7 @@ export abstract class CimEditorCommon {
 
     // The main form object all editors use
     editorForm: FormGroup;
+    messageType: IntegrationTypes;
 
     // Flags
     createMode = true;
@@ -198,8 +199,8 @@ export abstract class CimEditorCommon {
 
     // Read the form and turn it into a content message item
     protected GetMessageFromForm(): ContentItemMessageModel {
-        const newMessage = new ContentItemMessageModel();
-        newMessage.MessageType = IntegrationTypes.Twitter;
+        const newMessage = new ContentItemMessageModel();        
+        newMessage.MessageType = this.messageType;
         newMessage.Message = this.editorForm.controls.message.value;
         newMessage.ImageUrl = this.editorForm.controls.imageUrl.value;
 

@@ -56,6 +56,7 @@ export class CimListComponent implements OnInit, OnDestroy {
 
   // Editor components
   @ViewChild('twitterEditor') private twitterEditor: ICimEditorCommon;
+  @ViewChild('facebookEditor') private facebookEditor: ICimEditorCommon;
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -181,6 +182,11 @@ export class CimListComponent implements OnInit, OnDestroy {
       case IntegrationTypes.Twitter:
         this.editTwitterMessage(message);
         break;
+
+      case IntegrationTypes.Facebook: {
+        this.editFacebookMessage(message);
+        break;
+      }
     }
   }
 
@@ -214,16 +220,35 @@ export class CimListComponent implements OnInit, OnDestroy {
   // --- EDITOR FUNCTIONS -----------------------------------------
   addTwitterMessage() {
     this.twitterEditor.reset();
-    $('#twitterModal').modal('show');
+    this.showModal('twitterModal');
+  }
+
+  addFacebookMessage() {
+    console.log('show facebook editor');
+    this.facebookEditor.reset();
+    this.showModal('facebookModal');
   }
 
   editTwitterMessage(message: ContentItemMessageModel) {
     this.twitterEditor.edit(message);
-    $('#twitterModal').modal('show');
+    this.showModal('twitterModal');
+  }
+
+  editFacebookMessage(message: ContentItemMessageModel) {
+    this.facebookEditor.edit(message);
+    this.showModal('facebookModal');
   }
 
   // The user has cancelled an editor
   handleCancelled(modalName: string) {
+    this.hideModal(modalName);
+  }
+
+  showModal(modalName: string) {
+    $(`#${modalName}`).modal('show');
+  }
+
+  hideModal(modalName: string) {
     $(`#${modalName}`).modal('hide');
   }
 
@@ -239,7 +264,7 @@ export class CimListComponent implements OnInit, OnDestroy {
           if (!this.contentItem.SocialMediaMessages) { this.contentItem.SocialMediaMessages = []; }
 
           // Close the editor
-          $(`#${modalName}`).modal('hide');
+          this.hideModal(modalName);
 
           // Add the message and tell the user
           this.contentItem.SocialMediaMessages.push(addedMessage);
@@ -270,20 +295,20 @@ export class CimListComponent implements OnInit, OnDestroy {
     this.redrawMessageList();
 
     // Close the editor
-    $(`#${modalName}`).modal('hide');
+    this.hideModal(modalName);
   }
 
   async handleMessageRemoved(messageId: string, modalName: string) {
     console.log('Message removed', messageId);
 
     // Close the editor
-    $(`#${modalName}`).modal('hide');
+    this.hideModal(modalName);
 
     // Delete
-    this.deleteMessage(messageId);
+    this.confirmDeleteMessage(messageId);
   }
 
-  deleteMessage(messageId: string){
+  confirmDeleteMessage(messageId: string) {
     // Confirm delete
     this.alertSvc.swal({
       title: 'Delete message',
