@@ -6,7 +6,7 @@ import { ContentItemMessageModel, ContentItemMessageSubstitution } from 'service
   templateUrl: './cim-messages-list.component.html',
   styleUrls: ['./cim-messages-list.component.css']
 })
-export class CimMessagesListComponent implements AfterViewInit {
+export class CimMessagesListComponent implements OnInit {
   @Input() messages: ContentItemMessageModel[] = [];
   @Input() substitutions: ContentItemMessageSubstitution[] = [];
   @Input() hideSentMessages = true;
@@ -17,15 +17,17 @@ export class CimMessagesListComponent implements AfterViewInit {
   // List of messages that will actually be shown to the user
   messagesList: ContentItemMessageModel[] = [];
 
-  constructor() { }
+  constructor() {
+  }
 
-  ngAfterViewInit() {
+  ngOnInit() {
     this.redraw();
   }
 
   // Updates the message list with the view the user wants to see
   public redraw(hideMessagesInThePast?: boolean) {
-    if (hideMessagesInThePast !== undefined) {
+    // HACK: Make sure we are showing the right items
+    if(hideMessagesInThePast !== undefined) {
       this.hideSentMessages = hideMessagesInThePast;
     }
 

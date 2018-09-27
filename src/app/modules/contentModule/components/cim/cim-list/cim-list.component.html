@@ -29,7 +29,7 @@
 
     <div class="pull-right">
       Hide sent items:
-      <input type="checkbox" [checked]="hideMessagesInThePast" (change)="hideMessagesInThePast = !hideMessagesInThePast; redrawMessageList();">
+      <input type="checkbox" [checked]="hideMessagesInThePast" (change)="redrawMessageList(!hideMessagesInThePast);">
     </div>
   </div>
   <!-- End menu -->

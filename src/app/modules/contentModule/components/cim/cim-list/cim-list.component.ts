@@ -143,7 +143,11 @@ export class CimListComponent implements OnInit, OnDestroy {
   }
 
   // Updates the message list with the view the user wants to see
-  private redrawMessageList() {
+  private redrawMessageList(newValue?: boolean) {
+    if (newValue !== undefined) {
+      this.hideMessagesInThePast = newValue;
+    }
+    
     if (this.messageListComponent) {
       this.messageListComponent.redraw(this.hideMessagesInThePast);
     }
