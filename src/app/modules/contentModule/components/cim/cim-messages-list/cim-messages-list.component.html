@@ -78,6 +78,29 @@
     </div>
     <!-- / LinkedIn message -->
 
+    <!-- Pinterest message -->
+    <div class="vertical-timeline-block" *ngSwitchCase="5">
+      <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
+        <i class="fa fa-pinterest"></i>
+      </div>
+
+      <div class="vertical-timeline-content">
+        <p (click)="editMessage(message)" [innerHTML]="message.Message"></p>
+        <p *ngIf="message.ImageUrl">
+          <img src="{{message.ImageUrl}}" width="50px" />
+        </p>
+        <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
+        <span class="vertical-date">
+          <small>
+            {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
+            <span *ngIf="message.IsRelative">(relative)</span>
+            <span *ngIf="!message.IsRelative">(static)</span>
+          </small>
+        </span>
+      </div>
+    </div>
+    <!-- / Pinterest message -->
+
   </ng-container>
 
 
