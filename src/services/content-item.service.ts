@@ -141,6 +141,13 @@ export class ContentItemMessageModel {
   ImageUrl: string;
   LinkUrl: string;
 
+  // Additional data
+  AdditionalData: object;
+
+  // Requeue settings
+  Requeue: boolean;
+  RequeueToQueueId: string;
+
   // Related ContentItemMessage link
   LinkedItemPartition: string;
   LinkedItemRowKey: string;

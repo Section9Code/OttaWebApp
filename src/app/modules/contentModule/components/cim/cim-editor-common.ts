@@ -156,6 +156,12 @@ export abstract class CimEditorCommon {
             this.editorForm.controls.sendType.patchValue('specific');
             this.editorForm.controls.sendDateTime.patchValue(message.SendTime);
         }
+
+        // Load any additional data
+        this.LoadAdditionalData(message.AdditionalData);
+    }
+
+    protected LoadAdditionalData(additionalData) {
     }
 
     // Renders the image picker widget on the form
@@ -225,7 +231,15 @@ export abstract class CimEditorCommon {
             newMessage.SendTime = this.editorForm.controls.sendDateTime.value;
         }
 
+        // Add any additional data
+        newMessage.AdditionalData = this.SaveAdditionalData();
+
         return newMessage;
+    }
+
+    // Can be replaced in child controls to add additional data to an item
+    protected SaveAdditionalData(): Object {
+        return null;
     }
 
     // Do the substitutions for any piece of text

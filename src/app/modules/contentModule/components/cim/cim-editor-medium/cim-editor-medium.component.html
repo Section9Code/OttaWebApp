@@ -1,10 +1,10 @@
 <form class="form-horizontal" [formGroup]="editorForm">
 
   <!-- Pre-content -->
-  <div class="form-group" [class.has-error]="editorForm.controls.preContent.invalid">
+  <div class="form-group" [class.has-error]="editorForm.controls.message.invalid">
     <label class="col-sm-2 control-label">Pre-Content</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" formControlName="preContent">
+      <input type="text" class="form-control" formControlName="message">
       <span class="help-block m-b-none">
         This is the message you want to show on Medium before your post content
       </span>

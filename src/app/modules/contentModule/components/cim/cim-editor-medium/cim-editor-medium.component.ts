@@ -17,18 +17,34 @@ export class CimEditorMediumComponent extends CimEditorCommon implements ICimEdi
     this.settingsEditorHasImagePicker = false;
 
     // Add on additional form controls
-    this.editorForm.addControl('preContent', new FormControl(''));
     this.editorForm.addControl('showAllContent', new FormControl(true));
     this.editorForm.addControl('excerptParagraphs', new FormControl(3));
     this.editorForm.addControl('postContent', new FormControl(''));
     this.editorForm.addControl('tags', new FormControl(''));
-    console.log('Medium form', this.editorForm);
   }
 
   reset() {
     super.reset();
-    this.editorForm.get('preContent').patchValue('This post was originally posted on {link}');
+    this.editorForm.get('message').patchValue('This post was originally posted on {link}');
     this.editorForm.get('showAllContent').patchValue(true);
+  }
+
+  // Create the object to hold the additional data
+  SaveAdditionalData(): Object {
+    return {
+      showAllContent: this.editorForm.get('showAllContent').value,
+      excerptParagraphs: this.editorForm.get('excerptParagraphs').value,
+      footer: this.editorForm.get('postContent').value,
+      tags: this.editorForm.get('tags').value
+    };
+  }
+
+  LoadAdditionalData(additionalData) {
+    console.log('Load additional', additionalData);
+    this.editorForm.get('showAllContent').patchValue(additionalData.showAllContent);
+    this.editorForm.get('excerptParagraphs').patchValue(additionalData.excerptParagraphs);
+    this.editorForm.get('postContent').patchValue(additionalData.footer);
+    this.editorForm.get('tags').patchValue(additionalData.tags);
   }
 
 }
