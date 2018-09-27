@@ -10,8 +10,8 @@
       </div>
 
       <div class="vertical-timeline-content">
-        <p (click)="editMessage(message)">
-          <strong>{{ message.Message }}</strong>
+        <p (click)="editMessage(message)" [innerHTML]="message.Message">
+          <!-- <strong>{{ message.Message }}</strong> -->
         </p>
         <p *ngIf="message.ImageUrl">
           <img src="{{message.ImageUrl}}" width="50px" />
@@ -35,8 +35,8 @@
       </div>
 
       <div class="vertical-timeline-content">
-        <p (click)="editMessage(message)">
-          <strong>{{ message.Message }}</strong>
+        <p (click)="editMessage(message)" [innerHTML]="message.Message">
+          <!-- <strong>{{ message.Message }}</strong> -->
         </p>
         <p *ngIf="message.ImageUrl">
           <img src="{{message.ImageUrl}}" width="50px" />
@@ -52,6 +52,31 @@
       </div>
     </div>
     <!-- / Facebook message -->
+
+    <!-- LinkedIn message -->
+    <div class="vertical-timeline-block" *ngSwitchCase="3">
+      <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
+        <i class="fa fa-linkedin"></i>
+      </div>
+
+      <div class="vertical-timeline-content">
+        <p (click)="editMessage(message)" [innerHTML]="message.Message">
+          <!-- <strong>{{ message.Message }}</strong> -->
+        </p>
+        <p *ngIf="message.ImageUrl">
+          <img src="{{message.ImageUrl}}" width="50px" />
+        </p>
+        <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
+        <span class="vertical-date">
+          <small>
+            {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
+            <span *ngIf="message.IsRelative">(relative)</span>
+            <span *ngIf="!message.IsRelative">(static)</span>
+          </small>
+        </span>
+      </div>
+    </div>
+    <!-- / LinkedIn message -->
 
   </ng-container>
 

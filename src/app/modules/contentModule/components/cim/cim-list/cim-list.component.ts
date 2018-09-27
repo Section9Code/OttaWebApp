@@ -145,12 +145,14 @@ export class CimListComponent implements OnInit, OnDestroy {
   // Updates the message list with the view the user wants to see
   private redrawMessageList() {
     if (this.messageListComponent) {
-      this.messageListComponent.redraw();
+      this.messageListComponent.redraw(this.hideMessagesInThePast);
     }
   }
 
   // The user wanted to edit a message
-  private editMessage(message: ContentItemMessageModel) {
+  private editMessage(messageId: string) {
+    const message = this.contentItem.SocialMediaMessages.find(m => m.Id === messageId);
+
     switch (message.MessageType) {
       case IntegrationTypes.Twitter:
         this.editTwitterMessage(message);

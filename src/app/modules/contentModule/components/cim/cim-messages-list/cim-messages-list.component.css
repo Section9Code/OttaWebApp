@@ -1,0 +1,22 @@
+:host { 
+}
+
+div.vertical-timeline-content {
+    padding-top: 2px;
+    padding-bottom: 2px;
+    padding-left: 5px;
+    padding-right: 5px;
+}
+
+div.vertical-timeline-content p {
+    margin: 2px;
+}
+
+span.vertical-date {
+    margin-left: 3px;
+}
+
+div.twitter-bg {
+    background-color: #0084b4;
+    color: white;
+}
