@@ -4,16 +4,14 @@
   <div class="form-group" [class.has-error]="editorForm.controls.message.invalid">
     <label class="col-sm-2 control-label">Message</label>
     <div class="col-sm-10">
-      <div class="input-group m-b">
-        <input type="text" class="form-control" formControlName="message" (keyup)="updateCharacterCounter()">
-        <span class="input-group-addon">{{ charactersRemaining }}</span>
-      </div>
+      <input type="text" class="form-control" formControlName="message">
       <span class="help-block m-b-none">
         The message you want to post
       </span>
     </div>
   </div>
 
+  <!-- /// DATES //////////////////////// -->
   <!-- Send type -->
   <div *ngIf="!editorForm.controls.sendType.value || editorForm.controls.sendType.value === ''" class="form-group">
     <label class="col-sm-2 control-label">When to send</label>
@@ -57,6 +55,8 @@
       </span>
     </div>
   </div>
+
+  <div class="hr-line-dashed"></div>
 
   <!-- Buttons -->
   <div class="form-group">

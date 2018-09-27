@@ -118,11 +118,11 @@
 
 </div>
 
-<otta-modal [modalId]="'twitterModal'" [title]="'Twitter'" [heading]="'Add a new twitter message'" [icon]="'fa-twitter'">
+<otta-modal [modalId]="'twitterModal'" [title]="'Twitter'" [heading]="''" [icon]="'fa-twitter'">
   <app-cim-editor-twitter #twitterEditor [substitutions]="substitutionsList" [images]="images" [relativeDate]="contentItem.DeadLine" (cancelled)="handleCancelled('twitterModal')" (messageCreated)="handleMessageCreated($event, 'twitterModal')" (messageUpdated)="handleMessageUpdated($event, 'twitterModal')" (messageRemoved)="handleMessageRemoved($event, 'twitterModal')"></app-cim-editor-twitter>
 </otta-modal>
 
-<otta-modal [modalId]="'facebookModal'" [title]="'Twitter'" [heading]="'Add a new twitter message'" [icon]="'fa-twitter'">
+<otta-modal [modalId]="'facebookModal'" [title]="'Facebook'" [heading]="''" [icon]="'fa-facebook'">
   <app-cim-editor-facebook #facebookEditor [substitutions]="substitutionsList" [images]="images" [relativeDate]="contentItem.DeadLine" (cancelled)="handleCancelled('facebookModal')" (messageCreated)="handleMessageCreated($event, 'facebookModal')" (messageUpdated)="handleMessageUpdated($event, 'facebookModal')" (messageRemoved)="handleMessageRemoved($event, 'facebookModal')"></app-cim-editor-facebook>
 </otta-modal>
 
