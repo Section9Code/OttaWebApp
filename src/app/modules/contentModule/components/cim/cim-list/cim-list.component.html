@@ -19,7 +19,7 @@
       <button class="btn btn-white" type="button" (click)="addLinkedinMessage()" *ngIf="canAddLinkedInMessages">
         <i class="fa fa-linkedin"> </i>
       </button>
-      <button class="btn btn-white" type="button" *ngIf="canAddPinterestMessages">
+      <button class="btn btn-white" type="button" (click)="addPinterestMessage()" *ngIf="canAddPinterestMessages">
         <i class="fa fa-pinterest"> </i>
       </button>
       <button class="btn btn-white" type="button" *ngIf="canAddMediumMessages">
@@ -78,7 +78,7 @@
   </app-cim-editor-facebook>
 </otta-modal>
 
-<otta-modal [modalId]="'linkedinModal'" [title]="'Linked In'" [heading]="''" [icon]="'fa-linkedin'">
+<otta-modal [modalId]="'linkedinModal'" [title]="'LinkedIn'" [heading]="''" [icon]="'fa-linkedin'">
   <app-cim-editor-linkedin #linkedinEditor 
     [substitutions]="substitutionsList" 
     [images]="images" 
@@ -88,6 +88,19 @@
     (messageUpdated)="handleMessageUpdated($event, 'linkedinModal')" 
     (messageRemoved)="handleMessageRemoved($event, 'linkedinModal')">
   </app-cim-editor-linkedin>
+</otta-modal>
+
+<otta-modal [modalId]="'pinterestModal'" [title]="'Pinterest'" [heading]="''" [icon]="'fa-pinterest'">
+  <app-cim-editor-pinterest #pinterestEditor 
+    [substitutions]="substitutionsList" 
+    [images]="images" 
+    [relativeDate]="contentItem.DeadLine"
+    [pinterestIntegration]="pinterestIntegration"
+    (cancelled)="handleCancelled('pinterestModal')" 
+    (messageCreated)="handleMessageCreated($event, 'pinterestModal')" 
+    (messageUpdated)="handleMessageUpdated($event, 'pinterestModal')" 
+    (messageRemoved)="handleMessageRemoved($event, 'pinterestModal')">
+  </app-cim-editor-pinterest>
 </otta-modal>
 
 

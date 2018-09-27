@@ -55,6 +55,10 @@ export class ContentProjectIntegrationService {
         return this.authHttp.get(`${this.url}/${projectId}/facebook/getIntegrations`).map(response => response.json());
     }
 
+    pinterestGetAllIntegrations(projectId: string): Observable<PinterestProjectIntegrationModel[]> {
+        return this.authHttp.get(`${this.url}/${projectId}/pinterest/getIntegrations`).map(response => response.json());
+    }
+
     linkedInGetLogin(projectId: string): Observable<FacebookOAuthDetails> {
         return this.authHttp.get(`${this.url}/${projectId}/linkedin/getLogin`).map(response => response.json());
     }
@@ -113,6 +117,19 @@ export class FacebookProjectIntegrationModel extends ProjectIntegrationModel {
     Accounts: FacebookAccountsModel[];
     Groups: FacebookGroupModel[];
     UserDetails: FacebookUserDetailsModel;
+}
+
+export class PinterestProjectIntegrationModel extends ProjectIntegrationModel {
+    AccessToken: string;
+    Url: string;
+    Username: string;
+    Boards: PinterestBoard[];
+}
+
+export class PinterestBoard {
+    id: string;
+    name: string;
+    url: string;
 }
 
 export class FacebookAccountsModel {

@@ -5,7 +5,7 @@ import { ToastsManager } from 'ng2-toastr';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { MixpanelService } from 'services/mixpanel.service';
 import { ContentProjectShareService } from '../../../services/ContentProjectShareService';
-import { IntegrationTypes, ProjectIntegrationModel, FacebookProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
+import { IntegrationTypes, ProjectIntegrationModel, FacebookProjectIntegrationModel, ContentProjectIntegrationService, PinterestProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
 import { Subscription } from 'rxjs/Subscription';
 import { ICimEditorCommon } from '../cim-editor-common';
 import { CimMessagesListComponent } from '../cim-messages-list/cim-messages-list.component';
@@ -45,6 +45,7 @@ export class CimListComponent implements OnInit, OnDestroy {
 
   // Integrations
   facebookIntegration: FacebookProjectIntegrationModel;
+  pinterestIntegration: PinterestProjectIntegrationModel;
 
   // Subscriptions
   subIntegrations: Subscription;
@@ -61,6 +62,7 @@ export class CimListComponent implements OnInit, OnDestroy {
   @ViewChild('twitterEditor') private twitterEditor: ICimEditorCommon;
   @ViewChild('facebookEditor') private facebookEditor: ICimEditorCommon;
   @ViewChild('linkedinEditor') private linkedinEditor: ICimEditorCommon;
+  @ViewChild('pinterestEditor') private pinterestEditor: ICimEditorCommon;
 
   @ViewChild('messageListComponent') private messageListComponent: CimMessagesListComponent;
 
@@ -127,6 +129,10 @@ export class CimListComponent implements OnInit, OnDestroy {
       this.projectIntegrationService.facebookGetAllIntegrations(this.sharedService.currentProject.getValue().id).toPromise().then(response => {
         this.facebookIntegration = response[0];
       });
+
+      this.projectIntegrationService.pinterestGetAllIntegrations(this.sharedService.currentProject.getValue().id).toPromise().then(response => {
+        this.pinterestIntegration = response[0];
+      });
     });
   }
 
@@ -147,7 +153,7 @@ export class CimListComponent implements OnInit, OnDestroy {
     if (newValue !== undefined) {
       this.hideMessagesInThePast = newValue;
     }
-    
+
     if (this.messageListComponent) {
       this.messageListComponent.redraw(this.hideMessagesInThePast);
     }
@@ -168,6 +174,11 @@ export class CimListComponent implements OnInit, OnDestroy {
 
       case IntegrationTypes.LinkedIn:
         this.editLinkedInMessage(message);
+        break;
+
+      case IntegrationTypes.Pinterest:
+        this.editPinterestMessage(message);
+        break;
     }
   }
 
@@ -214,6 +225,11 @@ export class CimListComponent implements OnInit, OnDestroy {
     this.showModal('linkedinModal');
   }
 
+  addPinterestMessage() {
+    this.pinterestEditor.reset();
+    this.showModal('pinterestModal');
+  }
+
   editTwitterMessage(message: ContentItemMessageModel) {
     this.twitterEditor.edit(message);
     this.showModal('twitterModal');
@@ -227,6 +243,11 @@ export class CimListComponent implements OnInit, OnDestroy {
   editLinkedInMessage(message: ContentItemMessageModel) {
     this.linkedinEditor.edit(message);
     this.showModal('linkedinModal');
+  }
+
+  editPinterestMessage(message: ContentItemMessageModel) {
+    this.pinterestEditor.edit(message);
+    this.showModal('pinterestModal');
   }
 
   // The user has cancelled an editor

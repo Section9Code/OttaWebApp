@@ -59,6 +59,7 @@ import { CimEditorTwitterComponent } from './components/cim/cim-editor-twitter/c
 import { CimEditorFacebookComponent } from './components/cim/cim-editor-facebook/cim-editor-facebook.component';
 import { CimEditorLinkedinComponent } from './components/cim/cim-editor-linkedin/cim-editor-linkedin.component';
 import { CimMessagesListComponent } from './components/cim/cim-messages-list/cim-messages-list.component';
+import { CimEditorPinterestComponent } from './components/cim/cim-editor-pinterest/cim-editor-pinterest.component';
 
 
 // Routes for this module to be added to the application
@@ -144,7 +145,8 @@ const routes: Routes = [
         CimEditorTwitterComponent,
         CimEditorFacebookComponent,
         CimEditorLinkedinComponent,
-        CimMessagesListComponent
+        CimMessagesListComponent,
+        CimEditorPinterestComponent
     ],
     providers: [
         MixpanelService,
