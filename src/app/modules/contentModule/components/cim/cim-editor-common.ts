@@ -118,6 +118,7 @@ export abstract class CimEditorCommon {
         this.createMode = true;
         this.editMode = false;
         this.editorForm.controls.sendDateTime.patchValue(moment().add(5, 'minutes').toISOString());
+        this.editorForm.controls.linkUrl.patchValue('{link}');
 
         // Only show the relative options if a relative date is supplied
         if (!this.relativeDate || this.relativeDate === '') {

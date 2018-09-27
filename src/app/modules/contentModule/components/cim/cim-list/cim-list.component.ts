@@ -63,6 +63,7 @@ export class CimListComponent implements OnInit, OnDestroy {
   @ViewChild('facebookEditor') private facebookEditor: ICimEditorCommon;
   @ViewChild('linkedinEditor') private linkedinEditor: ICimEditorCommon;
   @ViewChild('pinterestEditor') private pinterestEditor: ICimEditorCommon;
+  @ViewChild('mediumEditor') private mediumEditor: ICimEditorCommon;
 
   @ViewChild('messageListComponent') private messageListComponent: CimMessagesListComponent;
 
@@ -179,6 +180,10 @@ export class CimListComponent implements OnInit, OnDestroy {
       case IntegrationTypes.Pinterest:
         this.editPinterestMessage(message);
         break;
+
+      case IntegrationTypes.Medium:
+        this.editMediumMessage(message);
+        break;
     }
   }
 
@@ -230,6 +235,11 @@ export class CimListComponent implements OnInit, OnDestroy {
     this.showModal('pinterestModal');
   }
 
+  addMediumMessage() {
+    this.mediumEditor.reset();
+    this.showModal('mediumModal');
+  }
+
   editTwitterMessage(message: ContentItemMessageModel) {
     this.twitterEditor.edit(message);
     this.showModal('twitterModal');
@@ -248,6 +258,11 @@ export class CimListComponent implements OnInit, OnDestroy {
   editPinterestMessage(message: ContentItemMessageModel) {
     this.pinterestEditor.edit(message);
     this.showModal('pinterestModal');
+  }
+
+  editMediumMessage(message: ContentItemMessageModel) {
+    this.mediumEditor.edit(message);
+    this.showModal('mediumModal');
   }
 
   // The user has cancelled an editor
