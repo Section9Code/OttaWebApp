@@ -39,6 +39,7 @@ export class CimEditorMediumComponent extends CimEditorCommon implements ICimEdi
     };
   }
 
+  // Load additional data from the message when it is edited
   LoadAdditionalData(additionalData) {
     console.log('Load additional', additionalData);
     this.editorForm.get('showAllContent').patchValue(additionalData.showAllContent);
