@@ -10,6 +10,8 @@ export class CimMessagesListComponent implements OnInit, OnChanges {
   @Input() messages: ContentItemMessageModel[] = [];
   @Input() substitutions: ContentItemMessageSubstitution[] = [];
   @Input() hideSentMessages = true;
+  @Input() showDates = true;
+  @Input() alwaysShowDelete = false;
 
   @Output() onDeleteMessage = new EventEmitter<string>();
   @Output() onEditMessage = new EventEmitter<string>();

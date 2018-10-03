@@ -16,9 +16,9 @@
         <p *ngIf="message.ImageUrl">
           <img src="{{message.ImageUrl}}" width="50px" />
         </p>
-        <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
+        <a *ngIf="!message.hasBeenSent || alwaysShowDelete" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
         <span class="vertical-date">
-          <small>
+          <small *ngIf="showDates">
             {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
             <span *ngIf="message.IsRelative">(relative)</span>
             <span *ngIf="!message.IsRelative">(static)</span>
@@ -41,9 +41,9 @@
         <p *ngIf="message.ImageUrl">
           <img src="{{message.ImageUrl}}" width="50px" />
         </p>
-        <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
+        <a *ngIf="!message.hasBeenSent || alwaysShowDelete" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
         <span class="vertical-date">
-          <small>
+          <small *ngIf="showDates">
             {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
             <span *ngIf="message.IsRelative">(relative)</span>
             <span *ngIf="!message.IsRelative">(static)</span>
@@ -66,9 +66,9 @@
         <p *ngIf="message.ImageUrl">
           <img src="{{message.ImageUrl}}" width="50px" />
         </p>
-        <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
+        <a *ngIf="!message.hasBeenSent || alwaysShowDelete" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
         <span class="vertical-date">
-          <small>
+          <small *ngIf="showDates">
             {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
             <span *ngIf="message.IsRelative">(relative)</span>
             <span *ngIf="!message.IsRelative">(static)</span>
@@ -89,9 +89,9 @@
         <p *ngIf="message.ImageUrl">
           <img src="{{message.ImageUrl}}" width="50px" />
         </p>
-        <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
+        <a *ngIf="!message.hasBeenSent || alwaysShowDelete" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
         <span class="vertical-date">
-          <small>
+          <small *ngIf="showDates">
             {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
             <span *ngIf="message.IsRelative">(relative)</span>
             <span *ngIf="!message.IsRelative">(static)</span>
@@ -112,9 +112,9 @@
         <p *ngIf="message.ImageUrl">
           <img src="{{message.ImageUrl}}" width="50px" />
         </p>
-        <a *ngIf="!message.hasBeenSent" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
+        <a *ngIf="!message.hasBeenSent || alwaysShowDelete" class="btn btn-xs btn-danger btn-outline" (click)="deleteMessage(message.Id)">Delete</a>
         <span class="vertical-date">
-          <small>
+          <small *ngIf="showDates">
             {{ message.SendTime | date }} {{ message.SendTime | date:'shortTime'}}
             <span *ngIf="message.IsRelative">(relative)</span>
             <span *ngIf="!message.IsRelative">(static)</span>

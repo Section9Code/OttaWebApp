@@ -5,13 +5,6 @@
             <h3>Coming Soon</h3>
         </otta-panel>
 
-        <otta-panel [title]="'Testing'" [loading]="isLoading">
-            <h3>Messages</h3>
-            <ul>
-                <li *ngFor="let message of currentQueue.Messages">Message: {{message.Message}}</li>
-            </ul>
-        </otta-panel>
-
         <otta-panel [title]="'Message queue'" [loading]="isLoading">
             <app-cim-list-requeue #messageListComponent
                 [messages]="currentQueue.Messages" 

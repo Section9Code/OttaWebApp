@@ -25,17 +25,8 @@
     </div>
     <!-- End menu -->
 
-    <h4>Test messages</h4>
-    <ul>
-      <li *ngFor="let msg of messages">
-        Msg: {{msg.MessageType}} - {{msg.Message}} 
-        <button class="btn btn-xs btn-danger btn-outline" (click)="handleMessageRemoved(msg.Id,'')">Remove</button>
-      </li>      
-    </ul>
-    <hr/>
-
     <!-- Message list -->
-    <app-cim-messages-list #messageListComponent [messages]="messages" [hideSentMessages]="false" [substitutions]="[]"></app-cim-messages-list>
+    <app-cim-messages-list #messageListComponent [messages]="messages" [hideSentMessages]="false" [showDates]="false" [alwaysShowDelete]="true" [substitutions]="[]"></app-cim-messages-list>
 
 </div>
 
