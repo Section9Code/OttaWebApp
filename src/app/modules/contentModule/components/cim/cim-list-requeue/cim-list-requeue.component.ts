@@ -118,6 +118,21 @@ export class CimListRequeueComponent implements OnInit, OnChanges {
     this.showModal('twitterModal');
   }
 
+  editMessage(messageId: string) {
+    console.log('Requeue List - Edit message', messageId);
+    // Find the message
+    const message = this.messages.find(m => m.Id === messageId);
+    if (!message) { return; }
+
+    switch (message.MessageType) {
+      case IntegrationTypes.Twitter: {
+        this.twitterEditor.edit(message);
+        this.showModal('twitterModal');
+        break;
+      }
+    }
+  }
+
   // Handle when the user has created a message
   handleMessageCreated(message: ContentItemMessageModel, modalName: string) {
     this.hideModal(modalName);

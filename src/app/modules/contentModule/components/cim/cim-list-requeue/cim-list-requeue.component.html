@@ -26,7 +26,15 @@
     <!-- End menu -->
 
     <!-- Message list -->
-    <app-cim-messages-list #messageListComponent [messages]="messages" [hideSentMessages]="false" [showDates]="false" [alwaysShowDelete]="true" [substitutions]="[]"></app-cim-messages-list>
+    <app-cim-messages-list #messageListComponent 
+      [messages]="messages" 
+      [hideSentMessages]="false" 
+      [showDates]="false" 
+      [alwaysShowDelete]="true" 
+      [substitutions]="[]"
+      (onEditMessage)="editMessage($event)"
+      (onDeleteMessage)="handleMessageRemoved($event, '')">
+    </app-cim-messages-list>
 
 </div>
 
