@@ -36,9 +36,9 @@ export class CimListRequeueComponent implements OnInit, OnChanges {
 
   // Editors
   @ViewChild('twitterEditor') private twitterEditor: ICimEditorCommon;
-  // @ViewChild('facebookEditor') private facebookEditor: ICimEditorCommon;
-  // @ViewChild('linkedinEditor') private linkedinEditor: ICimEditorCommon;
-  // @ViewChild('pinterestEditor') private pinterestEditor: ICimEditorCommon;
+  @ViewChild('facebookEditor') private facebookEditor: ICimEditorCommon;
+  @ViewChild('linkedinEditor') private linkedinEditor: ICimEditorCommon;
+  @ViewChild('pinterestEditor') private pinterestEditor: ICimEditorCommon;
 
   @ViewChild('messageListComponent') private messageListComponent: CimMessagesListComponent;
 
@@ -64,12 +64,6 @@ export class CimListRequeueComponent implements OnInit, OnChanges {
     console.log('Requeue List - Updated');
     this.messageListComponent.redraw();
   }
-
-  // public refresh(queue: RequeueModel) {
-  //   this.requeue = queue;
-  //   console.log('Refresh', this.requeue);
-  //   this.messageListComponent.redraw();
-  // }
 
   // Loads the integrations the project has and stops users from picking options they have not configured
   private loadIntegrations() {
@@ -118,20 +112,57 @@ export class CimListRequeueComponent implements OnInit, OnChanges {
     this.showModal('twitterModal');
   }
 
+  addFacebookMessage() {
+    this.facebookEditor.reset();
+    this.showModal('facebookModal');
+  }
+
+  addLinkedinMessage() {
+    this.linkedinEditor.reset();
+    this.showModal('linkedinModal');
+  }
+
+  addPinterestMessage() {
+    this.pinterestEditor.reset();
+    this.showModal('pinterestModal');
+  }
+
   editMessage(messageId: string) {
     console.log('Requeue List - Edit message', messageId);
     // Find the message
     const message = this.messages.find(m => m.Id === messageId);
     if (!message) { return; }
 
+    // Pick the right editor to edit this message
+    let modalName: string;
+    let editor: ICimEditorCommon;
     switch (message.MessageType) {
-      case IntegrationTypes.Twitter: {
-        this.twitterEditor.edit(message);
-        this.showModal('twitterModal');
+      case IntegrationTypes.Twitter:
+        editor = this.twitterEditor;
+        modalName = 'twitterModal';
         break;
-      }
+
+      case IntegrationTypes.Facebook:
+        editor = this.facebookEditor;
+        modalName = 'facebookModal';
+        break;
+
+      case IntegrationTypes.LinkedIn:
+        editor = this.linkedinEditor;
+        modalName = 'linkedinModal';
+        break;
+
+      case IntegrationTypes.Pinterest:
+        editor = this.pinterestEditor;
+        modalName = 'pinterestModal';
+        break;
     }
+
+    // Show the editor
+    editor.edit(message);
+    this.showModal(modalName);
   }
+
 
   // Handle when the user has created a message
   handleMessageCreated(message: ContentItemMessageModel, modalName: string) {

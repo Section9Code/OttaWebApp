@@ -28,7 +28,8 @@
     <div class="col-sm-10">
       <select id="linkedinImagePicker" formControlName="imageUrl" (change)="imageChanged()">
         <option value=""></option>
-        <option *ngFor="let image of images" [attr.data-img-src]="image" [attr.data-img-class]="'pickerThumbnailPic'" value="{{image}}">{{ image }}</option>
+        <option *ngFor="let image of images" [attr.data-img-src]="image" [attr.data-img-class]="'pickerThumbnailPic'"
+          value="{{image}}">{{ image }}</option>
       </select>
       <span class="help-block m-b-none" *ngIf="images.length > 0">
         Image you want to appear on your tweet
@@ -40,47 +41,49 @@
   </div>
 
   <!-- /// DATES //////////////////////// -->
-  <!-- Send type -->
-  <div *ngIf="!editorForm.controls.sendType.value || editorForm.controls.sendType.value === ''" class="form-group">
-    <label class="col-sm-2 control-label">When to send</label>
-    <div class="col-sm-10">
-      <button class="btn btn-default" (click)="editorForm.controls.sendType.patchValue('specific')">Send at specific
-        time</button>
-      <button class="btn btn-default" (click)="editorForm.controls.sendType.patchValue('relative')">Send
-        relative to publish date</button>
+  <div *ngIf="!hideDateTimeSettings">
+    <!-- Send type -->
+    <div *ngIf="!editorForm.controls.sendType.value || editorForm.controls.sendType.value === ''" class="form-group">
+      <label class="col-sm-2 control-label">When to send</label>
+      <div class="col-sm-10">
+        <button class="btn btn-default" (click)="editorForm.controls.sendType.patchValue('specific')">Send at specific
+          time</button>
+        <button class="btn btn-default" (click)="editorForm.controls.sendType.patchValue('relative')">Send
+          relative to publish date</button>
+      </div>
     </div>
-  </div>
 
-  <!-- Send at specific time -->
-  <div *ngIf="editorForm.controls.sendType.value == 'specific'" class="form-group" [class.has-error]="editorForm.controls.sendDateTime.invalid">
-    <label class="col-sm-2 control-label">At specific time</label>
-    <div class="col-sm-10">
-      <otta-datetime-picker [name]="'sendTime'" formControlName="sendDateTime" [minDate]="datePickerMinDate"></otta-datetime-picker>
-      <span class="help-block m-b-none">
-        Send the message at a specific time
-      </span>
+    <!-- Send at specific time -->
+    <div *ngIf="editorForm.controls.sendType.value == 'specific'" class="form-group" [class.has-error]="editorForm.controls.sendDateTime.invalid">
+      <label class="col-sm-2 control-label">At specific time</label>
+      <div class="col-sm-10">
+        <otta-datetime-picker [name]="'sendTime'" formControlName="sendDateTime" [minDate]="datePickerMinDate"></otta-datetime-picker>
+        <span class="help-block m-b-none">
+          Send the message at a specific time
+        </span>
+      </div>
     </div>
-  </div>
 
-  <!-- Send at relative time -->
-  <div *ngIf="editorForm.controls.sendType.value == 'relative'" class="form-group">
-    <label class="col-sm-2 control-label">Relative to publish</label>
-    <div class="col-sm-5" [class.has-error]="editorForm.controls.relativeSendValue.invalid">
-      <input type="number" class="form-control" formControlName="relativeSendValue" />
-    </div>
-    <div class="col-sm-5" [class.has-error]="editorForm.controls.relativeSendUnit.invalid">
-      <select class="form-control m-b" formControlName="relativeSendUnit">
-        <option value="0">Minutes</option>
-        <option value="1">Hours</option>
-        <option value="2">Days</option>
-        <option value="3">Weeks</option>
-        <option value="4">Months</option>
-      </select>
-    </div>
-    <div class="col-xs-12 col-sm-10 col-sm-offset-2">
-      <span class="help-block m-b-none">
-        Send the message at a time relative to when the content item is published. Publish date: {{relativeDate}}
-      </span>
+    <!-- Send at relative time -->
+    <div *ngIf="editorForm.controls.sendType.value == 'relative'" class="form-group">
+      <label class="col-sm-2 control-label">Relative to publish</label>
+      <div class="col-sm-5" [class.has-error]="editorForm.controls.relativeSendValue.invalid">
+        <input type="number" class="form-control" formControlName="relativeSendValue" />
+      </div>
+      <div class="col-sm-5" [class.has-error]="editorForm.controls.relativeSendUnit.invalid">
+        <select class="form-control m-b" formControlName="relativeSendUnit">
+          <option value="0">Minutes</option>
+          <option value="1">Hours</option>
+          <option value="2">Days</option>
+          <option value="3">Weeks</option>
+          <option value="4">Months</option>
+        </select>
+      </div>
+      <div class="col-xs-12 col-sm-10 col-sm-offset-2">
+        <span class="help-block m-b-none">
+          Send the message at a time relative to when the content item is published. Publish date: {{relativeDate}}
+        </span>
+      </div>
     </div>
   </div>
 
@@ -90,8 +93,10 @@
   <div class="form-group">
     <div class="col-sm-10 col-sm-offset-2">
       <button class="btn btn-white" (click)="cancel()">Cancel</button>
-      <button class="btn btn-primary" *ngIf="createMode" type="submit" [disabled]="!editorForm.valid" [ladda]="isCreating" (click)="addMessage()">Add message</button>
-      <button class="btn btn-primary" *ngIf="editMode" type="submit" [disabled]="!editorForm.valid" [ladda]="isCreating" (click)="updateMessage()">Update</button>
+      <button class="btn btn-primary" *ngIf="createMode" type="submit" [disabled]="!editorForm.valid" [ladda]="isCreating"
+        (click)="addMessage()">Add message</button>
+      <button class="btn btn-primary" *ngIf="editMode" type="submit" [disabled]="!editorForm.valid" [ladda]="isCreating"
+        (click)="updateMessage()">Update</button>
       <button class="btn btn-danger pull-right" *ngIf="editMode" type="submit" [disabled]="!editorForm.valid" (click)="deleteMessage()">Delete</button>
     </div>
   </div>

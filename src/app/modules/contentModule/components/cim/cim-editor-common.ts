@@ -17,6 +17,10 @@ export abstract class CimEditorCommon {
     @Input() relativeDate = '';                                     // The date this item is relative too
     @Input() hideDateTimeSettings = false;                          // Allow the date selection to be hidden is not needed
 
+    // Default input box texts
+    @Input() defaultMessageText = '';
+    @Input() defaultLinkText = '{link}';
+
     // Common outputs
     @Output() messageCreated = new EventEmitter<ContentItemMessageModel>(); // Fired when the user wants to create a message
     @Output() messageUpdated = new EventEmitter<ContentItemMessageModel>(); // Fired when the user wants to update an existing messages
@@ -123,9 +127,16 @@ export abstract class CimEditorCommon {
         this.isCreating = false;
         this.createMode = true;
         this.editMode = false;
+        this.editorForm.controls.message.patchValue(this.defaultMessageText);
+        this.editorForm.controls.linkUrl.patchValue(this.defaultLinkText);
         this.editorForm.controls.sendDateTime.patchValue(moment().add(5, 'minutes').toISOString());
-        this.editorForm.controls.linkUrl.patchValue('{link}');
 
+        // If the user can't see the datetime settings, set the send date of the message far in the future
+        if (this.hideDateTimeSettings) {
+            this.editorForm.controls.sendType.patchValue('specific');
+            this.editorForm.controls.sendDateTime.patchValue(moment().add(20, 'years').toISOString());
+        }
+        
         // Only show the relative options if a relative date is supplied
         if (!this.relativeDate || this.relativeDate === '') {
             // Hide the relative option
