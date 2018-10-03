@@ -25,9 +25,14 @@ export class RequeueService {
     return this.authHttp.post(`${this.url}/${projectId}`, queue).map(response => response.json());
   }
 
+  // Update a queue
+  update(projectId: string, queue: RequeueModel): Observable<RequeueModel> {
+    return this.authHttp.put(`${this.url}/${projectId}/${queue.id}`, queue).map(response => response.json());
+  }
+
   // Delete a queue
-  delete(projectId: string, queueId: string): Observable<boolean> {
-    return this.authHttp.delete(`${this.url}/${projectId}/${queueId}`).map(response => response.json());
+  delete(projectId: string, queueId: string): Observable<void> {
+    return this.authHttp.delete(`${this.url}/${projectId}/${queueId}`).map(response => {});
   }
 
   // Add a message

@@ -1,36 +1,72 @@
 <div class="row">
 
-    <div class="col-xs-12 col-lg-10">
+    <div class="col-xs-12 col-lg-9">
         <otta-panel [title]="'Timeslots'" [loading]="isLoading">
             <h3>Coming Soon</h3>
         </otta-panel>
 
         <otta-panel [title]="'Message queue'" [loading]="isLoading">
-            <app-cim-list-requeue #messageListComponent
-                [messages]="currentQueue.Messages" 
-                (onCreateMessage)="handleCreateMessage($event)" 
-                (onUpdateMessage)="handleUpdateMessage($event)" 
-                (onRemoveMessage)="handleRemoveMessage($event)">
+            <app-cim-list-requeue #messageListComponent [messages]="currentQueue.Messages" (onCreateMessage)="handleCreateMessage($event)"
+                (onUpdateMessage)="handleUpdateMessage($event)" (onRemoveMessage)="handleRemoveMessage($event)">
             </app-cim-list-requeue>
         </otta-panel>
     </div>
 
 
-    <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
-        <h2>Requeuing</h2>
-        <p>
-            Requeuing your social media messages lets you get more from your content. Setup up the list of messages you want to send
-            and we will work through the list on the schedule you set up. When all your messages are sent we will start from the 
-            beginning again.
-        </p>
-        <p>
-            This way you can periodically bring new attention to your older content so it keeps getting a new audience.
-        </p>
-        <!-- <h4>Get creative</h4>
+    <div class="col-xs-12 col-lg-3">
+
+        <otta-panel [title]="'Settings'">
+
+            <form class="form-horizontal" [formGroup]="settingsForm">
+                <div class="form-group" [class.has-error]="settingsForm.controls.name.invalid">
+                    <label class="col-sm-2 control-label">Name</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" formControlName="name">
+                        <span class="help-block m-b-none">
+                            The name of this requeue
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group" [class.has-error]="settingsForm.controls.colourHex.invalid">
+                    <label class="col-sm-2 control-label">Colour</label>
+                    <div class="col-sm-10">
+                        <otta-colour-picker name="queueColourPicker" formControlName="colourHex"></otta-colour-picker>
+                        <span class="help-block m-b-none">
+                            The colour of its items when shown on a calendar
+                        </span>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <div class="col-sm-10 col-sm-offset-2">
+                        <button class="btn btn-primary" [disabled]="!settingsForm.valid" [ladda]="isUpdating" (click)="updateRequeue()">Update</button>
+                        <button class="btn btn-danger pull-right" (click)="deleteRequeue()">Delete</button>
+                    </div>
+                </div>
+            </form>
+
+        </otta-panel>
+
+        <div class="hidden-xs hidden-sm hidden-md">
+            <h2>Requeuing</h2>
+            <p>
+                Requeuing your social media messages lets you get more from your content. Setup up the list of messages
+                you want to send
+                and we will work through the list on the schedule you set up. When all your messages are sent we will
+                start from the
+                beginning again.
+            </p>
+            <p>
+                This way you can periodically bring new attention to your older content so it keeps getting a new
+                audience.
+            </p>
+            <!-- <h4>Get creative</h4>
         <p>
             You can setup a queue with just a few messages in so it keeps sending the same messages frequently, or create a long list of 
             messages that will keep going out over a long period and never repeat. The way you use it is up to you.
         </p> -->
+        </div>
     </div>
 
 </div>
