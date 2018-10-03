@@ -1,4 +1,4 @@
-import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, Input, AfterViewInit, Output, EventEmitter, OnChanges, SimpleChange } from '@angular/core';
 import { ContentItemMessageModel, ContentItemMessageSubstitution } from 'services/content-item.service';
 
 @Component({
@@ -6,7 +6,7 @@ import { ContentItemMessageModel, ContentItemMessageSubstitution } from 'service
   templateUrl: './cim-messages-list.component.html',
   styleUrls: ['./cim-messages-list.component.css']
 })
-export class CimMessagesListComponent implements OnInit {
+export class CimMessagesListComponent implements OnInit, OnChanges {
   @Input() messages: ContentItemMessageModel[] = [];
   @Input() substitutions: ContentItemMessageSubstitution[] = [];
   @Input() hideSentMessages = true;
@@ -21,13 +21,20 @@ export class CimMessagesListComponent implements OnInit {
   }
 
   ngOnInit() {
+    console.log('CIM List - Init', this.messages);
+    this.redraw();
+  }
+
+  ngOnChanges() {
+    console.log('CIM List - Changes detected', this.messages);
     this.redraw();
   }
 
   // Updates the message list with the view the user wants to see
   public redraw(hideMessagesInThePast?: boolean) {
+    console.log('CIM List - Redraw', this.messages);
     // HACK: Make sure we are showing the right items
-    if(hideMessagesInThePast !== undefined) {
+    if (hideMessagesInThePast !== undefined) {
       this.hideSentMessages = hideMessagesInThePast;
     }
 

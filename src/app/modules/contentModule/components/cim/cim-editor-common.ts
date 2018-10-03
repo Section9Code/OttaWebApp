@@ -15,6 +15,7 @@ export abstract class CimEditorCommon {
     @Input() substitutions: ContentItemMessageSubstitution[] = [];  // The list of substitution items available to be used
     @Input() images: string[] = [];                                 // The array of images available to be used
     @Input() relativeDate = '';                                     // The date this item is relative too
+    @Input() hideDateTimeSettings = false;                          // Allow the date selection to be hidden is not needed
 
     // Common outputs
     @Output() messageCreated = new EventEmitter<ContentItemMessageModel>(); // Fired when the user wants to create a message
@@ -52,6 +53,11 @@ export abstract class CimEditorCommon {
 
     // Validate the editor form to make sure the send time of the item is valid
     protected validateFormSendTimes(form: FormGroup): any {
+        if (this.hideDateTimeSettings) {
+            // The user doesn't need the send time of the item to be validated
+            return;
+        }
+
         // Has a sent type been selected
         if (!form.controls.sendType.value) { return { noSendTypeSelected: true }; }
         if (form.controls.sendType.value !== 'relative' && form.controls.sendType.value !== 'specific') { return { invalidSendTypeSelected: true }; }

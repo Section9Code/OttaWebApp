@@ -29,6 +29,21 @@ export class RequeueService {
   delete(projectId: string, queueId: string): Observable<boolean> {
     return this.authHttp.delete(`${this.url}/${projectId}/${queueId}`).map(response => response.json());
   }
+
+  // Add a message
+  addMessage(projectId: string, queueId: string, message: ContentItemMessageModel): Observable<ContentItemMessageModel> {
+    return this.authHttp.post(`${this.url}/${projectId}/${queueId}/messages`, message).map(response => response.json());
+  }
+
+  // Update a message
+  updateMessage(projectId: string, queueId: string, message: ContentItemMessageModel): Observable<ContentItemMessageModel> {
+    return this.authHttp.put(`${this.url}/${projectId}/${queueId}/messages/${message.Id}`, message).map(response => response.json());
+  }
+
+  // Remove a message
+  removeMessage(projectId: string, queueId: string, messageId: string): Observable<void> {
+    return this.authHttp.delete(`${this.url}/${projectId}/${queueId}/messages/${messageId}`).map(response => {});
+  }
 }
 
 export class RequeueModel {
@@ -39,6 +54,10 @@ export class RequeueModel {
   NextItemIndex: number;
   Messages: ContentItemMessageModel[];
   TimeSlots: RequeueTimeSlot[];
+
+  constructor() {
+    this.Messages = [];
+  }
 }
 
 export class RequeueTimeSlot {

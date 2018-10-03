@@ -5,24 +5,39 @@
             <h3>Coming Soon</h3>
         </otta-panel>
 
+        <otta-panel [title]="'Testing'" [loading]="isLoading">
+            <h3>Messages</h3>
+            <ul>
+                <li *ngFor="let message of currentQueue.Messages">Message: {{message.Message}}</li>
+            </ul>
+        </otta-panel>
+
         <otta-panel [title]="'Message queue'" [loading]="isLoading">
-            <h3>Coming Soon</h3>
+            <app-cim-list-requeue #messageListComponent
+                [messages]="currentQueue.Messages" 
+                (onCreateMessage)="handleCreateMessage($event)" 
+                (onUpdateMessage)="handleUpdateMessage($event)" 
+                (onRemoveMessage)="handleRemoveMessage($event)">
+            </app-cim-list-requeue>
         </otta-panel>
     </div>
 
 
     <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
-        <h2>Side information</h2>
+        <h2>Requeuing</h2>
         <p>
-            Put information here about what this page does.
+            Requeuing your social media messages lets you get more from your content. Setup up the list of messages you want to send
+            and we will work through the list on the schedule you set up. When all your messages are sent we will start from the 
+            beginning again.
         </p>
         <p>
-            It is only shown on large screens, not on mobile or tablet devices.
+            This way you can periodically bring new attention to your older content so it keeps getting a new audience.
         </p>
-        <h4>Sub-Heading</h4>
+        <!-- <h4>Get creative</h4>
         <p>
-            Break up the content with sub-headings to make it easier to read.
-        </p>
+            You can setup a queue with just a few messages in so it keeps sending the same messages frequently, or create a long list of 
+            messages that will keep going out over a long period and never repeat. The way you use it is up to you.
+        </p> -->
     </div>
 
 </div>
