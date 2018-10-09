@@ -7,46 +7,50 @@
 <!-- Show all menu options -->
 <div *ngIf="!noIntegrations">
 
-  <!-- Menu buttons -->
-  <div>
-    <div class="btn-group">
-      <button class="btn btn-white" type="button" (click)="addTwitterMessage()" *ngIf="canAddTwitterMessages">
-        <i class="fa fa-twitter"> </i>
-      </button>
-      <button class="btn btn-white" type="button" (click)="addFacebookMessage()" *ngIf="canAddFacebookMessages">
-        <i class="fa fa-facebook"> </i>
-      </button>
-      <button class="btn btn-white" type="button" (click)="addLinkedinMessage()" *ngIf="canAddLinkedInMessages">
-        <i class="fa fa-linkedin"> </i>
-      </button>
-      <button class="btn btn-white" type="button" (click)="addPinterestMessage()" *ngIf="canAddPinterestMessages">
-        <i class="fa fa-pinterest"> </i>
-      </button>
-      <button class="btn btn-white" type="button" (click)="addMediumMessage()" *ngIf="canAddMediumMessages">
-        <i class="fa fa-medium"> </i>
-      </button>
-    </div>
-
-    <div class="pull-right">
-      Hide sent items:
-      <input type="checkbox" [checked]="hideMessagesInThePast" (change)="redrawMessageList(!hideMessagesInThePast);">
-    </div>
-  </div>
-  <!-- End menu -->
-
-
 
   <!-- Lists -->
   <div class="row">
 
     <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
       <h3>Substitutions</h3>
-      <app-cim-substitutions-list [substitutions]="substitutionsList" (onSubstitutionAdded)="handleSubstitutionAdded($event)" (onSubstitutionRemove)="handleSubstitutionRemoved($event)" (onSubstitutionValueUpdated)="handleSubstitionUpdated($event)"></app-cim-substitutions-list>
+      <app-cim-substitutions-list [substitutions]="substitutionsList" (onSubstitutionAdded)="handleSubstitutionAdded($event)"
+        (onSubstitutionRemove)="handleSubstitutionRemoved($event)" (onSubstitutionValueUpdated)="handleSubstitutionUpdated($event)"></app-cim-substitutions-list>
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
       <h3>Messages</h3>
-      <app-cim-messages-list #messageListComponent [messages]="contentItem.SocialMediaMessages" [hideSentMessages]="hideMessagesInThePast" [substitutions]="substitutionsList" (onDeleteMessage)="confirmDeleteMessage($event)" (onEditMessage)="editMessage($event)"></app-cim-messages-list>
+
+
+      <!-- Menu buttons -->
+      <div>
+        <div class="btn-group">
+          <button class="btn btn-white" type="button" (click)="addTwitterMessage()" *ngIf="canAddTwitterMessages">
+            <i class="fa fa-twitter"> </i>
+          </button>
+          <button class="btn btn-white" type="button" (click)="addFacebookMessage()" *ngIf="canAddFacebookMessages">
+            <i class="fa fa-facebook"> </i>
+          </button>
+          <button class="btn btn-white" type="button" (click)="addLinkedinMessage()" *ngIf="canAddLinkedInMessages">
+            <i class="fa fa-linkedin"> </i>
+          </button>
+          <button class="btn btn-white" type="button" (click)="addPinterestMessage()" *ngIf="canAddPinterestMessages">
+            <i class="fa fa-pinterest"> </i>
+          </button>
+          <button class="btn btn-white" type="button" (click)="addMediumMessage()" *ngIf="canAddMediumMessages">
+            <i class="fa fa-medium"> </i>
+          </button>
+        </div>
+
+        <div class="pull-right">
+          Hide sent items:
+          <input type="checkbox" [checked]="hideMessagesInThePast" (change)="redrawMessageList(!hideMessagesInThePast);">
+        </div>
+      </div>
+      <!-- End menu -->
+
+
+      <app-cim-messages-list #messageListComponent [messages]="contentItem.SocialMediaMessages" [hideSentMessages]="hideMessagesInThePast"
+        [substitutions]="substitutionsList" (onDeleteMessage)="confirmDeleteMessage($event)" (onEditMessage)="editMessage($event)"></app-cim-messages-list>
     </div>
 
   </div>
@@ -54,66 +58,36 @@
 </div>
 
 <otta-modal [modalId]="'twitterModal'" [title]="'Twitter'" [heading]="''" [icon]="'fa-twitter'">
-  <app-cim-editor-twitter #twitterEditor 
-    [substitutions]="substitutionsList" 
-    [images]="images" 
-    [relativeDate]="contentItem.DeadLine" 
-    (cancelled)="handleCancelled('twitterModal')" 
-    (messageCreated)="handleMessageCreated($event, 'twitterModal')" 
-    (messageUpdated)="handleMessageUpdated($event, 'twitterModal')" 
-    (messageRemoved)="handleMessageRemoved($event, 'twitterModal')">
+  <app-cim-editor-twitter #twitterEditor [substitutions]="substitutionsList" [images]="images" [relativeDate]="contentItem.DeadLine"
+    (cancelled)="handleCancelled('twitterModal')" (messageCreated)="handleMessageCreated($event, 'twitterModal')"
+    (messageUpdated)="handleMessageUpdated($event, 'twitterModal')" (messageRemoved)="handleMessageRemoved($event, 'twitterModal')">
   </app-cim-editor-twitter>
 </otta-modal>
 
 <otta-modal [modalId]="'facebookModal'" [title]="'Facebook'" [heading]="''" [icon]="'fa-facebook'">
-  <app-cim-editor-facebook #facebookEditor 
-    [substitutions]="substitutionsList" 
-    [images]="images" 
-    [relativeDate]="contentItem.DeadLine"     
-    [facebookIntegration]="facebookIntegration"
-    (cancelled)="handleCancelled('facebookModal')" 
-    (messageCreated)="handleMessageCreated($event, 'facebookModal')" 
-    (messageUpdated)="handleMessageUpdated($event, 'facebookModal')" 
-    (messageRemoved)="handleMessageRemoved($event, 'facebookModal')">
+  <app-cim-editor-facebook #facebookEditor [substitutions]="substitutionsList" [images]="images" [relativeDate]="contentItem.DeadLine"
+    [facebookIntegration]="facebookIntegration" (cancelled)="handleCancelled('facebookModal')" (messageCreated)="handleMessageCreated($event, 'facebookModal')"
+    (messageUpdated)="handleMessageUpdated($event, 'facebookModal')" (messageRemoved)="handleMessageRemoved($event, 'facebookModal')">
   </app-cim-editor-facebook>
 </otta-modal>
 
 <otta-modal [modalId]="'linkedinModal'" [title]="'LinkedIn'" [heading]="''" [icon]="'fa-linkedin'">
-  <app-cim-editor-linkedin #linkedinEditor 
-    [substitutions]="substitutionsList" 
-    [images]="images" 
-    [relativeDate]="contentItem.DeadLine"
-    (cancelled)="handleCancelled('linkedinModal')" 
-    (messageCreated)="handleMessageCreated($event, 'linkedinModal')" 
-    (messageUpdated)="handleMessageUpdated($event, 'linkedinModal')" 
-    (messageRemoved)="handleMessageRemoved($event, 'linkedinModal')">
+  <app-cim-editor-linkedin #linkedinEditor [substitutions]="substitutionsList" [images]="images" [relativeDate]="contentItem.DeadLine"
+    (cancelled)="handleCancelled('linkedinModal')" (messageCreated)="handleMessageCreated($event, 'linkedinModal')"
+    (messageUpdated)="handleMessageUpdated($event, 'linkedinModal')" (messageRemoved)="handleMessageRemoved($event, 'linkedinModal')">
   </app-cim-editor-linkedin>
 </otta-modal>
 
 <otta-modal [modalId]="'pinterestModal'" [title]="'Pinterest'" [heading]="''" [icon]="'fa-pinterest'">
-  <app-cim-editor-pinterest #pinterestEditor 
-    [substitutions]="substitutionsList" 
-    [images]="images" 
-    [relativeDate]="contentItem.DeadLine"
-    [pinterestIntegration]="pinterestIntegration"
-    (cancelled)="handleCancelled('pinterestModal')" 
-    (messageCreated)="handleMessageCreated($event, 'pinterestModal')" 
-    (messageUpdated)="handleMessageUpdated($event, 'pinterestModal')" 
-    (messageRemoved)="handleMessageRemoved($event, 'pinterestModal')">
+  <app-cim-editor-pinterest #pinterestEditor [substitutions]="substitutionsList" [images]="images" [relativeDate]="contentItem.DeadLine"
+    [pinterestIntegration]="pinterestIntegration" (cancelled)="handleCancelled('pinterestModal')" (messageCreated)="handleMessageCreated($event, 'pinterestModal')"
+    (messageUpdated)="handleMessageUpdated($event, 'pinterestModal')" (messageRemoved)="handleMessageRemoved($event, 'pinterestModal')">
   </app-cim-editor-pinterest>
 </otta-modal>
 
 <otta-modal [modalId]="'mediumModal'" [title]="'Medium'" [heading]="''" [icon]="'fa-medium'">
-  <app-cim-editor-medium #mediumEditor 
-    [substitutions]="substitutionsList" 
-    [images]="images" 
-    [relativeDate]="contentItem.DeadLine"
-    [tags]="contentItem.Tags"
-    (cancelled)="handleCancelled('mediumModal')" 
-    (messageCreated)="handleMessageCreated($event, 'mediumModal')" 
-    (messageUpdated)="handleMessageUpdated($event, 'mediumModal')" 
-    (messageRemoved)="handleMessageRemoved($event, 'mediumModal')">
+  <app-cim-editor-medium #mediumEditor [substitutions]="substitutionsList" [images]="images" [relativeDate]="contentItem.DeadLine"
+    [tags]="contentItem.Tags" (cancelled)="handleCancelled('mediumModal')" (messageCreated)="handleMessageCreated($event, 'mediumModal')"
+    (messageUpdated)="handleMessageUpdated($event, 'mediumModal')" (messageRemoved)="handleMessageRemoved($event, 'mediumModal')">
   </app-cim-editor-medium>
 </otta-modal>
-
-

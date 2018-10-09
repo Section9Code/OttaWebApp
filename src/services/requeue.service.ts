@@ -32,7 +32,7 @@ export class RequeueService {
 
   // Delete a queue
   delete(projectId: string, queueId: string): Observable<void> {
-    return this.authHttp.delete(`${this.url}/${projectId}/${queueId}`).map(response => {});
+    return this.authHttp.delete(`${this.url}/${projectId}/${queueId}`).map(response => { });
   }
 
   // Add a message
@@ -47,7 +47,17 @@ export class RequeueService {
 
   // Remove a message
   removeMessage(projectId: string, queueId: string, messageId: string): Observable<void> {
-    return this.authHttp.delete(`${this.url}/${projectId}/${queueId}/messages/${messageId}`).map(response => {});
+    return this.authHttp.delete(`${this.url}/${projectId}/${queueId}/messages/${messageId}`).map(response => { });
+  }
+
+  // Add a timeslot
+  addTimeslot(projectId: string, queueId: string, timeslot: RequeueTimeSlot): Observable<void> {
+    return this.authHttp.post(`${this.url}/${projectId}/${queueId}/timeslot`, timeslot).map(response => { });
+  }
+
+  // Remove a timeslot
+  removeTimeslot(projectId: string, queueId: string, timeslotId: string): Observable<void> {
+    return this.authHttp.delete(`${this.url}/${projectId}/${queueId}/timeslot/${timeslotId}`).map(response => { });
   }
 }
 

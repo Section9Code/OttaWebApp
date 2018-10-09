@@ -193,6 +193,7 @@ export class CimListComponent implements OnInit, OnDestroy {
     this.substitutionsList.push(sub);
     // Tell the parent a substitution has been added
     this.substitutionAdded.emit(sub);
+    this.redrawMessageList();
   }
 
   private handleSubstitutionRemoved(sub: ContentItemMessageSubstitution) {
@@ -201,15 +202,17 @@ export class CimListComponent implements OnInit, OnDestroy {
     if (index !== -1) {
       this.substitutionsList.splice(index, 1);
       this.substitutionRemoved.emit(sub);
+      this.redrawMessageList();
     }
   }
 
-  private handleSubstitionUpdated(sub: ContentItemMessageSubstitution) {
+  private handleSubstitutionUpdated(sub: ContentItemMessageSubstitution) {
     // Udpate an exisiting sub
     const index = this.substitutionsList.findIndex(s => s.name === sub.name);
     if (index !== -1) {
       this.substitutionsList[index] = sub;
       this.substitutionValueUpdated.emit(sub);
+      this.redrawMessageList();
     }
   }
 

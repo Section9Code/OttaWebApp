@@ -1,0 +1,82 @@
+<table class="table table-bordered">
+  <thead>
+    <tr>
+      <th>Time</th>
+      <th>Mon</th>
+      <th>Tue</th>
+      <th>Wed</th>
+      <th>Thu</th>
+      <th>Fri</th>
+      <th>Sat</th>
+      <th>Sun</th>
+    </tr>
+  </thead>
+  <tbody>
+    
+    <tr *ngFor="let hour of hours">
+      <td>{{hour}}:00 - {{hour+(hoursPerBlock-1)}}:59</td>
+      
+      <td *ngFor="let day of days" class="timeslotCell">
+        <div *ngIf="timeslotItems(hour, hoursPerBlock, day).length === 0" class="emptyTimeslot" (click)="showTimeslotAddForm(day, hour)">
+            <button class="btn btn-default btn-xs" type="button"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add</button>
+        </div>
+        <div *ngFor="let item of timeslotItems(hour, hoursPerBlock, day)">
+          aaa
+        </div>
+      </td>
+
+    </tr>
+
+  </tbody>
+</table>
+
+<!-- Modal for adding a new substitution -->
+<otta-modal [modalId]="'addTimeslotModal'" [title]="'Add timeslot'" [heading]="'Add a timeslot to this requeue'" [icon]="'fa-plus'">
+  <form class="form-horizontal" [formGroup]="timeslotForm">
+
+    <!-- Day selection -->
+    <div class="form-group" [class.has-error]="timeslotForm.controls.day.invalid">
+      <label class="col-sm-2 control-label">Day of the week</label>
+      <div class="col-sm-10">
+        <select formControlName="day">
+          <option value="1">Monday</option>
+          <option value="2">Tueday</option>
+          <option value="3">Wednesday</option>
+          <option value="4">Thurday</option>
+          <option value="5">Friday</option>
+          <option value="6">Saturday</option>
+          <option value="0">Sunday</option>
+        </select>
+
+        <span class="help-block m-b-none">
+          The day of the week you want the message sent
+        </span>
+      </div>
+    </div>
+
+    <!-- Hour selection -->
+    <div class="form-group" [class.has-error]="timeslotForm.controls.hour.invalid">
+      <label class="col-sm-2 control-label">Hour</label>
+      <div class="col-sm-10">
+        <select formControlName="hour">
+          <option *ngFor="let hour of formHours" value="{{hour}}">{{hour}}</option>          
+        </select>
+
+        <select formControlName="minutes">
+          <option *ngFor="let minute of formMinutes" value="{{minute}}">{{minute | number: '2.0'}}</option>          
+        </select>
+
+        <span class="help-block m-b-none">
+          The time you want the message sent
+        </span>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <div class="col-sm-10 col-sm-offset-2">
+        <button class="btn btn-white" (click)="cancelTimeslotModal()">Cancel</button>
+        <button class="btn btn-primary" type="submit" [disabled]="!timeslotForm.valid" (click)="addTimeslot()">Add</button>
+      </div>
+    </div>
+  </form>
+</otta-modal>

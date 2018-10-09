@@ -2,7 +2,7 @@ import { Component, OnInit, OnDestroy, ViewChild } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastsManager } from 'ng2-toastr';
 import { MixpanelService } from 'services/mixpanel.service';
-import { RequeueService, RequeueModel, RequeueReducedModel } from 'services/requeue.service';
+import { RequeueService, RequeueModel, RequeueReducedModel, RequeueTimeSlot } from 'services/requeue.service';
 import { ContentProjectShareService } from '../services/ContentProjectShareService';
 import { Subscription } from 'rxjs/Subscription';
 import { ContentItemContentModel } from 'services/content-item-content.service';
@@ -10,6 +10,8 @@ import { ContentItemMessageModel } from 'services/content-item.service';
 import { CimListRequeueComponent } from '../components/cim/cim-list-requeue/cim-list-requeue.component';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SweetAlertService } from 'ng2-sweetalert2';
+import { TimeslotDisplayItem } from '../components/requeue-timeslots/requeue-timeslots.component';
+import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
 
 @Component({
   selector: 'app-content-project-requeue-details-layout',
@@ -17,7 +19,7 @@ import { SweetAlertService } from 'ng2-sweetalert2';
   styleUrls: ['./content-project-requeue-details-layout.component.css']
 })
 export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDestroy {
-  currentQueue: RequeueModel = new RequeueModel();
+  currentQueue = new RequeueModel();
   isLoading = false;
   isUpdating = false;
 
@@ -167,7 +169,7 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
       // Confirmed
       await this.requeueService.delete(this.currentQueue.ProjectId, this.currentQueue.id).toPromise();
       this.sharedService.removeRequeue(this.currentQueue.id);
-      this.router.navigate(['..'], {relativeTo: this.activatedRoute});
+      this.router.navigate(['..'], { relativeTo: this.activatedRoute });
       this.toast.success('Requeue deleted');
     },
       error => {
@@ -179,4 +181,15 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
       }
     );
   }
+
+  async handleAddTimeslot(timeslot: RequeueTimeSlot) {
+    console.log('Add timeslot', timeslot);
+
+    // Update the system
+    this.currentQueue.TimeSlots.push(timeslot);
+    await this.requeueService.addTimeslot(this.currentQueue.ProjectId, this.currentQueue.id, timeslot).toPromise();
+    this.toast.success('Timeslot added');
+  }
+
+
 }

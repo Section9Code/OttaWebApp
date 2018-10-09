@@ -1,4 +1,9 @@
-<button type="button" class="btn btn-default btn-xs" (click)="showAddForm()">Add substitution</button>
+<div class="btn-group">
+  <button class="btn btn-white" type="button" (click)="showAddForm()" alt="Add substitution">
+    <i class="fa fa-plus"></i>
+  </button>
+</div>
+
 <div *ngFor="let sub of substitutions" style="overflow: hidden">
   <h5>{{sub.name}}</h5>
   <h6>{{sub.value}} <a *ngIf="sub.name !== 'title' && sub.name !== 'link' && sub.name !== 'description'" [routerLink]=""

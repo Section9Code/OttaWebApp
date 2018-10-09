@@ -62,6 +62,7 @@ import { CimMessagesListComponent } from './components/cim/cim-messages-list/cim
 import { CimEditorPinterestComponent } from './components/cim/cim-editor-pinterest/cim-editor-pinterest.component';
 import { CimEditorMediumComponent } from './components/cim/cim-editor-medium/cim-editor-medium.component';
 import { CimListRequeueComponent } from './components/cim/cim-list-requeue/cim-list-requeue.component';
+import { RequeueTimeslotsComponent } from './components/requeue-timeslots/requeue-timeslots.component';
 
 
 // Routes for this module to be added to the application
@@ -150,7 +151,8 @@ const routes: Routes = [
         CimMessagesListComponent,
         CimEditorPinterestComponent,
         CimEditorMediumComponent,
-        CimListRequeueComponent
+        CimListRequeueComponent,
+        RequeueTimeslotsComponent
     ],
     providers: [
         MixpanelService,
