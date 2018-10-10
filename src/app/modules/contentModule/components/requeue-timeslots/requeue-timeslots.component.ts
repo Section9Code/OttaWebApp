@@ -26,12 +26,15 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
   @Output() onRemoveTimeslot = new EventEmitter<string>();
 
   // Variables
-  private hours = [];                       // The list of hours we are we going to show
-  private timeslotForm: FormGroup;          // The form group holding the 'Add a timeslot' form
-  private formHours = [];                   // The array of hours to show on a form
-  private formMinutes = [];                 // The array of minuites to show on a form
+  private hours = [];                                 // The list of hours we are we going to show
+  private timeslotForm: FormGroup;                    // The form group holding the 'Add a timeslot' form
+  private formHours = [];                             // The array of hours to show on a form
+  private formMinutes = [];                           // The array of minuites to show on a form
+  private displayData = new TimeslotDisplayData();    // The object holding all the data to be displayed on the page
 
-  private displayData = new TimeslotDisplayData(); // The object holding all the data to be displayed
+  private timeslotsToEdit: TimeslotDisplayItem[] = [];                       // The list of timeslots to be edited
+  private editDay: number;
+  private editHour: number;
 
   constructor() {
     // Setup the form
@@ -108,6 +111,7 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
           newTimeslot.QueueName = queue.Name;
           newTimeslot.ColourHex = queue.ColourHex;
           newTimeslot.TimeOfDay = ts.UtcTimeOfDay;
+          newTimeslot.DisplayTimeOfDay = this.pad(ts.UtcTimeOfDay, 4);
           newTimeslot.DayOfWeek = ts.DayOfTheWeek;
           items.push(newTimeslot);
         });
@@ -117,9 +121,13 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
     return items;
   }
 
-  cellSelected(day: TDDDay, hour: number) {
-    console.log('Cell selected');
+  pad(num: number, size: number): string {
+    let s = num + "";
+    while (s.length < size) { s = '0' + s };
+    return s;
+  }
 
+  cellSelected(day: TDDDay, hour: number) {
     // Find the timeslots in this cell
     const items = day.timeslotItems;
 
@@ -128,23 +136,26 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
       this.showTimeslotAddForm(day.dayOfTheWeek, hour);
     } else {
       // Items in form show edit form
-      console.log('- Edit');
+      this.timeslotsToEdit = day.timeslotItems;
+      this.showTimeslotEditForm(day.dayOfTheWeek, hour);
     }
   }
 
-  test(msg: string) {
-    console.log(`Test - ${msg}`);
-  }
-
-  // Add a timeslot to a specific day and hour
-  showTimeslotAddForm(day, hour) {
-    console.log(`Add TS Day:${day} Hour:${hour}`);
+  // Show the add form
+  showTimeslotAddForm(day: number, hour: number) {
     this.timeslotForm.reset();
     this.timeslotForm.controls.day.patchValue(day);
     this.timeslotForm.controls.hour.patchValue(hour);
     this.timeslotForm.controls.minutes.patchValue(0);
 
     $('#addTimeslotModal').modal('show');
+  }
+
+  // Show the edit form
+  showTimeslotEditForm(day: number, hour: number) {
+    this.editDay = day;
+    this.editHour = hour;
+    $('#editTimeslotModal').modal('show');
   }
 
   addTimeslot() {
@@ -159,6 +170,18 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
     // Emit the add event
     this.onAddTimeslot.emit(ts);
     $('#addTimeslotModal').modal('hide');
+  }
+
+  editModalAddTimeslot() {
+    console.log('Modal Add');
+    $('#editTimeslotModal').modal('hide');
+    this.showTimeslotAddForm(this.editDay, this.editHour);
+  }
+
+  editModalRemoveTimeslot(item: TimeslotDisplayItem) {
+    console.log('Remove', item);
+    $('#editTimeslotModal').modal('hide');
+    this.removeTimeslot(item.Id);
   }
 
   removeTimeslot(id: string) {
@@ -176,15 +199,22 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
 
 }
 
+
+
+// A single timeslot item to be shown on the page
 export class TimeslotDisplayItem {
   Id: string;
   RequeueId: string;
   ColourHex: string;
   QueueName: string;
   TimeOfDay: number;
+  DisplayTimeOfDay: string;
   DayOfWeek: number;
 }
 
+// Classes for holding data to be displayed on the page.
+// An array of display hours is held, then the days for each hour
+// Finally the timeslot items for each position
 export class TimeslotDisplayData {
   hours: TDDHour[];
 

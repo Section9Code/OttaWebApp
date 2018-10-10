@@ -18,8 +18,8 @@
 
       <td *ngFor="let day of line.daysOfWeek" class="timeslotCell" (click)="cellSelected(day, line.hour)">
 
-        <div *ngFor="let item of day.timeslotItems" class="timeslotItem" [style.background-color]="item.ColourHex" (click)="test('item clicked')">
-          <span *ngIf="item.TimeOfDay < 1000">0</span>{{ item.TimeOfDay }}
+        <div *ngFor="let item of day.timeslotItems" class="timeslotItem" [style.background-color]="item.ColourHex">
+          {{ item.DisplayTimeOfDay }}
         </div>
 
       </td>
@@ -29,6 +29,7 @@
 
   </tbody>
 </table>
+
 
 <!-- Modal for adding a new substitution -->
 <otta-modal [modalId]="'addTimeslotModal'" [title]="'Add timeslot'" [heading]="'Add a timeslot to this requeue'" [icon]="'fa-plus'">
@@ -79,4 +80,9 @@
       </div>
     </div>
   </form>
+</otta-modal>
+
+<otta-modal [modalId]="'editTimeslotModal'" [title]="'Edit timeslot'" [heading]="'Add a new timeslot or remove an existing timeslot'" [icon]="'fa-pencil'">
+  <button class="btn btn-primary btn-block" type="button" (click)="editModalAddTimeslot()"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add timeslot</button>
+  <button *ngFor="let item of timeslotsToEdit" class="btn btn-danger btn-block" type="button" (click)="editModalRemoveTimeslot(item)"><i class="fa fa-minus"></i>&nbsp;&nbsp;Remove {{item.DisplayTimeOfDay}} timeslot</button>
 </otta-modal>
