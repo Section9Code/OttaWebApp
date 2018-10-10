@@ -1,6 +1,11 @@
 <div class="row">
 
-  <div class="col-xs-12 col-lg-10">    
+  <div class="col-xs-12 col-lg-10">   
+    <!-- Timeslot overview -->
+    <otta-panel [title]="'Timeslots'" [showButton]="false" [loading]="isLoadingTimeslots">
+      <app-requeue-timeslots [requeues]="fullRequeues" [linkToQueue]="true" [hoursPerBlock]="3"></app-requeue-timeslots>
+    </otta-panel>
+
     <otta-panel [title]="'Requeues'" [showButton]="true" [buttonText]="'Create'" (buttonClicked)="showCreateModal()" [loading]="isLoadingQueues">
       <div class="table-responsive">
         <table class="table table-hover issue-tracker">
@@ -13,7 +18,10 @@
           </thead>
           <tbody>
             <tr *ngFor="let item of queues" (click)="navigateToItem(item)">
-              <td>{{item.Name}}</td>
+              <td>
+                {{item.Name}}
+                <div [style.background-color]="item.ColourHex">&nbsp;</div>
+              </td>
               <td>{{item.Messages}}</td>
               <td>{{item.TimeSlots}}</td>
             </tr>

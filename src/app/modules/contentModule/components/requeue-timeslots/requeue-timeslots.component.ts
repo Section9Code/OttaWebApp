@@ -4,6 +4,7 @@ import { FormGroup, FormControl } from '@angular/forms';
 import { Observable } from 'rxjs/Observable';
 import { Subscription } from 'rxjs/Subscription';
 import { ContentSearchLayoutComponent } from '../../content-search-layout/content-search-layout.component';
+import { Router, ActivatedRoute } from '@angular/router';
 
 declare var $: any;
 
@@ -13,17 +14,13 @@ declare var $: any;
   styleUrls: ['./requeue-timeslots.component.css']
 })
 export class RequeueTimeslotsComponent implements OnInit, OnChanges {
-  // Parameters
-  // The list of requeues to show
-  @Input() requeues = new Array<RequeueModel>();
-  // The number of hours each vertical block holds
-  @Input() hoursPerBlock = 2;
-  // The days of the week to be shown
-  @Input() days = [1, 2, 3, 4, 5, 6, 0];
-  // Called when a new timeslot should be added
-  @Output() onAddTimeslot = new EventEmitter<RequeueTimeSlot>();
-  // Called when a timeslot should be removed
-  @Output() onRemoveTimeslot = new EventEmitter<string>();
+  // Parameters  
+  @Input() requeues = new Array<RequeueModel>();                    // The list of requeues to show
+  @Input() hoursPerBlock = 2;                                       // The number of hours each vertical block holds
+  @Input() days = [1, 2, 3, 4, 5, 6, 0];                            // The days of the week to be shown
+  @Input() linkToQueue = false;                                     // When set to true when an item is clicked on it will link to the queue rather than allow editing
+  @Output() onAddTimeslot = new EventEmitter<RequeueTimeSlot>();    // Called when a new timeslot should be added
+  @Output() onRemoveTimeslot = new EventEmitter<string>();          // Called when a timeslot should be removed
 
   // Variables
   private hours = [];                                 // The list of hours we are we going to show
@@ -36,7 +33,7 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
   private editDay: number;
   private editHour: number;
 
-  constructor() {
+  constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     // Setup the form
     this.timeslotForm = new FormGroup({
       day: new FormControl(''),
@@ -56,7 +53,7 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
 
   ngOnChanges(changes: SimpleChanges) {
     console.log('RequeueTimeslotsComponent - Changes', changes);
-    
+
     // Has the queues value been changed
     const queues: SimpleChange = changes.requeues;
     if (queues.currentValue !== queues.previousValue) {
@@ -123,13 +120,20 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
     return items;
   }
 
+  // Pads out a number to be a set size
   pad(num: number, size: number): string {
     let s = num + "";
     while (s.length < size) { s = '0' + s };
     return s;
   }
 
+  // A user has clicked on an item
   cellSelected(day: TDDDay, hour: number) {
+    if (this.linkToQueue) {
+      // Disable the normal edit options
+      return;
+    }
+
     // Find the timeslots in this cell
     const items = day.timeslotItems;
 
@@ -140,6 +144,12 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
       // Items in form show edit form
       this.timeslotsToEdit = day.timeslotItems;
       this.showTimeslotEditForm(day.dayOfTheWeek, hour);
+    }
+  }
+
+  timeslotSelected(item: TimeslotDisplayItem) {
+    if(this.linkToQueue) {
+      this.router.navigate([`${item.RequeueId}`], {relativeTo: this.activatedRoute});
     }
   }
 

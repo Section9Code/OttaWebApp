@@ -15,6 +15,10 @@ export class RequeueService {
     return this.authHttp.get(`${this.url}/${projectId}`).map(response => response.json());
   }
 
+  getAllFull(projectId: string): Observable<RequeueModel[]> {
+    return this.authHttp.get(`${this.url}/${projectId}?full=true`).map(response => response.json());
+  }
+
   // Get a single requeue item
   getSingle(projectId: string, queueId: string): Observable<RequeueModel> {
     return this.authHttp.get(`${this.url}/${projectId}/${queueId}`).map(response => response.json());

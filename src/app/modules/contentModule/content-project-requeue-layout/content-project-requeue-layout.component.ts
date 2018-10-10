@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { ContentProjectShareService } from '../services/ContentProjectShareService';
 import { RequeueReducedModel, RequeueService, RequeueModel } from 'services/requeue.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
@@ -6,6 +6,7 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { ToastsManager } from 'ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
+import { Subscription } from 'rxjs/Subscription';
 
 declare var $: any;
 
@@ -14,11 +15,18 @@ declare var $: any;
   templateUrl: './content-project-requeue-layout.component.html',
   styleUrls: ['./content-project-requeue-layout.component.css']
 })
-export class ContentProjectRequeueLayoutComponent implements OnInit {
+export class ContentProjectRequeueLayoutComponent implements OnInit, OnDestroy {
+  private fullRequeues: RequeueModel[] = [];
   private queues: RequeueReducedModel[] = [];
+
+  // Flags
   private isCreating = false;
+  private isLoadingQueues = false;
 
   private createForm: FormGroup;
+
+  subSharedQueues: Subscription;
+  subFullRequeues: Subscription;
 
   constructor(
     private sharedService: ContentProjectShareService,
@@ -38,10 +46,24 @@ export class ContentProjectRequeueLayoutComponent implements OnInit {
 
   ngOnInit() {
     // Get the requeues from the system
-    this.sharedService.requeues.subscribe(response => {
+    this.subSharedQueues = this.sharedService.requeues.subscribe(response => {
       console.log('Updated queues', response);
       this.queues = response;
     });
+
+    this.isLoadingQueues = true;
+    this.subFullRequeues = this.requeueService.getAllFull(this.sharedService.currentProject.getValue().id).subscribe(next => {
+      this.fullRequeues = next;
+      this.isLoadingQueues = false;
+    },
+    error => {
+      // Error loading queues
+      this.isLoadingQueues = false;
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.subSharedQueues) { this.subSharedQueues.unsubscribe(); }
   }
 
   navigateToItem(item: RequeueReducedModel) {
