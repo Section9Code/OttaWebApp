@@ -188,6 +188,8 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
     // Update the data
     this.currentQueue.TimeSlots.push(timeslot);
     await this.requeueService.addTimeslot(this.currentQueue.ProjectId, this.currentQueue.id, timeslot).toPromise();
+    // Force a reload of the whole requeue object to update all the child components
+    this.currentQueue = await this.requeueService.getSingle(this.currentQueue.ProjectId, this.currentQueue.id).toPromise();
 
     // Update the meta data
     const meta = this.sharedService.requeues.getValue().find(q => q.Id === this.currentQueue.id);
@@ -213,6 +215,8 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
       const index = this.currentQueue.TimeSlots.findIndex(ts => ts.Id === id);
       this.currentQueue.TimeSlots.splice(index, 1);
       await this.requeueService.removeTimeslot(this.currentQueue.ProjectId, this.currentQueue.id, id).toPromise();
+      // Force a reload of the whole requeue object to update all the child components
+      this.currentQueue = await this.requeueService.getSingle(this.currentQueue.ProjectId, this.currentQueue.id).toPromise();
 
       // Update the meta data
       const meta = this.sharedService.requeues.getValue().find(q => q.Id === this.currentQueue.id);

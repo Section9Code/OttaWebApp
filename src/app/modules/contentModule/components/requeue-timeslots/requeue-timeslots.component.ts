@@ -55,6 +55,8 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges) {
+    console.log('RequeueTimeslotsComponent - Changes', changes);
+    
     // Has the queues value been changed
     const queues: SimpleChange = changes.requeues;
     if (queues.currentValue !== queues.previousValue) {
