@@ -185,11 +185,51 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
   async handleAddTimeslot(timeslot: RequeueTimeSlot) {
     console.log('Add timeslot', timeslot);
 
-    // Update the system
+    // Update the data
     this.currentQueue.TimeSlots.push(timeslot);
     await this.requeueService.addTimeslot(this.currentQueue.ProjectId, this.currentQueue.id, timeslot).toPromise();
+
+    // Update the meta data
+    const meta = this.sharedService.requeues.getValue().find(q => q.Id === this.currentQueue.id);
+    meta.TimeSlots++;
+    this.sharedService.updateRequeue(meta);
+
+    // Done
     this.toast.success('Timeslot added');
   }
 
+  handleRemoveTimeslot(id: string) {
+    this.alertSvc.swal({
+      title: 'Delete this timeslot',
+      text: 'Are you sure you want to delete this timeslot?',
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async () => {
+      // Confirmed
+      // Update the data
+      const index = this.currentQueue.TimeSlots.findIndex(ts => ts.Id === id);
+      this.currentQueue.TimeSlots.splice(index, 1);
+      await this.requeueService.removeTimeslot(this.currentQueue.ProjectId, this.currentQueue.id, id).toPromise();
+
+      // Update the meta data
+      const meta = this.sharedService.requeues.getValue().find(q => q.Id === this.currentQueue.id);
+      meta.TimeSlots--;
+      this.sharedService.updateRequeue(meta);
+
+      // Done
+      this.toast.success('Timeslot deleted');
+    },
+      error => {
+        // Error
+        console.log('Alert dismissed');
+      },
+      () => {
+        // Complete
+      }
+    );
+  }
 
 }

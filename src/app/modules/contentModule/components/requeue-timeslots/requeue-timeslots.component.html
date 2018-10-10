@@ -12,18 +12,18 @@
     </tr>
   </thead>
   <tbody>
-    
-    <tr *ngFor="let hour of hours">
-      <td>{{hour}}:00 - {{hour+(hoursPerBlock-1)}}:59</td>
-      
-      <td *ngFor="let day of days" class="timeslotCell">
-        <div *ngIf="timeslotItems(hour, hoursPerBlock, day).length === 0" class="emptyTimeslot" (click)="showTimeslotAddForm(day, hour)">
-            <button class="btn btn-default btn-xs" type="button"><i class="fa fa-plus"></i>&nbsp;&nbsp;Add</button>
+
+    <tr *ngFor="let line of displayData.hours">
+      <td>{{line.hour}}:00 - {{line.hour+(hoursPerBlock-1)}}:59</td>
+
+      <td *ngFor="let day of line.daysOfWeek" class="timeslotCell" (click)="cellSelected(day, line.hour)">
+
+        <div *ngFor="let item of day.timeslotItems" class="timeslotItem" [style.background-color]="item.ColourHex" (click)="test('item clicked')">
+          <span *ngIf="item.TimeOfDay < 1000">0</span>{{ item.TimeOfDay }}
         </div>
-        <div *ngFor="let item of timeslotItems(hour, hoursPerBlock, day)">
-          aaa
-        </div>
+
       </td>
+
 
     </tr>
 
@@ -59,11 +59,11 @@
       <label class="col-sm-2 control-label">Hour</label>
       <div class="col-sm-10">
         <select formControlName="hour">
-          <option *ngFor="let hour of formHours" value="{{hour}}">{{hour}}</option>          
+          <option *ngFor="let hour of formHours" value="{{hour}}">{{hour}}</option>
         </select>
 
         <select formControlName="minutes">
-          <option *ngFor="let minute of formMinutes" value="{{minute}}">{{minute | number: '2.0'}}</option>          
+          <option *ngFor="let minute of formMinutes" value="{{minute}}">{{minute | number: '2.0'}}</option>
         </select>
 
         <span class="help-block m-b-none">

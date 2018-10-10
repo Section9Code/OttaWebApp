@@ -2,7 +2,7 @@
 
     <div class="col-xs-12 col-lg-9">
         <otta-panel [title]="'Timeslots'" [loading]="isLoading">
-            <app-requeue-timeslots #timeslots [requeues]="[currentQueue]" (onAddTimeslot)="handleAddTimeslot($event)"></app-requeue-timeslots>
+            <app-requeue-timeslots #timeslots [requeues]="[currentQueue]" (onAddTimeslot)="handleAddTimeslot($event)" (onRemoveTimeslot)="handleRemoveTimeslot($event)"></app-requeue-timeslots>
         </otta-panel>
 
         <otta-panel [title]="'Message queue'" [loading]="isLoading">

@@ -1,6 +1,9 @@
-import { Component, OnInit, Input, EventEmitter, Output } from '@angular/core';
+import { Component, OnInit, Input, EventEmitter, Output, OnChanges, SimpleChanges, SimpleChange } from '@angular/core';
 import { RequeueModel, RequeueTimeSlot } from 'services/requeue.service';
 import { FormGroup, FormControl } from '@angular/forms';
+import { Observable } from 'rxjs/Observable';
+import { Subscription } from 'rxjs/Subscription';
+import { ContentSearchLayoutComponent } from '../../content-search-layout/content-search-layout.component';
 
 declare var $: any;
 
@@ -9,10 +12,10 @@ declare var $: any;
   templateUrl: './requeue-timeslots.component.html',
   styleUrls: ['./requeue-timeslots.component.css']
 })
-export class RequeueTimeslotsComponent implements OnInit {
+export class RequeueTimeslotsComponent implements OnInit, OnChanges {
   // Parameters
   // The list of requeues to show
-  @Input() requeues: RequeueModel[] = [];
+  @Input() requeues = new Array<RequeueModel>();
   // The number of hours each vertical block holds
   @Input() hoursPerBlock = 2;
   // The days of the week to be shown
@@ -20,13 +23,15 @@ export class RequeueTimeslotsComponent implements OnInit {
   // Called when a new timeslot should be added
   @Output() onAddTimeslot = new EventEmitter<RequeueTimeSlot>();
   // Called when a timeslot should be removed
-  @Output() onRemoveTimeslot = new EventEmitter<RequeueTimeSlot>();
+  @Output() onRemoveTimeslot = new EventEmitter<string>();
 
   // Variables
-  private hours = [];
-  private timeslotForm: FormGroup;
-  private formHours = [];
-  private formMinutes = [];
+  private hours = [];                       // The list of hours we are we going to show
+  private timeslotForm: FormGroup;          // The form group holding the 'Add a timeslot' form
+  private formHours = [];                   // The array of hours to show on a form
+  private formMinutes = [];                 // The array of minuites to show on a form
+
+  private displayData = new TimeslotDisplayData(); // The object holding all the data to be displayed
 
   constructor() {
     // Setup the form
@@ -40,14 +45,47 @@ export class RequeueTimeslotsComponent implements OnInit {
   ngOnInit() {
     // Setup hour block
     for (let i = 0; i < 24; i += this.hoursPerBlock) { this.hours.push(i); }
+
     // Setup the arrays used for the forms
     for (let i = 0; i < 24; i++) { this.formHours.push(i); }
     for (let i = 0; i < 60; i++) { this.formMinutes.push(i); }
   }
 
+  ngOnChanges(changes: SimpleChanges) {
+    // Has the queues value been changed
+    const queues: SimpleChange = changes.requeues;
+    if (queues.currentValue !== queues.previousValue) {
+      // Queues have been updated, reload the data
+      this.setupData(queues.currentValue);
+    }
+  }
+
+  public setupData(queues: RequeueModel[]) {
+    this.displayData = new TimeslotDisplayData();
+
+    // Loop though all the hours
+    this.hours.forEach(hr => {
+      const tddLine = new TDDHour(hr);
+
+      // Load the days for this hour
+      tddLine.daysOfWeek.push(new TDDDay(1, this.timeslotItems(hr, this.hoursPerBlock, 1, queues)));   // Monday
+      tddLine.daysOfWeek.push(new TDDDay(2, this.timeslotItems(hr, this.hoursPerBlock, 2, queues)));   // Tuesday
+      tddLine.daysOfWeek.push(new TDDDay(3, this.timeslotItems(hr, this.hoursPerBlock, 3, queues)));   // Wednesday
+      tddLine.daysOfWeek.push(new TDDDay(4, this.timeslotItems(hr, this.hoursPerBlock, 4, queues)));   // Thursday
+      tddLine.daysOfWeek.push(new TDDDay(5, this.timeslotItems(hr, this.hoursPerBlock, 5, queues)));   // Friday
+      tddLine.daysOfWeek.push(new TDDDay(6, this.timeslotItems(hr, this.hoursPerBlock, 6, queues)));   // Saturday
+      tddLine.daysOfWeek.push(new TDDDay(0, this.timeslotItems(hr, this.hoursPerBlock, 0, queues)));   // Sunday
+
+      // Store
+      this.displayData.hours.push(tddLine);
+    });
+
+    console.log('Done setting up timeslot data', this.displayData);
+  }
+
   // Return a list of timeslot items that meet the parameters
-  private timeslotItems(hour: number, hoursPerBlock: number, day: number): TimeslotDisplayItem[] {
-    if (!this.requeues || this.requeues.length === 0) { return new TimeslotDisplayItem[0]; }
+  private timeslotItems(hour: number, hoursPerBlock: number, day: number, queues: RequeueModel[]): TimeslotDisplayItem[] {
+    if (!queues || queues.length === 0) { return new TimeslotDisplayItem[0]; }
 
     // Hold the list of items to be returned
     const items: TimeslotDisplayItem[] = [];
@@ -56,10 +94,10 @@ export class RequeueTimeslotsComponent implements OnInit {
     const endTime = (hour + hoursPerBlock) * 100;
 
     // Loop through all of the queues
-    this.requeues.forEach(queue => {
+    queues.forEach(queue => {
       if (queue.TimeSlots) {
         // Find all the queue items that match
-        const qTimeslots = queue.TimeSlots.filter(ts => ts.DayOfTheWeek === day && (ts.UtcTimeOfDay >= startTime && ts.UtcTimeOfDay <= endTime));
+        const qTimeslots = queue.TimeSlots.filter(ts => ts.DayOfTheWeek === day && (ts.UtcTimeOfDay >= startTime && ts.UtcTimeOfDay < endTime));
 
         // Loop through all the matching timeslots
         qTimeslots.forEach(ts => {
@@ -77,6 +115,25 @@ export class RequeueTimeslotsComponent implements OnInit {
     });
 
     return items;
+  }
+
+  cellSelected(day: TDDDay, hour: number) {
+    console.log('Cell selected');
+
+    // Find the timeslots in this cell
+    const items = day.timeslotItems;
+
+    if (items.length === 0) {
+      // No timeslot items in cell, show add form
+      this.showTimeslotAddForm(day.dayOfTheWeek, hour);
+    } else {
+      // Items in form show edit form
+      console.log('- Edit');
+    }
+  }
+
+  test(msg: string) {
+    console.log(`Test - ${msg}`);
   }
 
   // Add a timeslot to a specific day and hour
@@ -104,6 +161,15 @@ export class RequeueTimeslotsComponent implements OnInit {
     $('#addTimeslotModal').modal('hide');
   }
 
+  removeTimeslot(id: string) {
+    console.log('Remove timeslot', id);
+    const ts = new RequeueTimeSlot();
+    ts.Id = id;
+
+    // Emit the add event
+    this.onRemoveTimeslot.emit(id);
+  }
+
   cancelTimeslotModal() {
     $('#addTimeslotModal').modal('hide');
   }
@@ -117,4 +183,32 @@ export class TimeslotDisplayItem {
   QueueName: string;
   TimeOfDay: number;
   DayOfWeek: number;
+}
+
+export class TimeslotDisplayData {
+  hours: TDDHour[];
+
+  constructor() {
+    this.hours = [];
+  }
+}
+
+export class TDDHour {
+  hour: number;
+  daysOfWeek: TDDDay[];
+
+  constructor(hour: number) {
+    this.hour = hour;
+    this.daysOfWeek = [];
+  }
+}
+
+export class TDDDay {
+  dayOfTheWeek: number;
+  timeslotItems: TimeslotDisplayItem[];
+
+  constructor(day: number, items: TimeslotDisplayItem[]) {
+    this.dayOfTheWeek = day;
+    this.timeslotItems = items;
+  }
 }

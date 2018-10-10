@@ -8,3 +8,17 @@
     margin: 0px;
     padding: 0px;
 }
+
+.timeslotCell:hover {
+    background-color: #dddddd;
+    cursor: copy;
+}
+
+.timeslotItem {
+    padding: 2px;
+    width: auto;
+    height: auto;
+    color: white;
+    text-align: center;
+    cursor: pointer;
+}
