@@ -1,4 +1,4 @@
-import { Component, OnInit, OnChanges, Input, ViewChild, Output, EventEmitter } from '@angular/core';
+import { Component, OnInit, OnChanges, Input, ViewChild, Output, EventEmitter, SimpleChanges } from '@angular/core';
 import { RequeueModel } from 'services/requeue.service';
 import { ContentProjectShareService } from '../../../services/ContentProjectShareService';
 import { IntegrationTypes, FacebookProjectIntegrationModel, PinterestProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
@@ -18,8 +18,8 @@ declare var $: any;
 export class CimListRequeueComponent implements OnInit, OnChanges {
   // Interactions
   @Input() messages: ContentItemMessageModel[] = [];
-
-  images = [];
+  @Input() images = [];
+  _images = [];
 
   @Output() onCreateMessage = new EventEmitter<ContentItemMessageModel>();
   @Output() onUpdateMessage = new EventEmitter<ContentItemMessageModel>();
@@ -53,8 +53,14 @@ export class CimListRequeueComponent implements OnInit, OnChanges {
     this.loadIntegrations();
   }
 
-  ngOnChanges() {
-    console.log('Requeue List - Changed');
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('Requeue List - Changed', changes);
+
+    if(changes.images && (changes.images.currentValue !== changes.images.previousValue)) {
+      console.log('Requeue List - Changed - Images');
+      this.images = changes.images.currentValue;
+      this._images = changes.images.currentValue;
+    }
   }
 
   // Used to tell the control to redraw it's list.

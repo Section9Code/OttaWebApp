@@ -41,7 +41,7 @@
 <otta-modal [modalId]="'twitterModal'" [title]="'Twitter'" [heading]="''" [icon]="'fa-twitter'">
     <app-cim-editor-twitter #twitterEditor 
       [substitutions]="[]" 
-      [images]="images" 
+      [images]="_images" 
       [relativeDate]="" 
       [hideDateTimeSettings]="true"
       [defaultMessageText]="''"
@@ -56,7 +56,7 @@
   <otta-modal [modalId]="'facebookModal'" [title]="'Facebook'" [heading]="''" [icon]="'fa-facebook'">
     <app-cim-editor-facebook #facebookEditor 
       [substitutions]="[]" 
-      [images]="images" 
+      [images]="_images" 
       [relativeDate]=""     
       [facebookIntegration]="facebookIntegration"
       [hideDateTimeSettings]="true"
@@ -72,7 +72,7 @@
   <otta-modal [modalId]="'linkedinModal'" [title]="'LinkedIn'" [heading]="''" [icon]="'fa-linkedin'">
     <app-cim-editor-linkedin #linkedinEditor 
       [substitutions]="[]" 
-      [images]="images" 
+      [images]="_images" 
       [relativeDate]=""
       [hideDateTimeSettings]="true"
       [defaultMessageText]="''"
@@ -87,7 +87,7 @@
   <otta-modal [modalId]="'pinterestModal'" [title]="'Pinterest'" [heading]="''" [icon]="'fa-pinterest'">
     <app-cim-editor-pinterest #pinterestEditor 
       [substitutions]="[]" 
-      [images]="images" 
+      [images]="_images" 
       [relativeDate]=""
       [pinterestIntegration]="pinterestIntegration"
       [hideDateTimeSettings]="true"
