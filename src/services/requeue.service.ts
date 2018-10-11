@@ -63,6 +63,16 @@ export class RequeueService {
   removeTimeslot(projectId: string, queueId: string, timeslotId: string): Observable<void> {
     return this.authHttp.delete(`${this.url}/${projectId}/${queueId}/timeslot/${timeslotId}`).map(response => { });
   }
+
+  // Add image
+  addImage(projectId: string, queueId: string, imageUrl: string): Observable<void> {
+    return this.authHttp.post(`${this.url}/${projectId}/${queueId}/images?imageUrl=${imageUrl}`, '').map(response => { });
+  }
+
+  // Remove image
+  removeImage(projectId: string, queueId: string, imageUrl: string): Observable<void> {
+    return this.authHttp.delete(`${this.url}/${projectId}/${queueId}/images?imageUrl=${imageUrl}`).map(response => { });
+  }
 }
 
 export class RequeueModel {
@@ -73,6 +83,7 @@ export class RequeueModel {
   NextItemIndex: number;
   Messages: ContentItemMessageModel[];
   TimeSlots: RequeueTimeSlot[];
+  Images: string[];
 
   constructor() {
     this.Messages = [];

@@ -8,6 +8,10 @@
         <otta-panel [title]="'Message queue'" [loading]="isLoading">
             <app-cim-list-requeue #messageListComponent [messages]="currentQueue.Messages" (onCreateMessage)="handleCreateMessage($event)" (onUpdateMessage)="handleUpdateMessage($event)" (onRemoveMessage)="handleRemoveMessage($event)"></app-cim-list-requeue>
         </otta-panel>
+
+        <otta-panel [title]="'Images'">
+            <app-image-list [images]="currentQueue.Images" [section]="'requeue'" [id]="currentQueue.id" (onImageUploaded)="handleImageUploaded($event)" (onImageDeleted)="handleImageDelete($event)"></app-image-list>
+        </otta-panel>
     </div>
 
 

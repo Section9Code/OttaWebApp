@@ -14,7 +14,7 @@ declare var $: any;
   styleUrls: ['./requeue-timeslots.component.css']
 })
 export class RequeueTimeslotsComponent implements OnInit, OnChanges {
-  // Parameters  
+  // Parameters
   @Input() requeues = new Array<RequeueModel>();                    // The list of requeues to show
   @Input() hoursPerBlock = 2;                                       // The number of hours each vertical block holds
   @Input() days = [1, 2, 3, 4, 5, 6, 0];                            // The days of the week to be shown
@@ -29,9 +29,10 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
   private formMinutes = [];                           // The array of minuites to show on a form
   private displayData = new TimeslotDisplayData();    // The object holding all the data to be displayed on the page
 
-  private timeslotsToEdit: TimeslotDisplayItem[] = [];                       // The list of timeslots to be edited
-  private editDay: number;
-  private editHour: number;
+  // For the edit form
+  private timeslotsToEdit: TimeslotDisplayItem[] = [];  // The list of timeslots to be edited
+  private editDay: number;                              // The day being edited
+  private editHour: number;                             // The hour being edited
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     // Setup the form
@@ -148,8 +149,8 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
   }
 
   timeslotSelected(item: TimeslotDisplayItem) {
-    if(this.linkToQueue) {
-      this.router.navigate([`${item.RequeueId}`], {relativeTo: this.activatedRoute});
+    if (this.linkToQueue) {
+      this.router.navigate([`${item.RequeueId}`], { relativeTo: this.activatedRoute });
     }
   }
 

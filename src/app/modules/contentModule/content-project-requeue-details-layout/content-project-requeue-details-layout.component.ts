@@ -137,6 +137,8 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
       this.isUpdating = true;
       this.currentQueue.Name = this.settingsForm.controls.name.value;
       this.currentQueue.ColourHex = this.settingsForm.controls.colourHex.value;
+
+      // Update
       this.currentQueue = await this.requeueService.update(this.sharedService.currentProject.getValue().id, this.currentQueue).toPromise();
 
       // Update the shared list
@@ -182,14 +184,68 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
     );
   }
 
+  // Re-download the queue object from the system
+  // Updating the whole object causes all attached components to refresh
+  async forceReload() {
+    // Force a reload of the whole requeue object to update all the child components
+    this.currentQueue = await this.requeueService.getSingle(this.currentQueue.ProjectId, this.currentQueue.id).toPromise();
+  }
+
+  // The user has uploaded a new image to the queue
+  async handleImageUploaded(imageUrl: string) {
+    // Upload the new image
+    await this.requeueService.addImage(this.currentQueue.ProjectId, this.currentQueue.id, imageUrl).toPromise();
+
+    // Update the queue object
+    await this.forceReload();
+
+    this.toast.success('Image uploaded');
+  }
+
+  // The user wants to delete an image
+  async handleImageDelete(imageUrl: string) {
+
+    // Check the image isn't being used by any messages
+    const messagesWithImage = this.currentQueue.Messages.filter(m => m.ImageUrl === imageUrl);
+    if (messagesWithImage.length > 0) {
+      this.toast.warning('This image is being used by messages in the queue. Remove the image from the messages before it can be deleted','Image cannot be removed');
+      return;
+    }
+
+    // Confirm the image should be deleted
+    this.alertSvc.swal({
+      title: 'Delete image',
+      text: "Are you sure you want to delete this image?",
+      type: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Yes, delete it!'
+    }).then(async () => {
+      // Confirmed
+      await this.requeueService.removeImage(this.currentQueue.ProjectId, this.currentQueue.id, imageUrl).toPromise();
+      await this.forceReload();
+      this.toast.success('Image removed');
+    },
+      error => {
+        // Error
+        console.log('Alert dismissed');
+      },
+      () => {
+        // Complete
+      }
+    );
+  }
+
   async handleAddTimeslot(timeslot: RequeueTimeSlot) {
     console.log('Add timeslot', timeslot);
 
     // Update the data
     this.currentQueue.TimeSlots.push(timeslot);
     await this.requeueService.addTimeslot(this.currentQueue.ProjectId, this.currentQueue.id, timeslot).toPromise();
-    // Force a reload of the whole requeue object to update all the child components
-    this.currentQueue = await this.requeueService.getSingle(this.currentQueue.ProjectId, this.currentQueue.id).toPromise();
+
+    // Reload the queue object
+    await this.forceReload();
 
     // Update the meta data
     const meta = this.sharedService.requeues.getValue().find(q => q.Id === this.currentQueue.id);
@@ -215,8 +271,9 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
       const index = this.currentQueue.TimeSlots.findIndex(ts => ts.Id === id);
       this.currentQueue.TimeSlots.splice(index, 1);
       await this.requeueService.removeTimeslot(this.currentQueue.ProjectId, this.currentQueue.id, id).toPromise();
-      // Force a reload of the whole requeue object to update all the child components
-      this.currentQueue = await this.requeueService.getSingle(this.currentQueue.ProjectId, this.currentQueue.id).toPromise();
+
+      // Reload the queue object
+      await this.forceReload();
 
       // Update the meta data
       const meta = this.sharedService.requeues.getValue().find(q => q.Id === this.currentQueue.id);
