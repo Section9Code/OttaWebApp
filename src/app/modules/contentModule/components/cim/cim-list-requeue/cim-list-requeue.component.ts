@@ -17,9 +17,9 @@ declare var $: any;
 })
 export class CimListRequeueComponent implements OnInit, OnChanges {
   // Interactions
-  @Input() messages: ContentItemMessageModel[] = [];
-  @Input() images = [];
-  _images = [];
+  @Input() messages: ContentItemMessageModel[] = [];        // The array of messages to show
+  @Input() images = [];                                     // The array of images for the messages
+  _images = [];                                             // The managed list of images used for the editors
 
   @Output() onCreateMessage = new EventEmitter<ContentItemMessageModel>();
   @Output() onUpdateMessage = new EventEmitter<ContentItemMessageModel>();
@@ -56,10 +56,17 @@ export class CimListRequeueComponent implements OnInit, OnChanges {
   ngOnChanges(changes: SimpleChanges) {
     console.log('Requeue List - Changed', changes);
 
+    // Has the images been changed? If there is a new value
     if(changes.images && (changes.images.currentValue !== changes.images.previousValue)) {
       console.log('Requeue List - Changed - Images');
-      this.images = changes.images.currentValue;
-      this._images = changes.images.currentValue;
+      if(changes.images.currentValue) {
+        this.images = changes.images.currentValue;
+        this._images = changes.images.currentValue;
+      } else {
+        // Null value passed in, empty the arrays but don't set to null>>
+        this.images = [];
+        this._images = [];
+      }
     }
   }
 
