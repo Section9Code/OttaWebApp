@@ -1,8 +1,9 @@
-import { Input, Output, EventEmitter } from '@angular/core';
+import { Input, Output, EventEmitter, OnInit } from '@angular/core';
 import { ContentItemMessageSubstitution, ContentItemMessageModel, ContentItemMessageRelativeUnitModel } from 'services/content-item.service';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import * as moment from 'moment';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
+import { RequeueReducedModel } from 'services/requeue.service';
 
 // Access JQuery on the page
 declare var $: any;
@@ -14,8 +15,10 @@ export abstract class CimEditorCommon {
     // Common inputs
     @Input() substitutions: ContentItemMessageSubstitution[] = [];  // The list of substitution items available to be used
     @Input() images: string[] = [];                                 // The array of images available to be used
+    @Input() requeues: RequeueReducedModel[] = [];                  // The list of requeues the user can select from
     @Input() relativeDate = '';                                     // The date this item is relative too
     @Input() hideDateTimeSettings = false;                          // Allow the date selection to be hidden is not needed
+    @Input() allowRequeueing = true;                                // Allow the form to show the requeueing options
 
     // Default input box texts
     @Input() defaultMessageText = '';
@@ -51,7 +54,9 @@ export abstract class CimEditorCommon {
             sendType: new FormControl(),
             relativeSendValue: new FormControl(),
             relativeSendUnit: new FormControl(),
-            relativeDate: new FormControl()
+            relativeDate: new FormControl(),
+            requeue: new FormControl(),
+            requeueQueueId: new FormControl()
         }, this.validateFormSendTimes.bind(this));
     }
 
@@ -111,6 +116,16 @@ export abstract class CimEditorCommon {
             }
         }
 
+        // Validate the requeue selection
+        form.controls.requeueQueueId.setErrors(null);
+        if (form.controls.requeue.value) {
+            // The user wants to requeue this message, make sure a queue is selected
+            if (!form.controls.requeueQueueId.value || form.controls.requeueQueueId.value === '') { 
+                form.controls.requeueQueueId.setErrors({ 'required': true });
+                return { requeueQueueIdInvalid: true };
+            }
+        }
+
         // Valid
         return null;
     }
@@ -130,13 +145,14 @@ export abstract class CimEditorCommon {
         this.editorForm.controls.message.patchValue(this.defaultMessageText);
         this.editorForm.controls.linkUrl.patchValue(this.defaultLinkText);
         this.editorForm.controls.sendDateTime.patchValue(moment().add(5, 'minutes').toISOString());
+        this.editorForm.controls.requeue.patchValue(false);
 
         // If the user can't see the datetime settings, set the send date of the message far in the future
         if (this.hideDateTimeSettings) {
             this.editorForm.controls.sendType.patchValue('specific');
             this.editorForm.controls.sendDateTime.patchValue(moment().add(20, 'years').toISOString());
         }
-        
+
         // Only show the relative options if a relative date is supplied
         if (!this.relativeDate || this.relativeDate === '') {
             // Hide the relative option
@@ -162,6 +178,8 @@ export abstract class CimEditorCommon {
         this.editorForm.controls.imageUrl.patchValue(message.ImageUrl);
         this.editorForm.controls.linkUrl.patchValue(message.LinkUrl);
         this.editorForm.controls.section.patchValue(message.RemoteSystemSectionId);
+        this.editorForm.controls.requeue.patchValue(message.Requeue);
+        this.editorForm.controls.requeueQueueId.patchValue(message.RequeueToQueueId);
 
         if (message.IsRelative) {
             // Relative time
@@ -235,6 +253,8 @@ export abstract class CimEditorCommon {
         newMessage.ImageUrl = this.editorForm.controls.imageUrl.value;
         newMessage.LinkUrl = this.editorForm.controls.linkUrl.value;
         newMessage.RemoteSystemSectionId = this.editorForm.controls.section.value;
+        newMessage.Requeue = this.editorForm.controls.requeue.value;
+        newMessage.RequeueToQueueId = this.editorForm.controls.requeueQueueId.value;
 
         if (this.editorForm.controls.sendType.value === 'relative') {
             // Relative send

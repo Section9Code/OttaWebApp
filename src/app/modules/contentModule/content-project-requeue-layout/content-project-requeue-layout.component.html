@@ -2,34 +2,18 @@
 
   <div class="col-xs-12 col-lg-10">   
     <!-- Timeslot overview -->
-    <otta-panel [title]="'Timeslots'" [showButton]="false" [loading]="isLoadingTimeslots">
+    <otta-panel [title]="'Timeslots'" [showButton]="false" [loading]="isLoadingQueues">
       <app-requeue-timeslots [requeues]="fullRequeues" [linkToQueue]="true"></app-requeue-timeslots>
-    </otta-panel>
+    </otta-panel>    
 
-    <otta-panel [title]="'Requeues'" [showButton]="true" [buttonText]="'Create'" (buttonClicked)="showCreateModal()" [loading]="isLoadingQueues">
-      <div class="table-responsive">
-        <table class="table table-hover issue-tracker">
-          <thead>
-            <tr>
-              <td>Name</td>
-              <td>Messages</td>
-              <td>Timeslots</td>
-            </tr>
-          </thead>
-          <tbody>
-            <tr *ngFor="let item of queues" (click)="navigateToItem(item)">
-              <td>
-                {{item.Name}}
-                <div [style.background-color]="item.ColourHex">&nbsp;</div>
-              </td>
-              <td>{{item.Messages}}</td>
-              <td>{{item.TimeSlots}}</td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
-    </otta-panel>
-  </div>
+    <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let item of queues">
+      <otta-panel [title]="item.Name" [showButton]="true" [buttonText]="'Edit'" (buttonClicked)="navigateToItem(item)">
+        <span class="label label-primary" [ngStyle]="{ 'background-color': item.ColourHex }">{{item.Name}}</span><br/>
+        Messages: <b>{{item.Messages}}</b><br/>
+        Time slots: <b>{{item.TimeSlots}}</b>
+      </otta-panel>
+    </div>
+  </div>  
 
   <!-- Right hand side -->
   <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
@@ -46,9 +30,7 @@
       Setup the queue, give it the timeslots you want the messages to go out at, then add the messages to the queue. We
       will take care of the rest.
     </p>
-
   </div>
-
 
 </div>
 

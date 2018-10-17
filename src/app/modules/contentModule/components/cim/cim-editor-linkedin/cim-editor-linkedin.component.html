@@ -87,6 +87,32 @@
     </div>
   </div>
 
+  <div *ngIf="allowRequeueing">
+    <!-- Requeue -->
+    <div class="form-group" [class.has-error]="editorForm.controls.requeue.invalid">
+      <label class="col-sm-2 control-label">Requeue after send</label>
+      <div class="col-sm-10">
+        <input type="checkbox" class="" formControlName="requeue">
+        <span class="help-block m-b-none">
+          Add this message to a requeue list after it is sent
+        </span>
+      </div>
+    </div>
+
+    <!-- Requeue list -->
+    <div class="form-group" [class.has-error]="editorForm.controls.requeueQueueId.invalid">
+      <label class="col-sm-2 control-label">Which requeue</label>
+      <div class="col-sm-10">
+        <select class="form-control" formControlName="requeueQueueId">
+          <option *ngFor="let queue of requeues" value="{{queue.Id}}">{{ queue.Name }}</option>
+        </select>
+        <span class="help-block m-b-none">
+          Which requeue do you want to send this item to
+        </span>
+      </div>
+    </div>
+  </div>
+
   <div class="hr-line-dashed"></div>
 
   <!-- Buttons -->

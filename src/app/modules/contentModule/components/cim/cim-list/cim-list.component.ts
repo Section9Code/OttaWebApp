@@ -9,6 +9,7 @@ import { IntegrationTypes, ProjectIntegrationModel, FacebookProjectIntegrationMo
 import { Subscription } from 'rxjs/Subscription';
 import { ICimEditorCommon } from '../cim-editor-common';
 import { CimMessagesListComponent } from '../cim-messages-list/cim-messages-list.component';
+import { RequeueReducedModel } from 'services/requeue.service';
 
 // JQuery command for modal dialogs
 declare var $: any;
@@ -23,13 +24,10 @@ declare var $: any;
   templateUrl: './cim-list.component.html',
   styleUrls: ['./cim-list.component.css']
 })
-export class CimListComponent implements OnInit, OnDestroy {
-  // The list of messages to show
-  @Input() messages: ContentItemMessageModel[] = [];
-  // The list of substitutions for this list
-  @Input() substitutions: ContentItemMessageSubstitution[] = [];
-  // The ID of the content item the list is for
-  @Input() contentItem: ContentItemModel;
+export class CimListComponent implements OnInit, OnDestroy {  
+  @Input() messages: ContentItemMessageModel[] = [];                      // The list of messages to show
+  @Input() substitutions: ContentItemMessageSubstitution[] = [];          // The list of substitutions for this list
+  @Input() contentItem: ContentItemModel;                                 // The ID of the content item the list is for
 
   // Called when substition actions happen
   @Output() substitutionAdded = new EventEmitter<ContentItemMessageSubstitution>();
@@ -46,6 +44,7 @@ export class CimListComponent implements OnInit, OnDestroy {
   // Integrations
   facebookIntegration: FacebookProjectIntegrationModel;
   pinterestIntegration: PinterestProjectIntegrationModel;
+  requeueList: RequeueReducedModel[];
 
   // Subscriptions
   subIntegrations: Subscription;
@@ -81,6 +80,7 @@ export class CimListComponent implements OnInit, OnDestroy {
     this.loadIntegrationOptions();
     this.loadImages();
     this.loadContentSubstitutions();
+    this.loadRequeues();
   }
 
   ngOnDestroy() {
@@ -91,6 +91,11 @@ export class CimListComponent implements OnInit, OnDestroy {
   public update() {
     this.redrawMessageList();
     this.loadContentSubstitutions();
+  }
+
+  // Load all the requeus in the current project
+  private loadRequeues() {
+    this.requeueList = this.sharedService.requeues.getValue();
   }
 
   private loadContentSubstitutions() {
