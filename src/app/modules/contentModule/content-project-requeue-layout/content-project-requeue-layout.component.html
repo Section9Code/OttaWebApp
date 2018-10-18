@@ -1,19 +1,46 @@
 <div class="row">
 
-  <div class="col-xs-12 col-lg-10">   
+  <div class="col-xs-12 col-lg-10">
     <!-- Timeslot overview -->
-    <otta-panel [title]="'Timeslots'" [showButton]="false" [loading]="isLoadingQueues">
+    <otta-panel [title]="'Time slots'" [showButton]="false" [loading]="isLoadingQueues">
       <app-requeue-timeslots [requeues]="fullRequeues" [linkToQueue]="true"></app-requeue-timeslots>
-    </otta-panel>    
+    </otta-panel>
 
-    <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let item of queues">
-      <otta-panel [title]="item.Name" [showButton]="true" [buttonText]="'Edit'" (buttonClicked)="navigateToItem(item)">
-        <span class="label label-primary" [ngStyle]="{ 'background-color': item.ColourHex }">{{item.Name}}</span><br/>
-        Messages: <b>{{item.Messages}}</b><br/>
-        Time slots: <b>{{item.TimeSlots}}</b>
-      </otta-panel>
+    <div *ngIf="!isLoadingQueues">
+      <!-- List of queues -->
+      <div class="col-xs-12 col-sm-6 col-md-4" *ngFor="let item of queues">
+        <!-- <otta-panel [title]="item.Name" [showButton]="true" [buttonText]="'Edit'" (buttonClicked)="navigateToItem(item)"> -->
+        <otta-panel>
+          <div>
+            <span class="label label-primary" [ngStyle]="{ 'background-color': item.ColourHex }">{{item.Name}}</span>
+            <button class="btn btn-default btn-sm btn-outline pull-right" (click)="navigateToItem(item)">Edit</button>
+          </div>
+          <br/>
+          <ul class="list-group">
+            <li class="list-group-item">
+              <span class="badge" [ngClass]="{'badge-warning': item.Messages === 0}">{{item.Messages}}</span>
+              Messages:
+            </li>
+            <li class="list-group-item ">
+              <span class="badge" [ngClass]="{'badge-warning': item.TimeSlots === 0}">{{item.TimeSlots}}</span>
+              Time slots:
+            </li>
+          </ul>
+
+        </otta-panel>
+      </div>
+
+      <!-- Create queue -->
+      <div class="col-xs-12 col-sm-6 col-md-4">
+        <otta-panel [title]="'New requeue'">
+          <p>
+            Create a new requeue to send messages on a schedule.
+          </p>
+          <button class="btn btn-block btn-primary" (click)="showCreateModal()">Create new requeue</button>
+        </otta-panel>
+      </div>
     </div>
-  </div>  
+  </div>
 
   <!-- Right hand side -->
   <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
@@ -35,7 +62,8 @@
 </div>
 
 <!-- Add new queue modal -->
-<otta-modal [modalId]="'requeueModal'" [title]="'Create queue'" [icon]="'fa-list'" [heading]="'Create a new queue'" [showFooter]="false">
+<otta-modal [modalId]="'requeueModal'" [title]="'Create queue'" [icon]="'fa-list'" [heading]="'Create a new queue'"
+  [showFooter]="false">
 
   <form class="form-horizontal" [formGroup]="createForm" (ngSubmit)="createQueue()">
     <div class="form-group" [class.has-error]="createForm.controls.queueName.invalid">

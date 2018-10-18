@@ -88,7 +88,7 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
 
   // Return a list of timeslot items that meet the parameters
   private timeslotItems(hour: number, hoursPerBlock: number, day: number, queues: RequeueModel[]): TimeslotDisplayItem[] {
-    if (!queues || queues.length === 0) { return new TimeslotDisplayItem[0]; }
+    if (!queues || queues.length === 0) { return []; }
 
     // Hold the list of items to be returned
     const items: TimeslotDisplayItem[] = [];

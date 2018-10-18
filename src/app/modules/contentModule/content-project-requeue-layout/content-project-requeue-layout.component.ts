@@ -20,8 +20,8 @@ export class ContentProjectRequeueLayoutComponent implements OnInit, OnDestroy {
   private queues: RequeueReducedModel[] = [];
 
   // Flags
-  private isCreating = false;
-  private isLoadingQueues = false;
+  isCreating = false;
+  isLoadingQueues = false;
 
   private createForm: FormGroup;
 

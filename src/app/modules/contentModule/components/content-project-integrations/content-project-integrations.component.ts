@@ -122,7 +122,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
             console.log('Error waiting for facebook integration to complete');
             this.isConnectingToFacebook = false;
             this.facebookOAuthFromUrl = '';
-            this.toast.warning('Unable to connect to facebook. Please type again');
+            this.toast.warning('Unable to connect to facebook. Please try again');
           });
       })
       .catch(error => {
@@ -153,7 +153,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
             console.log('Error waiting for LinkedIn integration to complete');
             this.isConnectingToLinkedIn = false;
             this.linkedInOAuthFromUrl = '';
-            this.toast.warning('Unable to connect to LinkedIn. Please type again');
+            this.toast.warning('Unable to connect to LinkedIn. Please try again');
           });
       })
       .catch(error => {
@@ -184,7 +184,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
             console.log('Error waiting for Google integration to complete');
             this.isConnectionToGoogle = false;
             this.googleOAuthFormUrl = '';
-            this.toast.warning('Unable to connect to Google. Please type again');
+            this.toast.warning('Unable to connect to Google. Please try again');
           });
       })
       .catch(error => {
@@ -215,7 +215,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
             console.log('Error waiting for Pinterest integration to complete');
             this.isConnectingToPinterest = false;
             this.pinterestOAuthUrl = '';
-            this.toast.warning('Unable to connect to Pinterest. Please type again');
+            this.toast.warning('Unable to connect to Pinterest. Please try again');
           });
       })
       .catch(error => {
@@ -246,7 +246,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
             console.log('Error waiting for Medium integration to complete');
             this.isConnectingToMedium = false;
             this.mediumOAuthUrl = '';
-            this.toast.warning('Unable to connect to Medium. Please type again');
+            this.toast.warning('Unable to connect to Medium. Please try again');
           });
       })
       .catch(error => {
