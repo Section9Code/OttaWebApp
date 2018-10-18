@@ -88,7 +88,7 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
   }
 
   // User wants to create a new content item message for the requeue
-  async handleCreateMessage(message: ContentItemMessageModel) {
+  async handleCreateMessage(message: ContentItemMessageModel) {    
     // Add the message
     const newMessage = await this.requeueService.addMessage(this.currentQueue.ProjectId, this.currentQueue.id, message).toPromise();
     // Push the new message into the message queue

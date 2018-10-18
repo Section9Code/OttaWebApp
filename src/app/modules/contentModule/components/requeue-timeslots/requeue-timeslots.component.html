@@ -16,7 +16,7 @@
     <tr *ngFor="let line of displayData.hours">
       <td>{{line.hour}}:00 - {{line.hour+(hoursPerBlock-1)}}:59</td>
 
-      <td *ngFor="let day of line.daysOfWeek" [ngClass]="{'timeslotCell': !linkToQueue}" (click)="cellSelected(day, line.hour)">
+      <td *ngFor="let day of line.daysOfWeek" [ngClass]="{'timeslotCell': !linkToQueue, 'notSelectableTimeslotCell': linkToQueue}" (click)="cellSelected(day, line.hour)">
 
         <div *ngFor="let item of day.timeslotItems" class="timeslotItem" [style.background-color]="item.ColourHex" (click)="timeslotSelected(item)">
           {{ item.DisplayTimeOfDay }}

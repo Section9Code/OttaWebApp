@@ -14,6 +14,11 @@
     cursor: copy;
 }
 
+.notSelectableTimeslotCell {
+    margin: 0px;
+    padding: 0px;
+}
+
 .timeslotItem {
     padding: 2px;
     width: auto;
