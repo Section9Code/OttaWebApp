@@ -1,10 +1,11 @@
 <!-- List of messages -->
 <div id="vertical-timeline" class="vertical-container dark-timeline">
+
   <!-- Loop through all the messages -->
   <ng-container *ngFor="let message of messagesList" [ngSwitch]="message.MessageType">
 
     <!-- Twitter message -->
-    <div class="vertical-timeline-block" *ngSwitchCase="0">
+    <div class="vertical-timeline-block" *ngSwitchCase="0" [draggable]="allowMoving" (dragstart)="onDragStart($event, message)" (dragover)="allowDrop($event, message)" (drop)="onDrop($event, message)" >
       <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
         <i class="fa fa-twitter"></i>
       </div>

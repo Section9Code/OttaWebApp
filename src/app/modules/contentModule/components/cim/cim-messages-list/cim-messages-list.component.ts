@@ -12,12 +12,15 @@ export class CimMessagesListComponent implements OnInit, OnChanges {
   @Input() hideSentMessages = true;
   @Input() showDates = true;
   @Input() alwaysShowDelete = false;
+  @Input() allowMoving = false;
 
   @Output() onDeleteMessage = new EventEmitter<string>();
   @Output() onEditMessage = new EventEmitter<string>();
+  @Output() onMoveMessage = new EventEmitter<MessageMove>();
 
   // List of messages that will actually be shown to the user
   messagesList: ContentItemMessageModel[] = [];
+  messageBeingMoved: ContentItemMessageModel;
 
   constructor() {
   }
@@ -41,8 +44,14 @@ export class CimMessagesListComponent implements OnInit, OnChanges {
     }
 
     if (this.messages && this.messages.length > 0) {
-      // Sort the messages
-      this.messagesList = this.sortMessages();
+
+      if (this.showDates) {
+        // Sort the messages by date
+        this.messagesList = this.sortMessages();
+      } else {
+        // Show all messages as dates are not important
+        this.messagesList = this.messages;
+      }
     } else {
       // No messages to show
       this.messagesList = [];
@@ -110,9 +119,44 @@ export class CimMessagesListComponent implements OnInit, OnChanges {
 
     return output;
   }
+
+  onDragStart(event: any, message: ContentItemMessageModel) {
+    this.messageBeingMoved = message;
+  }
+
+  allowDrop(event: any, message: ContentItemMessageModel) {
+    if (this.messageBeingMoved) {
+      if (this.messageBeingMoved.Id !== message.Id) {
+        // The drop target doesn't have the same ID as the one being moved. Allow drop
+        event.preventDefault();
+      }
+    }
+  }
+
+  onDrop(event: any, message: ContentItemMessageModel) {
+    // Find indexes
+    const sourceIndex = this.messages.findIndex(m => m.Id === this.messageBeingMoved.Id);
+    const targetIndex = this.messages.findIndex(m => m.Id === message.Id);
+
+    // Make sure the move is valid
+    if (sourceIndex === -1 || targetIndex === -1 || sourceIndex === targetIndex) { return; }
+
+    // Emit the event to move the items
+    this.onMoveMessage.emit(new MessageMove(sourceIndex, targetIndex));
+  }
 }
 
 // Extend the Content item message model with a boolean to show if it has already been sent
 export class ShowContentItemMessageModel extends ContentItemMessageModel {
   hasBeenSent: boolean;
+}
+
+export class MessageMove {
+  sourceIndex: number;
+  targetIndex: number;
+
+  constructor(source: number, target: number) {
+    this.sourceIndex = source;
+    this.targetIndex = target;
+  }
 }

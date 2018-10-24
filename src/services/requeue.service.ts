@@ -54,6 +54,11 @@ export class RequeueService {
     return this.authHttp.delete(`${this.url}/${projectId}/${queueId}/messages/${messageId}`).map(response => { });
   }
 
+  // Move a message
+  moveMessage(projectId: string, queueId: string, sourceIndex: number, targetIndex: number): Observable<ContentItemMessageModel[]> {
+    return this.authHttp.get(`${this.url}/${projectId}/${queueId}/messages?sourceIndex=${sourceIndex}&targetIndex=${targetIndex}`).map(response => response.json());
+  }
+
   // Add a timeslot
   addTimeslot(projectId: string, queueId: string, timeslot: RequeueTimeSlot): Observable<void> {
     return this.authHttp.post(`${this.url}/${projectId}/${queueId}/timeslot`, timeslot).map(response => { });

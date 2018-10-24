@@ -12,6 +12,7 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { TimeslotDisplayItem } from '../components/requeue-timeslots/requeue-timeslots.component';
 import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
+import { MessageMove } from '../components/cim/cim-messages-list/cim-messages-list.component';
 
 @Component({
   selector: 'app-content-project-requeue-details-layout',
@@ -88,7 +89,7 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
   }
 
   // User wants to create a new content item message for the requeue
-  async handleCreateMessage(message: ContentItemMessageModel) {    
+  async handleCreateMessage(message: ContentItemMessageModel) {
     // Add the message
     const newMessage = await this.requeueService.addMessage(this.currentQueue.ProjectId, this.currentQueue.id, message).toPromise();
     // Push the new message into the message queue
@@ -129,6 +130,15 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
       this.tracking.TrackError('Error removing message from requeue', error);
     }
   }
+
+  // Move a message
+  async handleMoveMessage(args: MessageMove) {
+    console.log('MOVE', args);
+    this.currentQueue.Messages = await this.requeueService.moveMessage(this.currentQueue.ProjectId, this.currentQueue.id, args.sourceIndex, args.targetIndex).toPromise();
+    this.toast.success('Message moved');
+    this.messageListComponent.redraw();
+  }
+
 
   // Update the name of the requeue
   async updateRequeue() {
@@ -208,7 +218,7 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
     // Check the image isn't being used by any messages
     const messagesWithImage = this.currentQueue.Messages.filter(m => m.ImageUrl === imageUrl);
     if (messagesWithImage.length > 0) {
-      this.toast.warning('This image is being used by messages in the queue. Remove the image from the messages before it can be deleted','Image cannot be removed');
+      this.toast.warning('This image is being used by messages in the queue. Remove the image from the messages before it can be deleted', 'Image cannot be removed');
       return;
     }
 

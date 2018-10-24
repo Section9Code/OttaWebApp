@@ -32,8 +32,10 @@
       [showDates]="false" 
       [alwaysShowDelete]="true" 
       [substitutions]="[]"
+      [allowMoving]="true"
       (onEditMessage)="editMessage($event)"
-      (onDeleteMessage)="handleMessageRemoved($event, '')">
+      (onDeleteMessage)="handleMessageRemoved($event, '')"
+      (onMoveMessage)="handleMessageMove($event)" >
     </app-cim-messages-list>
 
 </div>

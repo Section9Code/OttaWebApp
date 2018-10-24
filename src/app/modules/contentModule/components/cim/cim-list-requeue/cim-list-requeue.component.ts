@@ -5,7 +5,7 @@ import { IntegrationTypes, FacebookProjectIntegrationModel, PinterestProjectInte
 import { ICimEditorCommon } from '../cim-editor-common';
 import { ContentItemMessageModel } from 'services/content-item.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
-import { CimMessagesListComponent } from '../cim-messages-list/cim-messages-list.component';
+import { CimMessagesListComponent, MessageMove } from '../cim-messages-list/cim-messages-list.component';
 
 // Allow talking to jQuery
 declare var $: any;
@@ -24,6 +24,7 @@ export class CimListRequeueComponent implements OnInit, OnChanges {
   @Output() onCreateMessage = new EventEmitter<ContentItemMessageModel>();
   @Output() onUpdateMessage = new EventEmitter<ContentItemMessageModel>();
   @Output() onRemoveMessage = new EventEmitter<string>();
+  @Output() onMoveMessage = new EventEmitter<MessageMove>();
 
   // Flags
   noIntegrations = true;
@@ -189,6 +190,11 @@ export class CimListRequeueComponent implements OnInit, OnChanges {
     this.onUpdateMessage.emit(message);
   }
 
+  // Move a message in the array
+  handleMessageMove(args: MessageMove) {
+    this.onMoveMessage.emit(args);
+  }
+
   // Handle when the user wants to remove a message
   handleMessageRemoved(messageId: string, modalName: string) {
     this.hideModal(modalName);
@@ -213,9 +219,6 @@ export class CimListRequeueComponent implements OnInit, OnChanges {
         // Complete
       }
     );
-
-
-
   }
 }
 
