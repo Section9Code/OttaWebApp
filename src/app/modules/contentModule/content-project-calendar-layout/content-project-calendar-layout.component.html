@@ -2,7 +2,13 @@
 
     <div class="col-xs-12 col-lg-10">
         <otta-panel [title]="'Calendar'">
-            <content-calendar></content-calendar>
+            Show: 
+            <div data-toggle="buttons-checkbox" class="btn-group">
+                <button class="btn btn-default" [ngStyle]="{'active': showContent}" type="button" (click)="showContent = !showContent">Content items</button>                
+                <button class="btn btn-default" [ngStyle]="{'active': showEvents}" type="button" (click)="showEvents = !showEvents">Events</button>
+                <button class="btn btn-default" [ngStyle]="{'active': showRequeues}" type="button" (click)="showRequeues = !showRequeues">Requeues</button>
+            </div>
+            <content-calendar [showRequeues]="showRequeues" [showContentItems]="showContent" [showEvents]="showEvents"></content-calendar>
         </otta-panel>
     </div>
 
@@ -10,7 +16,8 @@
     <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
         <h2>Content calendar</h2>
         <p>
-            Keeping track of what you have coming up is hard work, which is why we like to organise everything onto an easy to see calendar. 
+            Keeping track of what you have coming up is hard work, which is why we like to organise everything onto an
+            easy to see calendar.
         </p>
         <p>
             See where you have content and special events so you can make sure everything is covered.

@@ -7,5 +7,7 @@ import { Component } from '@angular/core';
     styleUrls: ['content-project-calendar-layout.component.scss']
 })
 export class ContentProjectCalendarLayoutComponent {
-
+    showRequeues = true;
+    showContent = true;
+    showEvents = true;
 }

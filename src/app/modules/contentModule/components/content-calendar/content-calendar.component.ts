@@ -1,4 +1,4 @@
-import { Component, OnInit, OnDestroy } from '@angular/core';
+import { Component, OnInit, OnDestroy, Input, OnChanges, SimpleChange, SimpleChanges } from '@angular/core';
 import { ContentProjectShareService } from '../../services/ContentProjectShareService';
 //import { Moment } from 'moment';
 import * as moment from 'moment';
@@ -18,23 +18,21 @@ declare var jQuery: any;
   templateUrl: './content-calendar.component.html',
   styleUrls: ['./content-calendar.component.css']
 })
-export class ContentCalendarComponent implements OnInit, OnDestroy {
+export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
   // Using FullCalendar component - https://fullcalendar.io/
 
-  // Current project
-  currentProject: ContentProjectModel;
+  @Input() showContentItems = true;
+  @Input() showEvents = true;
+  @Input() showRequeues = true;
 
-  isLoading = false;
+  currentProject: ContentProjectModel;              // The project we are currently showing
+  isLoading = false;                                // Is data being loaded
+  currentDate = new Date();                         // The current date being shown
+  currentEvents: CalendarEvent[] = [];              // The events currently being shown on the calendar
+  allEvents: CalendarDataModel;                     // All the events loaded from the system
 
   // Subscriptions
   currentProjectSub: Subscription;
-  dataLoadSub: Subscription;
-
-  // Current date being shown
-  currentDate = new Date();
-
-  // Hold the list of events
-  currentEvents: CalendarEvent[] = [];
 
   // Setup the calendar
   calendarOptions: Object = {
@@ -68,10 +66,12 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
   ngOnInit(): void {
     jQuery('#calendar').fullCalendar(this.calendarOptions);
 
+    // Load the current projects information
     this.currentProjectSub = this.shared.currentProject.subscribe(
       response => {
         this.currentProject = response;
-        this.reloadData();
+        // Now the project is loaded, Reload the calendar data
+        jQuery('#calendar').fullCalendar('refetchEvents');
       }
     );
   }
@@ -80,14 +80,25 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     if (this.currentProjectSub) {
       this.currentProjectSub.unsubscribe();
     }
+  }
 
-    if (this.dataLoadSub) {
-      this.dataLoadSub.unsubscribe();
+  // The input have been changed
+  ngOnChanges(changes: SimpleChanges) {
+    console.log('Calendar - Change', changes);
+
+    // Reset the inputs based on the changes
+    if (changes.showRequeues) { this.showRequeues = changes.showRequeues.currentValue; }
+    if (changes.showContentItems) { this.showContentItems = changes.showContentItems.currentValue; }
+    if (changes.showEvents) { this.showEvents = changes.showEvents.currentValue; }
+
+    // Reload the calendar data if it has already been loaded in
+    if (this.allEvents) {
+      jQuery('#calendar').fullCalendar('refetchEvents');
     }
   }
 
   // Something has caused the data to need a reload. Called the first time the user loads the page
-  reloadData() {
+  async reloadData() {
     // Make sure the project data has loaded
     if (!this.currentProject || !this.currentProject.id) {
       return;
@@ -99,18 +110,10 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
     // Load the draft items for the period
     this.isLoading = true;
-    this.dataLoadSub = this.contentItemService.getAllInMonth(this.currentProject.id, year, month + 1).subscribe(
-      response => {
-        this.processContentItems(response);
-        jQuery('#calendar').fullCalendar('refetchEvents');
-        this.isLoading = false;
-      },
-      error => {
-        console.log('Error loading content');
-        this.toast.error('Unable to load content calendar', 'Error occurred');
-        this.isLoading = false;
-      }
-    );
+    this.allEvents = await this.contentItemService.getAllInMonth(this.currentProject.id, year, month + 1).toPromise();
+    this.processContentItems(this.allEvents);
+    jQuery('#calendar').fullCalendar('refetchEvents');
+    this.isLoading = false;
   }
 
   // Process the returned content items into events to display on the calendar
@@ -119,102 +122,107 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     // Clear the events
     this.currentEvents = [];
 
-    console.log('Calendar: Processing content items', items);
-
     // Process the content items
-    items.ContentItems.forEach(item => {
-      if (item.DeadLine) {
+    if (this.showContentItems) {
+      items.ContentItems.forEach(item => {
+        if (item.DeadLine) {
 
-        // Create the event
-        let newEvent = new CalendarEvent();
-        newEvent.id = item.id;
-        newEvent.title = `${item.Title}`;
-        newEvent.start = moment(item.DeadLine);
-        newEvent.color = item.ContentTypeColourHex;
-        //newEvent.borderColor = 'gray';
+          // Create the event
+          let newEvent = new CalendarEvent();
+          newEvent.id = item.id;
+          newEvent.title = `${item.Title}`;
+          newEvent.start = moment(item.DeadLine);
+          newEvent.color = item.ContentTypeColourHex;
+          //newEvent.borderColor = 'gray';
 
-        newEvent.isContent = true;
-        newEvent.isEvent = false;
+          newEvent.isContent = true;
+          newEvent.isEvent = false;
 
-        // Push the event to the list
-        this.currentEvents.push(newEvent);
-      }
-    });
+          // Push the event to the list
+          this.currentEvents.push(newEvent);
+        }
+      });
+    }
 
     // Process the project events
-    items.ProjectEvents.forEach(item => {
-      var projectEventGroup = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId);
-      let projectEvent = new CalendarEvent();
-      projectEvent.id = item.id;
-      projectEvent.title = `${item.Title} - ${projectEventGroup.Name}`;
-      projectEvent.start = moment(item.StartDate);
-      projectEvent.end = moment(item.EndDate);
-      projectEvent.allDay = true;
-      projectEvent.color = 'white';
-      projectEvent.textColor = 'Black';
+    if (this.showEvents) {
+      items.ProjectEvents.forEach(item => {
+        var projectEventGroup = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId);
+        let projectEvent = new CalendarEvent();
+        projectEvent.id = item.id;
+        projectEvent.title = `${item.Title} - ${projectEventGroup.Name}`;
+        projectEvent.start = moment(item.StartDate);
+        projectEvent.end = moment(item.EndDate);
+        projectEvent.allDay = true;
+        projectEvent.color = 'white';
+        projectEvent.textColor = 'Black';
 
-      projectEvent.isContent = false;
-      projectEvent.isEvent = true;
-      projectEvent.isRequeue = false;
-      projectEvent.startEditable = false;
-      projectEvent.durationEditable = false;
+        projectEvent.isContent = false;
+        projectEvent.isEvent = true;
+        projectEvent.isRequeue = false;
+        projectEvent.startEditable = false;
+        projectEvent.durationEditable = false;
 
-      if (projectEventGroup && projectEventGroup.ColourHex) {
-        projectEvent.borderColor = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId).ColourHex;
-      }
+        if (projectEventGroup && projectEventGroup.ColourHex) {
+          projectEvent.borderColor = items.ProjectEventGroups.find(g => g.id === item.ParentEventGroupId).ColourHex;
+        }
 
-      // Add the event to the list
-      this.currentEvents.push(projectEvent);
-    });
+        // Add the event to the list
+        this.currentEvents.push(projectEvent);
+      });
 
-    // Process the public events
-    items.PublicEvents.forEach(item => {
-      const publicEventGroup = items.PublicEventGroups.find(g => g.id === item.ParentEventGroupId);
-      let projectEvent = new CalendarEvent();
-      projectEvent.id = item.id;
-      projectEvent.title = `${item.Title} - ${publicEventGroup.Name}`;
-      projectEvent.start = moment(item.StartDate);
-      projectEvent.end = moment(item.EndDate);
-      projectEvent.allDay = true;
-      projectEvent.color = 'white';
-      projectEvent.textColor = 'Black';
+      // Process the public events
+      items.PublicEvents.forEach(item => {
+        const publicEventGroup = items.PublicEventGroups.find(g => g.id === item.ParentEventGroupId);
+        let projectEvent = new CalendarEvent();
+        projectEvent.id = item.id;
+        projectEvent.title = `${item.Title} - ${publicEventGroup.Name}`;
+        projectEvent.start = moment(item.StartDate);
+        projectEvent.end = moment(item.EndDate);
+        projectEvent.allDay = true;
+        projectEvent.color = 'white';
+        projectEvent.textColor = 'Black';
 
-      projectEvent.isContent = false;
-      projectEvent.isEvent = true;
-      projectEvent.isRequeue = false;
-      projectEvent.startEditable = false;
-      projectEvent.durationEditable = false;
+        projectEvent.isContent = false;
+        projectEvent.isEvent = true;
+        projectEvent.isRequeue = false;
+        projectEvent.startEditable = false;
+        projectEvent.durationEditable = false;
 
-      if (publicEventGroup) {
-        projectEvent.borderColor = publicEventGroup.ColourHex;
-      }
+        if (publicEventGroup) {
+          projectEvent.borderColor = publicEventGroup.ColourHex;
+        }
 
-      // Add the event to the list
-      this.currentEvents.push(projectEvent);
-    });
+        // Add the event to the list
+        this.currentEvents.push(projectEvent);
+      });
+    }
 
     // Process all timeslots
-    items.RequeueTimeslots.forEach(timeslot => {
-      let slot = new CalendarEvent();
-      slot.id = timeslot.RequeueId;
-      slot.start = timeslot.Timeslot;
-      slot.end = timeslot.Timeslot;
-      slot.allDay = false;
-      slot.color = 'white';
-      slot.textColor = 'black';
-      slot.borderColor = timeslot.ColourHex;
-      slot.title = `${timeslot.RequeueName} (Requeue)`;
-      slot.isContent = false;
-      slot.isEvent = false;
-      slot.isRequeue = true;
+    if (this.showRequeues) {
+      items.RequeueTimeslots.forEach(timeslot => {
+        let slot = new CalendarEvent();
+        slot.id = timeslot.RequeueId;
+        slot.start = timeslot.Timeslot;
+        slot.end = timeslot.Timeslot;
+        slot.allDay = false;
+        slot.color = 'white';
+        slot.textColor = 'black';
+        slot.borderColor = timeslot.ColourHex;
+        slot.title = `${timeslot.RequeueName} (Requeue)`;
+        slot.isContent = false;
+        slot.isEvent = false;
+        slot.isRequeue = true;
 
-      this.currentEvents.push(slot);
-    });
+        this.currentEvents.push(slot);
+      });
+    }
+
   }
 
   // Calendar events ----------------------------------------
   // Called to reload events when the user changes the month or picks a date
-  loadEvents(start, end, timezone, cb) {
+  async loadEvents(start, end, timezone, cb) {
     console.log('Loading events', [start, end]);
     console.log(`Changing view: start: ${start.year()}-${start.month()}-${start.date()} -- ${end.year()}-${end.month()}-${end.date()}`);
 
@@ -226,22 +234,13 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
     // Load the dates requested
     this.isLoading = true;
-    this.dataLoadSub = this.contentItemService.getAllInPeriod(this.currentProject.id,
-      `${start.year()}-${start.month() + 1}-${start.date()}`, `${end.year()}-${end.month() + 1}-${end.date()}`).subscribe(
-        response => {
-          this.processContentItems(response);
-          this.isLoading = false;
-          cb(this.currentEvents);
-        },
-        error => {
-          console.log('Error loading content');
-          this.isLoading = false;
-          this.toast.error('Unable to load content calendar', 'Error occurred');
-          cb(this.currentEvents);
-        }
-      );
+    this.allEvents = await this.contentItemService.getAllInPeriod(this.currentProject.id, `${start.year()}-${start.month() + 1}-${start.date()}`, `${end.year()}-${end.month() + 1}-${end.date()}`).toPromise();
+    this.processContentItems(this.allEvents);
+    this.isLoading = false;
+    cb(this.currentEvents);
   }
 
+  // User has clicked on an event
   eventClicked(event, element) {
     console.log('Clicked', event);
 
@@ -252,7 +251,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
       this.router.navigateByUrl(`/content/${this.currentProject.id}/items/${eventData.id}`);
     }
 
-    if(eventData.isRequeue) {
+    if (eventData.isRequeue) {
       this.router.navigateByUrl(`/content/${this.currentProject.id}/requeue/${eventData.id}`);
     }
   }
