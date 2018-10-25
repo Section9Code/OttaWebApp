@@ -102,6 +102,7 @@ export class OrganisationPaymentPlan {
   TrialEnd: Date;
   MaxUsers: number;
   MaxProjects: number;
+  MaxRequeues: number;
   CurrentPeriodStart: Date;
   CurrentPeriodEnd: Date;
   MonthlyCharge: number;

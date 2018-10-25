@@ -16,5 +16,7 @@ export const environment = {
   baseApiUrl: 'http://localhost:11258',
   stripeKey: 'pk_test_YXS5UTT0DjNKuW17sdAM0YOS',
   pricePerUser: 999,
-  version: 'v0.2.2 Alpha (Local Dev)'
+  version: 'v0.2.2 Alpha (Local Dev)',
+  default_MaxRequeues: 3,
+  default_MaxProjects: 3
 };

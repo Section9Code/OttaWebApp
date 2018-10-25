@@ -17,5 +17,7 @@ export const environment = {
   baseApiUrl: 'https://ottdevapi.azurewebsites.net',
   stripeKey: 'pk_test_YXS5UTT0DjNKuW17sdAM0YOS',
   pricePerUser: 999,
-  version: 'v0.1 Alpha (Dev Server)'
+  version: 'v0.1 Alpha (Dev Server)',
+  default_MaxRequeues: 3,
+  default_MaxProjects: 3
 };

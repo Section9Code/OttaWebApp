@@ -17,5 +17,7 @@ export const environment = {
   baseApiUrl: 'https://ottaapi.azurewebsites.net',
   stripeKey: 'pk_live_dMj7EjUe7c8UTzMrwYfcxR8L',
   pricePerUser: 999,
-  version: 'v0.3.328 Alpha'
+  version: 'v0.3.328 Alpha',
+  default_MaxRequeues: 3,
+  default_MaxProjects: 3
 };

@@ -13,6 +13,7 @@ import { SweetAlertService } from 'ng2-sweetalert2';
 import { TimeslotDisplayItem } from '../components/requeue-timeslots/requeue-timeslots.component';
 import { AngularWaitBarrier } from 'blocking-proxy/built/lib/angular_wait_barrier';
 import { MessageMove } from '../components/cim/cim-messages-list/cim-messages-list.component';
+import { OrganisationService } from 'services/organisation.service';
 
 @Component({
   selector: 'app-content-project-requeue-details-layout',
@@ -25,7 +26,6 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
   isUpdating = false;
 
   settingsForm: FormGroup;
-
   subRoute: Subscription;
 
   @ViewChild('messageListComponent') messageListComponent: CimListRequeueComponent;

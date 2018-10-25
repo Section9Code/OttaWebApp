@@ -7,6 +7,8 @@ import { SweetAlertService } from 'ng2-sweetalert2';
 import { ToastsManager } from 'ng2-toastr';
 import { Router, ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs/Subscription';
+import { OrganisationService } from 'services/organisation.service';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 
@@ -31,8 +33,10 @@ export class ContentProjectRequeueLayoutComponent implements OnInit, OnDestroy {
   constructor(
     private sharedService: ContentProjectShareService,
     private requeueService: RequeueService,
+    private orgService: OrganisationService,
     private tracking: MixpanelService,
     private toast: ToastsManager,
+    private alertSvc: SweetAlertService,
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) {
@@ -56,10 +60,10 @@ export class ContentProjectRequeueLayoutComponent implements OnInit, OnDestroy {
       this.fullRequeues = next;
       this.isLoadingQueues = false;
     },
-    error => {
-      // Error loading queues
-      this.isLoadingQueues = false;
-    });
+      error => {
+        // Error loading queues
+        this.isLoadingQueues = false;
+      });
   }
 
   ngOnDestroy() {
@@ -70,9 +74,30 @@ export class ContentProjectRequeueLayoutComponent implements OnInit, OnDestroy {
     this.router.navigate([item.Id], { relativeTo: this.activatedRoute });
   }
 
-  showCreateModal() {
-    this.createForm.reset();
-    $(`#requeueModal`).modal('show');
+  async showCreateModal() {
+    // Make sure the current users organisation allows new queues to be added
+    const org = await this.orgService.get().toPromise();
+    if (this.queues.length >= (org.CurrentPlan.MaxRequeues || environment.default_MaxRequeues)) {
+      // The organisation cannot add new queues
+      this.alertSvc.swal({
+        title: 'Cannot create new requeue',
+        text: 'You have reached the maximum number of requeues your subscription allows. Would you like to update your subscription to allow more requeues?',
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, view my subscription'
+      }).then(() => {
+        // Confirmed
+        console.log('Confirmed');
+        this.router.navigateByUrl('/organisation');
+      }, error => {});
+    } else {
+
+      // Show the form
+      this.createForm.reset();
+      $(`#requeueModal`).modal('show');
+    }
   }
 
   createQueue() {
