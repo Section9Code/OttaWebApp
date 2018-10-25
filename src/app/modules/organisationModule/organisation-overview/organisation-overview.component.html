@@ -29,7 +29,8 @@
                         <br>
                     </h2>
                     <p>
-                        To be able to edit this organisations details you need to be in the admins group. If this is incorrect please contact your
+                        To be able to edit this organisations details you need to be in the admins group. If this is
+                        incorrect please contact your
                         admin and ask to be added to the admin users group.
                         <p>
                 </div>
@@ -56,17 +57,23 @@
                             <!-- Plan active -->
                             <div *ngIf="!organisation.CurrentPlan.CancelAtPeriodEnd">
                                 <p>
-                                    Your plan is currently active, the next period will be billed on {{organisation.CurrentPlan.CurrentPeriodEnd | date}} (£{{organisation.CurrentPlan.MonthlyCharge/100}}
+                                    Your plan is currently active, the next period will be billed on
+                                    {{organisation.CurrentPlan.CurrentPeriodEnd | date}}
+                                    (£{{organisation.CurrentPlan.MonthlyCharge/100}}
                                     x {{organisation.CurrentPlan.MaxUsers}})
                                 </p>
                                 <p *ngIf="organisation.CurrentPlan.Discount">
-                                    You are currently receiving a discount so you will only pay <b>{{ discountAmountPerMonth / 100.00 }} per month</b><br/>
+                                    You are currently receiving a discount so you will only pay <b>{{
+                                        discountAmountPerMonth / 100.00 }} per month</b><br />
                                     Discount terms: <b>{{ discountTerms }}</b>
                                 </p>
-                                <p>
-                                    Your organisation can have up to a maximum of
-                                    <strong>{{organisation.CurrentPlan.MaxProjects}}</strong> projects
-                                </p>
+
+                                <h4>Subscription settings</h4>
+                                <ul>
+                                    <li>Max projects: <strong>{{organisation.CurrentPlan.MaxProjects ||defaultMaxProjects}}</strong></li>
+                                    <li>Max requeues: <strong>{{organisation.CurrentPlan.MaxRequeues || defaultMaxRequeues}}</strong></li>
+                                </ul>
+
                                 <div>
                                     <button class="btn btn-danger" (click)="cancelSubscription()">Cancel subscription</button>
                                 </div>
@@ -78,14 +85,15 @@
                                     Your plan is set to
                                     <strong>cancel at period end</strong>, it will no longer be available from
                                     <strong>{{organisation.CurrentPlan.CurrentPeriodEnd | date}}</strong>
-                                </p>                                
-                                <p>
-                                    Your organisation can have up to a maximum of
-                                    <strong>{{organisation.CurrentPlan.MaxProjects}}</strong> projects
                                 </p>
+                                <h4>Subscription settings</h4>
+                                <ul>
+                                    <li>Max projects: <strong>{{organisation.CurrentPlan.MaxProjects ||defaultMaxProjects}}</strong></li>
+                                    <li>Max requeues: <strong>{{organisation.CurrentPlan.MaxRequeues || defaultMaxRequeues}}</strong></li>
+                                </ul>
                                 <div [hidden]="!organisation.CurrentPlan.CancelAtPeriodEnd">
-                                    <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + userAllowance + ' user(s)'" [buttonText]="'Reinstate subscription'"
-                                        [amount]="amountToCharge" (onPayment)="subscriptionPaid($event)">
+                                    <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + userAllowance + ' user(s)'"
+                                        [buttonText]="'Reinstate subscription'" [amount]="amountToCharge" (onPayment)="subscriptionPaid($event)">
                                     </stripe-button>
                                 </div>
                             </div>
@@ -116,10 +124,12 @@
                                     <option value="19">19</option>
                                     <option value="20">20</option>
                                 </select>
-                                users on it. You can add or remove users at any time, change the user count to the number of users you want and update.
+                                users on it. You can add or remove users at any time, change the user count to the
+                                number of users you want and update.
                             </p>
 
-                            <button class="btn btn-primary" [disabled]="organisation.CurrentPlan.MaxUsers == userAllowance" (click)="updateUsers()">Update user allowance</button>
+                            <button class="btn btn-primary" [disabled]="organisation.CurrentPlan.MaxUsers == userAllowance"
+                                (click)="updateUsers()">Update user allowance</button>
                         </span>
 
                         <!-- Trial mode information -->
@@ -129,18 +139,19 @@
                                 <strong>trial mode</strong> and the trail will end on
                                 <strong>{{organisation.CurrentPlan.TrialEnd | date}}</strong>
                             </p>
-                            <p>
-                                Your organisation can have up to a maximum of
-                                <strong>{{organisation.CurrentPlan.MaxProjects}}</strong> projects
-                            </p>
+                            <h4>Subscription settings</h4>
+                            <ul>
+                                <li>Max projects: <strong>{{organisation.CurrentPlan.MaxProjects ||defaultMaxProjects}}</strong></li>
+                                <li>Max requeues: <strong>{{organisation.CurrentPlan.MaxRequeues || defaultMaxRequeues}}</strong></li>
+                            </ul>
                             <p *ngIf="organisation.CurrentPlan.Discount">
                                 Special offer applied: <b>{{ organisation.CurrentPlan.Discount.CouponName }}</b>
-                                <br/>
+                                <br />
                                 Special off terms: <b>{{ offerTerms }}</b>
-                            </p>                            
+                            </p>
                             <p>
-                                <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + userAllowance + ' user(s)'" [buttonText]="'Pay for subscription now'"
-                                    [amount]="amountToCharge" (onPayment)="subscriptionPaid($event)">
+                                <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription for ' + userAllowance + ' user(s)'"
+                                    [buttonText]="'Pay for subscription now'" [amount]="amountToCharge" (onPayment)="subscriptionPaid($event)">
                                 </stripe-button>
                             </p>
                             <h3>Manage user allowance</h3>
@@ -169,10 +180,12 @@
                                     <option value="19">19</option>
                                     <option value="20">20</option>
                                 </select>
-                                users on it. You can add or remove users at any time, change the user count to the number of users you want and update.
+                                users on it. You can add or remove users at any time, change the user count to the
+                                number of users you want and update.
                             </p>
 
-                            <button class="btn btn-primary" [disabled]="organisation.CurrentPlan.MaxUsers == userAllowance" (click)="updateUsers()">Update user allowance</button>
+                            <button class="btn btn-primary" [disabled]="organisation.CurrentPlan.MaxUsers == userAllowance"
+                                (click)="updateUsers()">Update user allowance</button>
 
                         </span>
 
@@ -208,8 +221,9 @@
                             Invite your whole team to join
                         </p>
                         <div class="input-group" [class.has-error]="!userEmail.valid">
-                            <input type="text" placeholder="Email address of the user you would like to add" class="input form-control" [(ngModel)]="inviteUserEmail"
-                                id="userEmail" name="userEmail" #userEmail="ngModel" required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$">
+                            <input type="text" placeholder="Email address of the user you would like to add" class="input form-control"
+                                [(ngModel)]="inviteUserEmail" id="userEmail" name="userEmail" #userEmail="ngModel"
+                                required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn btn-primary" (click)="inviteUser()" [disabled]="!userEmail.valid">
                                     <i class="fa fa-envelope"></i> Invite</button>

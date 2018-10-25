@@ -34,6 +34,9 @@ export class OrganisationOverviewComponent implements OnInit {
 
     inviteUserEmail: string;
 
+    defaultMaxProjects: number;
+    defaultMaxRequeues: number;    
+
     constructor(private authService: AuthService, private orgService: OrganisationService, private toast: ToastsManager, private alertService: SweetAlertService, private tracking: MixpanelService) {
         this.organisation = new Organisation();
         this.organisation.CurrentPlan = new OrganisationPaymentPlan();
@@ -43,6 +46,8 @@ export class OrganisationOverviewComponent implements OnInit {
     ngOnInit(): void {
         this.tracking.Track(MixpanelEvent.View_organisation_admin);
         this.isLoading = true;
+        this.defaultMaxProjects = environment.default_MaxProjects;
+        this.defaultMaxRequeues = environment.default_MaxRequeues;
 
         // Load the current users organisation
         this.orgService.get().subscribe(
