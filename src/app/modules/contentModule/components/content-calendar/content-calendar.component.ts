@@ -115,6 +115,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
   // Process the returned content items into events to display on the calendar
   processContentItems(items: CalendarDataModel) {
+    console.log('Calendar - processContentItems', items);
     // Clear the events
     this.currentEvents = [];
 
@@ -154,6 +155,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
       projectEvent.isContent = false;
       projectEvent.isEvent = true;
+      projectEvent.isRequeue = false;
       projectEvent.startEditable = false;
       projectEvent.durationEditable = false;
 
@@ -179,6 +181,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
 
       projectEvent.isContent = false;
       projectEvent.isEvent = true;
+      projectEvent.isRequeue = false;
       projectEvent.startEditable = false;
       projectEvent.durationEditable = false;
 
@@ -190,6 +193,23 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
       this.currentEvents.push(projectEvent);
     });
 
+    // Process all timeslots
+    items.RequeueTimeslots.forEach(timeslot => {
+      let slot = new CalendarEvent();
+      slot.id = timeslot.RequeueId;
+      slot.start = timeslot.Timeslot;
+      slot.end = timeslot.Timeslot;
+      slot.allDay = false;
+      slot.color = 'white';
+      slot.textColor = 'black';
+      slot.borderColor = timeslot.ColourHex;
+      slot.title = `${timeslot.RequeueName} (Requeue)`;
+      slot.isContent = false;
+      slot.isEvent = false;
+      slot.isRequeue = true;
+
+      this.currentEvents.push(slot);
+    });
   }
 
   // Calendar events ----------------------------------------
@@ -230,6 +250,10 @@ export class ContentCalendarComponent implements OnInit, OnDestroy {
     if (eventData.isContent) {
       // Navigate to the draft page
       this.router.navigateByUrl(`/content/${this.currentProject.id}/items/${eventData.id}`);
+    }
+
+    if(eventData.isRequeue) {
+      this.router.navigateByUrl(`/content/${this.currentProject.id}/requeue/${eventData.id}`);
     }
   }
 
@@ -302,4 +326,5 @@ export class CalendarEvent {
 
   isContent: boolean;
   isEvent: boolean;
+  isRequeue: boolean;
 }

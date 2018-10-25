@@ -112,6 +112,14 @@ export class CalendarDataModel {
   PublicEvents: EventDateModel[];
   PublicEventGroups: EventGroupModel[];
   ProjectEventGroups: EventGroupModel[];
+  RequeueTimeslots: TimeslotDate[];
+}
+
+export class TimeslotDate {
+  RequeueId: string;
+  RequeueName: string;
+  Timeslot: Date;
+  ColourHex: string;
 }
 
 export class ContentItemMessageModel {
