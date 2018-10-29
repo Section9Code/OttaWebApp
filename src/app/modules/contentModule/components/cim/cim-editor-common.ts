@@ -61,7 +61,7 @@ export abstract class CimEditorCommon {
     }
 
     // Validate the editor form to make sure the send time of the item is valid
-    protected validateFormSendTimes(form: FormGroup): any {
+    public validateFormSendTimes(form: FormGroup): any {
         if (this.hideDateTimeSettings) {
             // The user doesn't need the send time of the item to be validated
             return;
@@ -196,11 +196,12 @@ export abstract class CimEditorCommon {
         this.LoadAdditionalData(message.AdditionalData);
     }
 
-    protected LoadAdditionalData(additionalData) {
+    public LoadAdditionalData(additionalData) {
+        // This is replaced in components that need to load additional data
     }
 
     // Renders the image picker widget on the form
-    protected renderImagePicker() {
+    public renderImagePicker() {
         if (!this.settingsEditorHasImagePicker) { return; }
 
         setTimeout(() => {
@@ -211,7 +212,7 @@ export abstract class CimEditorCommon {
     }
 
     // Called every time the users changes the image they have selected
-    protected imageChanged(imageUrl: string) {
+    public imageChanged(imageUrl: string) {
         if (!imageUrl) {
             this.editorForm.controls.imageUrl.patchValue('');
         } else {
@@ -220,7 +221,7 @@ export abstract class CimEditorCommon {
     }
 
     // Add a new message
-    protected addMessage() {
+    public addMessage() {
         // Get the message from the form
         this.isCreating = true;
         const newMessage = this.GetMessageFromForm();
@@ -230,7 +231,7 @@ export abstract class CimEditorCommon {
     }
 
     // The user wants to update the current message
-    protected updateMessage() {
+    public updateMessage() {
         // Update the message object
         this.isCreating = true;
         const message = this.GetMessageFromForm();
@@ -241,12 +242,12 @@ export abstract class CimEditorCommon {
     }
 
     // The user wants to delete the current message
-    protected deleteMessage() {
+    public deleteMessage() {
         this.messageRemoved.emit(this.editorForm.controls.id.value);
     }
 
     // Read the form and turn it into a content message item
-    protected GetMessageFromForm(): ContentItemMessageModel {
+    public GetMessageFromForm(): ContentItemMessageModel {
         const newMessage = new ContentItemMessageModel();
         newMessage.MessageType = this.messageType;
         newMessage.Message = this.editorForm.controls.message.value;
@@ -275,12 +276,12 @@ export abstract class CimEditorCommon {
     }
 
     // Can be replaced in child controls to add additional data to an item
-    protected SaveAdditionalData(): Object {
+    public SaveAdditionalData(): Object {
         return null;
     }
 
     // Do the substitutions for any piece of text
-    protected performSubstitutions(input: string): string {
+    public performSubstitutions(input: string): string {
         if (!input) { return ''; }
 
         let output = input;
@@ -293,7 +294,7 @@ export abstract class CimEditorCommon {
     }
 
     // Calculate the time relative to a specific value
-    protected calcRelativeSendTime(unit: ContentItemMessageRelativeUnitModel, value: number, deadlineIsoDate: string): moment.Moment {
+    public calcRelativeSendTime(unit: ContentItemMessageRelativeUnitModel, value: number, deadlineIsoDate: string): moment.Moment {
         let sendTime: moment.Moment;
         sendTime = moment(deadlineIsoDate);
 

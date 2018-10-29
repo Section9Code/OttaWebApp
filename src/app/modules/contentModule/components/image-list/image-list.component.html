@@ -1,6 +1,6 @@
 <loadingSpinner [loading]="isLoadingImages"></loadingSpinner>
 
-<div *ngIf="!isLoading">
+<div *ngIf="!isLoadingImages">
   <!-- No files message -->
   <div *ngIf="!images || images.length === 0" class="text-center">
     <h2>No files found</h2>

@@ -13,9 +13,9 @@ export class TopNavbarComponent {
   searchCriteria = '';
 
   constructor(
-    private auth: AuthService,
-    private tour: TourService,
-    private router: Router
+    public auth: AuthService,
+    public tour: TourService,
+    public router: Router
   ) { }
 
   toggleNavigation(): void {
