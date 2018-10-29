@@ -18,7 +18,6 @@ import { OttaModalComponent } from './otta-modal/otta-modal.component';
 @NgModule({
     imports: [
         CommonModule,
-        BrowserModule,
         LaddaModule,
         FormsModule,
         PipesModule

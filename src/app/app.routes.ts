@@ -27,12 +27,8 @@ export const ROUTES: Routes = [
   // Main redirect
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
-  {
-    path: 'calendars', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
-    children: [
-      { path: 'month', component: CalendarViewComponent, canActivate: [AuthenticatedGuard] }
-    ]
-  },
+  // Personas
+  { path: 'personas', loadChildren: './modules/personaModule/persona.module#PersonaModule' },
 
   {
     path: 'suggestions', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
@@ -56,7 +52,7 @@ export const ROUTES: Routes = [
     children: [
       { path: 'login', component: LoginComponent },                                         // Main login form
       { path: 'callback', component: CallbackComponent },                                   // For the authentication system to call back into with a user
-      { path: 'integrationCallback', component: IntegrationOauthComponent},
+      { path: 'integrationCallback', component: IntegrationOauthComponent },
       { path: 'problem', component: ProblemComponent },                                     // When there was a problem logging in
       { path: 'join', component: JoinComponent },                                           // For when a user wants to join a subscription
       { path: 'offer', component: OfferComponent },                                         // For whent he user joins with an offer code

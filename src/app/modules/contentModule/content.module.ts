@@ -64,6 +64,7 @@ import { CimEditorMediumComponent } from './components/cim/cim-editor-medium/cim
 import { CimListRequeueComponent } from './components/cim/cim-list-requeue/cim-list-requeue.component';
 import { RequeueTimeslotsComponent } from './components/requeue-timeslots/requeue-timeslots.component';
 import { ImageListComponent } from './components/image-list/image-list.component';
+import { CommonModule } from '@angular/common';
 
 
 // Routes for this module to be added to the application
@@ -97,7 +98,7 @@ const routes: Routes = [
 // User Profile Feature Module
 @NgModule({
     imports: [
-        BrowserModule,
+        CommonModule,
         BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,

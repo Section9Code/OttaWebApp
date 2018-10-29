@@ -18,6 +18,7 @@ import { SweetAlertService } from 'ng2-sweetalert2';
 
 import { OrganisationOverviewComponent } from 'app/modules/organisationModule/organisation-overview/organisation-overview.component';
 import { OrganisationService } from 'services/organisation.service';
+import { CommonModule } from '@angular/common';
 
 // Routes for this module to be added to the application
 const routes: Routes = [
@@ -32,7 +33,7 @@ const routes: Routes = [
 // User Profile Feature Module
 @NgModule({
     imports: [
-        BrowserModule,
+        CommonModule,
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,

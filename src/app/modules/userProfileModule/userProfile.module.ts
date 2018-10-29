@@ -12,6 +12,7 @@ import { ProfileComponent } from 'app/modules/userProfileModule/profile/profile.
 import { LaddaModule } from 'angular2-ladda';
 import { ToastModule } from 'ng2-toastr';
 import { SharedModule } from 'app/modules/sharedModule/shared.module';
+import { CommonModule } from '@angular/common';
 
 // Routes the User Profile Module Adds to the application
 const routes: Routes = [
@@ -26,7 +27,7 @@ const routes: Routes = [
 // User Profile Feature Module 
 @NgModule({
     imports: [
-        BrowserModule,
+        CommonModule,
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,

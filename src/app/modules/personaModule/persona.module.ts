@@ -1,6 +1,4 @@
 import { NgModule } from '@angular/core';
-import { BrowserModule } from '@angular/platform-browser';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FormsModule } from '@angular/forms';
 import { HttpModule } from '@angular/http';
 import { Routes, RouterModule } from '@angular/router';
@@ -20,11 +18,12 @@ import { TagInputModule } from 'ngx-chips';
 import { PersonaFormComponent } from 'app/modules/personaModule/persona-form/persona-form.component';
 import { PersonaEditComponent } from 'app/modules/personaModule/persona-edit/persona-edit.component';
 import { ImagesService } from 'services/images.service';
+import { CommonModule } from '@angular/common';
 
 // Routes for this module to be added to the application
 const routes: Routes = [
     {
-        path: 'personas', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
+        path: '', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
         children: [
             { path: '', component: PersonaListComponent, canActivate: [AuthenticatedGuard] },
             { path: 'create', component: PersonaCreateComponent, canActivate: [AuthenticatedGuard] },
@@ -36,8 +35,7 @@ const routes: Routes = [
 // User Profile Feature Module 
 @NgModule({
     imports: [
-        BrowserModule,
-        BrowserAnimationsModule,
+        CommonModule,
         FormsModule,
         HttpModule,
         LayoutsModule,

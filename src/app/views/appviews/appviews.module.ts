@@ -29,6 +29,7 @@ import { AgendaComponent } from './agenda/agenda.component';
 import { OfferComponent } from './offer/offer.component';
 import { MobileAuthComponent } from './mobile-auth/mobile-auth.component';
 import { IntegrationOauthComponent } from './integration-oauth/integration-oauth.component';
+import { CommonModule } from '@angular/common';
 
 @NgModule({
   declarations: [
@@ -54,7 +55,7 @@ import { IntegrationOauthComponent } from './integration-oauth/integration-oauth
     IntegrationOauthComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     FormsModule,
     RouterModule,
     PeityModule,

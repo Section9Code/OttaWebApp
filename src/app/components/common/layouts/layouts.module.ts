@@ -13,6 +13,7 @@ import {FooterComponent} from "./../footer/footer.component";
 import {TopNavbarComponent} from "./../topnavbar/topnavbar.component";
 import {TopNavigationNavbarComponent} from "./../topnavbar/topnavigationnavbar.component";
 import { FormsModule } from "@angular/forms";
+import { CommonModule } from "@angular/common";
 
 
 @NgModule({
@@ -26,7 +27,7 @@ import { FormsModule } from "@angular/forms";
     TopNavigationNavbarComponent
   ],
   imports: [
-    BrowserModule,
+    CommonModule,
     RouterModule,
     FormsModule,
     BsDropdownModule.forRoot()

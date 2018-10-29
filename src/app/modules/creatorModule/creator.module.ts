@@ -17,6 +17,7 @@ import { ImagesService } from 'services/images.service';
 import { CreatorOverviewComponent } from 'app/modules/creatorModule/creator-overview/creator-overview.component';
 import { CreatorDetailsComponent } from 'app/modules/creatorModule/creator-details/creator-details.component';
 import { CreatorProfileListComponent } from 'app/modules/creatorModule/creator-profile-list/creator-profile-list.component';
+import { CommonModule } from '@angular/common';
 
 // Routes for this module to be added to the application
 const routes: Routes = [
@@ -31,7 +32,7 @@ const routes: Routes = [
 // User Profile Feature Module
 @NgModule({
     imports: [
-        BrowserModule,
+        CommonModule,
         BrowserAnimationsModule,
         FormsModule,
         HttpModule,

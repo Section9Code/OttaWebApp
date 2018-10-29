@@ -12,7 +12,7 @@ import { PeityModule } from "app/components/charts/peity";
         AgendaComponent
     ],
     imports: [
-        BrowserModule,
+        CommonModule,
         RouterModule,
         IboxtoolsModule,
         PeityModule

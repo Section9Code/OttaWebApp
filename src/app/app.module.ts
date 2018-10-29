@@ -62,7 +62,6 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     AppComponent,
   ],
   imports: [
-    BrowserModule,
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
@@ -72,7 +71,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     PipesModule,
 
     UserProfileModule,
-    PersonaModule,
+    //PersonaModule,
     OrganisationModule,
     CreatorModule,
     ContentModule,
