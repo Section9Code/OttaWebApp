@@ -1,12 +1,5 @@
 import { Routes } from "@angular/router";
 
-import { Dashboard1Component } from "./views/dashboards/dashboard1.component";
-import { Dashboard2Component } from "./views/dashboards/dashboard2.component";
-import { Dashboard3Component } from "./views/dashboards/dashboard3.component";
-import { Dashboard4Component } from "./views/dashboards/dashboard4.component";
-import { Dashboard41Component } from "./views/dashboards/dashboard41.component";
-import { Dashboard5Component } from "./views/dashboards/dashboard5.component";
-
 import { StarterViewComponent } from "./views/appviews/starterview.component";
 import { LoginComponent } from "./views/appviews/login.component";
 
@@ -33,18 +26,6 @@ import { IntegrationOauthComponent } from "./views/appviews/integration-oauth/in
 export const ROUTES: Routes = [
   // Main redirect
   { path: '', redirectTo: 'home', pathMatch: 'full' },
-
-  // App views
-  // {
-  //   path: 'dashboards', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
-  //   children: [
-  //     { path: 'dashboard1', component: Dashboard1Component, canActivate: [AuthenticatedGuard] },
-  //     { path: 'dashboard2', component: Dashboard2Component, canActivate: [AuthenticatedGuard] },
-  //     { path: 'dashboard3', component: Dashboard3Component, canActivate: [AuthenticatedGuard] },
-  //     { path: 'dashboard4', component: Dashboard4Component, canActivate: [AuthenticatedGuard] },
-  //     { path: 'dashboard5', component: Dashboard5Component, canActivate: [AuthenticatedGuard] }
-  //   ]
-  // },
 
   {
     path: 'calendars', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],

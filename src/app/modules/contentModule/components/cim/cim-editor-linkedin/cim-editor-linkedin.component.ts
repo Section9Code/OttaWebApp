@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { CimEditorCommon, ICimEditorCommon } from '../cim-editor-common';
+import { CimEditorCommon } from '../cim-editor-common';
+import { ICimEditorCommon } from '../ICimEditorCommon';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
 
 @Component({

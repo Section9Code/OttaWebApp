@@ -7,7 +7,7 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { ContentProjectShareService } from '../../../services/ContentProjectShareService';
 import { IntegrationTypes, ProjectIntegrationModel, FacebookProjectIntegrationModel, ContentProjectIntegrationService, PinterestProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
 import { Subscription } from 'rxjs/Subscription';
-import { ICimEditorCommon } from '../cim-editor-common';
+import { ICimEditorCommon } from '../ICimEditorCommon';
 import { CimMessagesListComponent } from '../cim-messages-list/cim-messages-list.component';
 import { RequeueReducedModel } from 'services/requeue.service';
 

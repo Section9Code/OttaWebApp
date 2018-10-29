@@ -3,7 +3,8 @@ import { ContentItemMessageSubstitution, ContentItemMessageModel, ContentItemMes
 import { FormGroup, FormControl, Validators, AbstractControl } from '@angular/forms';
 import * as moment from 'moment';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
-import { ICimEditorCommon, CimEditorCommon } from '../cim-editor-common';
+import { CimEditorCommon } from '../cim-editor-common';
+import { ICimEditorCommon } from '../ICimEditorCommon';
 
 declare var $: any;
 

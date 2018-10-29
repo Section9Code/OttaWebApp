@@ -10,7 +10,6 @@ import { ROUTES } from "./app.routes";
 import { AppComponent } from './app.component';
 
 // App views
-import { DashboardsModule } from "./views/dashboards/dashboards.module";
 import { AppviewsModule } from "./views/appviews/appviews.module";
 
 // App modules/components
@@ -67,7 +66,6 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     BrowserAnimationsModule,
     FormsModule,
     HttpModule,
-    DashboardsModule,
     LayoutsModule,
     AppviewsModule,
     WidgetsModule,

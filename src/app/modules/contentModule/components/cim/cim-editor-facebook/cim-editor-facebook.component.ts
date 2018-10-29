@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CimEditorCommon, ICimEditorCommon } from '../cim-editor-common';
+import { CimEditorCommon } from '../cim-editor-common';
+import { ICimEditorCommon } from '../ICimEditorCommon';
 import { IntegrationTypes, FacebookProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
 import { ContentItemMessageModel } from 'services/content-item.service';
 import { Validators } from '@angular/forms';

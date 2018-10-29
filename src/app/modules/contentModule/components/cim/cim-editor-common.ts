@@ -131,7 +131,7 @@ export abstract class CimEditorCommon {
     }
 
     // The user has cancelled the editor
-    protected cancel() {
+    public cancel() {
         this.cancelled.emit();
     }
 
@@ -322,12 +322,3 @@ export abstract class CimEditorCommon {
     }
 }
 
-
-
-export interface ICimEditorCommon {
-    // The editor must reset itself
-    reset();
-
-    // The user wants to edit an existing message
-    edit(message: ContentItemMessageModel);
-}

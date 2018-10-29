@@ -2,7 +2,7 @@ import { Component, OnInit, OnChanges, Input, ViewChild, Output, EventEmitter, S
 import { RequeueModel } from 'services/requeue.service';
 import { ContentProjectShareService } from '../../../services/ContentProjectShareService';
 import { IntegrationTypes, FacebookProjectIntegrationModel, PinterestProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
-import { ICimEditorCommon } from '../cim-editor-common';
+import { ICimEditorCommon } from '../ICimEditorCommon';
 import { ContentItemMessageModel } from 'services/content-item.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { CimMessagesListComponent, MessageMove } from '../cim-messages-list/cim-messages-list.component';

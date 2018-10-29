@@ -1,5 +1,6 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { CimEditorCommon, ICimEditorCommon } from '../cim-editor-common';
+import { CimEditorCommon } from '../cim-editor-common';
+import { ICimEditorCommon } from '../ICimEditorCommon';
 import { IntegrationTypes, PinterestProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
 import { Validators } from '@angular/forms';
 
