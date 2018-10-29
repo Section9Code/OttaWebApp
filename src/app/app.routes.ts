@@ -35,16 +35,16 @@ export const ROUTES: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
 
   // App views
-  {
-    path: 'dashboards', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
-    children: [
-      { path: 'dashboard1', component: Dashboard1Component, canActivate: [AuthenticatedGuard] },
-      { path: 'dashboard2', component: Dashboard2Component, canActivate: [AuthenticatedGuard] },
-      { path: 'dashboard3', component: Dashboard3Component, canActivate: [AuthenticatedGuard] },
-      { path: 'dashboard4', component: Dashboard4Component, canActivate: [AuthenticatedGuard] },
-      { path: 'dashboard5', component: Dashboard5Component, canActivate: [AuthenticatedGuard] }
-    ]
-  },
+  // {
+  //   path: 'dashboards', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
+  //   children: [
+  //     { path: 'dashboard1', component: Dashboard1Component, canActivate: [AuthenticatedGuard] },
+  //     { path: 'dashboard2', component: Dashboard2Component, canActivate: [AuthenticatedGuard] },
+  //     { path: 'dashboard3', component: Dashboard3Component, canActivate: [AuthenticatedGuard] },
+  //     { path: 'dashboard4', component: Dashboard4Component, canActivate: [AuthenticatedGuard] },
+  //     { path: 'dashboard5', component: Dashboard5Component, canActivate: [AuthenticatedGuard] }
+  //   ]
+  // },
 
   {
     path: 'calendars', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
