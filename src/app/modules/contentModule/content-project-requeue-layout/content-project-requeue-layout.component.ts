@@ -76,7 +76,17 @@ export class ContentProjectRequeueLayoutComponent implements OnInit, OnDestroy {
 
   async showCreateModal() {
     // Make sure the current users organisation allows new queues to be added
-    const org = await this.orgService.get().toPromise();
+    let org;
+    try {
+      org = await this.orgService.get().toPromise();
+    }
+    catch (e) {
+      console.log(e);
+      this.alertSvc.error('Unable to load you organisation details, please try again later');
+      this.tracking.TrackError('Unable to load organisation details for user', e);
+      return;
+    }
+
     if (this.queues.length >= (org.CurrentPlan.MaxRequeues || environment.default_MaxRequeues)) {
       // The organisation cannot add new queues
       this.alertSvc.swal({
@@ -91,7 +101,7 @@ export class ContentProjectRequeueLayoutComponent implements OnInit, OnDestroy {
         // Confirmed
         console.log('Confirmed');
         this.router.navigateByUrl('/organisation');
-      }, error => {});
+      }, error => { });
     } else {
 
       // Show the form
