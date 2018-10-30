@@ -14,6 +14,7 @@ import {TopNavbarComponent} from "./../topnavbar/topnavbar.component";
 import {TopNavigationNavbarComponent} from "./../topnavbar/topnavigationnavbar.component";
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
+import { SharedModule } from "app/modules/sharedModule/shared.module";
 
 
 @NgModule({
@@ -30,6 +31,7 @@ import { CommonModule } from "@angular/common";
     CommonModule,
     RouterModule,
     FormsModule,
+    SharedModule,
     BsDropdownModule.forRoot()
   ],
   exports: [

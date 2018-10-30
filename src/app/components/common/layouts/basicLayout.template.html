@@ -11,7 +11,8 @@
     <topnavbar></topnavbar>
 
     <!-- Main view/routes wrapper-->
-    <router-outlet></router-outlet>
+    <router-outlet *ngIf="!isLoadingModule"></router-outlet>
+    <loadingSpinner [loading]="isLoadingModule"></loadingSpinner>
 
     <!-- Footer -->
     <footer></footer>

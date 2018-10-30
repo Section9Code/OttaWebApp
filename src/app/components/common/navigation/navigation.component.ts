@@ -1,10 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { Router } from '@angular/router';
+import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
 import 'jquery-slimscroll';
 import { AuthService, Auth0Profile } from "services/auth.service";
 import { UserDataService } from 'services/user-data.service';
 import { ContentProjectModel } from 'services/content-project.service';
 import { TourService } from 'services/tour.service';
+import { ContentSearchLayoutComponent } from 'app/modules/contentModule/content-search-layout/content-search-layout.component';
 
 declare var jQuery: any;
 
@@ -21,7 +22,7 @@ export class NavigationComponent implements OnInit {
   showOrganisationOptions = false;
   usersContentProjects: ContentProjectModel[] = [];
 
-  constructor(private router: Router, private auth: AuthService, private userDataService: UserDataService) { }
+  constructor(private router: Router, private auth: AuthService) { }
 
   ngOnInit(): void {
     // Load the users profile
@@ -35,27 +36,6 @@ export class NavigationComponent implements OnInit {
       }
     }
 
-    // Listen to changes to the users options
-    // this.userDataService.showCreatorOptionsSubject.subscribe(
-    //   response => {
-    //     console.log('Users creator options changed', response);
-    //     this.showCreatorOptions = response;
-    //   }
-    // );
-
-    // this.userDataService.showOrganisationOptionsSubject.subscribe(
-    //   response => {
-    //     console.log('Users organisation options changed', response);
-    //     this.showOrganisationOptions = response;
-    //   }
-    // );
-
-    // this.userDataService.usersContentProjectsSubject.subscribe(
-    //   response => {
-    //     console.log('Nav: Users content projects changed', response);
-    //     this.usersContentProjects = response;
-    //   }
-    // );
   }
 
   // Update the view after it has been setup

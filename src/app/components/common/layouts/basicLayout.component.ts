@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { detectBody } from '../../../app.helpers';
+import { Router, RouteConfigLoadStart, RouteConfigLoadEnd } from '@angular/router';
 
-declare var jQuery:any;
+declare var jQuery: any;
 
 @Component({
   selector: 'basic',
@@ -11,12 +12,24 @@ declare var jQuery:any;
   }
 })
 export class BasicLayoutComponent {
+  isLoadingModule = false;
 
-  public ngOnInit():any {
+  constructor(private router: Router) { }
+
+  public ngOnInit(): any {
     detectBody();
+
+    // Listen for when the router loads a module and display the loading spinner as needed
+    this.router.events.subscribe(event => {
+      if (event instanceof RouteConfigLoadStart) {
+        this.isLoadingModule = true;
+      } else if (event instanceof RouteConfigLoadEnd) {
+        this.isLoadingModule = false;
+      }
+    });
   }
 
-  public onResize(){
+  public onResize() {
     detectBody();
   }
 
