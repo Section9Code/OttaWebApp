@@ -5,15 +5,10 @@ import { LoginComponent } from "./views/appviews/login.component";
 
 import { BlankLayoutComponent } from "./components/common/layouts/blankLayout.component";
 import { BasicLayoutComponent } from "./components/common/layouts/basicLayout.component";
-import { TopNavigationLayoutComponent } from "./components/common/layouts/topNavigationlayout.component";
 import { AuthenticatedGuard } from "services/security/auth-guard.service";
 import { CallbackComponent } from "app/views/appviews/callback/callback.component";
-import { CalendarViewComponent } from "app/views/appviews/calendarview/calendarview.component";
-import { SuggestionsViewComponent } from "app/views/appviews/suggestionsview/suggestionsview.component";
 import { WelcomeComponent } from "app/views/appviews/welcome/welcome.component";
 import { ProblemComponent } from "app/views/appviews/problem/problem.component";
-import { SuggestionCreateViewComponent } from "app/views/appviews/suggestion-create-view/suggestion-create-view.component";
-import { SuggestionViewComponent } from "app/views/appviews/suggestion-view/suggestion-view.component";
 import { JoinComponent } from "app/views/appviews/join/join.component";
 import { InActiveComponent } from "app/views/appviews/in-active/in-active.component";
 import { WelcomeToTheTeamComponent } from "app/views/appviews/welcome-to-the-team/welcome-to-the-team.component";
