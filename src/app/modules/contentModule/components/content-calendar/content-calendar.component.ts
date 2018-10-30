@@ -52,15 +52,15 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
     eventClick: (event, element) => this.eventClicked(event, element),
     eventDragStart: (event, jsEvent, ui, view) => this.eventDragStart(event, jsEvent, ui, view),
     eventDragStop: (event, jsEvent, ui, view) => this.eventDragStop(event, jsEvent, ui, view),
-    eventDrop: (event, delta, revertFunc, jsEvent, ui, view) => this.eventDrop(event, delta, revertFunc, jsEvent, ui, view)
+    eventDrop: (event, delta, revertFunc, jsEvent, ui, view) => this.eventDrop(event, delta, revertFunc, jsEvent, ui, view),
+    eventRender: (event, element) => this.eventRender(event, element)
   };
 
   constructor(
     private shared: ContentProjectShareService,
     private contentItemService: ContentItemService,
     private toast: ToastsManager,
-    private router: Router,
-    private contentIntegrationService: ContentProjectIntegrationService) {
+    private router: Router) {
   }
 
   ngOnInit(): void {
@@ -151,6 +151,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
         let projectEvent = new CalendarEvent();
         projectEvent.id = item.id;
         projectEvent.title = `${item.Title} - ${projectEventGroup.Name}`;
+        projectEvent.icon = 'calendar';
         projectEvent.start = moment(item.StartDate);
         projectEvent.end = moment(item.EndDate);
         projectEvent.allDay = true;
@@ -177,6 +178,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
         let projectEvent = new CalendarEvent();
         projectEvent.id = item.id;
         projectEvent.title = `${item.Title} - ${publicEventGroup.Name}`;
+        projectEvent.icon = 'calendar-o';
         projectEvent.start = moment(item.StartDate);
         projectEvent.end = moment(item.EndDate);
         projectEvent.allDay = true;
@@ -210,6 +212,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
         slot.textColor = 'black';
         slot.borderColor = timeslot.ColourHex;
         slot.title = `${timeslot.RequeueName} (Requeue)`;
+        slot.icon = 'list';
         slot.isContent = false;
         slot.isEvent = false;
         slot.isRequeue = true;
@@ -253,6 +256,13 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
 
     if (eventData.isRequeue) {
       this.router.navigateByUrl(`/content/${this.currentProject.id}/requeue/${eventData.id}`);
+    }
+  }
+
+  // Called when an event is rendered on the calendar. Used to insert an icon for the event if needed
+  eventRender(event: CalendarEvent, element) {
+    if (event.icon) {
+      element.find('.fc-title').prepend('<i class="fa fa-' + event.icon + '"></i> ');
     }
   }
 
@@ -303,6 +313,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
 export class CalendarEvent {
   id: string;
   title: string;
+  icon: string;
   allDay: boolean;
   start: any;
   end: any;
