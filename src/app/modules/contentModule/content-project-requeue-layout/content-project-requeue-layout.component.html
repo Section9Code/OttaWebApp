@@ -2,7 +2,7 @@
 
   <div class="col-xs-12 col-lg-10">
     <!-- Timeslot overview -->
-    <otta-panel [title]="'Time slots'" [showButton]="false" [loading]="isLoadingQueues">
+    <otta-panel [title]="'Requeues'" [loading]="isLoadingQueues" [showButton]="true" [buttonText]="'Create requeue'" (buttonClicked)="showCreateModal()">
       <app-requeue-timeslots [requeues]="fullRequeues" [linkToQueue]="true"></app-requeue-timeslots>
     </otta-panel>
 
