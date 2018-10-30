@@ -19,7 +19,7 @@ import { SupportCreateTicketLayoutComponent } from './layouts/support-create-tic
 // Routes for this module to be added to the application
 const supportRoutes: Routes = [
   {
-    path: 'support', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
+    path: '', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
     children: [
       {
         path: '', component: SupportIndexLayoutComponent, canActivate: [AuthenticatedGuard],
@@ -35,7 +35,6 @@ const supportRoutes: Routes = [
 @NgModule({
   imports: [
     CommonModule,
-    BrowserAnimationsModule,
     RouterModule.forChild(supportRoutes),
     FormsModule,
     ReactiveFormsModule,

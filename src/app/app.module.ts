@@ -32,21 +32,18 @@ import { A2Edatetimepicker } from 'ng2-eonasdan-datetimepicker';
 import { DropzoneModule, DropzoneConfigInterface, DROPZONE_CONFIG } from 'ngx-dropzone-wrapper';
 import { WelcomeService } from 'services/welcome.service';
 import { UserProfileModule } from 'app/modules/userProfileModule/userProfile.module';
-import { PersonaModule } from 'app/modules/personaModule/persona.module';
 import { SharedModule } from 'app/modules/sharedModule/shared.module';
 import { OrganisationModule } from 'app/modules/organisationModule/organisation.module';
 import { UserService } from 'services/user.service';
 import { UserDataService } from 'services/user-data.service';
 import { CreatorModule } from 'app/modules/creatorModule/creator.module';
 import { CreatorService } from 'services/creator.service';
-import { ContentModule } from 'app/modules/contentModule/content.module';
 import { TourService } from 'services/tour.service';
 import { environment } from 'environments/environment';
-import { SupportModule } from 'app/modules/supportModule/support.module';
 import { AgendaService } from 'services/agenda.service';
 import { CouponService } from 'services/coupon.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
-import { RequeueService } from 'services/requeue.service';
+import { ContentProjectService } from 'services/content-project.service';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
@@ -71,11 +68,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     PipesModule,
 
     UserProfileModule,
-    //PersonaModule,
     OrganisationModule,
-    CreatorModule,
-    ContentModule,
-    SupportModule,
     SharedModule,
     LaddaModule.forRoot({ style: 'expand-right', spinnerSize: 20, spinnerColor: 'white', spinnerLines: 12 }), // For showing progress on buttons
     ToastModule.forRoot(),  // For showing toast messages to user
@@ -93,6 +86,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     WelcomeService,
     UserService,
     UserDataService,
+    ContentProjectService,
     CreatorService,
     AuthenticatedGuard,
     OrganisationAdminGuard,

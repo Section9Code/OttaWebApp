@@ -70,7 +70,7 @@ import { CommonModule } from '@angular/common';
 // Routes for this module to be added to the application
 const routes: Routes = [
     {
-        path: 'content', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
+        path: '', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
         children: [
             // Overview pages (List all projects a user has access to)
             { path: '', component: ContentHomeLayoutComponent, canActivate: [AuthenticatedGuard] },
@@ -99,7 +99,6 @@ const routes: Routes = [
 @NgModule({
     imports: [
         CommonModule,
-        BrowserAnimationsModule,
         FormsModule,
         ReactiveFormsModule,
         HttpModule,

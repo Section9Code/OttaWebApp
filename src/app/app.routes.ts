@@ -30,6 +30,12 @@ export const ROUTES: Routes = [
   // Personas
   { path: 'personas', loadChildren: './modules/personaModule/persona.module#PersonaModule' },
 
+  // Support
+  { path: 'support', loadChildren: './modules/supportModule/support.module#SupportModule' },
+
+  // Content
+  { path: 'content', loadChildren: './modules/contentModule/content.module#ContentModule' },
+
   {
     path: 'suggestions', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
     children: [

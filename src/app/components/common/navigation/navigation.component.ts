@@ -36,26 +36,26 @@ export class NavigationComponent implements OnInit {
     }
 
     // Listen to changes to the users options
-    this.userDataService.showCreatorOptionsSubject.subscribe(
-      response => {
-        console.log('Users creator options changed', response);
-        this.showCreatorOptions = response;
-      }
-    );
+    // this.userDataService.showCreatorOptionsSubject.subscribe(
+    //   response => {
+    //     console.log('Users creator options changed', response);
+    //     this.showCreatorOptions = response;
+    //   }
+    // );
 
-    this.userDataService.showOrganisationOptionsSubject.subscribe(
-      response => {
-        console.log('Users organisation options changed', response);
-        this.showOrganisationOptions = response;
-      }
-    );
+    // this.userDataService.showOrganisationOptionsSubject.subscribe(
+    //   response => {
+    //     console.log('Users organisation options changed', response);
+    //     this.showOrganisationOptions = response;
+    //   }
+    // );
 
-    this.userDataService.usersContentProjectsSubject.subscribe(
-      response => {
-        console.log('Nav: Users content projects changed', response);
-        this.usersContentProjects = response;
-      }
-    );
+    // this.userDataService.usersContentProjectsSubject.subscribe(
+    //   response => {
+    //     console.log('Nav: Users content projects changed', response);
+    //     this.usersContentProjects = response;
+    //   }
+    // );
   }
 
   // Update the view after it has been setup

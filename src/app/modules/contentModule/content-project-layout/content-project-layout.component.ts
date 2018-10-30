@@ -34,7 +34,7 @@ export class ContentProjectLayoutComponent implements OnInit {
         this.isLoading = true;
         this.route.params.subscribe(
             params => {
-                // The user has navigated to anothe rpage
+                // The user has navigated to another page
                 console.log('Params changed');
 
                 // Reload the view data and reset the shown tab

@@ -47,14 +47,21 @@
         </a>
       </li> -->
 
-      <li [ngClass]="{active: activeRoute('personas')}" *ngIf="showOrganisationOptions">
+      <li [ngClass]="{active: activeRoute('personas')}">
         <a [routerLink]="['/personas']">
           <i class="fa fa-users"></i>
           <span class="nav-label">Personas</span>
         </a>
       </li>
 
-      <li [ngClass]="{active: activeRoute('content')}" *ngIf="showOrganisationOptions">
+      <li [ngClass]="{active: activeRoute('content')}">
+          <a [routerLink]="['/content']">
+            <i class="fa fa-calendar"></i>
+            <span class="nav-label">Projects</span>
+          </a>
+        </li>
+
+      <!-- <li [ngClass]="{active: activeRoute('content')}" *ngIf="showOrganisationOptions">
         <a [routerLink]="['/content']">
           <i class="fa fa-calendar"></i>
           <span class="nav-label">Projects</span>
@@ -68,7 +75,7 @@
             <a [routerLink]="['/content', project.id]">{{ project.Title }}</a>
           </li>
         </ul>
-      </li>
+      </li> -->
 
       <li [ngClass]="{active: activeRoute('support')}">
         <a [routerLink]="['/support']">

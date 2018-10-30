@@ -45,7 +45,6 @@ export class ContentProjectShareService {
   // Construct the service
   constructor(
     private contentProjectService: ContentProjectService,
-    private organisationService: OrganisationService,
     private userDataService: UserDataService,
     private contentItemService: ContentItemService,
     private toast: ToastsManager,
