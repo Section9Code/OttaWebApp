@@ -92,9 +92,16 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
   async handleCreateMessage(message: ContentItemMessageModel) {
     // Add the message
     const newMessage = await this.requeueService.addMessage(this.currentQueue.ProjectId, this.currentQueue.id, message).toPromise();
+
     // Push the new message into the message queue
     this.currentQueue.Messages.push(newMessage);
 
+    // Update the meta data
+    const meta = this.sharedService.requeues.getValue().find(q => q.Id === this.currentQueue.id);
+    meta.Messages++;
+    this.sharedService.updateRequeue(meta);
+
+    // Done
     this.toast.success('Message has been added');
     this.messageListComponent.redraw();
   }
@@ -122,6 +129,13 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
       // Update the page to match the removal
       const index = this.currentQueue.Messages.findIndex(m => m.Id === messageId);
       this.currentQueue.Messages.splice(index, 1);
+
+      // Update the meta data
+      const meta = this.sharedService.requeues.getValue().find(q => q.Id === this.currentQueue.id);
+      meta.Messages--;
+      this.sharedService.updateRequeue(meta);
+
+      // Done
       this.toast.success('Message has been removed');
       this.messageListComponent.redraw();
     } catch (error) {
@@ -151,7 +165,7 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
       // Update
       this.currentQueue = await this.requeueService.update(this.sharedService.currentProject.getValue().id, this.currentQueue).toPromise();
 
-      // Update the shared list
+      // Update the meta data
       const q = new RequeueReducedModel();
       q.Id = this.currentQueue.id;
       q.Name = this.currentQueue.Name;
@@ -159,8 +173,7 @@ export class ContentProjectRequeueDetailsLayoutComponent implements OnInit, OnDe
       q.ColourHex = this.currentQueue.ColourHex;
       q.TimeSlots = this.currentQueue.TimeSlots.length;
       q.ProjectId = this.currentQueue.ProjectId;
-      this.sharedService.removeRequeue(this.currentQueue.id);
-      this.sharedService.addRequeue(q);
+      this.sharedService.updateRequeue(q);
 
       // Done
       this.isUpdating = false;
