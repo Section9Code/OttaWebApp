@@ -21,3 +21,6 @@ div.twitter-bg {
     color: white;
 }
 
+.moveable-timeline-block {
+    cursor: move;
+}

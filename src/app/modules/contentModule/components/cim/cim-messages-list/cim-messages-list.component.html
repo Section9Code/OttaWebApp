@@ -10,7 +10,7 @@
         <i class="fa fa-twitter"></i>
       </div>
 
-      <div class="vertical-timeline-content">
+      <div class="vertical-timeline-content" [ngClass]="{'moveable-timeline-block': allowMoving}">
         <p (click)="editMessage(message)" [innerHTML]="message.Message">
           <!-- <strong>{{ message.Message }}</strong> -->
         </p>
@@ -30,12 +30,12 @@
     <!-- / Twitter message -->
 
     <!-- Facebook message -->
-    <div class="vertical-timeline-block" *ngSwitchCase="1">
+    <div class="vertical-timeline-block" *ngSwitchCase="1" [draggable]="allowMoving" (dragstart)="onDragStart($event, message)" (dragover)="allowDrop($event, message)" (drop)="onDrop($event, message)">
       <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
         <i class="fa fa-facebook"></i>
       </div>
 
-      <div class="vertical-timeline-content">
+      <div class="vertical-timeline-content" [ngClass]="{'moveable-timeline-block': allowMoving}">
         <p (click)="editMessage(message)" [innerHTML]="message.Message">
           <!-- <strong>{{ message.Message }}</strong> -->
         </p>
@@ -55,12 +55,12 @@
     <!-- / Facebook message -->
 
     <!-- LinkedIn message -->
-    <div class="vertical-timeline-block" *ngSwitchCase="3">
+    <div class="vertical-timeline-block" *ngSwitchCase="3" [draggable]="allowMoving" (dragstart)="onDragStart($event, message)" (dragover)="allowDrop($event, message)" (drop)="onDrop($event, message)">
       <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
         <i class="fa fa-linkedin"></i>
       </div>
 
-      <div class="vertical-timeline-content">
+      <div class="vertical-timeline-content" [ngClass]="{'moveable-timeline-block': allowMoving}">
         <p (click)="editMessage(message)" [innerHTML]="message.Message">
           <!-- <strong>{{ message.Message }}</strong> -->
         </p>
@@ -80,12 +80,12 @@
     <!-- / LinkedIn message -->
 
     <!-- Pinterest message -->
-    <div class="vertical-timeline-block" *ngSwitchCase="5">
+    <div class="vertical-timeline-block" *ngSwitchCase="5" [draggable]="allowMoving" (dragstart)="onDragStart($event, message)" (dragover)="allowDrop($event, message)" (drop)="onDrop($event, message)">
       <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
         <i class="fa fa-pinterest"></i>
       </div>
 
-      <div class="vertical-timeline-content">
+      <div class="vertical-timeline-content" [ngClass]="{'moveable-timeline-block': allowMoving}">
         <p (click)="editMessage(message)" [innerHTML]="message.Message"></p>
         <p *ngIf="message.ImageUrl">
           <img src="{{message.ImageUrl}}" width="50px" />
@@ -103,12 +103,12 @@
     <!-- / Pinterest message -->
 
     <!-- Medium message -->
-    <div class="vertical-timeline-block" *ngSwitchCase="4">
+    <div class="vertical-timeline-block" *ngSwitchCase="4" [draggable]="allowMoving" (dragstart)="onDragStart($event, message)" (dragover)="allowDrop($event, message)" (drop)="onDrop($event, message)">
       <div class="vertical-timeline-icon twitter-bg" (click)="editMessage(message)">
         <i class="fa fa-medium"></i>
       </div>
 
-      <div class="vertical-timeline-content">
+      <div class="vertical-timeline-content" [ngClass]="{'moveable-timeline-block': allowMoving}">
         <p (click)="editMessage(message)" [innerHTML]="message.Message"></p>
         <p *ngIf="message.ImageUrl">
           <img src="{{message.ImageUrl}}" width="50px" />
