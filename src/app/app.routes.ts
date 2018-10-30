@@ -36,15 +36,10 @@ export const ROUTES: Routes = [
   // Content
   { path: 'content', loadChildren: './modules/contentModule/content.module#ContentModule' },
 
-  {
-    path: 'suggestions', component: BasicLayoutComponent, canActivate: [AuthenticatedGuard],
-    children: [
-      { path: '', component: SuggestionsViewComponent, canActivate: [AuthenticatedGuard] },
-      { path: 'create', component: SuggestionCreateViewComponent, canActivate: [AuthenticatedGuard] },
-      { path: 'suggestion/:id', component: SuggestionViewComponent, canActivate: [AuthenticatedGuard] }
-    ]
-  },
+  // Suggestions
+  { path: 'suggestions', loadChildren: './modules/suggestionModule/suggestion.module#SuggestionModule' },
 
+  // Routs with full layouts
   {
     path: '', component: BasicLayoutComponent,
     children: [
@@ -53,6 +48,7 @@ export const ROUTES: Routes = [
     ]
   },
 
+  // Routes with no layouts
   {
     path: '', component: BlankLayoutComponent,
     children: [
