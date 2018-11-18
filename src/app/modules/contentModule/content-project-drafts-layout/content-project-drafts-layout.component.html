@@ -2,7 +2,7 @@
 
 <div class="row" *ngIf="!isLoading">
 
-    <div class="col-xs-12 col-lg-10">
+    <div class="col-xs-12 col-lg-9">
         <otta-panel [title]="'Content'" [showButton]="true" [buttonText]="'Create'" (buttonClicked)="AddItem()">
 
 
@@ -12,19 +12,24 @@
                     <input type="text" placeholder="Search issue by name..." [(ngModel)]="searchCriteria" class=" form-control">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-primary" (click)="search()"> Search</button>
-                        <button *ngIf="isFilteringSearch" type="button" class="btn btn-white" (click)="clearSearch()"> Clear</button>
+                        <button *ngIf="isFilteringSearch" type="button" class="btn btn-white" (click)="clearSearch()">
+                            Clear</button>
                     </span>
                 </div>
                 <div class="m-t-md">
                     <div class="pull-right">
                         <label class="checkbox-inline">
-                            <input type="checkbox" [(ngModel)]="searchShowAll" (change)="updateSearch()" id="checkBoxShowAll"> All </label>
+                            <input type="checkbox" [(ngModel)]="searchShowAll" (change)="updateSearch()" id="checkBoxShowAll">
+                            All </label>
                         <label class="checkbox-inline">
-                            <input type="checkbox" [(ngModel)]="searchShowIdeas" (change)="updateSearch()" id="checkBoxShowIdeas"> Idea </label>
+                            <input type="checkbox" [(ngModel)]="searchShowIdeas" (change)="updateSearch()" id="checkBoxShowIdeas">
+                            Idea </label>
                         <label class="checkbox-inline">
-                            <input type="checkbox" [(ngModel)]="searchShowInProgress" (change)="updateSearch()" id="checkBoxShowInProgress"> In progress </label>
+                            <input type="checkbox" [(ngModel)]="searchShowInProgress" (change)="updateSearch()" id="checkBoxShowInProgress">
+                            In progress </label>
                         <label class="checkbox-inline">
-                            <input type="checkbox" [(ngModel)]="searchShowContent" (change)="updateSearch()" id="checkBoxShowContent"> Content </label>
+                            <input type="checkbox" [(ngModel)]="searchShowContent" (change)="updateSearch()" id="checkBoxShowContent">
+                            Content </label>
                     </div>
                     <!-- 
                         <div class="pull-right">
@@ -78,7 +83,8 @@
                                 {{ item.State }}
                             </td>
                             <td class="text-right">
-                                <button *ngFor="let tag of item.Tags" class="btn btn-white btn-xs" (click)="search(tag)">{{ tag }}</button>
+                                <button *ngFor="let tag of item.Tags" class="btn btn-white btn-xs" (click)="search(tag)">{{
+                                    tag }}</button>
                             </td>
                         </tr>
                     </tbody>
@@ -86,14 +92,15 @@
             </div>
         </otta-panel>
 
-        <otta-panel [title]="'Quick add'">
+        <!-- Quick add panel -->
+        <!-- <otta-panel [title]="'Quick add'">
             <content-item-details [data]="quickAddContentItemData" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="quickAddContent($event)"
                 [hideHtmlEditor]="true" [minimalForm]="true" [hideCloseButton]="true"></content-item-details>
-        </otta-panel>
+        </otta-panel> -->
     </div>
 
     <!-- Right hand side -->
-    <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
+    <!-- <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
         <h2>Keep all your ideas in one place</h2>
         <p>
             If you have content you want to create but just don't know what to do with it yet. Put it here as an idea. You can keep working
@@ -118,6 +125,14 @@
         <p>
             Click on a tag to see only the drafts with the same tag.
         </p>
+    </div> -->
+
+    <div class="col-xs-12 col-lg-3">
+        <otta-panel [title]="'Quick add'">
+            <content-item-details [data]="quickAddContentItemData" [showCancel]="false" [isUpdating]="isUpdating"
+                (submitClicked)="quickAddContent($event)" [hideHtmlEditor]="true" [minimalForm]="true"
+                [hideCloseButton]="true"></content-item-details>
+        </otta-panel>
     </div>
 
 

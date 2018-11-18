@@ -1,39 +1,80 @@
 <!--component html goes here -->
 <form method="get" class="form-horizontal" #contentItemForm="ngForm">
-    <div class="form-group" [class.has-error]="!title.valid">
-        <label class="col-sm-2 control-label">Title</label>
-        <div class="col-sm-10">
-            <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="data.Title" #title="ngModel">
-            <span class="help-block m-b-none">
-                Help information for this item
-            </span>
+    <!-- Quick add form -->
+    <div *ngIf="minimalForm">
+        <div class="form-group" [class.has-error]="!title.valid">
+            <label class="col-xs-12">Title</label>
+            <div class="col-xs-12">
+                <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="data.Title" #title="ngModel">
+                <span class="help-block m-b-none">
+                    Help information for this item
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group" [class.has-error]="!description.valid">
+            <label class="col-xs-12">Description</label>
+            <div class="col-xs-12">
+                <textarea class="form-control" id="description" name="description" [(ngModel)]="data.Description" required #description="ngModel"></textarea>
+                <span class="help-block m-b-none">
+                    Help information
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group" [class.has-error]="!contentType.valid">
+            <label class="col-xs-12">Type</label>
+            <div class="col-xs-12">
+                <select name="contentType" id="contentType" [(ngModel)]="data.ContentTypeId" #contentType="ngModel" required>
+                    <option *ngFor="let type of contentTypes" value="{{type.id}}">{{type.Title}}</option>
+                </select>
+
+                <span class="help-block m-b-none">
+                    What type of content is this
+                </span>
+            </div>
         </div>
     </div>
 
-    <div class="form-group" [class.has-error]="!description.valid">
-        <label class="col-sm-2 control-label">Description</label>
-        <div class="col-sm-10">
-            <textarea class="form-control" id="description" name="description" [(ngModel)]="data.Description" required #description="ngModel"></textarea>
-            <span class="help-block m-b-none">
-                Help information
-            </span>
-        </div>
-    </div>
-
-    <div class="form-group" [class.has-error]="!contentType.valid">
-        <label class="col-sm-2 control-label">Type</label>
-        <div class="col-sm-10">
-            <select name="contentType" id="contentType" [(ngModel)]="data.ContentTypeId" #contentType="ngModel" required>
-                <option *ngFor="let type of contentTypes" value="{{type.id}}">{{type.Title}}</option>
-            </select>
-
-            <span class="help-block m-b-none">
-                What type of content is this
-            </span>
-        </div>
-    </div>
-
+    <!-- Full form (Not quick add) -->
     <div *ngIf="!minimalForm">
+
+        <div class="form-group" [class.has-error]="!title.valid">
+            <label class="col-sm-2 control-label">Title</label>
+            <div class="col-sm-10">
+                <input type="text" class="form-control" id="title" name="title" required [(ngModel)]="data.Title"
+                    #title="ngModel">
+                <span class="help-block m-b-none">
+                    Help information for this item
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group" [class.has-error]="!description.valid">
+            <label class="col-sm-2 control-label">Description</label>
+            <div class="col-sm-10">
+                <textarea class="form-control" id="description" name="description" [(ngModel)]="data.Description"
+                    required #description="ngModel"></textarea>
+                <span class="help-block m-b-none">
+                    Help information
+                </span>
+            </div>
+        </div>
+
+        <div class="form-group" [class.has-error]="!contentType.valid">
+            <label class="col-sm-2 control-label">Type</label>
+            <div class="col-sm-10">
+                <select name="contentType" id="contentType" [(ngModel)]="data.ContentTypeId" #contentType="ngModel"
+                    required>
+                    <option *ngFor="let type of contentTypes" value="{{type.id}}">{{type.Title}}</option>
+                </select>
+
+                <span class="help-block m-b-none">
+                    What type of content is this
+                </span>
+            </div>
+        </div>
+
         <div class="form-group">
             <label class="col-sm-2 control-label">Tags</label>
             <div class="col-sm-10">
@@ -72,7 +113,8 @@
         <div class="form-group" [class.has-error]="!PrimaryUrl.valid">
             <label class="col-sm-2 control-label">Url</label>
             <div class="col-sm-10">
-                <input type="text" class="form-control" id="PrimaryUrl" name="PrimaryUrl" [(ngModel)]="data.PrimaryUrl" #PrimaryUrl="ngModel">
+                <input type="text" class="form-control" id="PrimaryUrl" name="PrimaryUrl" [(ngModel)]="data.PrimaryUrl"
+                    #PrimaryUrl="ngModel">
                 <span class="help-block m-b-none">
                     This is the URL the content will be published on when it is ready to go.
                 </span>
@@ -83,8 +125,10 @@
     <!-- Buttons -->
     <div class="form-group">
         <div class="col-xs-8 col-sm-offset-2">
-            <button class="btn btn-primary" type="submit" (click)="submitForm(false)" [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">{{createButtonText}}</button>
-            <button *ngIf="!hideCloseButton" class="btn btn-outline btn-default" type="submit" (click)="submitForm(true)" [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">{{createButtonText}} and close</button>
+            <button class="btn btn-primary" type="submit" (click)="submitForm(false)" [disabled]="!contentItemForm.form.valid"
+                [ladda]="isUpdating">{{createButtonText}}</button>
+            <button *ngIf="!hideCloseButton" class="btn btn-outline btn-default" type="submit" (click)="submitForm(true)"
+                [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">{{createButtonText}} and close</button>
         </div>
         <div class="col-xs-2 text-right">
             <button type="button" *ngIf="showCancel" class="btn btn-white" (click)="cancelForm()">{{cancelButtonText}}</button>
