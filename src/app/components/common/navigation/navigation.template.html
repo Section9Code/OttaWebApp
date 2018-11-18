@@ -55,11 +55,18 @@
       </li>
 
       <li [ngClass]="{active: activeRoute('content')}">
-          <a [routerLink]="['/content']">
-            <i class="fa fa-calendar"></i>
-            <span class="nav-label">Projects</span>
-          </a>
-        </li>
+        <a [routerLink]="['/content']">
+          <i class="fa fa-calendar"></i>
+          <span class="nav-label">Projects</span>
+        </a>
+      </li>
+
+      <li [ngClass]="{active: activeRoute('mobile')}">
+        <a [routerLink]="['/mobile']">
+          <i class="fa fa-mobile"></i>
+          <span class="nav-label">Mobile App</span>
+        </a>
+      </li>
 
       <!-- <li [ngClass]="{active: activeRoute('content')}" *ngIf="showOrganisationOptions">
         <a [routerLink]="['/content']">
@@ -89,13 +96,6 @@
         <a [routerLink]="['/suggestions']">
           <i class="fa fa-comment"></i>
           <span class="nav-label">Suggestions</span>
-        </a>
-      </li>
-
-      <li [ngClass]="{active: activeRoute('mobile')}">
-        <a [routerLink]="['/mobile']">
-          <i class="fa fa-mobile"></i>
-          <span class="nav-label">Mobile App</span>
         </a>
       </li>
 
