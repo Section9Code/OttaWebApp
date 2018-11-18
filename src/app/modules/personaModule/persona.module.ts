@@ -17,7 +17,6 @@ import { SharedModule } from 'app/modules/sharedModule/shared.module';
 import { TagInputModule } from 'ngx-chips';
 import { PersonaFormComponent } from 'app/modules/personaModule/persona-form/persona-form.component';
 import { PersonaEditComponent } from 'app/modules/personaModule/persona-edit/persona-edit.component';
-import { ImagesService } from 'services/images.service';
 import { CommonModule } from '@angular/common';
 
 // Routes for this module to be added to the application
@@ -58,7 +57,6 @@ const routes: Routes = [
     ],
     providers: [
         PersonasService,
-        ImagesService,
         MixpanelService
     ],
 })
