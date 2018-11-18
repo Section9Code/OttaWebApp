@@ -124,11 +124,9 @@
 
     <!-- Buttons -->
     <div class="form-group">
-        <div class="col-xs-8 col-sm-offset-2">
-            <button class="btn btn-primary" type="submit" (click)="submitForm(false)" [disabled]="!contentItemForm.form.valid"
-                [ladda]="isUpdating">{{createButtonText}}</button>
-            <button *ngIf="!hideCloseButton" class="btn btn-outline btn-default" type="submit" (click)="submitForm(true)"
-                [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">{{createButtonText}} and close</button>
+        <div class="col-xs-8" [ngClass]="{'col-sm-offset-2': !minimalForm}">
+            <button class="btn btn-primary" type="submit" (click)="submitForm(false)" [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">{{createButtonText}}</button>
+            <button *ngIf="!hideCloseButton" class="btn btn-outline btn-default" type="submit" (click)="submitForm(true)" [disabled]="!contentItemForm.form.valid" [ladda]="isUpdating">{{createButtonText}} and close</button>
         </div>
         <div class="col-xs-2 text-right">
             <button type="button" *ngIf="showCancel" class="btn btn-white" (click)="cancelForm()">{{cancelButtonText}}</button>
