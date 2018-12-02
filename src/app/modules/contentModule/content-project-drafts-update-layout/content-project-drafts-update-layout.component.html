@@ -14,8 +14,6 @@
 
         <!-- Social media post -->
         <otta-panel [title]="'Social media'">
-            <!-- <otta-content-item-messages #contentItemMessages [data]="item"></otta-content-item-messages>
-            <hr/> -->
             <app-otta-cim-list #contentItemMessagesList [messages]="item.SocialMediaMessages" [substitutions]="item.Substitutions" [contentItem]="item" (substitutionAdded)="handleAddSubstitution($event)" (substitutionRemoved)="handleRemoveSubstitution($event)" (substitutionValueUpdated)="handleUpdateSubstitution($event)" ></app-otta-cim-list>
         </otta-panel>
     </div>

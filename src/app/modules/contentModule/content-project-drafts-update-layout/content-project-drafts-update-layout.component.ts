@@ -9,8 +9,7 @@ import { ContentDataMessage } from '../components/content-item-details/content-i
 import { Subscription } from 'rxjs/Subscription';
 import { AuthService } from 'services/auth.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
-import { ProjectIntegrationModel, ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
-import { ContentItemMessagesComponent } from '../components/content-item-messages/content-item-messages.component';
+import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 import { CimListComponent } from '../components/cim/cim-list/cim-list.component';
 
 @Component({
@@ -26,7 +25,6 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     itemContent: ContentItemContentModel = new ContentItemContentModel();
 
     // Components
-    @ViewChild('contentItemMessages') private contentItemMessagesComponent: ContentItemMessagesComponent;
     @ViewChild('contentItemMessagesList') private cimListComponent: CimListComponent;
 
     // Flags
@@ -116,9 +114,6 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
         console.log('Update item', data);
         this.isUpdating = true;
 
-        // tslint:disable-next-line:max-line-length
-        this.toast.info('This can take a few seconds, especially if you have a lot of related items like posts and social media messages. We are working on it.', 'This might take a few moments');
-
         // Update the content item
         this.contentItemService.updateItem(data.contentItem).toPromise()
             .then(response => {
@@ -140,7 +135,6 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
                         this.sharedData.updateContent(response);
 
                         // Refresh the the messages component
-                        this.contentItemMessagesComponent.redrawMessageList();
                         this.cimListComponent.update();
 
                         // Inform the user
@@ -341,12 +335,12 @@ export class ContentProjectDraftsUpdateLayoutComponent implements OnInit, OnDest
     // Called when a file has been uploaded to the content item
     handleFileUploaded(filePath: string) {
         // Reload all the images offered to the social media posts
-        this.contentItemMessagesComponent.loadImages();
+        this.cimListComponent.reloadImages();
     }
 
     handleFileDeleted(filePath: string) {
         // Reload the images offered to the social media posts
-        this.contentItemMessagesComponent.loadImages();
+        this.cimListComponent.reloadImages();
     }
 
     // Called when a user adds a substitution item

@@ -142,6 +142,9 @@ export class CimListComponent implements OnInit, OnDestroy {
     });
   }
 
+  public reloadImages() {
+    this.loadImages();
+  }
 
   // Load images
   private loadImages() {
