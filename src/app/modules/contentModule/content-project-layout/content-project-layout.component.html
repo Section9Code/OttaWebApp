@@ -1,7 +1,7 @@
 <div class="row wrapper white-bg page-heading">
     <div class="col-lg-10">
-        <h2>{{ project.Title }}</h2>
-        <ol class="breadcrumb">
+        <h2 id="project_title">{{ project.Title }}</h2>
+        <ol id="project_breadcrumbs" class="breadcrumb">
             <li>
                 <a [routerLink]="['/home']">Home</a>
             </li>
@@ -18,12 +18,12 @@
 <!-- Top level button row -->
 <div class="row wrapper border-bottom white-bg page-heading">
     <div class="col-md-12 btn-group">
-        <button type="button" class="btn" [ngClass]="{'btn-default': currentView != 'calendar', 'btn-primary': currentView == 'calendar' }" (click)="goToCalendar()">Calendar</button>
-        <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'items', 'btn-default': currentView != 'items' }" (click)="goToItems()">Content</button>
-        <!-- <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'pitches', 'btn-default': currentView != 'pitches' }" (click)="goToPitches()">Pitches</button> -->
-        <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'events', 'btn-default': currentView != 'events' }" (click)="goToEvents()">Events</button>
-        <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'requeue', 'btn-default': currentView != 'requeue' }" (click)="goToRequeue()">Requeue</button>
-        <button type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'settings', 'btn-default': currentView != 'settings' }" (click)="goToSettings()" *ngIf="isAdmin">Settings</button>
+        <button id="project_links_calendar" type="button" class="btn" [ngClass]="{'btn-default': currentView != 'calendar', 'btn-primary': currentView == 'calendar' }" (click)="goToCalendar()">Calendar</button>
+        <button id="project_links_content" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'items', 'btn-default': currentView != 'items' }" (click)="goToItems()">Content</button>
+        <!-- <button id="project_links_pitches" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'pitches', 'btn-default': currentView != 'pitches' }" (click)="goToPitches()">Pitches</button> -->
+        <button id="project_links_events" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'events', 'btn-default': currentView != 'events' }" (click)="goToEvents()">Events</button>
+        <button id="project_links_requeue" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'requeue', 'btn-default': currentView != 'requeue' }" (click)="goToRequeue()">Requeue</button>
+        <button id="project_links_settings" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'settings', 'btn-default': currentView != 'settings' }" (click)="goToSettings()" *ngIf="isAdmin">Settings</button>
     </div>
 </div>
 

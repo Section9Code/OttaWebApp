@@ -1,25 +1,28 @@
 <div class="row">
-    
+
     <div class="col-xs-12 col-sm-12 col-md-8">
-            <otta-panel [title]="'Create content item'">
-                    <content-item-details [data]="contentItemData" [showCancel]="true" [isUpdating]="isUpdating" (submitClicked)="create($event)"
-                        (cancelClicked)="cancel()" [hideHtmlEditor]="true"></content-item-details>
-                </otta-panel>    
+        <otta-panel [title]="'Create content item'">
+            <content-item-details [data]="contentItemData" [showCancel]="true" [isUpdating]="isUpdating"
+                (submitClicked)="create($event)" (cancelClicked)="cancel()" [hideHtmlEditor]="true"></content-item-details>
+        </otta-panel>
     </div>
 
     <div class="col-xs-12 col-sm-12 col-md-4">
         <otta-panel>
             <h2>Tasks - coming soon</h2>
             <p>
-                Not only can you create content here in otta but you will be able to assign work to members of your team based on what you need to get done.
+                Not only can you create content here in otta but you will be able to assign work to members of your
+                team based on what you need to get done.
             </p>
             <p>
-                Tasks will have their own deadlines based on the deadline of the content. So if you need the content written 2 weeks before it goes live so
+                Tasks will have their own deadlines based on the deadline of the content. So if you need the content
+                written 2 weeks before it goes live so
                 your illustrator has time to get their work done. We can handle that.
             </p>
             <h4>Templates</h4>
             <p>
-                You can create tasks unique to each piece of content, but you will also be able to setup task templates so you don't have to remember all the tasks
+                You can create tasks unique to each piece of content, but you will also be able to setup task templates
+                so you don't have to remember all the tasks
                 that need to be done for your content, you just pick it from the list.
             </p>
             <p>
@@ -27,7 +30,7 @@
             </p>
         </otta-panel>
     </div>
-    
-    
+
+
 
 </div>

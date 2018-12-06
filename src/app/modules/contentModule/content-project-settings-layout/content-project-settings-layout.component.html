@@ -3,14 +3,14 @@
         <!-- <otta-panel [title]="'Settings'">
             <h2>Settings</h2>
         </otta-panel> -->
-        <otta-panel [title]="'Content types'">
+        <otta-panel id="content_types" [title]="'Content types'">
             <content-item-type-list></content-item-type-list>
         </otta-panel>
 
-        <content-project-integrations [project]="project"></content-project-integrations>
+        <content-project-integrations id="integrations" [project]="project"></content-project-integrations>
     </div>
     <div class="col-sm-12 col-md-4">
-        <otta-panel title="Remove project">
+        <otta-panel id="remove_project" title="Remove project">
             <p>
                 When you no longer need the project it can be closed. Closing a project removes all data and history.
             </p>

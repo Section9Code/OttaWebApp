@@ -3,12 +3,12 @@
 <div class="row" *ngIf="!isLoading">
 
     <div class="col-xs-12 col-lg-9">
-        <otta-panel [title]="'Content'" [showButton]="true" [buttonText]="'Create'" (buttonClicked)="AddItem()">
+        <otta-panel id="item_list" [title]="'Content'" [showButton]="true" [buttonText]="'Create'" (buttonClicked)="AddItem()">
 
 
             <div class="m-b-lg">
 
-                <div class="input-group">
+                <div id="item_search" class="input-group">
                     <input type="text" placeholder="Search issue by name..." [(ngModel)]="searchCriteria" class=" form-control">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-primary" (click)="search()"> Search</button>
@@ -17,7 +17,7 @@
                     </span>
                 </div>
                 <div class="m-t-md">
-                    <div class="pull-right">
+                    <div id="search_options" class="pull-right">
                         <label class="checkbox-inline">
                             <input type="checkbox" [(ngModel)]="searchShowAll" (change)="updateSearch()" id="checkBoxShowAll">
                             All </label>
@@ -31,15 +31,6 @@
                             <input type="checkbox" [(ngModel)]="searchShowContent" (change)="updateSearch()" id="checkBoxShowContent">
                             Content </label>
                     </div>
-                    <!-- 
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-comments"></i> </button>
-                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-user"></i> </button>
-                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-list"></i> </button>
-                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-pencil"></i> </button>
-                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-print"></i> </button>
-                            <button type="button" class="btn btn-sm btn-white"> <i class="fa fa-cogs"></i> </button>
-                        </div> -->
 
                     <strong>Found {{contentItems.length}} items</strong>
                     <a *ngIf="isFilteringSearch" (click)="clearSearch()">- Clear search filter</a>
@@ -47,7 +38,7 @@
             </div>
 
 
-            <div class="table-responsive">
+            <div id="item_results" class="table-responsive">
                 <table class="table table-hover issue-tracker">
                     <thead>
                         <tr>
@@ -60,29 +51,24 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr *ngFor="let item of contentItems">
-                            <td (click)="navigateToItem(item)">
+                        <tr id="item_result" *ngFor="let item of contentItems">
+                            <td id="item_result_type" (click)="navigateToItem(item)">
                                 <content-item-type-label [title]="item.ContentTypeTitle" [colourHex]="item.ContentTypeColourHex"></content-item-type-label>
                             </td>
-                            <td class="issue-info" (click)="navigateToItem(item)">
-                                <a>
-                                    {{ item.Title }}
-                                </a>
-
-                                <small>
-                                    {{ item.Description }}
-                                </small>
+                            <td id="item_result_title" class="issue-info" (click)="navigateToItem(item)">
+                                <a>{{ item.Title }} </a>
+                                <small>{{ item.Description }}</small>
                             </td>
-                            <td (click)="navigateToItem(item)">
+                            <td id="item_result_creator" (click)="navigateToItem(item)">
                                 {{ item.Creator.CreatorName }}
                             </td>
-                            <td (click)="navigateToItem(item)">
+                            <td id="item_result_date" (click)="navigateToItem(item)">
                                 {{ item.DeadLine | date:'mediumDate' }}
                             </td>
-                            <td>
+                            <td id="item_result_state">
                                 {{ item.State }}
                             </td>
-                            <td class="text-right">
+                            <td id="item_result_tags" class="text-right">
                                 <button *ngFor="let tag of item.Tags" class="btn btn-white btn-xs" (click)="search(tag)">{{
                                     tag }}</button>
                             </td>
@@ -91,12 +77,6 @@
                 </table>
             </div>
         </otta-panel>
-
-        <!-- Quick add panel -->
-        <!-- <otta-panel [title]="'Quick add'">
-            <content-item-details [data]="quickAddContentItemData" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="quickAddContent($event)"
-                [hideHtmlEditor]="true" [minimalForm]="true" [hideCloseButton]="true"></content-item-details>
-        </otta-panel> -->
     </div>
 
     <!-- Right hand side -->
@@ -127,7 +107,7 @@
         </p>
     </div> -->
 
-    <div class="col-xs-12 col-lg-3">
+    <div id="quick_add" class="col-xs-12 col-lg-3">
         <otta-panel [title]="'Quick add'">
             <content-item-details [data]="quickAddContentItemData" [showCancel]="false" [isUpdating]="isUpdating"
                 (submitClicked)="quickAddContent($event)" [hideHtmlEditor]="true" [minimalForm]="true"

@@ -5,23 +5,25 @@
     <div class="col-sm-12" *ngIf="projects && projects.length == 0">
         <h2>
             You do not have any projects,
-            <a [routerLink]="['./create']">add a new one</a>
+            <a id="project_addnew" [routerLink]="['./create']">add a new one</a>
         </h2>
     </div>
 
-    <div class="col-sm-12 col-md-4" *ngFor="let project of projects">
-        <div class="ibox">
-            <div class="ibox-title">
-                <!-- <span class="label label-info pull-right">NEW</span> -->
-                <h5>{{project.Title}}</h5>
-            </div>
-            <div class="ibox-content">                
-                <p>
-                    {{project.Description}}
-                </p>
-                <p>
-                    <button class="btn btn-primary" [routerLink]="project.id">View</button>
-                </p>
+    <div id="project_list">
+        <div class="col-sm-12 col-md-4" *ngFor="let project of projects">
+            <div class="ibox">
+                <div class="ibox-title">
+                    <!-- <span class="label label-info pull-right">NEW</span> -->
+                    <h5>{{project.Title}}</h5>
+                </div>
+                <div class="ibox-content">
+                    <p>
+                        {{project.Description}}
+                    </p>
+                    <p>
+                        <button id="project_view" class="btn btn-primary" [routerLink]="project.id">View</button>
+                    </p>
+                </div>
             </div>
         </div>
     </div>

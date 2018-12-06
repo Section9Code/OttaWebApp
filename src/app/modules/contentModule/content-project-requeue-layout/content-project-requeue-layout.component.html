@@ -2,7 +2,7 @@
 
   <div class="col-xs-12 col-lg-10">
     <!-- Timeslot overview -->
-    <otta-panel [title]="'Requeues'" [loading]="isLoadingQueues" [showButton]="true" [buttonText]="'Create requeue'" (buttonClicked)="showCreateModal()">
+    <otta-panel id="requeues" [title]="'Requeues'" [loading]="isLoadingQueues" [showButton]="true" [buttonText]="'Create requeue'" (buttonClicked)="showCreateModal()">
       <app-requeue-timeslots [requeues]="fullRequeues" [linkToQueue]="true"></app-requeue-timeslots>
     </otta-panel>
 
@@ -32,11 +32,11 @@
 
       <!-- Create queue -->
       <div class="col-xs-12 col-sm-6 col-md-4">
-        <otta-panel [title]="'New requeue'">
+        <otta-panel id="requeue_new" [title]="'New requeue'">
           <p>
             Create a new requeue to send messages on a schedule.
           </p>
-          <button class="btn btn-block btn-primary" (click)="showCreateModal()">Create new requeue</button>
+          <button id="requeue_new_create" class="btn btn-block btn-primary" (click)="showCreateModal()">Create new requeue</button>
         </otta-panel>
       </div>
     </div>

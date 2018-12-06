@@ -46,9 +46,11 @@
                         </div>
 
                         <div class="form-group">
-                            <div class="col-sm-4 col-sm-offset-2">
-                                <button class="btn btn-white" (click)="cancel()">Cancel</button>
-                                <button class="btn btn-primary" type="submit" [disabled]="!suggestionForm.form.valid" [ladda]="isCreating">Create suggestion</button>
+                            <div class="col-sm-5 col-sm-offset-2">                                
+                                <button id="create" class="btn btn-primary" type="submit" [disabled]="!suggestionForm.form.valid" [ladda]="isCreating">Create suggestion</button>
+                            </div>
+                            <div class="col-sm-5 text-right">
+                                    <button id="cancel" class="btn btn-white" (click)="cancel()">Cancel</button>
                             </div>
                         </div>
                     </form>

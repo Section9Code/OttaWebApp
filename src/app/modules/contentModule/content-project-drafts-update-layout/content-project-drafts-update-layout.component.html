@@ -2,25 +2,24 @@
 <div class="row" *ngIf="!isLoading">
     <div class="col-xs-12 col-sm-8">
         <!-- Main content information -->
-        <otta-panel [title]="'Update'">
-            <content-item-details [data]="item" [content]="itemContent" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="updateItem($event)"
-                [createButtonText]="'Update'"></content-item-details>
+        <otta-panel id="item_details" [title]="'Update'">
+            <content-item-details [data]="item" [content]="itemContent" [showCancel]="false" [isUpdating]="isUpdating" (submitClicked)="updateItem($event)" [createButtonText]="'Update'"></content-item-details>
         </otta-panel>
 
         <!-- Files -->
-        <otta-panel [title]="'Images'">
+        <otta-panel id="item_images" [title]="'Images'">
             <otta-content-item-files [data]="item" (fileUploaded)="handleFileUploaded();" (fileDeleted)="handleFileDeleted()"></otta-content-item-files>
         </otta-panel>
 
         <!-- Social media post -->
-        <otta-panel [title]="'Social media'">
+        <otta-panel id="item_social_media" [title]="'Social media'">
             <app-otta-cim-list #contentItemMessagesList [messages]="item.SocialMediaMessages" [substitutions]="item.Substitutions" [contentItem]="item" (substitutionAdded)="handleAddSubstitution($event)" (substitutionRemoved)="handleRemoveSubstitution($event)" (substitutionValueUpdated)="handleUpdateSubstitution($event)" ></app-otta-cim-list>
         </otta-panel>
     </div>
 
     <!-- Side information -->
     <div class="col-xs-12 col-sm-4">
-        <otta-panel [title]="'Delete'" *ngIf="userIsAdmin || userIsCreator">
+        <otta-panel id="item_delete" [title]="'Delete'" *ngIf="userIsAdmin || userIsCreator">
             <p>
                 If you no longer need this item it can be delete, there is no way to recover this item once it has been deleted.
             </p>
@@ -28,7 +27,7 @@
             <button type="button" class="btn btn-danger" (click)="deleteItem()">Delete</button>
         </otta-panel>
 
-        <otta-panel [title]="'Integration'">
+        <otta-panel id="item_integration" [title]="'Integration'">
             <div *ngIf="hasWordpressIntegration">
 
                 <div class="pull-left">
@@ -69,7 +68,7 @@
             </div>
         </otta-panel>
 
-        <otta-panel [title]="'Discussion'">
+        <otta-panel id="item_discussion" [title]="'Discussion'">
             <otta-comment [ParentOrganisationId]="item.Partition" [ParentObjectId]="item.id"></otta-comment>
         </otta-panel>
     </div>

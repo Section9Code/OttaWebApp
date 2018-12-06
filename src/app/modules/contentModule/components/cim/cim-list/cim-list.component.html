@@ -11,18 +11,18 @@
   <!-- Lists -->
   <div class="row">
 
-    <div class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
+    <div id="cim_substitutions_container" class="col-xs-12 col-sm-12 col-md-5 col-lg-4">
       <h3>Substitutions</h3>
-      <app-cim-substitutions-list [substitutions]="substitutionsList" (onSubstitutionAdded)="handleSubstitutionAdded($event)"
+      <app-cim-substitutions-list id="cim_substitutions" [substitutions]="substitutionsList" (onSubstitutionAdded)="handleSubstitutionAdded($event)"
         (onSubstitutionRemove)="handleSubstitutionRemoved($event)" (onSubstitutionValueUpdated)="handleSubstitutionUpdated($event)"></app-cim-substitutions-list>
     </div>
 
-    <div class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
+    <div id="cim_messages" class="col-xs-12 col-sm-12 col-md-7 col-lg-8">
       <h3>Messages</h3>
 
 
       <!-- Menu buttons -->
-      <div>
+      <div id="cim_create">
         <div class="btn-group">
           <button class="btn btn-white" type="button" (click)="addTwitterMessage()" *ngIf="canAddTwitterMessages">
             <i class="fa fa-twitter"> </i>
@@ -41,16 +41,14 @@
           </button>
         </div>
 
-        <div class="pull-right">
+        <div id="cim_hide_sent" class="pull-right">
           Hide sent items:
           <input type="checkbox" [checked]="hideMessagesInThePast" (change)="redrawMessageList(!hideMessagesInThePast);">
         </div>
       </div>
       <!-- End menu -->
 
-
-      <app-cim-messages-list #messageListComponent [messages]="contentItem.SocialMediaMessages" [hideSentMessages]="hideMessagesInThePast"
-        [substitutions]="substitutionsList" (onDeleteMessage)="confirmDeleteMessage($event)" (onEditMessage)="editMessage($event)"></app-cim-messages-list>
+      <app-cim-messages-list #messageListComponent [messages]="contentItem.SocialMediaMessages" [hideSentMessages]="hideMessagesInThePast" [substitutions]="substitutionsList" (onDeleteMessage)="confirmDeleteMessage($event)" (onEditMessage)="editMessage($event)"></app-cim-messages-list>
     </div>
 
   </div>

@@ -7,12 +7,11 @@
             <strong class="font-bold">Otta</strong>
           </span>
           <img alt="image" style="width:100px;" class="img-circle" src="{{profile?.picture}}">
-          <a dropdownToggle>
+          <a dropdownToggle>            
             <span class="block m-t-xs">
-              <strong class="font-bold">{{profile?.name}}</strong>
+              <strong id="profileSettings" class="font-bold">{{profile?.name}}</strong>
               <b class="caret"></b>
             </span>
-            <!--<span class="text-muted text-xs block">Art Director <b class="caret"></b> </span>-->
           </a>
           <ul id="personal_settings" class="animated fadeInRight dropdown-menu" *dropdownMenu>
             <li>
@@ -35,7 +34,7 @@
       <li [ngClass]="{active: activeRoute('home')}">
         <a [routerLink]="['/home']">
           <i class="fa fa-home"></i>
-          <span class="nav-label">Overview</span>
+          <span id="overview" class="nav-label">Overview</span>
         </a>
       </li>
 
@@ -50,21 +49,21 @@
       <li [ngClass]="{active: activeRoute('personas')}">
         <a [routerLink]="['/personas']">
           <i class="fa fa-users"></i>
-          <span class="nav-label">Personas</span>
+          <span id="personas" class="nav-label">Personas</span>
         </a>
       </li>
 
       <li [ngClass]="{active: activeRoute('content')}">
         <a [routerLink]="['/content']">
           <i class="fa fa-calendar"></i>
-          <span class="nav-label">Projects</span>
+          <span id="projects" class="nav-label">Projects</span>
         </a>
       </li>
 
       <li [ngClass]="{active: activeRoute('mobile')}">
         <a [routerLink]="['/mobile']">
           <i class="fa fa-mobile"></i>
-          <span class="nav-label">Mobile App</span>
+          <span id="mobile_app" class="nav-label">Mobile App</span>
         </a>
       </li>
 
@@ -87,7 +86,7 @@
       <li [ngClass]="{active: activeRoute('support')}">
         <a [routerLink]="['/support']">
           <i class="fa fa-question"></i>
-          <span class="nav-label">Support</span>
+          <span id="support" class="nav-label">Support</span>
         </a>
       </li>
 
@@ -95,14 +94,14 @@
       <li [ngClass]="{active: activeRoute('suggestions')}">
         <a [routerLink]="['/suggestions']">
           <i class="fa fa-comment"></i>
-          <span class="nav-label">Suggestions</span>
+          <span id="suggestions" class="nav-label">Suggestions</span>
         </a>
       </li>
 
       <li>
         <a [routerLink]="['/logout']" (click)="logout()">
           <i class="fa fa-sign-out"></i>
-          <span class="nav-label">Log out</span>
+          <span id="logout_side" class="nav-label">Log out</span>
         </a>
       </li>
 

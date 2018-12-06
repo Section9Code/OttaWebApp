@@ -123,12 +123,12 @@
     <!-- Controls -->
     <div class="form-group">
         <div class="col-xs-4 col-sm-offset-2">            
-            <button class="btn btn-primary" type="submit" [disabled]="!createPersonaForm.form.valid" [ladda]="showProgress">Save</button>
-            <button class="btn btn-danger" type="button" *ngIf="showDelete" (click)="deletePersonaForm();">Delete</button>
+            <button id="persona_save" class="btn btn-primary" type="submit" [disabled]="!createPersonaForm.form.valid" [ladda]="showProgress">Save</button>
+            <button id="persona_delete" class="btn btn-danger" type="button" *ngIf="showDelete" (click)="deletePersonaForm();">Delete</button>
         </div>
         
         <div class="col-xs-6 text-right">
-            <button class="btn btn-white" type="button" (click)="cancelPersonaForm();">Cancel</button>
+            <button id="persona_cancel" class="btn btn-white" type="button" (click)="cancelPersonaForm();">Cancel</button>
         </div>
         
     </div>
