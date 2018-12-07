@@ -45,6 +45,7 @@ import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ContentProjectService } from 'services/content-project.service';
 import { ImagesService } from 'services/images.service';
 import { SideInfoService } from 'services/side-info.service';
+import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
@@ -99,6 +100,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     CouponService,
     CookieService,
     ImagesService,
+    ContentProjectIntegrationService,
 
     // Dropzone configuration
     {

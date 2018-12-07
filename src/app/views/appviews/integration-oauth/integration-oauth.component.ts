@@ -19,22 +19,24 @@ export class IntegrationOauthComponent implements OnInit {
 
   ngOnInit() {
     const state = this.cookieSvc.get('oAuthState');
-    console.log('Completing integration', state);
+    console.log('[INT] Completing integration', state);
 
     this.activatedRoute.queryParams.subscribe(response => {
-      console.log('Params:', response);
+      console.log('[INT] Params:', response);
       const code = response['code'];
 
       // If all the components are there complete oAuth callback
       if (state && code) {
         this.integrationService.completeCallback(state, code).subscribe(
           () => {
+            console.log('[INT] Complete');
             this.message = null;
             this.isWorking = false;
             window.close();
           },
           error => {
             this.message = `Error completing the integration, please try again later. ${error}`;
+            console.log('[INT] Error:', error);
           }
         );
       }
