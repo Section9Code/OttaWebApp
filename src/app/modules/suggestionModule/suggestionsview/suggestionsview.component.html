@@ -20,7 +20,7 @@
 
 <loadingSpinner [loading]="isLoading"></loadingSpinner>
 
-<div *ngIf="!isLoading">
+<div class="col-xs-12 col-lg-10" *ngIf="!isLoading">
     <div *ngIf="suggestions.length == 0">
         <h2>There are no suggestions,
             <a [routerLink]="['/suggestions/create']">be the first to create one</a>
@@ -45,8 +45,10 @@
                     </a>
                     <div class="vote-info">
                         <i class="fa fa-comments-o"></i>
-                        <a *ngIf="suggestion.Comments" [routerLink]="['/suggestions/suggestion/', suggestion.id]">Comments ({{suggestion.Comments.length}})</a>
-                        <a *ngIf="!suggestion.Comments" [routerLink]="['/suggestions/suggestion/', suggestion.id]">No Comments</a>
+                        <a *ngIf="suggestion.Comments" [routerLink]="['/suggestions/suggestion/', suggestion.id]">Comments
+                            ({{suggestion.Comments.length}})</a>
+                        <a *ngIf="!suggestion.Comments" [routerLink]="['/suggestions/suggestion/', suggestion.id]">No
+                            Comments</a>
                         <i class="fa fa-clock-o"></i>
                         <a href="#">{{suggestion.Created | ticksToDate | date:'medium'}}</a>
                         <i class="fa fa-user"></i>
@@ -64,4 +66,8 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
+    <app-side-info></app-side-info>
 </div>

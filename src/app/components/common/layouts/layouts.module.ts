@@ -15,6 +15,7 @@ import {TopNavigationNavbarComponent} from "./../topnavbar/topnavigationnavbar.c
 import { FormsModule } from "@angular/forms";
 import { CommonModule } from "@angular/common";
 import { SharedModule } from "app/modules/sharedModule/shared.module";
+import { SideInfoComponent } from "../side-info/side-info.component";
 
 
 @NgModule({
@@ -25,7 +26,8 @@ import { SharedModule } from "app/modules/sharedModule/shared.module";
     NavigationComponent,
     TopNavigationLayoutComponent,
     TopNavbarComponent,
-    TopNavigationNavbarComponent
+    TopNavigationNavbarComponent,
+    SideInfoComponent
   ],
   imports: [
     CommonModule,
@@ -41,7 +43,8 @@ import { SharedModule } from "app/modules/sharedModule/shared.module";
     NavigationComponent,
     TopNavigationLayoutComponent,
     TopNavbarComponent,
-    TopNavigationNavbarComponent
+    TopNavigationNavbarComponent,
+    SideInfoComponent
   ],
 })
 

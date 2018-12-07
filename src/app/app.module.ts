@@ -36,7 +36,6 @@ import { SharedModule } from 'app/modules/sharedModule/shared.module';
 import { OrganisationModule } from 'app/modules/organisationModule/organisation.module';
 import { UserService } from 'services/user.service';
 import { UserDataService } from 'services/user-data.service';
-import { CreatorModule } from 'app/modules/creatorModule/creator.module';
 import { CreatorService } from 'services/creator.service';
 import { TourService } from 'services/tour.service';
 import { environment } from 'environments/environment';
@@ -45,6 +44,7 @@ import { CouponService } from 'services/coupon.service';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ContentProjectService } from 'services/content-project.service';
 import { ImagesService } from 'services/images.service';
+import { SideInfoService } from 'services/side-info.service';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
@@ -57,7 +57,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
 
 @NgModule({
   declarations: [
-    AppComponent,
+    AppComponent
   ],
   imports: [
     BrowserAnimationsModule,
@@ -94,6 +94,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     MixpanelService,
     SweetAlertService,
     TourService,
+    SideInfoService,
     AgendaService,
     CouponService,
     CookieService,

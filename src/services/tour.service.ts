@@ -24,7 +24,6 @@ export class TourService {
 
     constructor(
         private router: Router,
-        private activatedRoute: ActivatedRoute,
         private authHttp: AuthHttp,
         private alertSvc: SweetAlertService
     ) { }

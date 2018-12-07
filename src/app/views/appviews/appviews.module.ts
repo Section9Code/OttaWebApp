@@ -27,6 +27,7 @@ import { OfferComponent } from './offer/offer.component';
 import { MobileAuthComponent } from './mobile-auth/mobile-auth.component';
 import { IntegrationOauthComponent } from './integration-oauth/integration-oauth.component';
 import { CommonModule } from '@angular/common';
+import { LayoutsModule } from 'app/components/common/layouts/layouts.module';
 
 @NgModule({
   declarations: [
@@ -55,6 +56,7 @@ import { CommonModule } from '@angular/common';
     PeityModule,
     SparklineModule,
     WidgetsModule,
+    LayoutsModule,
     PipesModule,
     LaddaModule,
     SharedModule

@@ -12,26 +12,32 @@
     </div>
 </div>
 
-<!-- Top level button row -->
-<!--    
-<div class="row wrapper border-bottom white-bg page-heading">
-    <div class="col-lg-10">
-        <button type="button" class="btn btn-primary" (click)="create()">Create</button>
-    </div>
-</div> -->
+<div class="wrapper-content animated fadeInRight">
 
-<div class="wrapper-content animated fadeInRight">    
-  
-  <otta-panel id="mobile_app" [title]="'Mobile application'">
-    <p>
-      You can now get access to your projects on your mobile phone. Just down load our app and use this code to authenticate your app with your user account; 
-    </p>
-    <div *ngIf="shortCode">
-      Your authentication code is: <h2>{{shortCode}}</h2>
+
+    <div class="row">
+        <div class="col-xs-12 col-lg-9">
+            <otta-panel id="mobile_app" [title]="'Mobile application'">
+                <p>
+                    You can now get access to your projects on your mobile phone. Just down load our app and use this
+                    code to
+                    authenticate your app with your user account;
+                </p>
+                <div *ngIf="shortCode">
+                    Your authentication code is: <h2>{{shortCode}}</h2>
+                </div>
+                <div *ngIf="!shortCode">
+                    <button id="mobile_app_button" class="btn btn-primary" (click)="generate();">Generate your
+                        authentication
+                        code</button>
+                </div>
+            </otta-panel>
+        </div>
+        <div class="col-xs-12 col-lg-3 hidden-xs hidden-sm hidden-md">
+            <app-side-info></app-side-info>
+        </div>
     </div>
-    <div *ngIf="!shortCode">
-      <button id="mobile_app_button" class="btn btn-primary" (click)="generate();">Generate your authentication code</button>
-    </div>
-  </otta-panel>
-  
+
+
+
 </div>
