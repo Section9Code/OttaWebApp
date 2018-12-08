@@ -81,7 +81,8 @@ const routes: Routes = [
                 // Project pages
                 path: ':id', component: ContentProjectLayoutComponent, canActivate: [AuthenticatedGuard],
                 children: [
-                    { path: '', component: ContentProjectCalendarLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: '', redirectTo: 'calendar' },
+                    { path: 'calendar', component: ContentProjectCalendarLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'items', component: ContentProjectDraftsLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'items/create', component: ContentProjectDraftsCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'items/:id2', component: ContentProjectDraftsUpdateLayoutComponent, canActivate: [AuthenticatedGuard] },

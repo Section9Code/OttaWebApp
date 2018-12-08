@@ -68,7 +68,7 @@ export class ContentProjectShareService {
     this.requeues.next([]);
 
     // Is the user an organisation admin
-    this.userIsAdmin.next(this.userDataService.userIsOrgAdmin);
+    this.userDataService.userIsOrgAdmin.subscribe(response => this.userIsAdmin.next(response));
 
     // Load the project information from the service
     this.contentProjectService.getProject(projectId).subscribe(
