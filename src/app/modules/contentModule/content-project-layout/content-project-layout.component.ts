@@ -22,8 +22,12 @@ export class ContentProjectLayoutComponent implements OnInit {
     projectId = '';             // Id of the current project
     project: ContentProjectModel = new ContentProjectModel();   // Current project information
 
-    constructor(private route: ActivatedRoute, private router: Router, private projectService: ContentProjectService, 
-        private shareService: ContentProjectShareService, private userDataService: UserDataService) {
+    constructor(
+        private route: ActivatedRoute, 
+        private router: Router, 
+        private projectService: ContentProjectService, 
+        private shareService: ContentProjectShareService, 
+        private userDataService: UserDataService) {
     }
 
     ngOnInit(): void {
@@ -81,6 +85,11 @@ export class ContentProjectLayoutComponent implements OnInit {
     goToSettings() {
         this.currentView = 'settings';
         this.router.navigateByUrl(`/content/${this.projectId}/settings`);
+    }
+
+    goToPersonas() {
+        this.currentView = 'personas';
+        this.router.navigateByUrl(`/content/${this.projectId}/personas`);
     }
 }
 

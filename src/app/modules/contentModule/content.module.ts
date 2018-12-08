@@ -65,6 +65,7 @@ import { CimListRequeueComponent } from './components/cim/cim-list-requeue/cim-l
 import { RequeueTimeslotsComponent } from './components/requeue-timeslots/requeue-timeslots.component';
 import { ImageListComponent } from './components/image-list/image-list.component';
 import { CommonModule } from '@angular/common';
+import { ContentProjectPersonsaLayoutComponent } from './content-project-personsa-layout/content-project-personsa-layout.component';
 
 
 // Routes for this module to be added to the application
@@ -85,6 +86,7 @@ const routes: Routes = [
                     { path: 'items/create', component: ContentProjectDraftsCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'items/:id2', component: ContentProjectDraftsUpdateLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'pitches', component: ContentProjectPitchesLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'personas', component: ContentProjectPersonsaLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'events', component: ContentProjectEventsLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'requeue', component: ContentProjectRequeueLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'requeue/:queueId', component: ContentProjectRequeueDetailsLayoutComponent, canActivate: [AuthenticatedGuard] },
@@ -154,7 +156,8 @@ const routes: Routes = [
         CimEditorMediumComponent,
         CimListRequeueComponent,
         RequeueTimeslotsComponent,
-        ImageListComponent
+        ImageListComponent,
+        ContentProjectPersonsaLayoutComponent
     ],
     providers: [
         MixpanelService,
