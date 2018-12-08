@@ -10,7 +10,7 @@ import { ContentProjectShareService } from '../services/ContentProjectShareServi
 })
 export class ContentProjectPersonsaLayoutComponent implements OnInit {
   personas: ProjectPersona[] = [];
-
+  isLoading = false;
   constructor(
     private router: Router,
     private route: ActivatedRoute,
@@ -19,7 +19,11 @@ export class ContentProjectPersonsaLayoutComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.personaService.getAll(this.sharedService.currentProject.getValue().id).toPromise().then(response => this.personas = response);
+    this.isLoading = true;
+    this.personaService.getAll(this.sharedService.currentProject.getValue().id).toPromise().then(response => {
+      this.personas = response;
+      this.isLoading = false;
+    });
   }
 
   createPersona() {
