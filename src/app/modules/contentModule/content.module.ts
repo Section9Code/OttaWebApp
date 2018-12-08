@@ -66,6 +66,11 @@ import { RequeueTimeslotsComponent } from './components/requeue-timeslots/requeu
 import { ImageListComponent } from './components/image-list/image-list.component';
 import { CommonModule } from '@angular/common';
 import { ContentProjectPersonsaLayoutComponent } from './content-project-personsa-layout/content-project-personsa-layout.component';
+import { ContentProjectPersonsaCreateLayoutComponent } from './content-project-personsa-create-layout/content-project-personsa-create-layout.component';
+import { ContentPersonaFormComponent } from './components/content-persona-form/content-persona-form.component';
+import { PersonaCreateComponent } from '../personaModule/persona-create/persona-create.component';
+import { ProjectPersonaService } from './services/project-persona.service';
+import { ContentProjectPersonsaEditLayoutComponent } from './content-project-personsa-edit-layout/content-project-personsa-edit-layout.component';
 
 
 // Routes for this module to be added to the application
@@ -88,6 +93,8 @@ const routes: Routes = [
                     { path: 'items/:id2', component: ContentProjectDraftsUpdateLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'pitches', component: ContentProjectPitchesLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'personas', component: ContentProjectPersonsaLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'personas/create', component: ContentProjectPersonsaCreateLayoutComponent, canActivate: [AuthenticatedGuard] },
+                    { path: 'personas/:id', component: ContentProjectPersonsaEditLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'events', component: ContentProjectEventsLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'requeue', component: ContentProjectRequeueLayoutComponent, canActivate: [AuthenticatedGuard] },
                     { path: 'requeue/:queueId', component: ContentProjectRequeueDetailsLayoutComponent, canActivate: [AuthenticatedGuard] },
@@ -158,7 +165,10 @@ const routes: Routes = [
         CimListRequeueComponent,
         RequeueTimeslotsComponent,
         ImageListComponent,
-        ContentProjectPersonsaLayoutComponent
+        ContentProjectPersonsaLayoutComponent,
+        ContentProjectPersonsaCreateLayoutComponent,
+        ContentPersonaFormComponent,
+        ContentProjectPersonsaEditLayoutComponent
     ],
     providers: [
         MixpanelService,
@@ -170,7 +180,8 @@ const routes: Routes = [
         ContentItemContentService,
         EventService,
         ContentProjectIntegrationService,
-        RequeueService
+        RequeueService,
+        ProjectPersonaService
     ],
 })
 export class ContentModule {

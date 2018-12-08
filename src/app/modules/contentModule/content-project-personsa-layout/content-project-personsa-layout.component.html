@@ -1,8 +1,17 @@
 <div class="row">
 
   <div class="col-xs-12 col-lg-10">
-    <otta-panel id="persona_list" [title]="'Personas'" [showButton]="true" [buttonText]="'Create persona'" (buttonClicked)="createPersona()">
-      Hello
+    <otta-panel id="persona_list" [title]="'Personas'" [showButton]="true" [buttonText]="'Create persona'"
+      (buttonClicked)="createPersona()">
+
+      <h3>Personas</h3>
+      <ul>
+        <li *ngFor="let persona of personas">
+          {{persona.Name}} - 
+          <a [routerLink]="[persona.id]">Edit</a>
+        </li>
+      </ul>
+
     </otta-panel>
   </div>
 

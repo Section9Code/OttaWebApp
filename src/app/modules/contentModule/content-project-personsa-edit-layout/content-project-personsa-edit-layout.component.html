@@ -1,0 +1,16 @@
+<div class="row">
+
+  <div class="col-xs-12 col-lg-10">
+    <otta-panel id="persona_list" [title]="'Edit persona'" [showButton]="false">
+      
+      <app-content-persona-form [formData]="persona" [showDelete]="true" (onSubmit)="update()" (onDelete)="delete()" (onCancel)="cancel()"></app-content-persona-form>
+
+    </otta-panel>
+  </div>
+
+  <!-- Side info -->
+  <div class="col-xs-12 col-lg-2 hidden-xs hidden-sm hidden-md">
+    <app-side-info></app-side-info>
+  </div>
+
+</div>
