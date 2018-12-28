@@ -20,7 +20,7 @@
     <div class="col-md-12 btn-group">
         <button id="project_links_calendar" type="button" class="btn" [ngClass]="{'btn-default': currentView != 'calendar', 'btn-primary': currentView == 'calendar' }" (click)="goToCalendar()">Calendar</button>
         <button id="project_links_content" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'items', 'btn-default': currentView != 'items' }" (click)="goToItems()">Content</button>
-        <button id="project_links_content" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'personas', 'btn-default': currentView != 'personas' }" (click)="goToPersonas()">Personas</button>
+        <button id="project_links_personas" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'personas', 'btn-default': currentView != 'personas' }" (click)="goToPersonas()">Personas</button>
         <!-- <button id="project_links_pitches" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'pitches', 'btn-default': currentView != 'pitches' }" (click)="goToPitches()">Pitches</button> -->
         <button id="project_links_events" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'events', 'btn-default': currentView != 'events' }" (click)="goToEvents()">Events</button>
         <button id="project_links_requeue" type="button" class="btn" [ngClass]="{'btn-primary': currentView == 'requeue', 'btn-default': currentView != 'requeue' }" (click)="goToRequeue()">Requeue</button>
