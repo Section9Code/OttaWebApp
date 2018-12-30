@@ -148,7 +148,7 @@ export class ContentProjectDraftsLayoutComponent implements OnInit, OnDestroy {
             return true;
         }
 
-        if (item.Title === this.searchCriteria) {
+        if (item.Title.toLocaleLowerCase() === this.searchCriteria.toLocaleLowerCase()) {
             return true;
         }
 

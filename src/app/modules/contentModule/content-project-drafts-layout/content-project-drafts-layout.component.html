@@ -9,7 +9,7 @@
             <div class="m-b-lg">
 
                 <div id="item_search" class="input-group">
-                    <input type="text" placeholder="Search issue by name..." [(ngModel)]="searchCriteria" class=" form-control">
+                    <input type="text" placeholder="Search content..." [(ngModel)]="searchCriteria" class=" form-control">
                     <span class="input-group-btn">
                         <button type="button" class="btn btn-primary" (click)="search()"> Search</button>
                         <button *ngIf="isFilteringSearch" type="button" class="btn btn-white" (click)="clearSearch()">
