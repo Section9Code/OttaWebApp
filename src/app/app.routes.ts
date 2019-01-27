@@ -17,6 +17,7 @@ import { SubscriptionErrorComponent } from "./views/appviews/subscription-error/
 import { OfferComponent } from "./views/appviews/offer/offer.component";
 import { MobileAuthComponent } from "./views/appviews/mobile-auth/mobile-auth.component";
 import { IntegrationOauthComponent } from "./views/appviews/integration-oauth/integration-oauth.component";
+import { SignupPageComponent } from "./views/appviews/signup-page";
 
 export const ROUTES: Routes = [
   // Main redirect
@@ -48,6 +49,7 @@ export const ROUTES: Routes = [
     path: '', component: BlankLayoutComponent,
     children: [
       { path: 'login', component: LoginComponent },                                         // Main login form
+      { path: 'signup', component: SignupPageComponent },                                   // Main signup page
       { path: 'callback', component: CallbackComponent },                                   // For the authentication system to call back into with a user
       { path: 'integrationCallback', component: IntegrationOauthComponent },
       { path: 'problem', component: ProblemComponent },                                     // When there was a problem logging in
