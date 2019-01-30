@@ -1,5 +1,6 @@
 import { Component, OnInit, Input, Output, EventEmitter } from '@angular/core';
 import { environment } from 'environments/environment';
+import { AuthService } from 'services/auth.service';
 
 @Component({
     moduleId: module.id,
@@ -7,20 +8,22 @@ import { environment } from 'environments/environment';
     templateUrl: 'stripe-button.component.html',
     styleUrls: ['stripe-button.component.scss']
 })
-export class StripeButtonComponent implements OnInit{
-    @Input() currency: string = 'GBP';
-    @Input() heading: string = "Otta";
-    @Input() description: string = "Description";
-    @Input() amount: number = 0;
-    @Input() buttonText: string = 'Checkout';
-
+export class StripeButtonComponent implements OnInit {
+    @Input() currency = 'GBP';
+    @Input() heading = 'Otta';
+    @Input() description = 'Description';
+    @Input() amount = 0;
+    @Input() buttonText = 'Checkout';
     @Output() onPayment = new EventEmitter<string>();
 
-    isPaying:boolean = false;
+    isPaying = false;
+
+    constructor(private auth: AuthService) {
+    }
 
     ngOnInit(): void {
     }
-    
+
     checkout() {
         this.isPaying = true;
         var handler = (<any>window).StripeCheckout.configure({
@@ -35,9 +38,11 @@ export class StripeButtonComponent implements OnInit{
 
         handler.open({
             name: this.heading,
+            email: this.auth.userProfile.email,
             description: this.description,
             currency: this.currency,
             amount: this.amount,
+            image: 'https://app.otta.io/assets/images/logo/logosquare.png',
             closed: () => this.isPaying = false
         });
     }

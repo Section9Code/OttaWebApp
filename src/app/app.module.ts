@@ -46,6 +46,7 @@ import { ContentProjectService } from 'services/content-project.service';
 import { ImagesService } from 'services/images.service';
 import { SideInfoService } from 'services/side-info.service';
 import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
+import { RequeueService } from 'services/requeue.service';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
@@ -89,6 +90,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     UserService,
     UserDataService,
     ContentProjectService,
+    RequeueService,
     CreatorService,
     AuthenticatedGuard,
     OrganisationAdminGuard,

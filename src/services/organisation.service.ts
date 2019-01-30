@@ -30,6 +30,10 @@ export class OrganisationService {
     return this.authHttp.post(`${this.url}/subscription/users`, new UserInfo(numberOfUsers)).map(response => response.json());
   }
 
+  changePlan(newPlanId: string): Observable<Organisation> {
+    return this.authHttp.post(`${this.url}/subscription/plan`, new PlanInfo(newPlanId)).map(response => response.json());
+  }
+
   // Cancel the subscription on an organisation
   cancelSubscription(): Observable<Organisation> {
     return this.authHttp.delete(`${this.url}/subscription`).map(response => response.json());
@@ -79,6 +83,14 @@ export class UserInfo {
   }
 }
 
+export class PlanInfo {
+  planId: string;
+
+  constructor(newPlanId: string) {
+    this.planId = newPlanId;
+  }
+}
+
 export class Organisation {
   Name: string;
   CurrentPlan: OrganisationPaymentPlan;
@@ -90,6 +102,7 @@ export class Organisation {
 }
 
 export class OrganisationPaymentPlan {
+  PlanId: string;
   PlanName: string;
   IsTrialPlan: boolean;
   PlanExpires: Date;
@@ -159,4 +172,15 @@ export class Invoice {
   public Amount: number;
   public Status: string;
   //public InvoiceLine[] InvoiceLines { get; set; }
+}
+
+
+export class PricingPlan {
+  public id: string;
+  public name: string;
+  public isDefault: boolean;
+  public maxProjects: number;
+  public maxRequeues: number;
+  public pricePerMonth: number;
+  public pricePerAdditionalUserPerMonth: number;
 }

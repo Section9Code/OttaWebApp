@@ -1,1 +1,1 @@
-<button class="btn btn-primary" (click)="checkout()" [ladda]="isPaying">{{buttonText}} ({{amount/100}} per month)</button>
+<button class="btn btn-primary" (click)="checkout()" [ladda]="isPaying">{{buttonText}} (£{{amount/100 | number:'1.2-2'}} per month)</button>

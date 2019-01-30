@@ -1,10 +1,11 @@
-import { Component, OnInit, transition } from '@angular/core';
+import { Component, OnInit, transition, ViewChild } from '@angular/core';
 import { AuthService } from 'services/auth.service';
 import { OrganisationService, Organisation, OrganisationPaymentPlan, PaymentInfo, OrganisationUsers, OrganisationUsersHelper, OrganisationUser, Invoice } from 'services/organisation.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { ToastsManager } from 'ng2-toastr';
 import { environment } from 'environments/environment';
 import { MixpanelService, MixpanelEvent } from 'services/mixpanel.service';
+import { SubscriptionComponent } from '../components/subscription/subscription.component';
 
 @Component({
     moduleId: module.id,
@@ -27,17 +28,16 @@ export class OrganisationOverviewComponent implements OnInit {
     invoices: Invoice[]
     userAllowance: number;
 
-    amountToCharge: number;
-    offerTerms: string;
-    discountAmountPerMonth: number;
-    discountTerms: string;
-
     inviteUserEmail: string;
 
-    defaultMaxProjects: number;
-    defaultMaxRequeues: number;    
+    @ViewChild('SubscriptionDetails') subDetailsComponent: SubscriptionComponent;
 
-    constructor(private authService: AuthService, private orgService: OrganisationService, private toast: ToastsManager, private alertService: SweetAlertService, private tracking: MixpanelService) {
+    constructor(
+        private authService: AuthService,
+        private orgService: OrganisationService,
+        private toast: ToastsManager,
+        private alertService: SweetAlertService,
+        private tracking: MixpanelService) {
         this.organisation = new Organisation();
         this.organisation.CurrentPlan = new OrganisationPaymentPlan();
         this.organisationUsers = new OrganisationUsers();
@@ -46,20 +46,19 @@ export class OrganisationOverviewComponent implements OnInit {
     ngOnInit(): void {
         this.tracking.Track(MixpanelEvent.View_organisation_admin);
         this.isLoading = true;
-        this.defaultMaxProjects = environment.default_MaxProjects;
-        this.defaultMaxRequeues = environment.default_MaxRequeues;
 
         // Load the current users organisation
         this.orgService.get().subscribe(
             response => {
-                console.log("Loaded organisation", response);
-                this.updateOrganisationData(response);
+                console.log('Loaded organisation', response);
+                this.UpdateOrganisationDetails(response);
+                this.isLoading = false;
             },
             error => {
-                console.log("Error loading organisation", error);
+                console.log('Error loading organisation', error);
                 this.isLoading = false;
                 this.orgNotAvailable = true;
-                this.tracking.TrackError("Error occurred loading organisation data", error);
+                this.tracking.TrackError('Error occurred loading organisation data', error);
             }
         );
 
@@ -67,18 +66,23 @@ export class OrganisationOverviewComponent implements OnInit {
         this.UpdateInvoices();
     }
 
+    UpdateOrganisationDetails(organisation: Organisation) {
+        this.organisation = organisation;
+        this.userAllowance = this.organisation.CurrentPlan.MaxUsers;
+    }
+
     UpdateOrganisationUsers() {
         // Load organisation users
         this.isLoadingUsers = true;
-        this.orgService.getUsers().subscribe(
+        this.orgService.getUsers().toPromise().then(
             response => {
-                console.log("Loaded organisation users", response);
+                console.log('Loaded organisation users', response);
                 this.organisationUsers = response;
                 this.isLoadingUsers = false;
             },
             error => {
-                console.log("Error retrieving users", error);
-                this.tracking.TrackError("Error occurred loading organisation users", error);
+                console.log('Error retrieving users', error);
+                this.tracking.TrackError('Error occurred loading organisation users', error);
                 this.isLoadingUsers = false;
             }
         );
@@ -87,184 +91,20 @@ export class OrganisationOverviewComponent implements OnInit {
     UpdateInvoices() {
         // Load invoices
         this.isLoadingInvoices = true;
-        this.orgService.getInvoices().subscribe(
+        this.orgService.getInvoices().toPromise().then(
             response => {
-                console.log("Loaded invoices", response);
+                console.log('Loaded invoices', response);
                 this.invoices = response;
                 this.isLoadingInvoices = false;
             },
             error => {
-                console.log("Error retrieving invoices", error);
+                console.log('Error retrieving invoices', error);
                 this.tracking.TrackError('Error occurred loading organisation invoices', error);
-                this.isLoadingUsers = false;
+                this.isLoadingInvoices = false;
             }
         );
     }
 
-    // Called when the organisation is updated, makes sure all fields are filled in correctly
-    updateOrganisationData(data: Organisation) {
-        // Store data
-        this.organisation = data;
-        this.userAllowance = this.organisation.CurrentPlan.MaxUsers;
-        this.discountAmountPerMonth
-        this.amountToCharge = this.calcAmountToCharge();
-        this.discountAmountPerMonth = this.monthlyChargeWithDiscount();
-        this.offerTerms = this.calcTerms();
-        this.discountTerms = this.calcDiscountTerms();
-
-        // Show sections
-        this.isLoading = false;
-        this.isLoadingUsers = false;
-        this.hideOrgDetails = false;
-    }
-
-    calcAmountToCharge(): number {
-        // Calculate the cost of the plan
-        let planCost = this.organisation.CurrentPlan.MonthlyCharge * this.organisation.CurrentPlan.MaxUsers;
-
-        // Calculate any discount the user has
-        if (this.organisation.CurrentPlan.Discount) {
-            const coupon = this.organisation.CurrentPlan.Discount;
-            if (coupon.AmountOff) {
-                planCost = planCost - coupon.AmountOff;
-            }
-            else {
-                planCost = planCost * (coupon.PercentageOff / 100);
-            }
-        }
-
-        return Math.floor(planCost);
-    }
-
-    calcTerms(): string {
-        let msg = '';
-
-        // If there is no offer on the organisation retun nothing
-        if (!this.organisation.CurrentPlan.Discount) { return ''; };
-
-        // Type of discount
-        if (this.organisation.CurrentPlan.Discount.PercentageOff) { msg += `${this.organisation.CurrentPlan.Discount.PercentageOff}% off `; }
-        if (this.organisation.CurrentPlan.Discount.AmountOff) { msg += `£${this.organisation.CurrentPlan.Discount.AmountOff / 100.00} off `; }
-
-        switch (this.organisation.CurrentPlan.Discount.Duration.toLocaleLowerCase()) {
-            case 'once':
-                msg += 'for one month ';
-                break;
-            case 'repeating':
-            case 'multi-month':
-                msg += `for ${this.organisation.CurrentPlan.Discount.DurationMonths} months `;
-                break;
-            case 'forever':
-                msg += `forever `;
-                break;
-        }
-
-        return msg.trim();
-    }
-
-    monthlyChargeWithDiscount(): number {
-        // Calculate the cost of the plan
-        let planCost = this.organisation.CurrentPlan.MonthlyCharge * this.organisation.CurrentPlan.MaxUsers;
-
-        // Calculate any discount the user has
-        if (this.organisation.CurrentPlan.Discount) {
-            const coupon = this.organisation.CurrentPlan.Discount;
-            if (this.organisation.CurrentPlan.Discount.AmountOff) {
-                planCost = planCost - this.organisation.CurrentPlan.Discount.AmountOff;
-            } else {
-                planCost = planCost * (this.organisation.CurrentPlan.Discount.PercentageOff / 100);
-            }
-        }
-
-        return Math.floor(planCost);
-    }
-
-    calcDiscountTerms(): string {
-        if (!this.organisation.CurrentPlan.Discount) { return ''; }
-
-        let msg = '';
-        // Type of discount
-        if (this.organisation.CurrentPlan.Discount.PercentageOff) { msg += `${this.organisation.CurrentPlan.Discount.PercentageOff}% off `; }
-        if (this.organisation.CurrentPlan.Discount.AmountOff) { msg += `£${this.organisation.CurrentPlan.Discount.AmountOff / 100.00} off `; }
-
-        switch (this.organisation.CurrentPlan.Discount.Duration.toLocaleLowerCase()) {
-            case 'once':
-                msg += 'for one month ';
-                break;
-            case 'repeating':
-            case 'multi-month':
-                msg += `for ${this.organisation.CurrentPlan.Discount.DurationMonths} months `;
-                break;
-            case 'forever':
-                msg += `forever `;
-                break;
-        }
-
-        return msg.trim();
-    }
-
-    // The user has updated their subscription
-    subscriptionPaid(token: string) {
-        this.tracking.Track(MixpanelEvent.Update_subscription);
-        this.isLoading = true;
-        this.hideOrgDetails = true;
-
-        let subscriptionUpdate = new PaymentInfo();
-        subscriptionUpdate.numberOfUsers = this.userAllowance;
-        subscriptionUpdate.paymentToken = token;
-
-        // Update subscription
-        this.orgService.paySubscription(subscriptionUpdate).subscribe(
-            response => {
-                console.log('Subscription updated', response);
-                this.updateOrganisationData(response);
-                this.toast.success('Your subscription has been successfully updated. Thank you', 'Subscription updated');
-            },
-            error => {
-                console.log('Error updating subscription', error);
-                this.isLoading = false;
-                this.hideOrgDetails = false;
-                this.toast.error('Sorry. Unable to update your subscription');
-                this.tracking.TrackError('Error occurred while updating subscription', error);
-            }
-        );
-    }
-
-    // The user wants to cancel their subscription
-    cancelSubscription() {
-        this.tracking.Track(MixpanelEvent.Cancel_subscription);
-        console.log('Cancel subscription');
-        this.alertService.swal({
-            title: 'Cancel subscription',
-            text: 'Are you sure you want to cancel your subscription? At the end of your billing period you will loose access to all of your hard work',
-            type: 'warning',
-            showCancelButton: true,
-            confirmButtonColor: '#3085d6',
-            cancelButtonColor: '#d33',
-            confirmButtonText: 'Yes, cancel subscription!'
-        }).then(() => {
-            console.log('OK');
-            this.isLoading = true;
-            this.hideOrgDetails = true;
-            this.orgService.cancelSubscription().subscribe(
-                response => {
-                    console.log('Subscription cancelled');
-                    this.updateOrganisationData(response);
-                    this.toast.warning('Your subscription has been cancelled, it will no longer be available at the end of your billing period', 'Subscription cancelled');
-                    this.tracking.Track(MixpanelEvent.Cancel_subscription_confirmed);
-                },
-                error => {
-                    console.log('Error occurred while trying to cancel subscription', error);
-                    this.isLoading = false;
-                    this.hideOrgDetails = false;
-                    this.toast.error('Unable to cancel your subscription at the moment, please try again later');
-                    this.tracking.TrackError('Error occurred while trying to cancel subscription', error);
-                }
-            );
-        }).catch(() => {
-            console.log('cancel');
-        });
-    }
 
     // Invite a new user to join this organisation
     inviteUser() {
@@ -318,7 +158,8 @@ export class OrganisationOverviewComponent implements OnInit {
         // Upgrade the users allowance
         this.orgService.updateSubscriptionAllowance(++this.userAllowance).subscribe(
             response => {
-                this.updateOrganisationData(response);
+                //this.updateOrganisationData(response);
+                this.subDetailsComponent.updateOrganisationData(response);
                 this.toast.success(`Subscription updated. You can now have ${this.userAllowance} users`, 'Subscription updated');
                 this.sendInvite();
             },
@@ -377,7 +218,8 @@ export class OrganisationOverviewComponent implements OnInit {
             this.hideOrgDetails = true;
             this.orgService.updateSubscriptionAllowance(this.userAllowance).subscribe(
                 response => {
-                    this.updateOrganisationData(response);
+                    //this.updateOrganisationData(response);
+                    this.subDetailsComponent.updateOrganisationData(response);
                     this.toast.success('User allowance updated');
                 },
                 error => {
@@ -417,7 +259,8 @@ export class OrganisationOverviewComponent implements OnInit {
             this.orgService.removeUser(user.AuthId).subscribe(
                 response => {
                     console.log('User removed', response);
-                    this.updateOrganisationData(response);
+                    //this.updateOrganisationData(response);
+                    this.subDetailsComponent.updateOrganisationData(response);
                     this.UpdateOrganisationUsers();
                     this.toast.success('User removed');
                 },
@@ -440,7 +283,8 @@ export class OrganisationOverviewComponent implements OnInit {
         this.orgService.makeAdmin(user.AuthId).subscribe(
             response => {
                 console.log('User updated', response);
-                this.updateOrganisationData(response);
+                //this.updateOrganisationData(response);
+                this.subDetailsComponent.updateOrganisationData(response);
                 this.UpdateOrganisationUsers();
                 this.toast.success('User has been made into an admin', 'User updated');
             },
@@ -465,7 +309,8 @@ export class OrganisationOverviewComponent implements OnInit {
         this.orgService.revokeAdmin(user.AuthId).subscribe(
             response => {
                 console.log('User updated', response);
-                this.updateOrganisationData(response);
+                //this.updateOrganisationData(response);
+                this.subDetailsComponent.updateOrganisationData(response);
                 this.UpdateOrganisationUsers();
                 this.toast.success('User has had admin rights revoked', 'User updated');
             },

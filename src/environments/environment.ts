@@ -18,5 +18,34 @@ export const environment = {
   pricePerUser: 999,
   version: 'v1.1.2 (Local Dev)',
   default_MaxRequeues: 3,
-  default_MaxProjects: 3
+  default_MaxProjects: 3,
+  plans: [
+    {
+      id: '3001',
+      name: 'Simplest',
+      isDefault: true,
+      maxProjects: 1,
+      maxRequeues: 3,
+      pricePerMonth: 9.95,
+      pricePerAdditionalUserPerMonth: 9.95
+    },
+    {
+      id: '3010',
+      name: 'Simpler',
+      isDefault: false,
+      maxProjects: 3,
+      maxRequeues: 4,
+      pricePerMonth: 19.95,
+      pricePerAdditionalUserPerMonth: 9.95
+    },
+    {
+      id: '3020',
+      name: 'Simple',
+      isDefault: false,
+      maxProjects: 6,
+      maxRequeues: 6,
+      pricePerMonth: 29.95,
+      pricePerAdditionalUserPerMonth: 9.95
+    }
+  ]
 };

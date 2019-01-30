@@ -19,6 +19,8 @@ import { SweetAlertService } from 'ng2-sweetalert2';
 import { OrganisationOverviewComponent } from 'app/modules/organisationModule/organisation-overview/organisation-overview.component';
 import { OrganisationService } from 'services/organisation.service';
 import { CommonModule } from '@angular/common';
+import { SubscriptionComponent } from './components/subscription/subscription.component';
+import { PlanListComponent } from './components/plan-list/plan-list.component';
 
 // Routes for this module to be added to the application
 const routes: Routes = [
@@ -49,7 +51,9 @@ const routes: Routes = [
         OrganisationOverviewComponent,
     ],
     declarations: [
-        OrganisationOverviewComponent
+        OrganisationOverviewComponent,
+        SubscriptionComponent,
+        PlanListComponent
     ],
     providers: [
         MixpanelService,
