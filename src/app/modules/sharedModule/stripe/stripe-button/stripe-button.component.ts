@@ -22,6 +22,7 @@ export class StripeButtonComponent implements OnInit {
     }
 
     ngOnInit(): void {
+        console.log('Stripe button', this.amount);
     }
 
     checkout() {
@@ -36,9 +37,14 @@ export class StripeButtonComponent implements OnInit {
             }
         });
 
+        let emailAddress = '';
+        if (this.auth.userProfile && this.auth.userProfile.email) {
+            emailAddress = this.auth.userProfile.email;
+        }
+
         handler.open({
             name: this.heading,
-            email: this.auth.userProfile.email,
+            email: emailAddress,
             description: this.description,
             currency: this.currency,
             amount: this.amount,

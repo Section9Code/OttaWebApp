@@ -29,6 +29,7 @@ import { IntegrationOauthComponent } from './integration-oauth/integration-oauth
 import { CommonModule } from '@angular/common';
 import { LayoutsModule } from 'app/components/common/layouts/layouts.module';
 import { SignupPageComponent } from './signup-page';
+import { WelcomePlansComponent } from './welcome-plans/welcome-plans.component';
 
 @NgModule({
   declarations: [
@@ -49,7 +50,8 @@ import { SignupPageComponent } from './signup-page';
     AgendaComponent,
     OfferComponent,
     MobileAuthComponent,
-    IntegrationOauthComponent
+    IntegrationOauthComponent,
+    WelcomePlansComponent
   ],
   imports: [
     CommonModule,

@@ -1,0 +1,24 @@
+<div class="row">
+
+  <div *ngFor="let plan of plans">
+
+    <div class="col-xs-12 col-sm-6 col-md-4 col-lg-4" [ngClass]="{'highlight': option === plan.optionId}">
+      <img class="img center-align" [src]="plan.image" width="100" />
+      <h4>{{ plan.name }}</h4>
+      <div [innerHTML]="plan.description"></div>
+      <br />
+      Price per month: <strong>£{{plan.pricePerMonth | number:'1.2-2'}}</strong><br />
+      Each additional user: <strong>£{{plan.pricePerAdditionalUserPerMonth | number:'1.2-2'}}</strong><br />
+      <br />
+
+      <stripe-button [heading]="'Otta subscription'" [description]="'Monthly subscription on ' + plan.name + ' plan'"
+        [buttonText]="'Pay now'" [amount]="plan.stripePricePerMonth" (onPayment)="subscriptionPaid($event)">
+      </stripe-button>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="hr-line-dashed"></div>
+<button class="btn btn-primary" [ladda]="isUpdating" (click)="complete()">Let me just start my free trial</button>

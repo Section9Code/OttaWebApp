@@ -4,15 +4,16 @@
             <h2 class="font-bold">Welcome to Otta</h2>
 
             <loadingSpinner [loading]="isLoading"></loadingSpinner>
-
+            
             <div [hidden]="signupComplete || isLoading">
-                <div [hidden]="currentStep!='step1'">
+
+                <!-- STEP 1 - Organisation details -->
+                <div *ngIf="currentStep === 'step1'">
                     <p>
                         Before you can get started there are a few more things we need from you so we can get you all set up.
                     </p>
                     <h3>Organisation details</h3>
                     <form #orgForm="ngForm" (ngSubmit)="completeStep1()" class="form-horizontal">
-
                         <div class="form-group" [class.has-error]="!orgName.valid">
                             <label class="col-sm-2 control-label">Organisation</label>
                             <div class="col-sm-10">
@@ -30,7 +31,8 @@
                     </form>
                 </div>
 
-                <div [hidden]="(currentStep!='step2')">
+                <!-- STEP 2 - User details -->
+                <div *ngIf="currentStep === 'step2'">
                     <form #userForm="ngForm" (ngSubmit)="completeStep2()" class="form-horizontal">
                         <h3>Your details</h3>
 
@@ -77,9 +79,15 @@
                     </form>
                 </div>
 
+                <!-- STEP 3 - Pick plan -->
+                <div *ngIf="currentStep === 'step3'">
+                    <app-welcome-plans (next)="completeStep3()"></app-welcome-plans>
+                </div>
+
             </div>
 
-            <div [hidden]="!signupComplete">
+            <!-- Welcome message -->
+            <div *ngIf="signupComplete">
                 <p>
                     <strong>That's it, you are signed in with your free trial.</strong>
                 </p>

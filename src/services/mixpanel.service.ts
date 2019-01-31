@@ -71,9 +71,10 @@ export enum MixpanelEvent {
   WelcomeToTheTeam,
   Home,
   Join,
+  Signup,
+  Signup_with_option,
   Offer,
   Added_Suggestion,
-
   // Suggestions
   View_all_suggestions,
   View_single_suggestion,
@@ -84,14 +85,12 @@ export enum MixpanelEvent {
   View_Suggestion,
   Add_Comment_To_Suggestion,
   Remove_Comment_From_Suggestion,
-
   // Personas
   View_all_personas,
   View_single_personas,
   Create_persona,
   Update_persona,
   Remove_persona,
-
   // Organisation admin
   View_organisation_admin,
   Update_subscription,
@@ -100,22 +99,18 @@ export enum MixpanelEvent {
   Invite_user,
   Invite_user_confirmed,
   Invite_user_cancelled,
-
   // User profile
   UserProfile_View,
   UserProfile_Update,
-
   // Content
   ContentHome,
   Content_Create_Project,
   Content_See_Project,
   Content_Remove_Project,
-
   // Content Drafts
   Content_Draft_View,
   Content_Draft_Created,
-
   // Others
   Button_click,
-  Error
+  Error,  
 }

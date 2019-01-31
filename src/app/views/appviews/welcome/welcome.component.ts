@@ -1,9 +1,10 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { Router } from "@angular/router";
 
 import { MixpanelService, MixpanelEvent } from "services/mixpanel.service";
 import { AuthService } from 'services/auth.service';
 import { WelcomeModel, WelcomeService } from 'services/welcome.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
     moduleId: module.id,
@@ -11,15 +12,20 @@ import { WelcomeModel, WelcomeService } from 'services/welcome.service';
     templateUrl: 'welcome.component.html',
     styleUrls: ['welcome.component.scss']
 })
-export class WelcomeComponent implements OnInit {
+export class WelcomeComponent implements OnInit, OnDestroy {
     isLoading = false;
     signupComplete: boolean;
     currentStep: string;
     data: WelcomeModel;
     isUpdatingData: boolean;
 
-    constructor(private mixpanel: MixpanelService, private router: Router, private authService:
-        AuthService, private welcomeService: WelcomeService) { }
+    subWelcome: Subscription;
+
+    constructor(
+        private mixpanel: MixpanelService,
+        private router: Router,
+        private authService: AuthService,
+        private welcomeService: WelcomeService) { }
 
     ngOnInit(): void {
         this.mixpanel.Track(MixpanelEvent.Welcome);
@@ -29,21 +35,21 @@ export class WelcomeComponent implements OnInit {
 
         // Get the data to show on the form
         this.isLoading = true;
-        this.welcomeService.getData().subscribe(
+        this.subWelcome = this.welcomeService.getData().subscribe(
             response => {
                 console.log('Loaded data', response);
                 this.data = response;
                 this.isLoading = false;
             },
             error => {
-                console.log(this.newMethod(), error);
+                console.log('Error occurred while loading welcome data', error);
                 this.router.navigate(['/problem']);
             }
         );
     }
 
-    private newMethod(): any {
-        return 'Error occurred while loading welcome data';
+    ngOnDestroy() {
+        if (this.subWelcome) { this.subWelcome.unsubscribe(); }
     }
 
     public completeStep1() {
@@ -54,18 +60,33 @@ export class WelcomeComponent implements OnInit {
     public completeStep2() {
         this.isUpdatingData = true;
 
+        const option = localStorage.getItem('welcomeOption');
+
         // Update the users details
         this.welcomeService.updateData(this.data).subscribe(
             response => {
                 console.log('Data sent', response);
                 this.isUpdatingData = false;
-                this.signupComplete = true;
+
+                // Dis the user pick an option before signing up
+                if (option) {
+                    this.currentStep = 'step3';
+                } else {
+                    // No option picked, all done
+                    this.signupComplete = true;
+                }
             },
             error => {
                 console.log('Error loading data', error);
                 this.router.navigateByUrl('/problem');
             }
         );
+    }
+
+    public completeStep3() {
+        console.log('Plan picked', this.data);
+        this.currentStep = 'step2';
+        this.signupComplete = true;
     }
 
     public next() {

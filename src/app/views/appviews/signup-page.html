@@ -8,11 +8,20 @@
         <h3>Signup for Otta</h3>
         <p>
             Simple software to help you plan and manage your content.
-        </p>        
-        <button class="btn btn-primary btn-block" (click)="auth.signup()">Signup for a free trial</button>
-        <br />
-        (no credit card required)
-        
+        </p>
+
+        <!-- Sign up no option picked -->
+        <div *ngIf="!signUpWithOption">
+            <button class="btn btn-primary btn-block" (click)="auth.signup()">Signup for a free trial</button>
+            <br />
+            (no credit card required)
+        </div>
+
+        <!-- Sign up WITH option picked -->
+        <div *ngIf="signUpWithOption">
+            <button class="btn btn-primary btn-block" (click)="auth.signup()">Signup</button>
+        </div>
+
         <p class="m-t"> <small>Otta &copy; 2018</small> - {{version}} </p>
     </div>
 </div>
