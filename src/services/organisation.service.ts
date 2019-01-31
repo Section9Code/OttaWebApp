@@ -120,6 +120,7 @@ export class OrganisationPaymentPlan {
   CurrentPeriodEnd: Date;
   MonthlyCharge: number;
   Discount: PaymentPlanDiscountModel;
+  CancelAtPeriodEnd: boolean;
 }
 
 export class PaymentPlanDiscountModel {

@@ -50,6 +50,7 @@
         </div>
 
 
+        <!-- ### USERS ############################ -->
         <div class="row">
             <div class="col-lg-12">
 
@@ -72,17 +73,20 @@
                             <div class="sk-cube"></div>
                         </div>
 
-                        <p>
-                            Invite your whole team to join
-                        </p>
-                        <div class="input-group" [class.has-error]="!userEmail.valid">
-                            <input type="text" placeholder="Email address of the user you would like to add" class="input form-control"
-                                [(ngModel)]="inviteUserEmail" id="userEmail" name="userEmail" #userEmail="ngModel"
-                                required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$">
-                            <span class="input-group-btn">
-                                <button type="button" class="btn btn btn-primary" (click)="inviteUser()" [disabled]="!userEmail.valid">
-                                    <i class="fa fa-envelope"></i> Invite</button>
-                            </span>
+                        <!-- Invite user -->
+                        <div *ngIf="!organisation.CurrentPlan.CancelAtPeriodEnd">
+                            <p>
+                                Invite your whole team to join
+                            </p>
+                            <div class="input-group" [class.has-error]="!userEmail.valid">
+                                <input type="text" placeholder="Email address of the user you would like to add" class="input form-control"
+                                    [(ngModel)]="inviteUserEmail" id="userEmail" name="userEmail" #userEmail="ngModel"
+                                    required pattern="^[^@\s]+@[^@\s]+\.[^@\s]+$">
+                                <span class="input-group-btn">
+                                    <button type="button" class="btn btn btn-primary" (click)="inviteUser()" [disabled]="!userEmail.valid">
+                                        <i class="fa fa-envelope"></i> Invite</button>
+                                </span>
+                            </div>
                         </div>
 
                         <div class="table-responsive">
@@ -143,12 +147,7 @@
 
 
 
-
-
-
-
-
-
+        <!-- ### INVOICES ###################################### -->
         <div class="row">
             <div class="col-lg-12">
 
