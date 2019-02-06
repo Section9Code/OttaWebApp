@@ -4,21 +4,24 @@
             <h2 class="font-bold">Welcome to Otta</h2>
 
             <loadingSpinner [loading]="isLoading"></loadingSpinner>
-            
+
             <div [hidden]="signupComplete || isLoading">
 
                 <!-- STEP 1 - Organisation details -->
                 <div *ngIf="currentStep === 'step1'">
                     <p>
-                        Before you can get started there are a few more things we need from you so we can get you all set up.
+                        Before you can get started there are a few more things we need from you so we can get you all
+                        set up.
                     </p>
                     <h3>Organisation details</h3>
                     <form #orgForm="ngForm" (ngSubmit)="completeStep1()" class="form-horizontal">
                         <div class="form-group" [class.has-error]="!orgName.valid">
                             <label class="col-sm-2 control-label">Organisation</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="orgName" name="orgName" required [(ngModel)]="data.OrganisationName" #orgName="ngModel">
-                                <span class="help-block m-b-none">The name of your company or the organisation you work for.</span>
+                                <input type="text" class="form-control" id="orgName" name="orgName" required
+                                    [(ngModel)]="data.OrganisationName" #orgName="ngModel">
+                                <span class="help-block m-b-none">The name of your company or the organisation you work
+                                    for.</span>
                             </div>
                         </div>
 
@@ -39,31 +42,37 @@
                         <div class="form-group" [class.has-error]="!userName.valid">
                             <label class="col-sm-2 control-label">Your name</label>
                             <div class="col-sm-10">
-                                <input type="text" id="userName" name="userName" class="form-control" [(ngModel)]="data.Name" required #userName="ngModel">
+                                <input type="text" id="userName" name="userName" class="form-control" [(ngModel)]="data.Name"
+                                    required #userName="ngModel">
                             </div>
                         </div>
 
                         <div class="form-group" [class.has-error]="!userEmail.valid">
                             <label class="col-sm-2 control-label">Your email</label>
                             <div class="col-sm-10">
-                                <input type="text" class="form-control" id="userEmail" name="userEmail" [(ngModel)]="data.Email" required #userEmail="ngModel">
+                                <input type="text" class="form-control" id="userEmail" name="userEmail" [(ngModel)]="data.Email"
+                                    required #userEmail="ngModel">
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Keep me updated</label>
                             <div class="col-sm-10">
-                                <input type="checkbox" id="keepMeInformed" name="keepMeInformed" [(ngModel)]="data.MarketingOptIn" checked #keepMeInformed="ngModel">
-                                <span class="help-block m-b-none">Keep me up to date. We hate spam as much as you do, so we will never do it</span>
+                                <input type="checkbox" id="keepMeInformed" name="keepMeInformed" [(ngModel)]="data.MarketingOptIn"
+                                    checked #keepMeInformed="ngModel">
+                                <span class="help-block m-b-none">Keep me up to date. We hate spam as much as you do,
+                                    so we will never do it</span>
                             </div>
                         </div>
 
                         <div class="form-group">
                             <label class="col-sm-2 control-label">Terms and conditions</label>
                             <div class="col-sm-10">
-                                <input type="checkbox" id="AgreeToTerms" name="AgreeToTerms" [(ngModel)]="data.AgreeToTerms" required #AgreeToTerms="ngModel">
+                                <input type="checkbox" id="AgreeToTerms" name="AgreeToTerms" [(ngModel)]="data.AgreeToTerms"
+                                    required #AgreeToTerms="ngModel">
                                 <span class="help-block m-b-none">By checking this box I agree to Otta's
-                                    <a href="https://otta.io/TermsAndConditions.html" target="_new">Terms and Conditions</a>,
+                                    <a href="https://otta.io/TermsAndConditions.html" target="_new">Terms and
+                                        Conditions</a>,
                                     <a href="https://otta.io/PrivacyPolicy.html" target="_new">Privacy policy</a>, and
                                     <a href="https://otta.io/TermsOfService.html" target="_new">Terms of service</a>
                                 </span>
@@ -88,37 +97,46 @@
 
             <!-- Welcome message -->
             <div *ngIf="signupComplete">
-                <p>
-                    <strong>That's it, you are signed in with your free trial.</strong>
-                </p>
-                <h2>What if I need help</h2>
-                <p>
-                    If you get stuck there are a number of ways to get help:
-                </p>
+                <div class="row">
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <p>
+                            <strong>That's it, you are ready to go.</strong>
+                        </p>
+                        <h2>What if I need help</h2>
+                        <p>
+                            If you get stuck there are a number of ways to get help:
+                        </p>
 
-                <p>
-                    <strong>The guide button</strong><br>
-                    On the top of every page is the guide button, it will show you the key elements of the page and how they work
-                </p>
-                <p>
-                    <strong>Online documentation</strong><br>
-                    Go to <a href="https://docs.otta.io" target="_new">docs.otta.io</a> and you can look through our comprehensive online guide.
-                </p>
-                <p>
-                    <strong>Support request</strong><br>
-                    If you are really stuck you can click support on the main menu and raise a support request.
-                </p>
-                <p>
-                    <br/>
-                    <br/>
-                    <br/>
-                    <br/>
-                </p>
-                <p>
-                    <a type="button" class="btn btn-primary btn-block" (click)="next()">Let me get started</a>
-                    <!-- <br/>
-                    <a type="button" class="btn btn-default btn-block" (click)="skip()">Skip.. Let me find my own way</a> -->
-                </p>
+                        <p>
+                            <strong>The guide button</strong><br>
+                            On the top of every page is the guide button, it will show you the key elements of the page
+                            and how they work
+                        </p>
+                        <p>
+                            <strong>Online documentation</strong><br>
+                            Go to <a href="https://docs.otta.io" target="_new">docs.otta.io</a> and you can look
+                            through our comprehensive online guide.
+                        </p>
+                        <p>
+                            <strong>Support request</strong><br>
+                            If you are really stuck you can click support on the main menu and raise a support request.
+                        </p>
+                    </div>
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6">
+                        <div class="embed-responsive embed-responsive-16by9">
+                            <iframe class="embed-responsive-item" src="https://www.youtube.com/embed/zBfEDZlw2TM"
+                                frameborder="0" allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen></iframe>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <p>
+                        <a type="button" class="btn btn-primary btn-block" (click)="next()">Let me get started</a>
+                    </p>
+                </div>
+
             </div>
         </div>
     </div>
