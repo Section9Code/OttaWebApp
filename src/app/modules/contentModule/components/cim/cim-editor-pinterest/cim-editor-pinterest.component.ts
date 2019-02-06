@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { CimEditorCommon } from '../cim-editor-common';
 import { ICimEditorCommon } from '../ICimEditorCommon';
 import { IntegrationTypes, PinterestProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
-import { Validators } from '@angular/forms';
+import { Validators, AbstractControl } from '@angular/forms';
+import { SubSuggestComponent } from '../sub-suggest/sub-suggest.component';
 
 @Component({
   selector: 'app-cim-editor-pinterest',
@@ -12,7 +13,10 @@ import { Validators } from '@angular/forms';
 export class CimEditorPinterestComponent extends CimEditorCommon implements ICimEditorCommon {
   @Input() pinterestIntegration = new PinterestProjectIntegrationModel();
 
-  constructor() { 
+  @ViewChild('MessageSuggest') messageSuggest: SubSuggestComponent;
+  @ViewChild('LinkSuggest') linkSuggest: SubSuggestComponent;
+
+  constructor() {
     super();
     this.messageType = IntegrationTypes.Pinterest;
     this.settingsEditorHasImagePicker = true;
@@ -22,5 +26,14 @@ export class CimEditorPinterestComponent extends CimEditorCommon implements ICim
     this.editorForm.get('imageUrl').setValidators(Validators.required);
     this.editorForm.get('section').setValidators(Validators.required);
   }
+
+  suggestionKeypress(event: KeyboardEvent, control: SubSuggestComponent) {
+    control.keyPress(event);
+  }
+
+  suggestionUpdate(text: string, control: AbstractControl) {
+    control.patchValue(text);
+  }
+
 
 }

@@ -1,8 +1,9 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { CimEditorCommon } from '../cim-editor-common';
 import { ICimEditorCommon } from '../ICimEditorCommon';
 import { IntegrationTypes } from 'services/ContentProjectIntegration.service';
-import { FormControl } from '@angular/forms';
+import { FormControl, AbstractControl } from '@angular/forms';
+import { SubSuggestComponent } from '../sub-suggest/sub-suggest.component';
 
 @Component({
   selector: 'app-cim-editor-medium',
@@ -11,6 +12,9 @@ import { FormControl } from '@angular/forms';
 })
 export class CimEditorMediumComponent extends CimEditorCommon implements ICimEditorCommon {
   @Input() tags: string[] = [];
+
+  @ViewChild('MessageSuggest') messageSuggest: SubSuggestComponent;
+  @ViewChild('ContentSuggest') contentSuggest: SubSuggestComponent;
 
   constructor() {
     super();
@@ -28,6 +32,7 @@ export class CimEditorMediumComponent extends CimEditorCommon implements ICimEdi
     super.reset();
     this.editorForm.get('message').patchValue('This post was originally posted on {link}');
     this.editorForm.get('showAllContent').patchValue(true);
+    this.editorForm.get('excerptParagraphs').patchValue(1);
   }
 
   // Create the object to hold the additional data
@@ -47,6 +52,14 @@ export class CimEditorMediumComponent extends CimEditorCommon implements ICimEdi
     this.editorForm.get('excerptParagraphs').patchValue(additionalData.excerptParagraphs);
     this.editorForm.get('postContent').patchValue(additionalData.footer);
     this.editorForm.get('tags').patchValue(additionalData.tags);
+  }
+
+  suggestionKeypress(event: KeyboardEvent, control: SubSuggestComponent) {
+    control.keyPress(event);
+  }
+
+  suggestionUpdate(text: string, control: AbstractControl) {
+    control.patchValue(text);
   }
 
 }

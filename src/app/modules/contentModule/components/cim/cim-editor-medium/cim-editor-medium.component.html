@@ -4,7 +4,9 @@
   <div class="form-group" [class.has-error]="editorForm.controls.message.invalid">
     <label class="col-sm-2 control-label">Pre-Content</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" formControlName="message">
+      <input type="text" class="form-control" formControlName="message" (keydown)="suggestionKeypress($event, messageSuggest)">
+      <app-sub-suggest #MessageSuggest [text]="editorForm.controls.message.value" [substitutions]="substitutions"
+        (updateText)="suggestionUpdate($event, editorForm.controls.message)"></app-sub-suggest>
       <span class="help-block m-b-none">
         This is the message you want to show on Medium before your post content
       </span>
@@ -37,7 +39,9 @@
   <div class="form-group" [class.has-error]="editorForm.controls.postContent.invalid">
     <label class="col-sm-2 control-label">Post-Content</label>
     <div class="col-sm-10">
-      <input type="text" class="form-control" formControlName="postContent">
+      <input type="text" class="form-control" formControlName="postContent" (keydown)="suggestionKeypress($event, contentSuggest)">
+      <app-sub-suggest #ContentSuggest [text]="editorForm.controls.postContent.value" [substitutions]="substitutions"
+        (updateText)="suggestionUpdate($event, editorForm.controls.postContent)"></app-sub-suggest>
       <span class="help-block m-b-none">
         The message you want to show after your content on Medium
       </span>
