@@ -1,9 +1,10 @@
-import { Component, OnInit, Input } from '@angular/core';
+import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { CimEditorCommon } from '../cim-editor-common';
 import { ICimEditorCommon } from '../ICimEditorCommon';
 import { IntegrationTypes, FacebookProjectIntegrationModel } from 'services/ContentProjectIntegration.service';
 import { ContentItemMessageModel } from 'services/content-item.service';
-import { Validators } from '@angular/forms';
+import { Validators, AbstractControl } from '@angular/forms';
+import { SubSuggestComponent } from '../sub-suggest/sub-suggest.component';
 
 @Component({
   selector: 'app-cim-editor-facebook',
@@ -19,6 +20,9 @@ export class CimEditorFacebookComponent extends CimEditorCommon implements ICimE
 
   // Settings
   settingsEditorHasImagePicker = false;
+
+  @ViewChild('MessageSuggest') messageSuggest: SubSuggestComponent;
+  @ViewChild('LinkSuggest') linkSuggest: SubSuggestComponent;
 
   constructor() {
     super();
@@ -53,4 +57,13 @@ export class CimEditorFacebookComponent extends CimEditorCommon implements ICimE
       }));
     }
   }
+
+  suggestionKeypress(event: KeyboardEvent, control: SubSuggestComponent) {
+    control.keyPress(event);
+  }
+
+  suggestionUpdate(text: string, control: AbstractControl) {
+    control.patchValue(text);
+  }
+
 }
