@@ -1,0 +1,9 @@
+<div *ngIf="showSuggestions" class="suggestionList">
+
+  <div *ngFor="let item of subsToShow">
+    <div class="suggestionItem" [ngClass]="{'suggestionItemActive': item.name === currentlySelected}">
+        {{ item.name }}
+    </div>
+  </div>
+
+</div>

@@ -1,0 +1,15 @@
+.suggestionList {
+    margin: 0px;
+    padding: 0px;
+    border: 1px solid #eee;
+}
+
+.suggestionItem {
+    margin: 3px;
+    background-color: #eee;
+}
+
+.suggestionItemActive {
+    color: white;
+    background-color: #0e9aef;
+}

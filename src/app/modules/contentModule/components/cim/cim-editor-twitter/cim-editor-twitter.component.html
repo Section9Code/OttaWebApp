@@ -5,11 +5,12 @@
     <label class="col-sm-2 control-label">Message</label>
     <div class="col-sm-10">
       <div class="input-group m-b">
-        <input type="text" class="form-control" formControlName="message" (keyup)="updateCharacterCounter()">
+        <input type="text" class="form-control" formControlName="message" (keydown)="suggestionKeypress($event)" (keyup)="updateCharacterCounter();">
         <span class="input-group-addon">{{ charactersRemaining }}</span>
       </div>
+      <app-sub-suggest #MessageSuggest [text]="editorForm.controls.message.value" [substitutions]="substitutions" (updateText)="suggestionUpdate($event)"></app-sub-suggest>
       <span class="help-block m-b-none">
-        The message you want on your tweet
+        The message you want on your tweet.
       </span>
     </div>
   </div>

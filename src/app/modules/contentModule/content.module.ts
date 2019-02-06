@@ -71,6 +71,7 @@ import { ContentPersonaFormComponent } from './components/content-persona-form/c
 import { PersonaCreateComponent } from '../personaModule/persona-create/persona-create.component';
 import { ProjectPersonaService } from './services/project-persona.service';
 import { ContentProjectPersonsaEditLayoutComponent } from './content-project-personsa-edit-layout/content-project-personsa-edit-layout.component';
+import { SubSuggestComponent } from './components/cim/sub-suggest/sub-suggest.component';
 
 
 // Routes for this module to be added to the application
@@ -168,7 +169,8 @@ const routes: Routes = [
         ContentProjectPersonsaLayoutComponent,
         ContentProjectPersonsaCreateLayoutComponent,
         ContentPersonaFormComponent,
-        ContentProjectPersonsaEditLayoutComponent
+        ContentProjectPersonsaEditLayoutComponent,
+        SubSuggestComponent
     ],
     providers: [
         MixpanelService,
