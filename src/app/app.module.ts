@@ -47,6 +47,7 @@ import { ImagesService } from 'services/images.service';
 import { SideInfoService } from 'services/side-info.service';
 import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 import { RequeueService } from 'services/requeue.service';
+import { AnalyticsService } from 'services/analytics.service';
 
 
 const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
@@ -95,6 +96,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     AuthenticatedGuard,
     OrganisationAdminGuard,
     MixpanelService,
+    AnalyticsService,
     SweetAlertService,
     TourService,
     SideInfoService,

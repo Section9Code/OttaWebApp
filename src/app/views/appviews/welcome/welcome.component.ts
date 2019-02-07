@@ -5,6 +5,7 @@ import { MixpanelService, MixpanelEvent } from "services/mixpanel.service";
 import { AuthService } from 'services/auth.service';
 import { WelcomeModel, WelcomeService } from 'services/welcome.service';
 import { Subscription } from 'rxjs/Subscription';
+import { AnalyticsService } from 'services/analytics.service';
 
 @Component({
     moduleId: module.id,
@@ -24,11 +25,12 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     constructor(
         private mixpanel: MixpanelService,
         private router: Router,
-        private authService: AuthService,
-        private welcomeService: WelcomeService) { }
+        private welcomeService: WelcomeService,
+        private analytics: AnalyticsService) { }
 
     ngOnInit(): void {
         this.mixpanel.Track(MixpanelEvent.Welcome);
+        this.analytics.Event_NewUser();
         this.data = new WelcomeModel;
         this.signupComplete = false;
         this.currentStep = 'step1';

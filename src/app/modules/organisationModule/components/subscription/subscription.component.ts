@@ -7,6 +7,7 @@ import { MixpanelService, MixpanelEvent } from 'services/mixpanel.service';
 import { environment } from 'environments/environment';
 import { ContentProjectService } from 'services/content-project.service';
 import { RequeueService } from 'services/requeue.service';
+import { AnalyticsService } from 'services/analytics.service';
 
 declare var $: any;
 
@@ -37,6 +38,7 @@ export class SubscriptionComponent implements OnInit {
     private toast: ToastsManager,
     private alertService: SweetAlertService,
     private tracking: MixpanelService,
+    private analytics: AnalyticsService,
     private projectService: ContentProjectService,
     private requeueService: RequeueService
   ) {
@@ -222,6 +224,7 @@ export class SubscriptionComponent implements OnInit {
   // The user has updated their subscription
   subscriptionPaid(token: string) {
     this.tracking.Track(MixpanelEvent.Update_subscription);
+    this.analytics.Event_PaidForSubscription(this.amountToCharge);
     this.isLoading = true;
 
     let subscriptionUpdate = new PaymentInfo();

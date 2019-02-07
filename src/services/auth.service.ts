@@ -8,6 +8,7 @@ import { FlowService } from "services/security/flow.service";
 import { MixpanelService } from "services/mixpanel.service";
 import { JoinData } from 'app/views/appviews/join/join.component';
 import { UserDataService } from 'services/user-data.service';
+import { AnalyticsService } from './analytics.service';
 
 
 // Services for interacting with Auth0
@@ -28,7 +29,7 @@ export class AuthService {
   // The current users profile information
   public userProfile: Auth0Profile;
 
-  constructor(public router: Router, private flowSvc: FlowService, private mixpanel: MixpanelService) { }
+  constructor(public router: Router, private flowSvc: FlowService, private mixpanel: MixpanelService, private analytics: AnalyticsService) { }
 
   // Log into the system
   public login(): void {
@@ -51,6 +52,7 @@ export class AuthService {
         // Load the users profile into the tracking system
         this.getProfile(() => {
           this.mixpanel.TrackProfile(this.userProfile);
+          this.analytics.AssignUser(this.userProfile.sub)
         });
 
         // User flow control to decide where to send the user next now they have logged in
