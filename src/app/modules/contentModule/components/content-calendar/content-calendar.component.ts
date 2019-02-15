@@ -138,6 +138,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
 
           newEvent.isContent = true;
           newEvent.isEvent = false;
+          newEvent.isMessage = false;
 
           // Push the event to the list
           this.currentEvents.push(newEvent);
@@ -162,6 +163,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
         projectEvent.isContent = false;
         projectEvent.isEvent = true;
         projectEvent.isRequeue = false;
+        projectEvent.isMessage = false;
         projectEvent.startEditable = false;
         projectEvent.durationEditable = false;
 
@@ -189,6 +191,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
         projectEvent.isContent = false;
         projectEvent.isEvent = true;
         projectEvent.isRequeue = false;
+        projectEvent.isMessage = false;
         projectEvent.startEditable = false;
         projectEvent.durationEditable = false;
 
@@ -217,6 +220,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
         slot.isContent = false;
         slot.isEvent = false;
         slot.isRequeue = true;
+        slot.isMessage = false;
 
         this.currentEvents.push(slot);
       });
@@ -234,9 +238,12 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
         msg.borderColor = '#cccccc';
         msg.title = `${item.Message}`;
         msg.icon = this.calendarIcon(item.IntegrationType);
-        msg.isContent = true;
+        msg.startEditable = false;
+        msg.durationEditable = false;
+        msg.isContent = false;
         msg.isEvent = false;
-        msg.isRequeue = true;
+        msg.isRequeue = false;
+        msg.isMessage = true;
 
         this.currentEvents.push(msg);
       });
@@ -294,7 +301,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
 
     // Get the clicked item
     const eventData = this.currentEvents.find(e => e.id === event.id);
-    if (eventData.isContent) {
+    if (eventData.isContent || eventData.isMessage) {
       // Navigate to the draft page
       this.router.navigateByUrl(`/content/${this.currentProject.id}/items/${eventData.id}`);
     }
@@ -382,4 +389,5 @@ export class CalendarEvent {
   isContent: boolean;
   isEvent: boolean;
   isRequeue: boolean;
+  isMessage: boolean;
 }
