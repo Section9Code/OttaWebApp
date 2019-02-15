@@ -10,4 +10,5 @@ export class ContentProjectCalendarLayoutComponent {
     showRequeues = true;
     showContent = true;
     showEvents = true;
+    showMessages = true;
 }

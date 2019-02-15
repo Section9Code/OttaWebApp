@@ -9,7 +9,7 @@ import { Observer } from 'rxjs/Observer';
 import { ISubscription, Subscription } from 'rxjs/Subscription';
 import { Subscriber } from 'rxjs/Subscriber';
 import { Router } from '@angular/router';
-import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
+import { ContentProjectIntegrationService, IntegrationTypes } from 'services/ContentProjectIntegration.service';
 
 declare var jQuery: any;
 
@@ -24,6 +24,7 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
   @Input() showContentItems = true;
   @Input() showEvents = true;
   @Input() showRequeues = true;
+  @Input() showMessages = true;
 
   currentProject: ContentProjectModel;              // The project we are currently showing
   isLoading = false;                                // Is data being loaded
@@ -221,6 +222,50 @@ export class ContentCalendarComponent implements OnInit, OnDestroy, OnChanges {
       });
     }
 
+    if (this.showMessages) {
+      items.SocialMessages.forEach(item => {
+        var msg = new CalendarEvent();
+        msg.id = item.ContentItemId;
+        msg.start = moment(item.PartitionKey, "YYYYMMDDHHmm");
+        msg.end = moment(item.PartitionKey, "YYYYMMDDHHmm");
+        msg.allDay = false;
+        msg.color = 'white';
+        msg.textColor = 'black';
+        msg.borderColor = '#cccccc';
+        msg.title = `${item.Message}`;
+        msg.icon = this.calendarIcon(item.IntegrationType);
+        msg.isContent = true;
+        msg.isEvent = false;
+        msg.isRequeue = true;
+
+        this.currentEvents.push(msg);
+      });
+    }
+
+  }
+
+  private calendarIcon(messageType: IntegrationTypes): string {
+    switch (messageType) {
+      case IntegrationTypes.Twitter:
+        return 'twitter';
+      case IntegrationTypes.Facebook:
+      case IntegrationTypes.FacebookGroup:
+        return 'facebook';
+      case IntegrationTypes.Google:
+        return 'google';
+      case IntegrationTypes.Instagram:
+        return 'instagram';
+      case IntegrationTypes.LinkedIn:
+        return 'linkedin';
+      case IntegrationTypes.Medium:
+        return 'medium';
+      case IntegrationTypes.Pinterest:
+        return 'pinterest';
+      case IntegrationTypes.Wordpress:
+        return 'wordpress';
+      default:
+        return 'envelope';
+    }
   }
 
   // Calendar events ----------------------------------------

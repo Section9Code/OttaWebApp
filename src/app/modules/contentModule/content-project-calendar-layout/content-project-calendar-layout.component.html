@@ -7,8 +7,9 @@
                 <button id="calendar_show_options_content" class="btn" [ngClass]="{'btn-success': showContent}" type="button" (click)="showContent = !showContent">Content items</button>                
                 <button id="calendar_show_options_events" class="btn" [ngClass]="{'btn-success': showEvents}" type="button" (click)="showEvents = !showEvents">Events</button>
                 <button id="calendar_show_options_requeues" class="btn" [ngClass]="{'btn-success': showRequeues}" type="button" (click)="showRequeues = !showRequeues">Requeues</button>
+                <button id="calendar_show_options_messages" class="btn" [ngClass]="{'btn-success': showMessages}" type="button" (click)="showMessages = !showMessages">Social messages</button>
             </div>
-            <content-calendar [showRequeues]="showRequeues" [showContentItems]="showContent" [showEvents]="showEvents"></content-calendar>
+            <content-calendar [showRequeues]="showRequeues" [showContentItems]="showContent" [showEvents]="showEvents" [showMessages]="showMessages"></content-calendar>
         </otta-panel>
     </div>
 

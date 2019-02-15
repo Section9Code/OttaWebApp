@@ -113,6 +113,7 @@ export class CalendarDataModel {
   PublicEventGroups: EventGroupModel[];
   ProjectEventGroups: EventGroupModel[];
   RequeueTimeslots: TimeslotDate[];
+  SocialMessages: ContentItemMessageEntityModel[];
 }
 
 export class TimeslotDate {
@@ -159,6 +160,25 @@ export class ContentItemMessageModel {
   // Related ContentItemMessage link
   LinkedItemPartition: string;
   LinkedItemRowKey: string;
+}
+
+export class ContentItemMessageEntityModel {
+  PartitionKey: string;
+  RowKey: string;
+  IntegrationType: number;
+  OrganisationId: string;
+  ProjectId: string;
+  ContentItemId: string;
+  Title: string;
+  Message: string;
+  ImageUrl: string;
+  Sent: Date;
+  ErrorMessage: string;
+  LinkUrl: string;
+  RemoteSystemSectionId: string;
+  AdditionalData: string;
+  Requeue: boolean;
+  RequeueId: string;
 }
 
 export enum ContentItemMessageRelativeUnitModel {
