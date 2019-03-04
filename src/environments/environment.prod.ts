@@ -19,7 +19,7 @@ export const environment = {
     facebookEnabled: true,
     linkedInEnabled: true,
     pinterestEnabled: false,
-    mediumEnabled: true
+    mediumEnabled: false
   },
   version: 'v1.3.0',
   default_MaxRequeues: 3,
