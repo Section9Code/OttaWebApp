@@ -5,7 +5,6 @@ import { MixpanelService } from 'services/mixpanel.service';
 import { SweetAlertService } from 'ng2-sweetalert2';
 import { ContentProjectModel } from 'services/content-project.service';
 import { ContentProjectShareService } from '../../services/ContentProjectShareService';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { environment } from 'environments/environment';
 
 declare var $: any;
@@ -62,8 +61,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     private integrationService: ContentProjectIntegrationService,
     private toast: ToastsManager,
     private tracking: MixpanelService,
-    private alertSvc: SweetAlertService,
-    private cookieSvc: CookieService
+    private alertSvc: SweetAlertService
   ) { }
 
   ngOnInit(): void {
@@ -112,8 +110,8 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.isConnectingToFacebook = true;
     this.integrationService.facebookGetLogin(this.project.id).toPromise()
       .then(response => {
-        // Set the Facebook OAuth Cookies
-        this.cookieSvc.put('oAuthState', response.state);
+        // Set the Facebook OAuth localStorage data
+        localStorage.setItem('oAuthState', response.state);
         this.facebookOAuthFromUrl = response.url;
         const myWindow = window.open(this.facebookOAuthFromUrl, 'facebookAuth', 'width=1000,height=800');
 
@@ -144,7 +142,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.isConnectingToLinkedIn = true;
     this.integrationService.linkedInGetLogin(this.project.id).toPromise()
       .then(response => {
-        this.cookieSvc.put('oAuthState', response.state);
+        localStorage.setItem('oAuthState', response.state);
         this.linkedInOAuthFromUrl = response.url;
         const myWindow = window.open(this.linkedInOAuthFromUrl, 'oAuth', 'width=1000,height=800');
 
@@ -175,7 +173,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.isConnectingToLinkedIn = true;
     this.integrationService.googleGetLogin(this.project.id).toPromise()
       .then(response => {
-        this.cookieSvc.put('oAuthState', response.state);
+        localStorage.setItem('oAuthState', response.state);
         this.googleOAuthFormUrl = response.url;
         const myWindow = window.open(this.googleOAuthFormUrl, 'oAuth', 'width=1000,height=800');
 
@@ -206,7 +204,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.isConnectingToPinterest = true;
     this.integrationService.pinterestGetLogin(this.project.id).toPromise()
       .then(response => {
-        this.cookieSvc.put('oAuthState', response.state);
+        localStorage.setItem('oAuthState', response.state);
         this.pinterestOAuthUrl = response.url;
         const myWindow = window.open(this.pinterestOAuthUrl, 'pinterest', 'width=1000,height=800');
 
@@ -237,7 +235,7 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
     this.isConnectingToMedium = true;
     this.integrationService.mediumGetLogin(this.project.id).toPromise()
       .then(response => {
-        this.cookieSvc.put('oAuthState', response.state);
+        localStorage.setItem('oAuthState', response.state);
         this.mediumOAuthUrl = response.url;
         const myWindow = window.open(this.mediumOAuthUrl, 'medium', 'width=1000,height=800');
 

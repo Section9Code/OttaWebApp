@@ -1,21 +1,19 @@
-import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { HttpModule, Http, RequestOptions } from '@angular/http';
-import { RouterModule } from "@angular/router";
-import { LocationStrategy, HashLocationStrategy } from '@angular/common';
+import { RouterModule } from '@angular/router';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 
-import { ROUTES } from "./app.routes";
+import { ROUTES } from './app.routes';
 import { AppComponent } from './app.component';
 
 // App views
-import { AppviewsModule } from "./views/appviews/appviews.module";
+import { AppviewsModule } from './views/appviews/appviews.module';
 
 // App modules/components
-import { LayoutsModule } from "./components/common/layouts/layouts.module";
-import { AuthService, authHttpServiceFactory } from "services/auth.service";
-import { AuthHttp } from "angular2-jwt/angular2-jwt";
+import { LayoutsModule } from './components/common/layouts/layouts.module';
+import { AuthService, authHttpServiceFactory } from 'services/auth.service';
+import { AuthHttp } from 'angular2-jwt/angular2-jwt';
 import { AuthenticatedGuard, OrganisationAdminGuard } from 'services/security/auth-guard.service';
 import { WidgetsModule } from 'app/components/widgets/widgets.module';
 import { SuggestionsService } from 'services/suggestions.service';
@@ -41,7 +39,6 @@ import { TourService } from 'services/tour.service';
 import { environment } from 'environments/environment';
 import { AgendaService } from 'services/agenda.service';
 import { CouponService } from 'services/coupon.service';
-import { CookieService, CookieOptions } from 'angular2-cookie/core';
 import { ContentProjectService } from 'services/content-project.service';
 import { ImagesService } from 'services/images.service';
 import { SideInfoService } from 'services/side-info.service';
@@ -102,8 +99,6 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     SideInfoService,
     AgendaService,
     CouponService,
-    CookieService,
-    { provide: CookieOptions, useValue: {} },
     ImagesService,
     ContentProjectIntegrationService,
 

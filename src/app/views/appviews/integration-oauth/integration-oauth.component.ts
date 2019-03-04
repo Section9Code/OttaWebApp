@@ -1,5 +1,4 @@
 import { Component, OnInit } from '@angular/core';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
 import { ContentProjectIntegrationService } from 'services/ContentProjectIntegration.service';
 import { ActivatedRoute, Params } from '@angular/router';
 
@@ -13,12 +12,11 @@ export class IntegrationOauthComponent implements OnInit {
   message: string;
 
   constructor(
-    private cookieSvc: CookieService,
     private activatedRoute: ActivatedRoute,
     private integrationService: ContentProjectIntegrationService) { }
 
   ngOnInit() {
-    const state = this.cookieSvc.get('oAuthState');
+    const state = localStorage.getItem('oAuthState');
     console.log('[INT] Completing integration', state);
 
     this.activatedRoute.queryParams.subscribe(response => {
