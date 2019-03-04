@@ -5,7 +5,6 @@ import 'rxjs/add/operator/catch';
 import 'rxjs/add/operator/map';
 
 import { environment } from "environments/environment";
-import { Http } from "@angular/http";
 import { JoinData } from 'app/views/appviews/join/join.component';
 
 // Flow control functions for a user
@@ -16,14 +15,13 @@ export class FlowService {
   constructor(private authHttp: AuthHttp) { }
 
   // Called when the user logs in and they don't have any joining data associated
-  public loginCheck(joinData: JoinData):Observable<FlowControlModel> {
+  public loginCheck(joinData: JoinData): Observable<FlowControlModel> {
     return this.authHttp.post(this.url + '/loginCheck', joinData).map(response => response.json());
   }
 
 }
 
-export class FlowControlModel
-{
+export class FlowControlModel {
   NextPage: string;
   ShowCreatorOptions: boolean;
   ShowOrganisationOptions: boolean;

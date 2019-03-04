@@ -154,13 +154,13 @@ export class ContentItemMessagesComponent implements OnInit, OnDestroy {
   }
 
   // A twitter message has been added, hide the the form and redraw the list
-  addedTwitterMessage(message: ContentItemMessageModel) {
+  addedTwitterMessage() {
     this.twitterModal('hide');
     this.redrawMessageList();
   }
 
   // A facebook message has been added
-  addedFacebookMessage(message: ContentItemMessageModel) {
+  addedFacebookMessage() {
     this.facebookModal('hide');
     this.redrawMessageList();
   }

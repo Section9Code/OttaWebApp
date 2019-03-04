@@ -23,16 +23,16 @@ export class RequeueTimeslotsComponent implements OnInit, OnChanges {
   @Output() onRemoveTimeslot = new EventEmitter<string>();          // Called when a timeslot should be removed
 
   // Variables
-  private hours = [];                                 // The list of hours we are we going to show
-  private timeslotForm: FormGroup;                    // The form group holding the 'Add a timeslot' form
-  private formHours = [];                             // The array of hours to show on a form
-  private formMinutes = [];                           // The array of minuites to show on a form
-  private displayData = new TimeslotDisplayData();    // The object holding all the data to be displayed on the page
+  hours = [];                                 // The list of hours we are we going to show
+  timeslotForm: FormGroup;                    // The form group holding the 'Add a timeslot' form
+  formHours = [];                             // The array of hours to show on a form
+  formMinutes = [];                           // The array of minuites to show on a form
+  displayData = new TimeslotDisplayData();    // The object holding all the data to be displayed on the page
 
   // For the edit form
-  private timeslotsToEdit: TimeslotDisplayItem[] = [];  // The list of timeslots to be edited
-  private editDay: number;                              // The day being edited
-  private editHour: number;                             // The hour being edited
+  timeslotsToEdit: TimeslotDisplayItem[] = [];  // The list of timeslots to be edited
+  editDay: number;                              // The day being edited
+  editHour: number;                             // The hour being edited
 
   constructor(private router: Router, private activatedRoute: ActivatedRoute) {
     // Setup the form

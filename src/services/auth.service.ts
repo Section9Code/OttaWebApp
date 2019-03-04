@@ -15,15 +15,12 @@ import { AnalyticsService } from './analytics.service';
 @Injectable()
 export class AuthService {
 
-  // Configuration for Auth0
-  auth0 = new auth0.WebAuth({
+  private authObject = new auth0.WebAuth({
     clientID: environment.authConfig.clientId,
     domain: environment.authConfig.domain,
     responseType: 'token id_token',
-    audience: environment.authConfig.audience,
     redirectUri: environment.authConfig.redirectUri,
-    scope: environment.authConfig.scopes,
-    leeway: 30
+    scope: 'openid name email profile'
   });
 
   // The current users profile information
@@ -33,18 +30,19 @@ export class AuthService {
 
   // Log into the system
   public login(): void {
-    this.auth0.authorize({ mode: 'login' });
+    this.authObject.authorize({ mode: 'login' });
   }
 
   public signup(): void {
-    this.auth0.authorize({ mode: 'signUp' });
+    this.authObject.authorize({ mode: 'signUp' });
   }
 
   // Call back for when a user is authenticated
   public handleAuthentication(): void {
-    this.auth0.parseHash((err, authResult) => {
+    this.authObject.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-
+        console.log('[AUTH] Logged in:', authResult.idToken);
+        
         // User has logged in
         window.location.hash = '';
         this.setSession(authResult);
@@ -52,7 +50,7 @@ export class AuthService {
         // Load the users profile into the tracking system
         this.getProfile(() => {
           this.mixpanel.TrackProfile(this.userProfile);
-          this.analytics.AssignUser(this.userProfile.sub)
+          this.analytics.AssignUser(this.userProfile.sub);
         });
 
         // User flow control to decide where to send the user next now they have logged in
@@ -133,7 +131,7 @@ export class AuthService {
     }
 
     const self = this;
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
+    this.authObject.client.userInfo(accessToken, (err, profile) => {
       if (profile) {
         // Store some useful user information
         localStorage.setItem("AuthId", profile.sub);
@@ -148,7 +146,7 @@ export class AuthService {
 // This sets the JWT tokens correctly when a call is made to an outside service
 export function authHttpServiceFactory(http: Http, options: RequestOptions) {
   return new AuthHttp(new AuthConfig({
-    tokenGetter: (() => localStorage.getItem('access_token'))
+    tokenGetter: (() => localStorage.getItem('id_token'))
   }), http, options);
 }
 

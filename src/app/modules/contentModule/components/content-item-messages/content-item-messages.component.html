@@ -104,12 +104,22 @@
 </div>
 
 <!-- Twitter modal form for adding new messages -->
-<otta-modal [modalId]="'addTwitterMessageModal'" [title]="'Add twitter message'" [heading]="'Add a new twitter message to this item'"
-  [icon]="'fa-twitter'">
+<otta-modal 
+[modalId]="'addTwitterMessageModal'" 
+[title]="'Add twitter message'"
+[icon]="'fa-twitter'"
+[heading]="'Add a new twitter message to this item'" 
+[showFooter]="false"
+[footerButtonText]="''">
   <otta-content-item-message-twitter-form #twitterMessageComponent [contentItem]="data" [images]="images" (messageAdded)="addedTwitterMessage()"></otta-content-item-message-twitter-form>
 </otta-modal>
 
-<otta-modal [modalId]="'facebookModal'" [title]="'Add Facebook message'" [heading]="'Add a new Facebook post to this item'"
-  [icon]="'fa-facebook'">
+<otta-modal 
+[modalId]="'facebookModal'" 
+[title]="'Add Facebook message'" 
+[icon]="'fa-facebook'"
+[heading]="'Add a new Facebook post to this item'"
+[showFooter]="false" 
+[footerButtonText]="''">
   <app-content-item-message-facebook-form #facebookMessageComponent [contentItem]="data" [images]="images" (messageAdded)="addedFacebookMessage()"></app-content-item-message-facebook-form>
 </otta-modal>

@@ -9,8 +9,6 @@ export const environment = {
   authConfig: {
     clientId: 'pKXL3IeC4maYk6h4Zwvl97LspRen7PA5',
     domain: 'otta.eu.auth0.com',
-    callbackURL: 'https://app.otta.io/callback',
-    audience: 'OttaTestApi',
     redirectUri: 'https://app.otta.io/callback',
     scopes: 'openid name email profile'
   },

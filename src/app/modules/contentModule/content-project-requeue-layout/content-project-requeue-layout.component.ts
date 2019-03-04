@@ -18,14 +18,14 @@ declare var $: any;
   styleUrls: ['./content-project-requeue-layout.component.css']
 })
 export class ContentProjectRequeueLayoutComponent implements OnInit, OnDestroy {
-  private fullRequeues: RequeueModel[] = [];
-  private queues: RequeueReducedModel[] = [];
+  fullRequeues: RequeueModel[] = [];
+  queues: RequeueReducedModel[] = [];
 
   // Flags
   isCreating = false;
   isLoadingQueues = false;
 
-  private createForm: FormGroup;
+  createForm: FormGroup;
 
   subSharedQueues: Subscription;
   subFullRequeues: Subscription;
