@@ -9,9 +9,7 @@ export const environment = {
   authConfig: {
     clientId: 'pKXL3IeC4maYk6h4Zwvl97LspRen7PA5',
     domain: 'otta.eu.auth0.com',
-    callbackURL: 'https://dev.otta.io/callback',
-    audience: 'OttaTestApi',
-    redirectUri: 'https://dev.otta.io/callback',
+    redirectUri: 'http://localhost:4200/callback',
     scopes: 'openid name email profile'
   },
   baseApiUrl: 'https://ottdevapi.azurewebsites.net',

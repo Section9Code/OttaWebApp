@@ -41,7 +41,7 @@ import { TourService } from 'services/tour.service';
 import { environment } from 'environments/environment';
 import { AgendaService } from 'services/agenda.service';
 import { CouponService } from 'services/coupon.service';
-import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { CookieService, CookieOptions } from 'angular2-cookie/core';
 import { ContentProjectService } from 'services/content-project.service';
 import { ImagesService } from 'services/images.service';
 import { SideInfoService } from 'services/side-info.service';
@@ -103,6 +103,7 @@ const DEFAULT_DROPZONE_CONFIG: DropzoneConfigInterface = {
     AgendaService,
     CouponService,
     CookieService,
+    { provide: CookieOptions, useValue: {} },
     ImagesService,
     ContentProjectIntegrationService,
 

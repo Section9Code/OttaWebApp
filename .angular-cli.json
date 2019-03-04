@@ -28,6 +28,7 @@
         "../node_modules/bootstrap-tour/build/css/bootstrap-tour.min.css",
         "../node_modules/eonasdan-bootstrap-datetimepicker/build/css/bootstrap-datetimepicker.min.css",
         "../node_modules/image-picker/image-picker/image-picker.css",
+        "./assets/styles/quill-theme.css",
         "styles.scss"
       ],
       "scripts": [

@@ -41,8 +41,6 @@ export class AuthService {
   public handleAuthentication(): void {
     this.authObject.parseHash((err, authResult) => {
       if (authResult && authResult.accessToken && authResult.idToken) {
-        console.log('[AUTH] Logged in:', authResult.idToken);
-        
         // User has logged in
         window.location.hash = '';
         this.setSession(authResult);

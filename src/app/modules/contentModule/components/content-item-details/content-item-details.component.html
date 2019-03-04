@@ -2,6 +2,7 @@
 <form method="get" class="form-horizontal" #contentItemForm="ngForm">
     <!-- Quick add form -->
     <div *ngIf="minimalForm">
+        <!-- Title -->
         <div class="form-group" [class.has-error]="!title.valid">
             <label class="col-xs-12">Title</label>
             <div class="col-xs-12">
@@ -12,6 +13,7 @@
             </div>
         </div>
 
+        <!-- Description -->
         <div class="form-group" [class.has-error]="!description.valid">
             <label class="col-xs-12">Description</label>
             <div class="col-xs-12">
@@ -22,6 +24,7 @@
             </div>
         </div>
 
+        <!-- Type -->
         <div class="form-group" [class.has-error]="!contentType.valid">
             <label class="col-xs-12">Type</label>
             <div class="col-xs-12">
@@ -38,7 +41,7 @@
 
     <!-- Full form (Not quick add) -->
     <div *ngIf="!minimalForm">
-
+        <!-- Title -->
         <div class="form-group" [class.has-error]="!title.valid">
             <label class="col-sm-2 control-label">Title</label>
             <div class="col-sm-10">
@@ -50,6 +53,7 @@
             </div>
         </div>
 
+        <!-- Description -->
         <div class="form-group" [class.has-error]="!description.valid">
             <label class="col-sm-2 control-label">Description</label>
             <div class="col-sm-10">
@@ -61,6 +65,7 @@
             </div>
         </div>
 
+        <!-- Type -->
         <div class="form-group" [class.has-error]="!contentType.valid">
             <label class="col-sm-2 control-label">Type</label>
             <div class="col-sm-10">
@@ -75,6 +80,7 @@
             </div>
         </div>
 
+        <!-- Tags -->
         <div class="form-group">
             <label class="col-sm-2 control-label">Tags</label>
             <div class="col-sm-10" id="contentTags">
@@ -85,6 +91,7 @@
             </div>
         </div>
 
+        <!-- State -->
         <div class="form-group" [class.has-error]="!state.valid">
             <label class="col-sm-2 control-label">State</label>
             <div class="col-sm-10">
@@ -100,6 +107,7 @@
             </div>
         </div>
 
+        <!-- Deadline -->
         <div class="form-group">
             <label class="col-sm-2 control-label">Publish date</label>
             <div class="col-sm-10">
@@ -110,6 +118,7 @@
             </div>
         </div>
 
+        <!-- URL -->
         <div class="form-group" [class.has-error]="!PrimaryUrl.valid">
             <label class="col-sm-2 control-label">Url</label>
             <div class="col-sm-10">
