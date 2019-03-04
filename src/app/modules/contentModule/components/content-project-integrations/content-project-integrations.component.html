@@ -29,7 +29,7 @@
   </div>
 
   <!-- MEDIUM -->
-  <div id="integration_medium">
+  <div id="integration_medium" *ngIf="mediumEnabled">
     <h3>Medium</h3>
     <div *ngIf="mediumIntegrations.length === 0">
       <p>
@@ -60,7 +60,7 @@
   <h2>Social media accounts</h2>
 
   <!-- TWITTER -->
-  <div id="integration_twitter">
+  <div id="integration_twitter" *ngIf="twitterEnabled">
     <h3>Twitter</h3>
     <div *ngIf="twitterIntegrations.length === 0">
       <p>
@@ -89,7 +89,7 @@
   </div>
 
   <!-- Facebook pages -->
-  <div id="integration_facebook">
+  <div id="integration_facebook" *ngIf="facebookEnabled">
     <h3>Facebook</h3>
     <div *ngIf="facebookIntegrations.length === 0">
       <p>
@@ -119,7 +119,7 @@
   </div>
 
   <!-- Linked In -->
-  <div id="integration_linkedin">
+  <div id="integration_linkedin" *ngIf="linkedInEnabled">
     <h3>Linked In</h3>
     <div *ngIf="linkedInIntegrations.length === 0">
       <p>
@@ -177,7 +177,7 @@
   </div> -->
 
   <!-- Pinterest -->
-  <div id="integration_pinterest">
+  <div id="integration_pinterest" *ngIf="pinterestEnabled">
     <h3>Pinterest</h3>
     <div *ngIf="pinterestIntegrations.length === 0">
       <p>

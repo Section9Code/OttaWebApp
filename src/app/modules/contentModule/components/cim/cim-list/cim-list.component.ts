@@ -10,6 +10,7 @@ import { Subscription } from 'rxjs/Subscription';
 import { ICimEditorCommon } from '../ICimEditorCommon';
 import { CimMessagesListComponent } from '../cim-messages-list/cim-messages-list.component';
 import { RequeueReducedModel } from 'services/requeue.service';
+import { environment } from 'environments/environment';
 
 // JQuery command for modal dialogs
 declare var $: any;
@@ -24,7 +25,7 @@ declare var $: any;
   templateUrl: './cim-list.component.html',
   styleUrls: ['./cim-list.component.css']
 })
-export class CimListComponent implements OnInit, OnDestroy {  
+export class CimListComponent implements OnInit, OnDestroy {
   @Input() messages: ContentItemMessageModel[] = [];                      // The list of messages to show
   @Input() substitutions: ContentItemMessageSubstitution[] = [];          // The list of substitutions for this list
   @Input() contentItem: ContentItemModel;                                 // The ID of the content item the list is for
@@ -125,11 +126,11 @@ export class CimListComponent implements OnInit, OnDestroy {
       const mediumIntegrations = integrations.filter(e => e.IntegrationType === IntegrationTypes.Medium);
 
       // Set the flags for each type of integration the user has
-      if (twitterIntegrations.length > 0) { this.canAddTwitterMessages = true; this.noIntegrations = false; }
-      if (facebookIntegrations.length > 0) { this.canAddFacebookMessages = true; this.noIntegrations = false; }
-      if (linkedInIntegrations.length > 0) { this.canAddLinkedInMessages = true; this.noIntegrations = false; }
-      if (pinterestIntegrations.length > 0) { this.canAddPinterestMessages = true; this.noIntegrations = false; }
-      if (mediumIntegrations.length > 0) { this.canAddMediumMessages = true; this.noIntegrations = false; }
+      if (twitterIntegrations.length > 0 && environment.cim.twitterEnabled) { this.canAddTwitterMessages = true; this.noIntegrations = false; }
+      if (facebookIntegrations.length > 0 && environment.cim.facebookEnabled) { this.canAddFacebookMessages = true; this.noIntegrations = false; }
+      if (linkedInIntegrations.length > 0 && environment.cim.linkedInEnabled) { this.canAddLinkedInMessages = true; this.noIntegrations = false; }
+      if (pinterestIntegrations.length > 0 && environment.cim.pinterestEnabled) { this.canAddPinterestMessages = true; this.noIntegrations = false; }
+      if (mediumIntegrations.length > 0 && environment.cim.mediumEnabled) { this.canAddMediumMessages = true; this.noIntegrations = false; }
 
       // Get specific integrations
       this.projectIntegrationService.facebookGetAllIntegrations(this.sharedService.currentProject.getValue().id).toPromise().then(response => {

@@ -14,8 +14,14 @@ export const environment = {
   },
   baseApiUrl: 'https://ottaapi.azurewebsites.net',
   stripeKey: 'pk_live_dMj7EjUe7c8UTzMrwYfcxR8L',
-  pricePerUser: 999,
-  version: 'v1.1.2',
+  cim: {
+    twitterEnabled: true,
+    facebookEnabled: true,
+    linkedInEnabled: true,
+    pinterestEnabled: false,
+    mediumEnabled: true
+  },
+  version: 'v1.3.0',
   default_MaxRequeues: 3,
   default_MaxProjects: 3,
   plans: [

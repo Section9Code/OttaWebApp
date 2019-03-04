@@ -16,8 +16,14 @@ export const environment = {
   },
   baseApiUrl: 'https://ottdevapi.azurewebsites.net',
   stripeKey: 'pk_test_YXS5UTT0DjNKuW17sdAM0YOS',
-  pricePerUser: 999,
-  version: 'v1.1.2 (Dev)',
+  cim: {
+    twitterEnabled: true,
+    facebookEnabled: true,
+    linkedInEnabled: true,
+    pinterestEnabled: false,
+    mediumEnabled: true
+  },
+  version: 'v1.3.0 (Dev)',
   default_MaxRequeues: 3,
   default_MaxProjects: 3,
   plans: [

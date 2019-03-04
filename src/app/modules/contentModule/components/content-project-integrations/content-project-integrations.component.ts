@@ -6,6 +6,7 @@ import { SweetAlertService } from 'ng2-sweetalert2';
 import { ContentProjectModel } from 'services/content-project.service';
 import { ContentProjectShareService } from '../../services/ContentProjectShareService';
 import { CookieService } from 'angular2-cookie/services/cookies.service';
+import { environment } from 'environments/environment';
 
 declare var $: any;
 
@@ -49,6 +50,13 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   // Forms
   wordpressForm: WordpressProjectIntegrationModel = new WordpressProjectIntegrationModel();
 
+  // Show sections
+  twitterEnabled = environment.cim.twitterEnabled;
+  facebookEnabled = environment.cim.facebookEnabled;
+  linkedInEnabled = environment.cim.linkedInEnabled;
+  pinterestEnabled = environment.cim.pinterestEnabled;
+  mediumEnabled = environment.cim.mediumEnabled;
+
   constructor(
     private sharedService: ContentProjectShareService,
     private integrationService: ContentProjectIntegrationService,
@@ -59,7 +67,6 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   ) { }
 
   ngOnInit(): void {
-
     // Load the current project integrations from the project share service
     this.isLoadingIntegration = true;
     this.sharedService.integrations.subscribe(
@@ -274,15 +281,15 @@ export class ContentProjectIntegrationsComponent implements OnInit, OnDestroy {
   // Refresh the boards on this integration with the latest from the user
   refreshPinterest(integrationId: string) {
     this.integrationService.pinterestRefresh(this.project.id, integrationId).toPromise()
-    .then(response => {
-      this.sharedService.removeIntegration(response.id);
-      this.sharedService.addIntegration(response);
-      this.toast.success('Pinterest settings refreshed');
-    })
-    .catch(error => {
-      console.log('Unable to refresh your Pinterest settings');
-      this.toast.warning('Unable to refresh Pinterest settings. Please try again');
-    });
+      .then(response => {
+        this.sharedService.removeIntegration(response.id);
+        this.sharedService.addIntegration(response);
+        this.toast.success('Pinterest settings refreshed');
+      })
+      .catch(error => {
+        console.log('Unable to refresh your Pinterest settings');
+        this.toast.warning('Unable to refresh Pinterest settings. Please try again');
+      });
   }
 
   // Show the user the form they can use to authenticate their twitter account

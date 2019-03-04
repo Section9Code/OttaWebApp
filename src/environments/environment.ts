@@ -13,8 +13,14 @@ export const environment = {
   },
   baseApiUrl: 'http://localhost:11258',
   stripeKey: 'pk_test_YXS5UTT0DjNKuW17sdAM0YOS',
-  pricePerUser: 999,
-  version: 'v1.1.2 (Local Dev)',
+  version: 'v1.3.0 (Local Dev)',
+  cim: {
+    twitterEnabled: true,
+    facebookEnabled: true,
+    linkedInEnabled: true,
+    pinterestEnabled: false,
+    mediumEnabled: true
+  },
   default_MaxRequeues: 3,
   default_MaxProjects: 3,
   plans: [
