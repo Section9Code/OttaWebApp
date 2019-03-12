@@ -1,21 +1,29 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { CouponService } from 'services/coupon.service';
 import { JoinData } from '../join/join.component';
 import { AuthService } from 'services/auth.service';
-import { Router } from '@angular/router';
+import { Router, ActivatedRoute } from '@angular/router';
 import { MixpanelService, MixpanelEvent } from 'services/mixpanel.service';
+import { Subscription } from 'rxjs/Subscription';
 
 @Component({
   selector: 'app-offer',
   templateUrl: './offer.component.html',
   styleUrls: ['./offer.component.css']
 })
-export class OfferComponent implements OnInit {
+export class OfferComponent implements OnInit, OnDestroy {
   offerCode: string;
   isLoading = false;
   message = '';
 
-  constructor(private couponService: CouponService, private auth: AuthService, private router: Router, private tracking: MixpanelService) {
+  subQuery: Subscription;
+
+  constructor(
+    private couponService: CouponService,
+    private auth: AuthService,
+    private router: Router,
+    private route: ActivatedRoute,
+    private tracking: MixpanelService) {
   }
 
   ngOnInit() {
@@ -26,6 +34,16 @@ export class OfferComponent implements OnInit {
 
     // Track the user
     this.tracking.Track(MixpanelEvent.Offer);
+
+    this.subQuery = this.route.queryParams.subscribe(params => {
+      if (params && params.c) {
+        this.offerCode = params.c;
+      }
+    });
+  }
+
+  ngOnDestroy() {
+    if (this.subQuery) { this.subQuery.unsubscribe(); }
   }
 
   checkOffer() {
@@ -44,7 +62,7 @@ export class OfferComponent implements OnInit {
       .then(response => {
         this.isLoading = false;
         console.log('Found offer', response);
-        this.tracking.TrackAction(MixpanelEvent.Offer, 'Join with offer');
+        this.tracking.TrackAction(MixpanelEvent.Offer, this.offerCode);
         // Let the user join and store the offer code
         const friendJoinData: JoinData = new JoinData('offer', '', '', false, true, response);
         localStorage.setItem('joinData', JSON.stringify(friendJoinData));
