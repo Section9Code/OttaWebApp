@@ -23,9 +23,7 @@
       <label class="col-sm-2 control-label">Name</label>
       <div class="col-sm-10">
         <input type="text" class="form-control" formControlName="name">
-        <span class="help-block m-b-none">
-          The name of the substitution you will use in you messages. Example: thing will become &#125;thing&#127; in
-          your messages
+        <span class="help-block m-b-none" [innerHTML]="'The name of the substitution you will use in you messages. Example: thing will become {thing} in your messages.'">          
         </span>
       </div>
     </div>

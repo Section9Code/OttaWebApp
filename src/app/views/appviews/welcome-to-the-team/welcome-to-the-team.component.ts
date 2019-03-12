@@ -16,13 +16,14 @@ export class WelcomeToTheTeamComponent implements OnInit {
     data: WelcomeModel = new WelcomeModel();
 
     constructor(
-        private tracking: MixpanelService, 
-        private router: Router, 
-        private authService: AuthService, 
+        private tracking: MixpanelService,
+        private router: Router,
+        private authService: AuthService,
         private welcomeService: WelcomeService
-    ) {}
+    ) { }
 
     ngOnInit(): void {
+        this.tracking.Track(MixpanelEvent.NewAccountCreated);
         this.tracking.Track(MixpanelEvent.WelcomeToTheTeam);
 
         // Load data about the user
@@ -46,6 +47,7 @@ export class WelcomeToTheTeamComponent implements OnInit {
         this.welcomeService.updateData(this.data).subscribe(
             response => {
                 console.log('Data sent', response);
+                this.tracking.Track(MixpanelEvent.WelcomeComplete);
                 // Send the user on to the main page of the application
                 this.router.navigateByUrl('/');
 

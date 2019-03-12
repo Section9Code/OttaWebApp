@@ -30,6 +30,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
 
     ngOnInit(): void {
         this.mixpanel.Track(MixpanelEvent.Welcome);
+        this.mixpanel.Track(MixpanelEvent.NewAccountCreated);
         this.analytics.Event_NewUser();
         this.data = new WelcomeModel;
         this.signupComplete = false;
@@ -68,6 +69,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
         this.welcomeService.updateData(this.data).subscribe(
             response => {
                 console.log('Data sent', response);
+                this.mixpanel.Track(MixpanelEvent.WelcomeComplete);
                 this.isUpdatingData = false;
 
                 // Dis the user pick an option before signing up
