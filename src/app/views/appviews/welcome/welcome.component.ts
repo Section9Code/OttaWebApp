@@ -34,7 +34,7 @@ export class WelcomeComponent implements OnInit, OnDestroy {
         this.analytics.Event_NewUser();
         this.data = new WelcomeModel;
         this.signupComplete = false;
-        this.currentStep = 'step1';
+        this.currentStep = 'step2';
 
         // Get the data to show on the form
         this.isLoading = true;
@@ -63,7 +63,13 @@ export class WelcomeComponent implements OnInit, OnDestroy {
     public completeStep2() {
         this.isUpdatingData = true;
 
+        // Get the pricing option the user selected
         const option = localStorage.getItem('welcomeOption');
+
+        // Set the organisation name if they user hasn't picked one
+        if (this.data.OrganisationName === '') {
+            this.data.OrganisationName = `${this.data.Name}'s Organisation`;
+        }
 
         // Update the users details
         this.welcomeService.updateData(this.data).subscribe(
